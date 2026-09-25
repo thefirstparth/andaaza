@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Pulse · House of 1400</title>
+<meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0e11" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script>var P0=fetch("/api/pulse").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()});P0.catch(function(){});try{var t=localStorage.getItem("pulse-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- The same font and axes as the paper, so a reader who has opened the paper downloads nothing new. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@62..100,400..800&display=swap" media="print" onload="this.media='all'">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f7f7f5;--card:#ffffff;--ink:#101114;--ink2:#40434b;--muted:#6f727a;--line:#e6e6e2;--line2:#efefeb;--shadow:0 1px 2px rgba(16,17,20,.05),0 12px 32px -18px rgba(16,17,20,.22);
+  --up:#0a8a4a;--down:#d0322b;
+  --f1:#e10600;--f1-c:#ffe1de;--pitch:#1f8a3b;--pitch-c:#dcf3dc;--india:#1d4ed8;--india-c:#dfe7ff;--tennis:#5f7d00;--tennis-c:#ecf8b4;--tech:#0e7c90;--tech-c:#d3f1f6;
+  --namma:#c47a00;--namma-c:#ffebc2;--money:#067a52;--money-c:#d2f3e3;--dispatch:#3b3fd8;--dispatch-c:#e4e4ff;--other:#6d5ad8;--other-c:#ebe6ff;
+  --sans:"Roboto Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:26px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#0d0e11;--card:#16181c;--ink:#f2f2ee;--ink2:#c9cbd1;--muted:#8d9098;--line:#262930;--line2:#1e2025;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -18px rgba(0,0,0,.8);
+  --up:#3fd68a;--down:#ff7b72;
+  --f1:#ff6b5e;--f1-c:#3a1512;--pitch:#5fd27d;--pitch-c:#12301c;--india:#8fb0ff;--india-c:#18264f;--tennis:#c8e86b;--tennis-c:#2b3510;--tech:#5fd6ea;--tech-c:#0e3038;
+  --namma:#ffc15c;--namma-c:#3b2a07;--money:#52dca2;--money-c:#0e3326;--dispatch:#a3a6ff;--dispatch-c:#1f2152;--other:#b9aaff;--other-c:#261f4d}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0d0e11;--card:#16181c;--ink:#f2f2ee;--ink2:#c9cbd1;--muted:#8d9098;--line:#262930;--line2:#1e2025;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -18px rgba(0,0,0,.8);
+  --up:#3fd68a;--down:#ff7b72;
+  --f1:#ff6b5e;--f1-c:#3a1512;--pitch:#5fd27d;--pitch-c:#12301c;--india:#8fb0ff;--india-c:#18264f;--tennis:#c8e86b;--tennis-c:#2b3510;--tech:#5fd6ea;--tech-c:#0e3038;
+  --namma:#ffc15c;--namma-c:#3b2a07;--money:#52dca2;--money-c:#0e3326;--dispatch:#a3a6ff;--dispatch-c:#1f2152;--other:#b9aaff;--other-c:#261f4d}
+[data-p=f1]{--c:var(--f1);--cc:var(--f1-c)}[data-p=pitch]{--c:var(--pitch);--cc:var(--pitch-c)}[data-p=india]{--c:var(--india);--cc:var(--india-c)}[data-p=tennis]{--c:var(--tennis);--cc:var(--tennis-c)}
+[data-p=tech]{--c:var(--tech);--cc:var(--tech-c)}[data-p=namma]{--c:var(--namma);--cc:var(--namma-c)}[data-p=money]{--c:var(--money);--cc:var(--money-c)}[data-p=dispatch]{--c:var(--dispatch);--cc:var(--dispatch-c)}[data-p=other]{--c:var(--other);--cc:var(--other-c)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.45 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2.5px solid var(--c,var(--ink));outline-offset:3px;border-radius:10px}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:clamp(16px,4vw,48px)}
+@media (min-width:2100px){.wrap{max-width:1600px}body{font-size:18px}}
+.k{font:700 11.5px/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* ---- top ---- */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:calc(18px + env(safe-area-inset-top,0px));font:600 13.5px var(--sans)}
+.top a{color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.top a:hover{color:var(--ink)}
+.top button{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:7px 14px;font-weight:700;cursor:pointer}
+.hero{padding-block:clamp(28px,6vw,72px) clamp(20px,4vw,40px);display:grid;gap:18px}
+.hero h1{margin:0;font:800 clamp(64px,13vw,168px)/.84 var(--sans);font-variation-settings:"wdth" 62;letter-spacing:-.035em;display:flex;align-items:flex-end;gap:.08em}
+.hero h1 i{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--down);margin-bottom:.12em;animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1);opacity:1}40%{transform:scale(1.35);opacity:.75}}
+.hero p{margin:0;max-width:38ch;font:500 clamp(18px,2vw,23px)/1.35 var(--sans);color:var(--ink2);text-wrap:balance}
+.srcs{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.src{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px 6px 10px;font:600 13px var(--sans)}
+.src i{width:8px;height:8px;border-radius:50%;background:var(--up)}
+.src.off i{background:var(--down)}
+.src small{color:var(--muted);font-weight:500}
+.upd{font:500 13px var(--sans);color:var(--muted);margin-left:4px}
+
+/* ---- movers ---- */
+h2{margin:0;font:800 clamp(30px,4vw,46px)/1 var(--sans);font-variation-settings:"wdth" 70;letter-spacing:-.02em}
+.shead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:clamp(34px,5vw,56px) 0 16px;flex-wrap:wrap}
+.shead p{margin:0;color:var(--muted);font:500 14px var(--sans)}
+.movers{display:grid;grid-auto-flow:column;grid-auto-columns:min(78vw,280px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none;margin-inline:calc(-1 * clamp(16px,4vw,48px));padding-inline:clamp(16px,4vw,48px)}
+.movers::-webkit-scrollbar{display:none}
+.mv{scroll-snap-align:start;background:var(--cc);border-radius:var(--r);padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px;text-decoration:none;min-height:208px;transition:transform .2s}
+.mv:hover{transform:translateY(-3px)}
+.mv .t{font:600 15px/1.3 var(--sans);color:var(--ink);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.mv .fr{margin-top:auto;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.mv .fr s{font:700 20px var(--sans);color:var(--muted);text-decoration:none}
+.mv .fr b{font:800 46px/1 var(--sans);font-variation-settings:"wdth" 62;color:var(--c)}
+.mv .fr em{font-style:normal;font:800 13px var(--sans);padding:3px 8px;border-radius:999px;background:var(--card)}
+.mv .who{font:700 13.5px var(--sans);color:var(--ink2)}
+.mv .tag{display:flex;justify-content:space-between;font:800 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--c)}
+.mv .tag span:last-child{color:var(--muted);letter-spacing:.04em}
+
+/* ---- filter ---- */
+.chips{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 86%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);margin-top:28px;padding-block:10px}
+.chips .wrap{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.chips .wrap::-webkit-scrollbar{display:none}
+.chip{flex:none;border:0;border-radius:999px;padding:10px 16px;font:700 14px var(--sans);background:var(--card);box-shadow:inset 0 0 0 1.5px var(--line);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .2s,color .2s}
+.chip i{width:10px;height:10px;border-radius:4px;background:var(--c,var(--ink))}
+.chip[aria-pressed="true"]{background:var(--c,var(--ink));color:var(--bg);box-shadow:none}
+.chip[aria-pressed="true"] i{background:var(--bg)}
+
+/* ---- topic sections and cards ---- */
+.topic{scroll-margin-top:70px}
+.topic .shead h2{display:flex;align-items:center;gap:14px}
+.topic .shead h2 i{width:.62em;height:.62em;border-radius:30%;background:var(--c);transform:rotate(12deg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px 16px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;min-width:0}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--c)}
+.card .meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font:600 12px var(--sans);color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:6px;font:800 10.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--c)}
+.badge.play{color:var(--muted)}
+.card h3{margin:0;font:650 17.5px/1.3 var(--sans);text-wrap:balance}
+.card h3 a{text-decoration:none}
+.card h3 a:hover{text-decoration:underline;text-decoration-color:var(--c);text-underline-offset:3px}
+.hero-n{display:flex;align-items:flex-end;gap:12px}
+.hero-n b{font:800 58px/.85 var(--sans);font-variation-settings:"wdth" 62;color:var(--c);letter-spacing:-.02em}
+.hero-n b small{font-size:.45em;margin-left:1px}
+.hero-n span{font:700 15px/1.2 var(--sans);padding-bottom:4px}
+.rows{display:grid;gap:7px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:3px 10px;align-items:center;font:500 13.5px var(--sans);color:var(--ink2)}
+.row span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row b{text-align:right;font-weight:800;color:var(--ink)}
+.row u{grid-column:1/-1;height:7px;border-radius:999px;background:var(--line2);overflow:hidden;text-decoration:none}
+.row u em{display:block;height:100%;border-radius:999px;background:color-mix(in srgb,var(--c) 45%,var(--line))}
+.row.f u em{background:var(--c)}
+/* a "by ... ?" question as a timeline of deadlines */
+.tl{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding-top:6px}
+.tl::before{content:"";position:absolute;left:8px;right:8px;top:14px;height:3px;border-radius:2px;background:var(--line)}
+.tl div{position:relative;display:grid;justify-items:start;gap:4px;font:600 12px var(--sans);color:var(--muted)}
+.tl div::before{content:"";width:18px;height:18px;border-radius:50%;background:var(--card);box-shadow:inset 0 0 0 3px var(--c);position:relative;z-index:1}
+.tl div.hot::before{background:var(--c)}
+.tl b{font:800 17px var(--sans);color:var(--ink)}
+.foot{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:auto;padding-top:4px;border-top:1px solid var(--line2);font:600 12.5px var(--sans);color:var(--muted)}
+.delta{padding:3px 9px;border-radius:999px;font-weight:800}
+.delta.up{color:var(--up);background:color-mix(in srgb,var(--up) 12%,transparent)}
+.delta.dn{color:var(--down);background:color-mix(in srgb,var(--down) 12%,transparent)}
+.also{display:inline-flex;gap:6px;align-items:center}
+.also a{text-decoration:none;padding:3px 9px;border-radius:999px;background:var(--cc);color:var(--ink);font-weight:700}
+
+/* ---- the world ---- */
+.world{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:0 40px}
+.wrow{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.wrow .n{font:800 52px/.8 var(--sans);font-variation-settings:"wdth" 62;color:transparent;-webkit-text-stroke:1.5px var(--c)}
+.wrow .q{font:650 16px/1.3 var(--sans)}
+.wrow .q small{display:block;font:600 12.5px var(--sans);color:var(--muted);margin-top:3px}
+.wrow .p{text-align:right;font:800 30px/1 var(--sans);font-variation-settings:"wdth" 70;color:var(--c)}
+.wrow .p small{display:block;font:700 11.5px var(--sans);color:var(--ink2);max-width:14ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+.wrow:hover .q{text-decoration:underline;text-decoration-color:var(--c)}
+
+.note{margin-top:48px;margin-bottom:calc(40px + env(safe-area-inset-bottom,0px));padding-top:18px;border-top:1px solid var(--line);font:500 13.5px/1.55 var(--sans);color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 30px}
+.note p{margin:0;max-width:70ch}
+.sk{height:210px;border-radius:var(--r);background:linear-gradient(100deg,var(--card) 40%,var(--line2) 50%,var(--card) 60%) 0 0/300% 100%;animation:sh 1.3s linear infinite}
+@keyframes sh{to{background-position:-150% 0}}
+.err{padding:40px;border-radius:var(--r);background:var(--card);font:600 16px var(--sans)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:600px){.hero-n b{font-size:50px}.wrow{grid-template-columns:44px minmax(0,1fr) auto}.wrow .n{font-size:40px}.wrow .p{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap top"><a href="/">← The House of 1400</a><button id="theme" type="button">Night</button></div>
+<header class="wrap hero">
+  <h1>Pulse<i></i></h1>
+  <p>What the world's prediction markets think, about the things you follow and the things everyone is betting on.</p>
+  <div class="srcs" id="srcs"><span class="upd">Loading…</span></div>
+</header>
+<main>
+  <section class="wrap" aria-labelledby="mvh"><div class="shead"><h2 id="mvh">Biggest moves today</h2><p>Real-money markets, last 24 hours</p></div><div class="movers" id="movers"><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div></div></section>
+  <nav class="chips" aria-label="Topics"><div class="wrap" id="chips"></div></nav>
+  <div id="topics"></div>
+  <section class="wrap" aria-labelledby="wh" id="worldsec" hidden><div class="shead"><h2 id="wh">What the world is betting on</h2><p>Busiest real-money markets in the last 24 hours</p></div><div class="world" id="world"></div></section>
+  <footer class="wrap note"><p>A price is what traders pay for "yes", read as the chance they give it. Polymarket and Kalshi are real money; Manifold is play money, shown only where it adds a view. Your standing exclusions apply: US domestic politics, the Fed, US sports, crypto price ladders, weather and celebrity.</p><p><a href="/">Back to the paper</a></p></footer>
+</main>
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const pc = v => `${Math.round(v)}%`;
+const money = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1)}m` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
+const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
+let D, PAL = {}, LABEL = {}, filter = store.get("pulse-topic") || "all";
+
+const delta = c => {
+  if (c.p == null) return "";
+  const f = c.o[0].prob, d = f - c.p;
+  if (Math.abs(d) < 1) return "";
+  return `<span class="delta ${d > 0 ? "up" : "dn"}" title="${esc(c.o[0].name)} a day ago and now">${d > 0 ? "▲" : "▼"} ${pc(c.p)} → ${pc(f)} today</span>`;
+};
+const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)} on ${esc(x.source)}${x.play ? " (play money)" : ""}">${esc(x.source)} ${pc(x.prob)}</a>`).join("")}</span>` : "";
+
+function card(c) {
+  const f = c.o[0], p = PAL[c.k] || "other";
+  let body;
+  if (c.L && c.o.length > 1) {
+    const rungs = c.o.slice(1).concat([c.o[0]]);
+    body = `<div class="tl">${rungs.map((o, i) => `<div class="${i === rungs.length - 1 ? "hot" : ""}"><b>${pc(o.prob)}</b>${esc(o.name.replace(/^By /, ""))}</div>`).join("")}</div>`;
+  } else if (c.o.length === 1 || c.o[0].name === "Yes") {
+    body = `<div class="rows"><div class="row f"><span>Chance of yes</span><b>${pc(f.prob)}</b><u><em style="width:${f.prob}%"></em></u></div></div>`;
+  } else {
+    body = `<div class="rows">${c.o.slice(0, 4).map((o, i) => `<div class="row ${i === 0 ? "f" : ""}"><span>${esc(o.name)}</span><b>${pc(o.prob)}</b><u><em style="width:${Math.max(1, o.prob)}%"></em></u></div>`).join("")}</div>`;
+  }
+  const lead = c.L ? `By ${f.name.replace(/^By /, "")}` : c.o.length === 1 ? "Yes" : f.name;
+  return `<article class="card" data-p="${p}">
+<div class="meta"><span class="badge ${c.pl ? "play" : ""}">${esc(c.s)}${c.pl ? " · play money" : ""}</span><span>${c.v ? money(c.v) + " today" : ""}</span></div>
+<h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(c.t.replace(/\.\.\.\?$/, "…?"))}</a></h3>
+<div class="hero-n"><b>${Math.round(f.prob)}<small>%</small></b><span>${esc(lead)}</span></div>
+${c.L ? body : c.o.length > 1 && c.o[0].name !== "Yes" ? body : ""}
+${delta(c) || also(c) ? `<div class="foot">${delta(c)}${also(c)}</div>` : ""}</article>`;
+}
+
+function mover(c) {
+  const f = c.o[0], d = f.prob - c.p;
+  return `<a class="mv" data-p="${PAL[c.k] || "other"}" href="${esc(c.u)}" target="_blank" rel="noopener"><div class="tag"><span>${esc(LABEL[c.k] || "")}</span><span>${esc(c.s)}</span></div><div class="t">${esc(c.t.replace(/\.\.\.\?$/, "…?"))}</div><div class="who">${esc(c.L ? f.name : c.o.length === 1 ? "Yes" : f.name)}</div><div class="fr"><s>${pc(c.p)}</s><span aria-hidden="true">→</span><b>${pc(f.prob)}</b><em class="${d > 0 ? "up" : "dn"}" style="color:var(--${d > 0 ? "up" : "down"})">${d > 0 ? "▲" : "▼"} ${Math.abs(Math.round(d))} in a day</em></div></a>`;
+}
+
+function paint() {
+  const topics = D.topics.filter(t => filter === "all" || t.id === filter);
+  $("#topics").innerHTML = topics.map(t => `<section class="wrap topic" id="t-${t.id}" data-p="${t.palette}" aria-labelledby="h-${t.id}"><div class="shead"><h2 id="h-${t.id}"><i aria-hidden="true"></i>${esc(t.label)}</h2><p>${t.items.length} market${t.items.length > 1 ? "s" : ""}</p></div><div class="grid">${t.items.map(card).join("")}</div></section>`).join("");
+  $("#worldsec").hidden = filter !== "all" || !D.world.length;
+  document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.t === filter));
+}
+
+function render(d) {
+  D = d;
+  for (const t of d.topics) { PAL[t.id] = t.palette; LABEL[t.id] = t.label; }
+  const when = new Date(d.generated_at).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" });
+  $("#srcs").innerHTML = d.sources.map(s => `<span class="src ${s.ok ? "" : "off"}" title="${s.ok ? s.count + " markets read" : "Unavailable: " + esc(s.error || "")}"><i></i>${esc(s.name)} <small>${esc(s.kind)}</small></span>`).join("") + `<span class="upd">Updated ${when} IST</span>`;
+  $("#movers").innerHTML = d.movers.length ? d.movers.map(mover).join("") : `<p class="k">Nothing moved much today.</p>`;
+  if (filter !== "all" && !d.topics.some(t => t.id === filter)) filter = "all";
+  $("#chips").innerHTML = `<button class="chip" data-t="all" aria-pressed="false">Everything</button>` + d.topics.map(t => `<button class="chip" data-p="${t.palette}" data-t="${t.id}" aria-pressed="false"><i aria-hidden="true"></i>${esc(t.label)}</button>`).join("");
+  $("#world").innerHTML = d.world.map((c, i) => `<a class="wrow" data-p="${PAL[c.k] || "other"}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(c.t.replace(/\.\.\.\?$/, "…?"))}<small>${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · also " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(c.o.length === 1 ? "Yes" : c.L ? c.o[0].name : c.o[0].name)}</small></span></a>`).join("");
+  paint();
+}
+
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  filter = b.dataset.t; store.set("pulse-topic", filter); paint();
+  $(".chips").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+const root = document.documentElement, tb = $("#theme");
+const dark = () => root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+const lbl = () => { tb.textContent = dark() ? "Day" : "Night"; };
+tb.addEventListener("click", () => { root.dataset.theme = dark() ? "light" : "dark"; store.set("pulse-theme", root.dataset.theme); lbl(); });
+lbl();
+
+(window.P0 || fetch("/api/pulse").then(r => r.json())).then(render).catch(() => {
+  $("#movers").innerHTML = `<div class="err">The markets could not be reached just now. Try again in a minute.</div>`;
+  $("#srcs").innerHTML = "";
+});
+})();
+</script>
+</body>
+</html>
