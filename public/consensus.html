@@ -181,7 +181,12 @@ details.how li{margin:0 0 8px}
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8'%3E%3Cpath d='M0 4C5 0 15 0 20 4s15 4 20 0v4H0z'/%3E%3C/svg%3E") 0 calc(100cqh - var(--lv) - 7px)/40px 8px repeat-x,linear-gradient(#000 0 0) 0 100%/100% var(--lv) no-repeat}
 .gauge b{font:850 44px/.9 var(--sans);font-variation-settings:"wdth" 62;letter-spacing:-.01em}
 .gauge b small{font-size:.46em;font-weight:800;margin-left:1px}
-.gauge span{font:700 12.5px/1.22 var(--sans);overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.gauge span{font:750 13px/1.22 var(--sans);font-variation-settings:"wdth" 78;overflow-wrap:break-word;hyphens:auto;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+/* The name never crosses the waterline, only the big number does: at 50% or more it sits at the foot, always under
+   water; below 50% it moves to the head, always dry (three lines at most, so it clears the water either way). */
+.gauge .g{justify-content:flex-end}
+.gauge.lo .g{justify-content:space-between}
+.gauge.lo .g span{order:-1}
 @media (prefers-reduced-motion:no-preference){.gauge .wet{animation:tide 6s linear infinite}}
 @keyframes tide{to{-webkit-mask-position:40px calc(100cqh - var(--lv) - 7px),0 100%;mask-position:40px calc(100cqh - var(--lv) - 7px),0 100%}}
 .tk .bd{padding:13px 18px 14px;min-width:0;display:flex;flex-direction:column;gap:9px}
@@ -216,8 +221,8 @@ details.how li{margin:0 0 8px}
 .next{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px;margin-bottom:14px}
 .fx{display:flex;flex-direction:column;gap:7px;padding:12px 14px;border-radius:18px;background:var(--card);border:1px solid color-mix(in oklab,var(--a) 22%,var(--line));text-decoration:none;transition:transform .2s}
 .fx:hover{transform:translateY(-2px)}
-.fx .when{display:flex;justify-content:space-between;gap:8px;font:700 11.5px var(--sans);color:var(--muted)}
-.fx .when b{color:var(--a);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:10.5px}
+.fx .when{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;font:700 11.5px var(--sans);color:var(--muted)}
+.fx .when b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--a);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:10.5px}
 .fx .vs{font:750 16px/1.25 var(--sans);font-variation-settings:"wdth" 90}
 .fx .vs em{font-style:normal;color:var(--muted);font-weight:500;margin:0 4px}
 .fx .three{display:flex;gap:3px;height:9px}
@@ -315,7 +320,7 @@ function card(c, big) {
   const d = c.p != null ? f.prob - c.p : 0;
   const mv = Math.abs(d) >= 1 ? `<span class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${Math.abs(Math.round(d))} pts in a day · was ${pc(c.p)}</span>` : "";
   const ft = [mv, also(c)].filter(Boolean).join("");
-  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge" href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${Math.max(3, p).toFixed(1)}" aria-label="${Math.round(p)}% ${esc(oneName(c))}"><div class="g">${g}</div><div class="g wet" aria-hidden="true">${g}</div></a>
+  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 ? " lo" : ""}" href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${Math.max(3, p).toFixed(1)}" aria-label="${Math.round(p)}% ${esc(oneName(c))}"><div class="g">${g}</div><div class="g wet" aria-hidden="true">${g}</div></a>
 <div class="bd"><div class="meta"><span>${esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
 <h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}</div></article>`;
 }
@@ -331,7 +336,7 @@ function fixture(n, k) {
   const draw = n.o.find(o => /^draw/i.test(o.name)), row = [by(a), ...(draw ? [draw] : []), by(b)];
   return `<a class="fx" data-k="${k}" href="${esc(n.u)}" target="_blank" rel="noopener"><div class="when"><b>${n.f ? `<span class="star">★</span> ` : ""}${esc(n.c || LABEL[k])}</b><span>${kick(n.st)}</span></div>
 <div class="vs">${esc(a)}<em>v</em>${esc(b)}</div><div class="three">${row.map((o, i) => `<i class="${i === 0 ? "h" : i === row.length - 1 ? "w" : "x"}" style="flex:${Math.max(1, o.prob)}"></i>`).join("")}</div>
-<div class="odds">${row.map(o => `<span>${esc(/^draw/i.test(o.name) ? "Draw" : o.name.split(" ").pop())} <b>${pc(o.prob)}</b></span>`).join("")}</div></a>`;
+<div class="odds">${row.map(o => `<span>${esc(/^draw/i.test(o.name) ? "Draw" : k === "tennis" ? o.name.split(" ").pop() : o.name)} <b>${pc(o.prob)}</b></span>`).join("")}</div></a>`;
 }
 
 function paint() {
