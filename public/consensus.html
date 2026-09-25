@@ -21,7 +21,8 @@
   --bg:#f5f8f8;--card:#ffffff;--ink:#162024;--ink2:#46545a;--muted:#75838a;--line:#e1e8e9;--line2:#edf2f2;
   --sea:#0f5f73;--tide:#5b9eae;--foam:#e2eff1;
   --up:#1d8352;--down:#c2453b;
-  --sport:#4f8a5b;--tech:#3f8394;--money:#8c7536;--world:#56679b;--screen:#955b79;--misc:#7d868c;
+  --sport:#23874a;--tech:#0e7b93;--money:#9a6f00;--world:#4150c8;--screen:#b0407c;--misc:#6a5ac8;
+  --sport-c:#e1f3e6;--tech-c:#dcf1f5;--money-c:#f8edd2;--world-c:#e6e8fb;--screen-c:#f8e3ee;--misc-c:#ebe8fb;
   --shadow:0 1px 2px rgba(22,32,36,.04),0 8px 24px -16px rgba(22,32,36,.18);
   --sans:"Roboto Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
@@ -29,12 +30,12 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   color-scheme:dark;--bg:#0b1214;--card:#121b1e;--ink:#e7eeef;--ink2:#b8c5c9;--muted:#84949a;--line:#223035;--line2:#1a2629;
   --sea:#6cc3d3;--tide:#3f8a9a;--foam:#12303a;--up:#58cf8d;--down:#ef8278;
-  --sport:#86c392;--tech:#7fc6d6;--money:#d2b870;--world:#9eaee0;--screen:#d59bb8;--misc:#a2abb1;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7)}}
+  --sport:#6fd08f;--tech:#62d0e6;--money:#e8c35c;--world:#a8b2ff;--screen:#f19ac6;--misc:#b8adff;--sport-c:#14301d;--tech-c:#0f2e36;--money-c:#33280a;--world-c:#1e2350;--screen-c:#3a1a2c;--misc-c:#241f48;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7)}}
 :root[data-theme="dark"]{
   color-scheme:dark;--bg:#0b1214;--card:#121b1e;--ink:#e7eeef;--ink2:#b8c5c9;--muted:#84949a;--line:#223035;--line2:#1a2629;
   --sea:#6cc3d3;--tide:#3f8a9a;--foam:#12303a;--up:#58cf8d;--down:#ef8278;
-  --sport:#86c392;--tech:#7fc6d6;--money:#d2b870;--world:#9eaee0;--screen:#d59bb8;--misc:#a2abb1;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7)}
-[data-a=sport]{--a:var(--sport)}[data-a=tech]{--a:var(--tech)}[data-a=money]{--a:var(--money)}[data-a=world]{--a:var(--world)}[data-a=screen]{--a:var(--screen)}[data-a=misc]{--a:var(--misc)}
+  --sport:#6fd08f;--tech:#62d0e6;--money:#e8c35c;--world:#a8b2ff;--screen:#f19ac6;--misc:#b8adff;--sport-c:#14301d;--tech-c:#0f2e36;--money-c:#33280a;--world-c:#1e2350;--screen-c:#3a1a2c;--misc-c:#241f48;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7)}
+[data-a=sport]{--a:var(--sport);--ac:var(--sport-c)}[data-a=tech]{--a:var(--tech);--ac:var(--tech-c)}[data-a=money]{--a:var(--money);--ac:var(--money-c)}[data-a=world]{--a:var(--world);--ac:var(--world-c)}[data-a=screen]{--a:var(--screen);--ac:var(--screen-c)}[data-a=misc]{--a:var(--misc);--ac:var(--misc-c)}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
@@ -49,7 +50,7 @@ button{font:inherit;color:inherit}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:calc(16px + env(safe-area-inset-top,0px));font:500 13px var(--sans);color:var(--muted)}
 .bar a{text-decoration:none}.bar a:hover{color:var(--ink)}
 .bar button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;font-weight:600;cursor:pointer;color:var(--ink2)}
-.mast{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6px 18px;padding-block:clamp(26px,5vw,56px) 10px}
+.mast{background:radial-gradient(120% 140% at 0% 0%,var(--foam),transparent 60%);border-radius:0 0 32px 32px;margin-inline:calc(-1 * clamp(16px,4vw,44px));padding-inline:clamp(16px,4vw,44px);display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6px 18px;padding-block:clamp(26px,5vw,56px) 10px}
 .mark{width:clamp(56px,7vw,84px);height:auto;grid-row:span 2;overflow:visible}
 .mark .drop{fill:var(--sea)}
 .mark .rip{fill:none;stroke:var(--tide);stroke-width:1.6}
@@ -175,6 +176,31 @@ details.how li{margin:0 0 8px}
 /* ---- big monitors: scale up as a whole, like a browser zoom (see fitMonitor) ---- */
 @media (min-width:2100px){.wrap{max-width:1880px}body{font-size:16px}}
 @media (max-width:600px){.mast p{grid-column:1/-1}.mark{grid-row:auto}.status .upd{margin-left:0}.lead b{font-size:30px}.wr{grid-template-columns:26px minmax(0,1fr) auto}}
+
+/* ---- colour, back but softer: tiles for Moving today, area colour on cards ---- */
+.moves.tiles{display:grid;grid-auto-flow:column;grid-auto-columns:min(80vw,270px);grid-template-columns:none;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;margin-inline:calc(-1 * clamp(16px,4vw,44px));padding-inline:clamp(16px,4vw,44px)}
+.moves.tiles::-webkit-scrollbar{display:none}
+.tile{scroll-snap-align:start;background:var(--ac);border-radius:22px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;text-decoration:none;min-height:176px;transition:transform .2s}
+.tile:hover{transform:translateY(-2px)}
+.tile .tg{display:flex;justify-content:space-between;align-items:center;font:700 10.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--a)}
+.tile .tg span:last-child{color:var(--muted);letter-spacing:.03em}
+.tile .t{font:550 14.5px/1.3 var(--sans);color:var(--ink);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tile .who{font:600 12.5px var(--sans);color:var(--ink2)}
+.tile .fr{margin-top:auto;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.tile .fr s{text-decoration:none;font:600 16px var(--sans);color:var(--muted)}
+.tile .fr b{font:750 36px/1 var(--sans);font-variation-settings:"wdth" 72;color:var(--a)}
+.tile .fr em{font:700 12px var(--sans);font-style:normal;background:var(--card);padding:2px 8px;border-radius:99px}
+.sh h2 .ic{width:40px;height:40px;padding:8px;border-radius:12px;background:var(--ac,var(--foam));color:var(--a,var(--sea))}
+.card{border-top:3px solid var(--a,var(--sea))}
+.card .meta b{color:var(--a,var(--ink2))}
+.lead b{color:var(--a,var(--ink))}
+.leadbar{height:6px;border-radius:99px;background:var(--line2);overflow:hidden}
+.leadbar em{display:block;height:100%;border-radius:99px;background:var(--a,var(--sea))}
+.row u em{background:var(--a,var(--tide));opacity:.45}
+.others{display:grid;gap:6px;padding-top:2px}
+.tl div::before{box-shadow:inset 0 0 0 2px var(--a,var(--tide))}
+.chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink))}
+.pv .it b{color:var(--a,var(--ink))}
 </style>
 </head>
 <body>
@@ -233,19 +259,19 @@ const delta = c => {
 };
 const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)}${x.play ? " (play money)" : ""}">${esc(x.source)} ${pc(x.prob)}</a>`).join(" · ")}</span>` : "";
 
+// The favourite is said once, large, with its bar; below it only the others (nearer deadlines for a "by ... ?" question).
 function card(c) {
   const f = c.o[0];
   let body = "";
   if (c.L && c.o.length > 1) {
-    const rungs = c.o.slice(1).concat([c.o[0]]);
-    body = `<div class="tl">${rungs.map((o, i) => `<div class="${i === rungs.length - 1 ? "hot" : ""}"><b>${pc(o.prob)}</b>${esc(o.name.replace(/^By /, ""))}</div>`).join("")}</div>`;
+    body = `<div class="tl">${c.o.slice(1).map(o => `<div><b>${pc(o.prob)}</b>${esc(o.name.replace(/^By /, ""))}</div>`).join("")}</div>`;
   } else if (c.o.length > 1 && c.o[0].name !== "Yes") {
-    body = `<div class="rows">${c.o.slice(0, 4).map((o, i) => `<div class="row ${i === 0 ? "f" : ""}"><span>${esc(o.name)}</span><b>${pc(o.prob)}</b><u><em style="width:${Math.max(1, o.prob)}%"></em></u></div>`).join("")}</div>`;
+    body = `<div class="others">${c.o.slice(1, 4).map(o => `<div class="row"><span>${esc(o.name)}</span><b>${pc(o.prob)}</b><u><em style="width:${Math.max(1, o.prob)}%"></em></u></div>`).join("")}</div>`;
   }
   const ft = [delta(c), also(c)].filter(Boolean).join("");
-  return `<article class="card"><div class="meta"><span><b>${esc(c.s)}</b>${c.pl ? " · play money" : ""}</span><span>${c.v ? money(c.v) + " today" : ""}</span></div>
+  return `<article class="card" data-a="${AREA[c.k] || "misc"}"><div class="meta"><span><b>${esc(c.s)}</b>${c.pl ? " · play money" : ""}</span><span>${c.v ? money(c.v) + " today" : ""}</span></div>
 <h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(tidy(c.t))}</a></h3>
-<div class="lead"><b>${pc(f.prob)}</b><span>${esc(favName(c))}</span></div>${body}${ft ? `<div class="foot">${ft}</div>` : ""}</article>`;
+<div class="lead"><b>${pc(f.prob)}</b><span>${esc(favName(c))}</span></div><div class="leadbar"><em style="width:${Math.max(1, f.prob)}%"></em></div>${body}${ft ? `<div class="foot">${ft}</div>` : ""}</article>`;
 }
 
 function paint() {
@@ -263,10 +289,11 @@ function render(d) {
   for (const t of d.topics) { AREA[t.id] = t.area; LABEL[t.id] = t.label; }
   const when = new Date(d.generated_at).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" });
   $("#status").innerHTML = d.sources.map(s => `<span class="src ${s.ok ? "" : "off"}" title="${s.ok ? s.count + " markets read" : "Unavailable just now"}"><i></i>${esc(s.name)} · ${esc(s.kind)}</span>`).join("") + `<span class="upd"><i aria-hidden="true"></i>Updated ${when} IST</span>`;
-  $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 8).map(c => { const f = c.o[0], dd = f.prob - c.p; return `<a class="mv" data-a="${AREA[c.k] || "misc"}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="t">${esc(tidy(c.t))}<small><b>${esc(LABEL[c.k] || "")}</b> · ${esc(favName(c))} · ${esc(c.s)}</small></span><span class="f">${pc(c.p)} →<b>${pc(f.prob)}</b><em class="d ${dd > 0 ? "up" : "dn"}">${dd > 0 ? "▲" : "▼"} ${Math.abs(Math.round(dd))} points</em></span></a>`; }).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
+  $("#moves").className = "moves tiles";
+  $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 10).map(c => { const f = c.o[0], dd = f.prob - c.p; return `<a class="tile" data-a="${AREA[c.k] || "misc"}" href="${esc(c.u)}" target="_blank" rel="noopener"><div class="tg"><span>${esc(LABEL[c.k] || "")}</span><span>${esc(c.s)}</span></div><div class="t">${esc(tidy(c.t))}</div><div class="who">${esc(favName(c))}</div><div class="fr"><s>${pc(c.p)}</s>→<b>${pc(f.prob)}</b><em class="d ${dd > 0 ? "up" : "dn"}">${dd > 0 ? "▲" : "▼"} ${Math.abs(Math.round(dd))} in a day</em></div></a>`; }).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
   const present = (d.areas || []).filter(a => (a.id === "misc" ? d.misc?.length : d.topics.some(t => t.area === a.id)));
   if (filter !== "all" && !present.some(a => a.id === filter)) filter = "all";
-  $("#chips").innerHTML = `<button class="chip" data-a="all" aria-pressed="false">Everything</button>` + present.map(a => `<button class="chip" data-a="${a.id}" aria-pressed="false">${icon("a:" + a.id)}${esc(a.label)}</button>`).join("");
+  $("#chips").innerHTML = `<button class="chip" data-a="all" aria-pressed="false">Everything</button>` + present.map(a => `<button class="chip" data-a="${a.id}" aria-pressed="false" data-area="${a.id}">${icon("a:" + a.id)}${esc(a.label)}</button>`).join("");
   $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
   paint();
   if (posterOn) showPoster(true);
@@ -289,7 +316,7 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden && D 
 // ---- poster: everything important on one screen (/consensus/poster, or the Poster button). Zooms down until it fits.
 function posterHTML() {
   const when = new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" });
-  const it = (c, extra = "") => { const f = c.o[0], d = c.p != null ? f.prob - c.p : 0; return `<div class="it"><span>${esc(tidy(c.t))}</span><small>${esc(favName(c))}${extra}</small><b>${pc(f.prob)}${Math.abs(d) >= 1 ? `<em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${Math.abs(Math.round(d))}</em>` : ""}</b></div>`; };
+  const it = (c, extra = "") => { const f = c.o[0], d = c.p != null ? f.prob - c.p : 0; return `<div class="it" data-a="${AREA[c.k] || "misc"}"><span>${esc(tidy(c.t))}</span><small>${esc(favName(c))}${extra}</small><b>${pc(f.prob)}${Math.abs(d) >= 1 ? `<em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${Math.abs(Math.round(d))}</em>` : ""}</b></div>`; };
   const areas = (D.areas || []).filter(a => a.id !== "misc").map(a => {
     const items = D.topics.filter(t => t.area === a.id).flatMap(t => t.items.slice(0, a.id === "sport" ? 1 : 2).map(c => ({ c, t })));
     return items.length ? `<div data-a="${a.id}"><h3>${icon("a:" + a.id)}${esc(a.label)}</h3>${items.slice(0, 5).map(x => it(x.c, ` · ${x.t.label}`)).join("")}</div>` : "";
