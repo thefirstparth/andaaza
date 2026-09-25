@@ -22,7 +22,11 @@
         "constructors champion",
         "drivers champion"
       ],
-      "area": "sport"
+      "area": "sport",
+      "pm_tags": [
+        "f1"
+      ],
+      "min_volume": 500
     },
     {
       "id": "football",
@@ -61,9 +65,45 @@
         "club world cup",
         "golden boot",
         "relegated",
-        "relegation"
+        "relegation",
+        "soccer"
       ],
-      "area": "sport"
+      "area": "sport",
+      "pm_tags": [
+        "soccer"
+      ],
+      "notable": [
+        "real madrid",
+        "barcelona",
+        "atletico madrid",
+        "arsenal",
+        "liverpool",
+        "manchester city",
+        "manchester united",
+        "chelsea",
+        "tottenham",
+        "newcastle",
+        "bayern munich",
+        "borussia dortmund",
+        "paris saint germain",
+        "psg",
+        "inter",
+        "ac milan",
+        "juventus",
+        "napoli",
+        "benfica",
+        "porto",
+        "england",
+        "spain",
+        "france",
+        "germany",
+        "brazil",
+        "argentina",
+        "portugal",
+        "italy",
+        "netherlands",
+        "belgium"
+      ]
     },
     {
       "id": "cricket",
@@ -82,7 +122,25 @@
         "vs india",
         "ashes"
       ],
-      "area": "sport"
+      "area": "sport",
+      "pm_tags": [
+        "cricket"
+      ],
+      "notable": [
+        "india",
+        "australia",
+        "england",
+        "south africa",
+        "new zealand",
+        "pakistan",
+        "sri lanka",
+        "west indies",
+        "afghanistan",
+        "bangladesh",
+        "mumbai indians",
+        "chennai super kings",
+        "royal challengers"
+      ]
     },
     {
       "id": "tennis",
@@ -106,7 +164,32 @@
         "laver cup",
         "davis cup"
       ],
-      "area": "sport"
+      "area": "sport",
+      "pm_tags": [
+        "tennis"
+      ],
+      "notable": [
+        "alcaraz",
+        "djokovic",
+        "sinner",
+        "zverev",
+        "medvedev",
+        "fritz",
+        "draper",
+        "de minaur",
+        "rune",
+        "shelton",
+        "mensik",
+        "fonseca",
+        "sabalenka",
+        "swiatek",
+        "gauff",
+        "rybakina",
+        "pegula",
+        "andreeva",
+        "paolini",
+        "zheng"
+      ]
     },
     {
       "id": "nba",
@@ -134,7 +217,25 @@
         "giannis",
         "luka",
         "pro basketball"
-      ]
+      ],
+      "pm_tags": [
+        "nba"
+      ],
+      "notable": [
+        "warriors",
+        "celtics",
+        "lakers",
+        "knicks",
+        "thunder",
+        "nuggets",
+        "cavaliers",
+        "timberwolves",
+        "rockets",
+        "spurs",
+        "mavericks",
+        "bucks"
+      ],
+      "min_volume": 500
     },
     {
       "id": "ai",
@@ -169,7 +270,11 @@
         "xiaomi",
         "market share"
       ],
-      "area": "tech"
+      "area": "tech",
+      "pm_tags": [
+        "ai",
+        "tech"
+      ]
     },
     {
       "id": "money",
@@ -198,7 +303,11 @@
         "market cap",
         "s&p"
       ],
-      "area": "money"
+      "area": "money",
+      "pm_tags": [
+        "economy",
+        "finance"
+      ]
     },
     {
       "id": "india",
@@ -218,7 +327,10 @@
         "bjp",
         "pakistan"
       ],
-      "area": "world"
+      "area": "world",
+      "pm_tags": [
+        "india"
+      ]
     },
     {
       "id": "world",
@@ -251,7 +363,11 @@
         "chancellor",
         "un secretary"
       ],
-      "area": "world"
+      "area": "world",
+      "pm_tags": [
+        "geopolitics",
+        "world"
+      ]
     },
     {
       "id": "film",
@@ -286,6 +402,9 @@
         "james bond",
         "bafta",
         "cannes"
+      ],
+      "pm_tags": [
+        "movies"
       ]
     },
     {
@@ -348,6 +467,9 @@
         "spotify",
         "song of the summer",
         "mrbeast"
+      ],
+      "pm_tags": [
+        "music"
       ]
     }
   ],
@@ -471,8 +593,7 @@
     "golden state",
     "barcelona"
   ],
-  "follow_rule": "A single match (A vs B) shows only when it involves someone the paper follows, or it is a football match with big_match_volume dollars traded in 24 hours.",
-  "big_match_volume": 100000,
+  "follow_rule": "A single match (A vs B) never makes a card. It shows under its sport's Coming up when it starts within a week and involves someone followed (any trade from fixture_min_volume_followed) or a name in that topic's notable list (min_volume_24h).",
   "aliases": {
     "epl": "english premier league",
     "ucl": "champions league",
@@ -508,5 +629,8 @@
       "note": "Trending anyway: the busiest markets that fit nowhere above."
     }
   ],
-  "misc": 9
+  "misc": 9,
+  "fixtures_per_topic": 4,
+  "fixture_min_volume_followed": 300,
+  "$comment_pm_tags": "topics[].pm_tags: Polymarket tag slugs read for that subject on top of the busiest 400 overall. topics[].notable: teams and players whose matches count as famous enough for Coming up."
 }

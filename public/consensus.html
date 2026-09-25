@@ -105,37 +105,14 @@ button{font:inherit;color:inherit}
 
 /* ---- cards ---- */
 .area{scroll-margin-top:64px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:16px 18px 14px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.card .meta{display:flex;justify-content:space-between;gap:8px;font:500 12px var(--sans);color:var(--muted)}
-.card .meta b{font-weight:700;color:var(--ink2)}
-.card h3{margin:0;font:600 16px/1.35 var(--sans);text-wrap:balance}
-.card h3 a{text-decoration:none}
-.card h3 a:hover{text-decoration:underline;text-decoration-color:var(--tide);text-underline-offset:3px}
-.lead{display:flex;align-items:baseline;gap:10px}
-.lead b{font:650 34px/1 var(--sans);letter-spacing:-.01em;color:var(--ink)}
-.lead span{font:500 14px/1.25 var(--sans);color:var(--ink2)}
-.rows{display:grid;gap:6px}
-.row{display:grid;grid-template-columns:minmax(0,1fr) 40px;gap:3px 10px;align-items:center;font:400 13px var(--sans);color:var(--ink2)}
-.row span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row b{text-align:right;font-weight:650;color:var(--ink)}
-.row u{grid-column:1/-1;height:4px;border-radius:99px;background:var(--line2);overflow:hidden;text-decoration:none}
-.row u em{display:block;height:100%;border-radius:99px;background:var(--tide);opacity:.5}
-.row.f u em{background:var(--sea);opacity:1}
-.tl{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding-top:4px}
-.tl::before{content:"";position:absolute;left:6px;right:6px;top:10px;height:2px;background:var(--line)}
-.tl div{position:relative;display:grid;justify-items:start;gap:3px;font:500 11.5px var(--sans);color:var(--muted)}
-.tl div::before{content:"";width:13px;height:13px;border-radius:50%;background:var(--card);box-shadow:inset 0 0 0 2px var(--tide);position:relative;z-index:1}
-.tl div.hot::before{background:var(--sea);box-shadow:none}
-.tl b{font:650 15px var(--sans);color:var(--ink)}
-.foot{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin-top:auto;padding-top:8px;border-top:1px solid var(--line2);font:500 12.5px var(--sans);color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px}
 .d.up{color:var(--up)}.d.dn{color:var(--down)}
-.also a{text-decoration:none;color:var(--ink2);border-bottom:1px dotted var(--muted)}
+.also a{text-decoration:none;color:inherit;border-bottom:1px dotted currentColor}
 
 /* ---- the world ---- */
 .world{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr));gap:0 36px}
 .wr{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none}
-.wr .n{font:italic 400 28px/1 var(--display);color:var(--tide)}
+.wr .n{font:italic 400 28px/1 var(--display);color:var(--a,var(--tide))}
 .wr .q{font:500 15px/1.35 var(--sans)}
 .wr .q small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:2px}
 .wr .p{text-align:right;font:650 20px/1 var(--sans)}
@@ -177,7 +154,75 @@ details.how li{margin:0 0 8px}
 @media (min-width:2100px){.wrap{max-width:1880px}body{font-size:16px}}
 @media (max-width:600px){.mast p{grid-column:1/-1}.mark{grid-row:auto}.status .upd{margin-left:0}.lead b{font-size:30px}.wr{grid-template-columns:26px minmax(0,1fr) auto}}
 
-/* ---- colour, back but softer: tiles for Moving today, area colour on cards ---- */
+/* ---- subject colours: each subject its own ink (--a0); tints and dark-mode versions are mixed from it ---- */
+[data-k]{--a0:var(--misc0)}
+:root{--misc0:#56626e;--on:#fff;--mixw:0%}
+[data-k=f1]{--a0:#d42a3a}[data-k=football]{--a0:#1f8a4e}[data-k=cricket]{--a0:#0d7c6c}[data-k=tennis]{--a0:#c25f1c}[data-k=nba]{--a0:#3d4fcc}
+[data-k=ai]{--a0:#0b7896}[data-k=money]{--a0:#a26f00}[data-k=india]{--a0:#d8700a}[data-k=world]{--a0:#233f7c}
+[data-k=film]{--a0:#7a3fc4}[data-k=ott]{--a0:#b62d6c}[data-k=celebs]{--a0:#d24f86}
+[data-k]{--a:color-mix(in oklab,var(--a0),#fff var(--mixw));--ac:color-mix(in oklab,var(--a0) 11%,var(--card));--a2:color-mix(in oklab,var(--a) 52%,var(--card));--a3:color-mix(in oklab,var(--a) 26%,var(--card))}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--on:#0b1214;--mixw:38%;--misc0:#8a97a3}}
+:root[data-theme="dark"]{--on:#0b1214;--mixw:38%;--misc0:#8a97a3}
+
+/* ---- the ticket: a gauge on the left filled to the favourite's chance, the question and the field on the right ---- */
+.tk{display:grid;grid-template-columns:118px minmax(0,1fr);background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 20%,transparent);border-radius:22px;overflow:hidden;min-width:0;transition:transform .2s,box-shadow .2s}
+.tk:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+/* The water: the white layer is masked to exactly the water, crest included, so every letter is either the subject's
+   colour on the pale stub or white on the water, never one colour on itself. Sized in container units (cqh). */
+.gauge{position:relative;display:block;text-decoration:none;background:color-mix(in oklab,var(--a) 16%,var(--card));border-right:2px dashed color-mix(in oklab,var(--a) 35%,transparent);min-height:128px;overflow:hidden;container-type:size}
+.gauge .g{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:4px;padding:12px 14px;color:var(--a)}
+.gauge .wet{--lv:calc(var(--pv) * 1cqh);background:var(--a);color:var(--on);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8'%3E%3Cpath d='M0 4C5 0 15 0 20 4s15 4 20 0v4H0z'/%3E%3C/svg%3E") 0 calc(100cqh - var(--lv) - 7px)/40px 8px repeat-x,linear-gradient(#000 0 0) 0 100%/100% var(--lv) no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8'%3E%3Cpath d='M0 4C5 0 15 0 20 4s15 4 20 0v4H0z'/%3E%3C/svg%3E") 0 calc(100cqh - var(--lv) - 7px)/40px 8px repeat-x,linear-gradient(#000 0 0) 0 100%/100% var(--lv) no-repeat}
+.gauge b{font:850 44px/.9 var(--sans);font-variation-settings:"wdth" 62;letter-spacing:-.01em}
+.gauge b small{font-size:.46em;font-weight:800;margin-left:1px}
+.gauge span{font:700 12.5px/1.22 var(--sans);overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+@media (prefers-reduced-motion:no-preference){.gauge .wet{animation:tide 6s linear infinite}}
+@keyframes tide{to{-webkit-mask-position:40px calc(100cqh - var(--lv) - 7px),0 100%;mask-position:40px calc(100cqh - var(--lv) - 7px),0 100%}}
+.tk .bd{padding:13px 18px 14px;min-width:0;display:flex;flex-direction:column;gap:9px}
+.tk .meta{display:flex;justify-content:space-between;gap:10px;font:800 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
+.tk .meta span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:12px;white-space:nowrap}
+.tk h3{margin:0;font:700 17.5px/1.26 var(--sans);font-variation-settings:"wdth" 90;text-wrap:balance}
+.tk h3 a{text-decoration:none}.tk h3 a:hover{text-decoration:underline;text-decoration-color:var(--a);text-underline-offset:3px}
+.seg{display:flex;gap:3px;height:11px;border-radius:99px;overflow:hidden;background:var(--line2)}
+.seg i{display:block;height:100%;border-radius:99px;min-width:3px}
+.seg .s0{background:var(--a)}.seg .s1{background:var(--a2)}.seg .s2{background:var(--a3)}.seg .s9{background:color-mix(in oklab,var(--muted) 30%,var(--card))}
+.key{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:3px 14px;font:500 13px/1.35 var(--sans);color:var(--ink2)}
+.key i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.key b{font-weight:800;color:var(--ink);margin-left:4px}
+.key .s1{background:var(--a2)}.key .s2{background:var(--a3)}.key .s9{background:color-mix(in oklab,var(--muted) 30%,var(--card))}
+.steps{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.steps div{border-top:3px solid var(--a3);padding-top:5px;font:500 12px/1.25 var(--sans);color:var(--muted)}
+.steps b{display:block;font:800 16px var(--sans);color:var(--ink)}
+.tk .ft{margin-top:auto;display:flex;flex-wrap:wrap;gap:4px 12px;font:700 12.5px/1.35 var(--sans);color:var(--muted)}
+.tk .ft .also{font-weight:600}
+.tk .pl{font:800 9.5px/1 var(--sans);letter-spacing:.1em;padding:3px 6px;border:2px double var(--a);border-radius:5px;transform:rotate(-3deg);display:inline-block}
+@media (min-width:900px){
+  .tk.big{grid-column:1/-1;grid-template-columns:200px minmax(0,1fr)}
+  .tk.big .gauge{min-height:170px}.tk.big .g{padding:20px 24px}
+  .tk.big .gauge b{font-size:80px}.tk.big .gauge span{font-size:15px}
+  .tk.big .bd{padding:20px 28px;justify-content:center}
+  .tk.big h3{font-size:clamp(24px,2.3vw,32px);line-height:1.12}
+  .tk.big .seg{height:15px}.tk.big .key{font-size:14.5px}
+}
+@media (max-width:600px){.tk{grid-template-columns:98px minmax(0,1fr)}.gauge .g{padding:10px 11px}.gauge b{font-size:36px}.tk h3{font-size:16px}.tk .bd{padding:12px 14px}}
+
+/* ---- coming up: the sport's next matches ---- */
+.next{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px;margin-bottom:14px}
+.fx{display:flex;flex-direction:column;gap:7px;padding:12px 14px;border-radius:18px;background:var(--card);border:1px solid color-mix(in oklab,var(--a) 22%,var(--line));text-decoration:none;transition:transform .2s}
+.fx:hover{transform:translateY(-2px)}
+.fx .when{display:flex;justify-content:space-between;gap:8px;font:700 11.5px var(--sans);color:var(--muted)}
+.fx .when b{color:var(--a);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:10.5px}
+.fx .vs{font:750 16px/1.25 var(--sans);font-variation-settings:"wdth" 90}
+.fx .vs em{font-style:normal;color:var(--muted);font-weight:500;margin:0 4px}
+.fx .three{display:flex;gap:3px;height:9px}
+.fx .three i{border-radius:99px;min-width:3px;display:block}
+.fx .three .h{background:var(--a)}.fx .three .x{background:color-mix(in oklab,var(--muted) 30%,var(--card))}.fx .three .w{background:var(--a2)}
+.fx .odds{display:flex;justify-content:space-between;gap:6px;font:500 12.5px var(--sans);color:var(--ink2)}
+.fx .odds b{color:var(--ink);font-weight:800}
+.fx .star{color:var(--a)}
+
+/* ---- tiles, headings, chips, poster, in subject colour ---- */
 .moves.tiles{display:grid;grid-auto-flow:column;grid-auto-columns:min(80vw,270px);grid-template-columns:none;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;margin-inline:calc(-1 * clamp(16px,4vw,44px));padding-inline:clamp(16px,4vw,44px)}
 .moves.tiles::-webkit-scrollbar{display:none}
 .tile{scroll-snap-align:start;background:var(--ac);border-radius:22px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;text-decoration:none;min-height:176px;transition:transform .2s}
@@ -191,15 +236,8 @@ details.how li{margin:0 0 8px}
 .tile .fr b{font:750 36px/1 var(--sans);font-variation-settings:"wdth" 72;color:var(--a)}
 .tile .fr em{font:700 12px var(--sans);font-style:normal;background:var(--card);padding:2px 8px;border-radius:99px}
 .sh h2 .ic{width:40px;height:40px;padding:8px;border-radius:12px;background:var(--ac,var(--foam));color:var(--a,var(--sea))}
-.card{border-top:3px solid var(--a,var(--sea))}
-.card .meta b{color:var(--a,var(--ink2))}
-.lead b{color:var(--a,var(--ink))}
-.leadbar{height:6px;border-radius:99px;background:var(--line2);overflow:hidden}
-.leadbar em{display:block;height:100%;border-radius:99px;background:var(--a,var(--sea))}
-.row u em{background:var(--a,var(--tide));opacity:.45}
-.others{display:grid;gap:6px;padding-top:2px}
-.tl div::before{box-shadow:inset 0 0 0 2px var(--a,var(--tide))}
-.chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink))}
+.sub{color:var(--a,var(--sea))}
+.chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink));color:var(--card)}
 .pv .it b{color:var(--a,var(--ink))}
 </style>
 </head>
@@ -223,9 +261,9 @@ details.how li{margin:0 0 8px}
   <section class="wrap" aria-labelledby="wh" id="worldsec" hidden><div class="sh"><h2 id="wh"><span class="ico" data-i="a:globe"></span>What the world is betting on</h2><p>Busiest real-money markets in 24 hours</p></div><div class="world" id="world"></div></section>
   <div class="wrap">
     <details class="how"><summary>How this page picks</summary><ol>
-      <li><b>Read.</b> The four hundred busiest questions on Polymarket, every open event on Kalshi, and Manifold's busiest play-money questions. Refreshed every five minutes, and the page updates itself while it is open.</li>
-      <li><b>Clear the noise.</b> Questions that are all but settled (above 98.5% or below 1.5%), markets with under $2,000 traded in a day, side bets (tosses, sets, handicaps) and price ladders go. So do your standing exclusions: US domestic politics, the Fed, American football, baseball, hockey and college sport, weather, and post or view counts.</li>
-      <li><b>Sort.</b> Each question goes to the first of your subjects whose words it contains: Formula 1, football, cricket, tennis, NBA, AI and tech, money, India, world, Bollywood and film, series and streaming, celebrities. A single match only shows when it involves someone you follow, or it is a very big football match.</li>
+      <li><b>Read.</b> The four hundred busiest questions on Polymarket plus the busiest in each of your subjects' own Polymarket tags (F1, football, AI and so on, so a race or a model ranking turns up even when it is not big worldwide), every open event on Kalshi, and Manifold's busiest play-money questions. Refreshed every five minutes, and the page updates itself while it is open.</li>
+      <li><b>Clear the noise.</b> Questions that are all but settled (above 98.5% or below 1.5%), markets with under $2,000 traded in a day ($500 for F1 and NBA, which have fewer markets), side bets (tosses, sets, handicaps, pole, podium, fastest lap) and price ladders go. So do your standing exclusions: US domestic politics, the Fed, American football, baseball, hockey and college sport, weather, and post or view counts.</li>
+      <li><b>Sort.</b> Each question goes to the first of your subjects whose words it contains: Formula 1, football, cricket, tennis, NBA, AI and tech, money, India, world, Bollywood and film, series and streaming, celebrities. A single match never takes a card: it goes under its sport's Coming up when it starts within a week and involves someone you follow or a team or player the subject counts as notable (England v Spain, Medvedev). When a recurring question is settled (the best AI model at the end of September), the next round (end of October) takes its place.</li>
       <li><b>Merge.</b> The same question on two sites becomes one card, the busier site leading and the other shown beside it.</li>
       <li><b>Rank.</b> Within a subject, anything about the Warriors, Real Madrid, Verstappen, Alcaraz, Djokovic or India comes first, then the rest by money traded today. Play money appears at most twice per subject. Moving today is the real-money questions in your subjects that moved four points or more in a day. Miscellaneous is the busiest of everything that fits nowhere else.</li>
     </ol></details>
@@ -247,38 +285,60 @@ $("#posterBtn").innerHTML = `${icon("u:poster")}Poster`;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const pc = v => `${Math.round(v)}%`;
 const money = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1)}m` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
-const tidy = t => String(t).replace(/\.\.\.\?$/, "…?").replace(/ \(([^()]*)\)$/, (m, x) => (/^(in |before |20\d\d)/i.test(x) ? "" : m));
+const tidy = t => String(t).replace(/\.\.\.\?$/, "…?").replace(/ \(([^()]*)\)$/, (m, x) => (/^(in |before |20\d\d|calendar year)/i.test(x) || t.toLowerCase().startsWith(x.toLowerCase().split(/ [-–|:] | \d/)[0]) ? "" : m));
 const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
 let D, AREA = {}, LABEL = {}, filter = store.get("cons-area") || "all";
 
 const favName = c => (c.L ? c.o[0].name : c.o.length === 1 ? "Yes" : c.o[0].name);
-const delta = c => {
-  if (c.p == null) return "";
-  const f = c.o[0].prob, d = f - c.p;
-  return Math.abs(d) < 1 ? "" : `<span class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pc(c.p)} → ${pc(f)} today</span>`;
-};
 const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)}${x.play ? " (play money)" : ""}">${esc(x.source)} ${pc(x.prob)}</a>`).join(" · ")}</span>` : "";
 
-// The favourite is said once, large, with its bar; below it only the others (nearer deadlines for a "by ... ?" question).
-function card(c) {
-  const f = c.o[0];
-  let body = "";
+// A ticket: the gauge on the left is filled to the favourite's chance and names it; the right side never repeats it.
+// A "by ... ?" question shows its nearer deadlines as steps; a yes/no question shows only its gauge and bar.
+const oneName = c => (c.L ? c.o[0].name : c.o.length === 1 || c.o[0].name === "Yes" ? "Yes" : c.o[0].name);
+function card(c, big) {
+  const f = c.o[0], p = Math.max(0, Math.min(100, f.prob));
+  const g = `<b>${Math.round(p)}<small>%</small></b><span>${esc(oneName(c))}</span>`;
+  let seg, key = "";
   if (c.L && c.o.length > 1) {
-    body = `<div class="tl">${c.o.slice(1).map(o => `<div><b>${pc(o.prob)}</b>${esc(o.name.replace(/^By /, ""))}</div>`).join("")}</div>`;
-  } else if (c.o.length > 1 && c.o[0].name !== "Yes") {
-    body = `<div class="others">${c.o.slice(1, 4).map(o => `<div class="row"><span>${esc(o.name)}</span><b>${pc(o.prob)}</b><u><em style="width:${Math.max(1, o.prob)}%"></em></u></div>`).join("")}</div>`;
-  }
-  const ft = [delta(c), also(c)].filter(Boolean).join("");
-  return `<article class="card" data-a="${AREA[c.k] || "misc"}"><div class="meta"><span><b>${esc(c.s)}</b>${c.pl ? " · play money" : ""}</span><span>${c.v ? money(c.v) + " today" : ""}</span></div>
-<h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(tidy(c.t))}</a></h3>
-<div class="lead"><b>${pc(f.prob)}</b><span>${esc(favName(c))}</span></div><div class="leadbar"><em style="width:${Math.max(1, f.prob)}%"></em></div>${body}${ft ? `<div class="foot">${ft}</div>` : ""}</article>`;
+    seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
+    key = `<div class="steps">${c.o.slice(1).map(o => `<div><b>${pc(o.prob)}</b>${esc(o.name)}</div>`).join("")}</div>`;
+  } else if (c.o.length > 1 && f.name !== "Yes") {
+    const top = c.o.slice(0, 3), rest = Math.max(0, 100 - top.reduce((a, o) => a + o.prob, 0));
+    seg = `<div class="seg">${top.map((o, i) => `<i class="s${i}" style="flex:${Math.max(0.5, o.prob)}"></i>`).join("")}${rest >= 1 ? `<i class="s9" style="flex:${rest}"></i>` : ""}</div>`;
+    key = `<ul class="key">${top.slice(1).map((o, i) => `<li><i class="s${i + 1}"></i>${esc(o.name)}<b>${pc(o.prob)}</b></li>`).join("")}${rest >= 1 ? `<li><i class="s9"></i>Others<b>${pc(rest)}</b></li>` : ""}</ul>`;
+  } else seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
+  const d = c.p != null ? f.prob - c.p : 0;
+  const mv = Math.abs(d) >= 1 ? `<span class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${Math.abs(Math.round(d))} pts in a day · was ${pc(c.p)}</span>` : "";
+  const ft = [mv, also(c)].filter(Boolean).join("");
+  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge" href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${Math.max(3, p).toFixed(1)}" aria-label="${Math.round(p)}% ${esc(oneName(c))}"><div class="g">${g}</div><div class="g wet" aria-hidden="true">${g}</div></a>
+<div class="bd"><div class="meta"><span>${esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
+<h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}</div></article>`;
+}
+
+// Coming up: a match with its kick-off in India time and the three-way (or two-way) split in playing order.
+const kick = st => { const t = new Date(st), now = new Date(), fmt = o => t.toLocaleString("en-GB", { timeZone: "Asia/Kolkata", ...o });
+  const day = fmt({ year: "numeric", month: "2-digit", day: "2-digit" }), today = now.toLocaleString("en-GB", { timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit" });
+  const tom = new Date(now.getTime() + 864e5).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit" });
+  if (t < now) return "Live now";
+  return `${day === today ? "Today" : day === tom ? "Tomorrow" : fmt({ weekday: "short", day: "numeric", month: "short" })} · ${fmt({ hour: "2-digit", minute: "2-digit", hour12: false })} IST`; };
+function fixture(n, k) {
+  const [a, b] = n.t.split(" v "), by = x => n.o.find(o => o.name === x) || { name: x, prob: 0 };
+  const draw = n.o.find(o => /^draw/i.test(o.name)), row = [by(a), ...(draw ? [draw] : []), by(b)];
+  return `<a class="fx" data-k="${k}" href="${esc(n.u)}" target="_blank" rel="noopener"><div class="when"><b>${n.f ? `<span class="star">★</span> ` : ""}${esc(n.c || LABEL[k])}</b><span>${kick(n.st)}</span></div>
+<div class="vs">${esc(a)}<em>v</em>${esc(b)}</div><div class="three">${row.map((o, i) => `<i class="${i === 0 ? "h" : i === row.length - 1 ? "w" : "x"}" style="flex:${Math.max(1, o.prob)}"></i>`).join("")}</div>
+<div class="odds">${row.map(o => `<span>${esc(/^draw/i.test(o.name) ? "Draw" : o.name.split(" ").pop())} <b>${pc(o.prob)}</b></span>`).join("")}</div></a>`;
 }
 
 function paint() {
   $("#areas").innerHTML = (D.areas || []).map(a => {
     const tops = a.id === "misc" ? (D.misc?.length ? [{ id: "misc", label: "Trending anyway", items: D.misc }] : []) : D.topics.filter(t => t.area === a.id);
     if (!tops.length || (filter !== "all" && filter !== a.id)) return "";
-    return `<section class="wrap area" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}">${icon("a:" + a.id)}${esc(a.label)}</h2>${a.note ? `<p>${esc(a.note)}</p>` : ""}</div>${tops.map(t => `${a.id === "misc" ? "" : `<div class="sub">${icon("t:" + t.id)}${esc(t.label)}<span>${t.items.length} market${t.items.length > 1 ? "s" : ""}</span></div>`}<div class="grid">${t.items.map(card).join("")}</div>`).join("")}</section>`;
+    // The area's busiest question leads, wide.
+    const all = tops.flatMap(t => t.items), lead = all.reduce((m, c) => (!m || (c.v || 0) > (m.v || 0) ? c : m), null);
+    return `<section class="wrap area" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}">${icon("a:" + a.id)}${esc(a.label)}</h2>${a.note ? `<p>${esc(a.note)}</p>` : ""}</div>${tops.map(t => {
+      const items = t.items.includes(lead) ? [lead, ...t.items.filter(c => c !== lead)] : t.items;
+      return `${a.id === "misc" ? "" : `<div class="sub" data-k="${t.id}">${icon("t:" + t.id)}${esc(t.label)}<span>${t.items.length ? `${t.items.length} market${t.items.length > 1 ? "s" : ""}` : ""}${t.next?.length ? `${t.items.length ? " · " : ""}${t.next.length} coming up` : ""}</span></div>`}${t.next?.length ? `<div class="next">${t.next.map(n => fixture(n, t.id)).join("")}</div>` : ""}${items.length ? `<div class="grid">${items.map(c => card(c, c === lead && all.length > 2)).join("")}</div>` : ""}`;
+    }).join("")}</section>`;
   }).join("");
   $("#worldsec").hidden = filter !== "all" || !D.world?.length;
   document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.a === filter));
@@ -290,11 +350,11 @@ function render(d) {
   const when = new Date(d.generated_at).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" });
   $("#status").innerHTML = d.sources.map(s => `<span class="src ${s.ok ? "" : "off"}" title="${s.ok ? s.count + " markets read" : "Unavailable just now"}"><i></i>${esc(s.name)} · ${esc(s.kind)}</span>`).join("") + `<span class="upd"><i aria-hidden="true"></i>Updated ${when} IST</span>`;
   $("#moves").className = "moves tiles";
-  $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 10).map(c => { const f = c.o[0], dd = f.prob - c.p; return `<a class="tile" data-a="${AREA[c.k] || "misc"}" href="${esc(c.u)}" target="_blank" rel="noopener"><div class="tg"><span>${esc(LABEL[c.k] || "")}</span><span>${esc(c.s)}</span></div><div class="t">${esc(tidy(c.t))}</div><div class="who">${esc(favName(c))}</div><div class="fr"><s>${pc(c.p)}</s>→<b>${pc(f.prob)}</b><em class="d ${dd > 0 ? "up" : "dn"}">${dd > 0 ? "▲" : "▼"} ${Math.abs(Math.round(dd))} in a day</em></div></a>`; }).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
+  $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 10).map(c => { const f = c.o[0], dd = f.prob - c.p; return `<a class="tile" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><div class="tg"><span>${esc(LABEL[c.k] || "")}</span><span>${esc(c.s)}</span></div><div class="t">${esc(tidy(c.t))}</div><div class="who">${esc(favName(c))}</div><div class="fr"><s>${pc(c.p)}</s>→<b>${pc(f.prob)}</b><em class="d ${dd > 0 ? "up" : "dn"}">${dd > 0 ? "▲" : "▼"} ${Math.abs(Math.round(dd))} in a day</em></div></a>`; }).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
   const present = (d.areas || []).filter(a => (a.id === "misc" ? d.misc?.length : d.topics.some(t => t.area === a.id)));
   if (filter !== "all" && !present.some(a => a.id === filter)) filter = "all";
   $("#chips").innerHTML = `<button class="chip" data-a="all" aria-pressed="false">Everything</button>` + present.map(a => `<button class="chip" data-a="${a.id}" aria-pressed="false" data-area="${a.id}">${icon("a:" + a.id)}${esc(a.label)}</button>`).join("");
-  $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
+  $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
   paint();
   if (posterOn) showPoster(true);
 }
@@ -316,10 +376,13 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden && D 
 // ---- poster: everything important on one screen (/consensus/poster, or the Poster button). Zooms down until it fits.
 function posterHTML() {
   const when = new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" });
-  const it = (c, extra = "") => { const f = c.o[0], d = c.p != null ? f.prob - c.p : 0; return `<div class="it" data-a="${AREA[c.k] || "misc"}"><span>${esc(tidy(c.t))}</span><small>${esc(favName(c))}${extra}</small><b>${pc(f.prob)}${Math.abs(d) >= 1 ? `<em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${Math.abs(Math.round(d))}</em>` : ""}</b></div>`; };
+  const it = (c, extra = "") => { const f = c.o[0], d = c.p != null ? f.prob - c.p : 0; return `<div class="it" data-k="${esc(c.k)}"><span>${esc(tidy(c.t))}</span><small>${esc(favName(c))}${extra}</small><b>${pc(f.prob)}${Math.abs(d) >= 1 ? `<em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${Math.abs(Math.round(d))}</em>` : ""}</b></div>`; };
   const areas = (D.areas || []).filter(a => a.id !== "misc").map(a => {
     const items = D.topics.filter(t => t.area === a.id).flatMap(t => t.items.slice(0, a.id === "sport" ? 1 : 2).map(c => ({ c, t })));
-    return items.length ? `<div data-a="${a.id}"><h3>${icon("a:" + a.id)}${esc(a.label)}</h3>${items.slice(0, 5).map(x => it(x.c, ` · ${x.t.label}`)).join("")}</div>` : "";
+    // Sport also shows its next two matches (followed first), kick-off in India time.
+    const nx = a.id === "sport" ? D.topics.filter(t => t.area === "sport").flatMap(t => (t.next || []).map(n => ({ n, k: t.id }))).sort((x, y) => (y.n.f || 0) - (x.n.f || 0) || Date.parse(x.n.st) - Date.parse(y.n.st)).slice(0, 2) : [];
+    const fx = nx.map(({ n, k }) => { const f = [...n.o].sort((x, y) => y.prob - x.prob)[0]; return `<div class="it" data-k="${k}"><span>${esc(n.t)}</span><small>${esc(kick(n.st))} · ${esc(/^draw/i.test(f.name) ? "Draw" : f.name)}</small><b>${pc(f.prob)}</b></div>`; }).join("");
+    return items.length || fx ? `<div data-a="${a.id}"><h3>${icon("a:" + a.id)}${esc(a.label)}</h3>${items.slice(0, 4).map(x => it(x.c, ` · ${x.t.label}`)).join("")}${fx}</div>` : "";
   }).join("");
   return `<button class="x" id="pvx" type="button">Close</button><div class="sheet">
 <div class="ph"><svg class="mark" viewBox="0 0 80 96" aria-hidden="true"><ellipse class="rip r3" cx="40" cy="80" rx="36" ry="10"/><ellipse class="rip r2" cx="40" cy="80" rx="26" ry="7"/><ellipse class="rip" cx="40" cy="80" rx="16" ry="4.4"/><path class="drop" d="M40 4C33 16 24 27 24 39a16 16 0 0 0 32 0c0-12-9-23-16-35z"/></svg><h1>Consensus</h1><div class="clock"><b>${when}</b>Markets updated ${new Date(D.generated_at).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" })} IST</div></div>
@@ -330,8 +393,10 @@ function posterHTML() {
 function fitPoster() {
   const P = $("#pv"), c = P.querySelector(".sheet"); if (P.hidden || !c) return;
   c.style.zoom = ""; if (innerWidth <= 900) return;
+  // Shrink to fit the height; on a big monitor (from 2,100px) also grow to fill the width.
+  const big = innerWidth >= 2100, room = P.clientHeight - 40, roomW = P.clientWidth - 40;
   let z = 1;
-  for (let i = 0; i < 4; i++) { const h = c.getBoundingClientRect().height, room = P.clientHeight - 40; if (h <= room) break; z = Math.max(0.45, z * room / h); c.style.zoom = z.toFixed(3); }
+  for (let i = 0; i < 5; i++) { const r = c.getBoundingClientRect(), f = Math.min(room / r.height, big ? roomW / r.width : 1); if (Math.abs(f - 1) < 0.01 || (!big && f >= 1)) break; z = Math.max(0.45, Math.min(big ? 1.6 : 1, z * f)); c.style.zoom = z.toFixed(3); }
 }
 let posterOn = /\/poster$/.test(location.pathname) || new URLSearchParams(location.search).has("poster");
 function showPoster(on) {
