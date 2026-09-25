@@ -1,5 +1,5 @@
 {
-  "$comment": "Settings for /markets (The Pulse), the prediction-markets page. Independent of the paper: nothing in the paper reads this file.",
+  "$comment": "Settings for /consensus, the prediction-markets page. Independent of the paper: nothing in the paper reads this file.",
   "min_volume_24h": 2000,
   "min_volume_manifold": 500,
   "per_topic": 6,
@@ -9,7 +9,6 @@
     {
       "id": "f1",
       "label": "Formula 1",
-      "palette": "f1",
       "words": [
         "f1",
         "formula 1",
@@ -22,12 +21,12 @@
         "piastri",
         "constructors champion",
         "drivers champion"
-      ]
+      ],
+      "area": "sport"
     },
     {
       "id": "football",
       "label": "Football",
-      "palette": "pitch",
       "words": [
         "real madrid",
         "la liga",
@@ -63,12 +62,12 @@
         "golden boot",
         "relegated",
         "relegation"
-      ]
+      ],
+      "area": "sport"
     },
     {
       "id": "cricket",
       "label": "Cricket",
-      "palette": "india",
       "words": [
         "cricket",
         "ipl",
@@ -82,12 +81,12 @@
         "india vs",
         "vs india",
         "ashes"
-      ]
+      ],
+      "area": "sport"
     },
     {
       "id": "tennis",
       "label": "Tennis",
-      "palette": "tennis",
       "words": [
         "tennis",
         "atp",
@@ -106,12 +105,40 @@
         "australian open",
         "laver cup",
         "davis cup"
+      ],
+      "area": "sport"
+    },
+    {
+      "id": "nba",
+      "label": "NBA",
+      "area": "sport",
+      "words": [
+        "warriors",
+        "golden state",
+        "nba",
+        "curry",
+        "lebron",
+        "celtics",
+        "lakers",
+        "knicks",
+        "thunder",
+        "nuggets",
+        "mavericks",
+        "bucks",
+        "76ers",
+        "nba finals",
+        "nba champion",
+        "nba mvp",
+        "wembanyama",
+        "jokic",
+        "giannis",
+        "luka",
+        "pro basketball"
       ]
     },
     {
       "id": "ai",
       "label": "AI & tech",
-      "palette": "tech",
       "words": [
         "ai",
         "a.i.",
@@ -137,33 +164,16 @@
         "meta ai",
         "chip",
         "semiconductor",
-        "model"
-      ]
-    },
-    {
-      "id": "india",
-      "label": "India",
-      "palette": "namma",
-      "words": [
-        "india",
-        "indian",
-        "modi",
-        "rbi",
-        "sensex",
-        "nifty",
-        "rupee",
-        "bengaluru",
-        "bangalore",
-        "mumbai",
-        "delhi",
-        "bjp",
-        "pakistan"
-      ]
+        "model",
+        "qwen",
+        "xiaomi",
+        "market share"
+      ],
+      "area": "tech"
     },
     {
       "id": "money",
-      "label": "Money",
-      "palette": "money",
+      "label": "Money & markets",
       "words": [
         "oil",
         "brent",
@@ -185,13 +195,34 @@
         "nasdaq",
         "ipo",
         "largest company",
-        "market cap"
-      ]
+        "market cap",
+        "s&p"
+      ],
+      "area": "money"
+    },
+    {
+      "id": "india",
+      "label": "India",
+      "words": [
+        "india",
+        "indian",
+        "modi",
+        "rbi",
+        "sensex",
+        "nifty",
+        "rupee",
+        "bengaluru",
+        "bangalore",
+        "mumbai",
+        "delhi",
+        "bjp",
+        "pakistan"
+      ],
+      "area": "world"
     },
     {
       "id": "world",
       "label": "World",
-      "palette": "dispatch",
       "words": [
         "war",
         "ceasefire",
@@ -219,11 +250,109 @@
         "election",
         "chancellor",
         "un secretary"
+      ],
+      "area": "world"
+    },
+    {
+      "id": "film",
+      "label": "Bollywood & film",
+      "area": "screen",
+      "words": [
+        "bollywood",
+        "hindi film",
+        "shah rukh",
+        "srk",
+        "salman khan",
+        "aamir",
+        "ranbir",
+        "deepika",
+        "alia bhatt",
+        "kareena",
+        "hrithik",
+        "akshay kumar",
+        "prabhas",
+        "allu arjun",
+        "box office",
+        "rotten tomatoes",
+        "opening weekend",
+        "oscar",
+        "academy award",
+        "best picture",
+        "golden globe",
+        "film",
+        "movie",
+        "marvel",
+        "avengers",
+        "james bond",
+        "bafta",
+        "cannes"
+      ]
+    },
+    {
+      "id": "ott",
+      "label": "Series & streaming",
+      "area": "screen",
+      "words": [
+        "netflix",
+        "prime video",
+        "jiohotstar",
+        "hotstar",
+        "disney+",
+        "hbo",
+        "apple tv",
+        "season 2",
+        "season 3",
+        "season finale",
+        "series",
+        "emmy",
+        "netflix top 10",
+        "streaming",
+        "big brother",
+        "survivor",
+        "love island",
+        "bachelor",
+        "reality show",
+        "the traitors",
+        "squid game",
+        "stranger things"
+      ]
+    },
+    {
+      "id": "celebs",
+      "label": "Celebrities",
+      "area": "screen",
+      "words": [
+        "virat and anushka",
+        "anushka",
+        "priyanka",
+        "katrina",
+        "ranveer",
+        "celebrity",
+        "engaged",
+        "wedding",
+        "married",
+        "divorce",
+        "baby",
+        "taylor swift",
+        "kardashian",
+        "beyonce",
+        "rihanna",
+        "drake",
+        "kanye",
+        "justin bieber",
+        "selena",
+        "travis kelce",
+        "album",
+        "grammy",
+        "billboard",
+        "spotify",
+        "song of the summer",
+        "mrbeast"
       ]
     }
   ],
   "exclude": {
-    "$comment": "Parth's standing exclusions (the paper's betting.exclude): US domestic politics, US economic policy including the Fed, US sports games, esports, crypto price ladders, weather, post counts, celebrity.",
+    "$comment": "Parth's standing exclusions: US domestic politics, US economic policy including the Fed, American football, baseball, hockey and college sport, esports, crypto price ladders, weather, post and view counts. NBA, film, TV and celebrities are in (26 Sep 2026).",
     "words": [
       "senate",
       "house of representatives",
@@ -250,10 +379,8 @@
       "fomc",
       "powell",
       "nfl",
-      "nba",
       "mlb",
       "nhl",
-      "wnba",
       "mls",
       "ncaa",
       "college football",
@@ -282,13 +409,6 @@
       "tweet",
       "mentions",
       "say ",
-      "celebrity",
-      "kardashian",
-      "taylor swift",
-      "album",
-      "box office",
-      "oscar",
-      "grammy",
       "up or down",
       "above ___",
       "price on",
@@ -300,10 +420,8 @@
       "trump say",
       "elon musk # of",
       "time person of the year",
-      "mrbeast",
       "youtube",
       "views of",
-      "kanye",
       "spread",
       "more markets",
       "what price will",
@@ -320,7 +438,6 @@
       "ncaaf",
       "cfb",
       "baseball",
-      "basketball",
       "hockey",
       "u.s. house",
       "party will win the",
@@ -329,19 +446,18 @@
       "indycar",
       "ufc",
       "boxing",
-      "mvp",
-      "rookie of the year",
       "cy young",
-      "big brother",
-      "survivor",
-      "bachelor",
-      "love island",
-      "reality show",
-      "american idol",
-      "the voice",
-      "dancing with the stars"
-    ],
-    "keep_nba_team": "warriors"
+      "nfl mvp",
+      "al mvp",
+      "nl mvp",
+      "cy young",
+      "wnba",
+      "women's pro basketball",
+      "wnba",
+      "press secretary",
+      "trump's next",
+      "white house"
+    ]
   },
   "manifold_max_per_topic": 2,
   "manifold_min_traders": 40,
@@ -352,6 +468,7 @@
     "djokovic",
     "india",
     "warriors",
+    "golden state",
     "barcelona"
   ],
   "follow_rule": "A single match (A vs B) shows only when it involves someone the paper follows, or it is a football match with big_match_volume dollars traded in 24 hours.",
@@ -361,6 +478,35 @@
     "ucl": "champions league",
     "f1": "formula 1",
     "drivers'": "drivers",
-    "constructors'": "constructors"
-  }
+    "constructors'": "constructors",
+    "pro basketball": "nba"
+  },
+  "areas": [
+    {
+      "id": "sport",
+      "label": "Sport"
+    },
+    {
+      "id": "tech",
+      "label": "Tech"
+    },
+    {
+      "id": "money",
+      "label": "Money"
+    },
+    {
+      "id": "world",
+      "label": "World & India"
+    },
+    {
+      "id": "screen",
+      "label": "Screen & culture"
+    },
+    {
+      "id": "misc",
+      "label": "Miscellaneous",
+      "note": "Trending anyway: the busiest markets that fit nowhere above."
+    }
+  ],
+  "misc": 9
 }

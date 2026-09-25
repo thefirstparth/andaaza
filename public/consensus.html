@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Consensus</title>
+<meta name="description" content="What the world's prediction markets think, about the things Parth follows and what everyone is betting on.">
+<meta name="theme-color" content="#f5f8f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1214" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 6C24 18 17 26 17 35a15 15 0 0 0 30 0c0-9-7-17-15-29z' fill='%230f5f73'/%3E%3C/svg%3E">
+<script>var P0=fetch("/api/consensus").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()});P0.catch(function(){});try{var t=localStorage.getItem("cons-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Roboto Flex with the paper's axes (already cached for a paper reader); Bodoni only for the letters of the name. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@62..100,400..800&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&text=Consensu0123456789&display=swap" media="print" onload="this.media='all'">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f5f8f8;--card:#ffffff;--ink:#162024;--ink2:#46545a;--muted:#75838a;--line:#e1e8e9;--line2:#edf2f2;
+  --sea:#0f5f73;--tide:#5b9eae;--foam:#e2eff1;
+  --up:#1d8352;--down:#c2453b;
+  --sport:#4f8a5b;--tech:#3f8394;--money:#8c7536;--world:#56679b;--screen:#955b79;--misc:#7d868c;
+  --shadow:0 1px 2px rgba(22,32,36,.04),0 8px 24px -16px rgba(22,32,36,.18);
+  --sans:"Roboto Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;--bg:#0b1214;--card:#121b1e;--ink:#e7eeef;--ink2:#b8c5c9;--muted:#84949a;--line:#223035;--line2:#1a2629;
+  --sea:#6cc3d3;--tide:#3f8a9a;--foam:#12303a;--up:#58cf8d;--down:#ef8278;
+  --sport:#86c392;--tech:#7fc6d6;--money:#d2b870;--world:#9eaee0;--screen:#d59bb8;--misc:#a2abb1;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7)}}
+:root[data-theme="dark"]{
+  color-scheme:dark;--bg:#0b1214;--card:#121b1e;--ink:#e7eeef;--ink2:#b8c5c9;--muted:#84949a;--line:#223035;--line2:#1a2629;
+  --sea:#6cc3d3;--tide:#3f8a9a;--foam:#12303a;--up:#58cf8d;--down:#ef8278;
+  --sport:#86c392;--tech:#7fc6d6;--money:#d2b870;--world:#9eaee0;--screen:#d59bb8;--misc:#a2abb1;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7)}
+[data-a=sport]{--a:var(--sport)}[data-a=tech]{--a:var(--tech)}[data-a=money]{--a:var(--money)}[data-a=world]{--a:var(--world)}[data-a=screen]{--a:var(--screen)}[data-a=misc]{--a:var(--misc)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--sea);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,4vw,44px)}
+@media (min-width:2100px){.wrap{max-width:1500px}body{font-size:18px}}
+[hidden]{display:none!important}
+
+/* ---- masthead ---- */
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:calc(16px + env(safe-area-inset-top,0px));font:500 13px var(--sans);color:var(--muted)}
+.bar a{text-decoration:none}.bar a:hover{color:var(--ink)}
+.bar button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;font-weight:600;cursor:pointer;color:var(--ink2)}
+.mast{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6px 18px;padding-block:clamp(26px,5vw,56px) 10px}
+.mark{width:clamp(56px,7vw,84px);height:auto;grid-row:span 2;overflow:visible}
+.mark .drop{fill:var(--sea)}
+.mark .rip{fill:none;stroke:var(--tide);stroke-width:1.6}
+.mark .r2{opacity:.55}.mark .r3{opacity:.28}
+@media (prefers-reduced-motion:no-preference){.mark .rip{transform-box:fill-box;transform-origin:center;animation:ripple 5s ease-out infinite}.mark .r2{animation-delay:1.6s}.mark .r3{animation-delay:3.2s}}
+@keyframes ripple{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.3);opacity:0}}
+.mast h1{margin:0;font:italic 400 clamp(48px,8.5vw,104px)/.95 var(--display);letter-spacing:-.01em;color:var(--ink)}
+.mast p{margin:0;font:400 clamp(15px,1.6vw,18px)/1.45 var(--sans);color:var(--ink2);max-width:52ch}
+.status{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;padding:14px 0 10px;border-bottom:1px solid var(--line);font:500 13px var(--sans);color:var(--muted)}
+.status .src{display:inline-flex;align-items:center;gap:6px}
+.status .src i{width:7px;height:7px;border-radius:50%;background:var(--up)}
+.status .src.off i{background:var(--down)}
+.status .upd{margin-left:auto;display:inline-flex;align-items:center;gap:7px}
+.status .upd i{width:7px;height:7px;border-radius:50%;background:var(--sea)}
+@media (prefers-reduced-motion:no-preference){.status .upd i{animation:breath 3s ease-in-out infinite}}
+@keyframes breath{50%{opacity:.25}}
+
+/* ---- headings ---- */
+.sh{display:flex;align-items:baseline;justify-content:space-between;gap:10px 20px;flex-wrap:wrap;margin:clamp(34px,5vw,54px) 0 12px}
+.sh h2{margin:0;font:600 clamp(24px,2.8vw,32px)/1.1 var(--sans);letter-spacing:-.01em;display:flex;align-items:center;gap:12px}
+.sh h2 i{width:10px;height:10px;border-radius:50%;background:var(--a,var(--sea))}
+.sh p{margin:0;font:400 14px var(--sans);color:var(--muted)}
+.sub{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px;font:700 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--a)}
+.sub span{color:var(--muted);font-weight:500;letter-spacing:.02em;text-transform:none}
+
+/* ---- moving today ---- */
+.moves{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:0 28px}
+.mv{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.mv .t{font:500 15px/1.35 var(--sans);color:var(--ink)}
+.mv .t small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:2px}
+.mv .t small b{color:var(--a);font-weight:700}
+.mv .f{text-align:right;white-space:nowrap;font:500 14px var(--sans);color:var(--muted)}
+.mv .f b{font:650 20px var(--sans);color:var(--ink);margin-left:4px}
+.mv .f em{display:block;font:600 12px var(--sans);font-style:normal}
+.mv:hover .t{text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+
+/* ---- filter ---- */
+.chips{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin-top:28px}
+.chips .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:10px}
+.chips .wrap::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font:600 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.chip i{width:7px;height:7px;border-radius:50%;background:var(--a,var(--sea))}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+
+/* ---- cards ---- */
+.area{scroll-margin-top:64px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:16px 18px 14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .meta{display:flex;justify-content:space-between;gap:8px;font:500 12px var(--sans);color:var(--muted)}
+.card .meta b{font-weight:700;color:var(--ink2)}
+.card h3{margin:0;font:600 16px/1.35 var(--sans);text-wrap:balance}
+.card h3 a{text-decoration:none}
+.card h3 a:hover{text-decoration:underline;text-decoration-color:var(--tide);text-underline-offset:3px}
+.lead{display:flex;align-items:baseline;gap:10px}
+.lead b{font:650 34px/1 var(--sans);letter-spacing:-.01em;color:var(--ink)}
+.lead span{font:500 14px/1.25 var(--sans);color:var(--ink2)}
+.rows{display:grid;gap:6px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 40px;gap:3px 10px;align-items:center;font:400 13px var(--sans);color:var(--ink2)}
+.row span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row b{text-align:right;font-weight:650;color:var(--ink)}
+.row u{grid-column:1/-1;height:4px;border-radius:99px;background:var(--line2);overflow:hidden;text-decoration:none}
+.row u em{display:block;height:100%;border-radius:99px;background:var(--tide);opacity:.5}
+.row.f u em{background:var(--sea);opacity:1}
+.tl{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding-top:4px}
+.tl::before{content:"";position:absolute;left:6px;right:6px;top:10px;height:2px;background:var(--line)}
+.tl div{position:relative;display:grid;justify-items:start;gap:3px;font:500 11.5px var(--sans);color:var(--muted)}
+.tl div::before{content:"";width:13px;height:13px;border-radius:50%;background:var(--card);box-shadow:inset 0 0 0 2px var(--tide);position:relative;z-index:1}
+.tl div.hot::before{background:var(--sea);box-shadow:none}
+.tl b{font:650 15px var(--sans);color:var(--ink)}
+.foot{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin-top:auto;padding-top:8px;border-top:1px solid var(--line2);font:500 12.5px var(--sans);color:var(--muted)}
+.d.up{color:var(--up)}.d.dn{color:var(--down)}
+.also a{text-decoration:none;color:var(--ink2);border-bottom:1px dotted var(--muted)}
+
+/* ---- the world ---- */
+.world{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr));gap:0 36px}
+.wr{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.wr .n{font:italic 400 28px/1 var(--display);color:var(--tide)}
+.wr .q{font:500 15px/1.35 var(--sans)}
+.wr .q small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:2px}
+.wr .p{text-align:right;font:650 20px/1 var(--sans)}
+.wr .p small{display:block;font:500 12px var(--sans);color:var(--muted);max-width:16ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+
+/* ---- how it picks ---- */
+details.how{margin-top:48px;border-top:1px solid var(--line);padding-top:16px}
+details.how summary{cursor:pointer;font:600 15px var(--sans);color:var(--ink);list-style:none;display:flex;align-items:center;gap:10px}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary::before{content:"+";width:24px;height:24px;border-radius:50%;background:var(--foam);color:var(--sea);display:grid;place-items:center;font-weight:700}
+details.how[open] summary::before{content:"–"}
+details.how ol{margin:14px 0 0;padding-left:20px;max-width:76ch;color:var(--ink2);font:400 14.5px/1.6 var(--sans)}
+details.how li{margin:0 0 8px}
+.note{margin:28px auto calc(40px + env(safe-area-inset-bottom,0px));font:400 13px/1.55 var(--sans);color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 30px}
+.note p{margin:0;max-width:72ch}
+.sk{height:120px;border-radius:18px;background:linear-gradient(100deg,var(--card) 40%,var(--line2) 50%,var(--card) 60%) 0 0/300% 100%;animation:sh 1.3s linear infinite}
+@keyframes sh{to{background-position:-150% 0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:600px){.mast p{grid-column:1/-1}.mark{grid-row:auto}.status .upd{margin-left:0}.lead b{font-size:30px}.wr{grid-template-columns:26px minmax(0,1fr) auto}}
+</style>
+</head>
+<body>
+<div class="wrap bar"><a href="/">← The House of 1400</a><button id="theme" type="button">Night</button></div>
+<header class="wrap">
+  <div class="mast">
+    <svg class="mark" viewBox="0 0 80 96" role="img" aria-label="A drop of water and its ripples">
+      <ellipse class="rip r3" cx="40" cy="80" rx="36" ry="10"/><ellipse class="rip r2" cx="40" cy="80" rx="26" ry="7"/><ellipse class="rip" cx="40" cy="80" rx="16" ry="4.4"/>
+      <path class="drop" d="M40 4C33 16 24 27 24 39a16 16 0 0 0 32 0c0-12-9-23-16-35z"/>
+    </svg>
+    <h1>Consensus</h1>
+    <p>Where the world's prediction markets settle: the things you follow, and whatever everyone is betting on.</p>
+  </div>
+  <div class="status" id="status"><span>Reading the markets…</span></div>
+</header>
+<main>
+  <section class="wrap" aria-labelledby="mh"><div class="sh"><h2 id="mh"><i aria-hidden="true"></i>Moving today</h2><p>Real-money markets, last 24 hours</p></div><div class="moves" id="moves"><div class="sk"></div><div class="sk"></div></div></section>
+  <nav class="chips" aria-label="Areas"><div class="wrap" id="chips"></div></nav>
+  <div id="areas"></div>
+  <section class="wrap" aria-labelledby="wh" id="worldsec" hidden><div class="sh"><h2 id="wh"><i aria-hidden="true"></i>What the world is betting on</h2><p>Busiest real-money markets in 24 hours</p></div><div class="world" id="world"></div></section>
+  <div class="wrap">
+    <details class="how"><summary>How this page picks</summary><ol>
+      <li><b>Read.</b> The four hundred busiest questions on Polymarket, every open event on Kalshi, and Manifold's busiest play-money questions. Refreshed every five minutes, and the page updates itself while it is open.</li>
+      <li><b>Clear the noise.</b> Questions that are all but settled (above 98.5% or below 1.5%), markets with under $2,000 traded in a day, side bets (tosses, sets, handicaps) and price ladders go. So do your standing exclusions: US domestic politics, the Fed, American football, baseball, hockey and college sport, weather, and post or view counts.</li>
+      <li><b>Sort.</b> Each question goes to the first of your subjects whose words it contains: Formula 1, football, cricket, tennis, NBA, AI and tech, money, India, world, Bollywood and film, series and streaming, celebrities. A single match only shows when it involves someone you follow, or it is a very big football match.</li>
+      <li><b>Merge.</b> The same question on two sites becomes one card, the busier site leading and the other shown beside it.</li>
+      <li><b>Rank.</b> Within a subject, anything about the Warriors, Real Madrid, Verstappen, Alcaraz, Djokovic or India comes first, then the rest by money traded today. Play money appears at most twice per subject. Moving today is the real-money questions in your subjects that moved four points or more in a day. Miscellaneous is the busiest of everything that fits nowhere else.</li>
+    </ol></details>
+    <div class="note"><p>A price is what traders pay for "yes", read as the chance they give it. Polymarket and Kalshi are real money; Manifold is play money and says so.</p><p><a href="/">Back to the paper</a></p></div>
+  </div>
+</main>
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const pc = v => `${Math.round(v)}%`;
+const money = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1)}m` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
+const tidy = t => String(t).replace(/\.\.\.\?$/, "…?").replace(/ \(([^()]*)\)$/, (m, x) => (/^(in |before |20\d\d)/i.test(x) ? "" : m));
+const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
+let D, AREA = {}, LABEL = {}, filter = store.get("cons-area") || "all";
+
+const favName = c => (c.L ? c.o[0].name : c.o.length === 1 ? "Yes" : c.o[0].name);
+const delta = c => {
+  if (c.p == null) return "";
+  const f = c.o[0].prob, d = f - c.p;
+  return Math.abs(d) < 1 ? "" : `<span class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pc(c.p)} → ${pc(f)} today</span>`;
+};
+const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)}${x.play ? " (play money)" : ""}">${esc(x.source)} ${pc(x.prob)}</a>`).join(" · ")}</span>` : "";
+
+function card(c) {
+  const f = c.o[0];
+  let body = "";
+  if (c.L && c.o.length > 1) {
+    const rungs = c.o.slice(1).concat([c.o[0]]);
+    body = `<div class="tl">${rungs.map((o, i) => `<div class="${i === rungs.length - 1 ? "hot" : ""}"><b>${pc(o.prob)}</b>${esc(o.name.replace(/^By /, ""))}</div>`).join("")}</div>`;
+  } else if (c.o.length > 1 && c.o[0].name !== "Yes") {
+    body = `<div class="rows">${c.o.slice(0, 4).map((o, i) => `<div class="row ${i === 0 ? "f" : ""}"><span>${esc(o.name)}</span><b>${pc(o.prob)}</b><u><em style="width:${Math.max(1, o.prob)}%"></em></u></div>`).join("")}</div>`;
+  }
+  const ft = [delta(c), also(c)].filter(Boolean).join("");
+  return `<article class="card"><div class="meta"><span><b>${esc(c.s)}</b>${c.pl ? " · play money" : ""}</span><span>${c.v ? money(c.v) + " today" : ""}</span></div>
+<h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(tidy(c.t))}</a></h3>
+<div class="lead"><b>${pc(f.prob)}</b><span>${esc(favName(c))}</span></div>${body}${ft ? `<div class="foot">${ft}</div>` : ""}</article>`;
+}
+
+function paint() {
+  $("#areas").innerHTML = (D.areas || []).map(a => {
+    const tops = a.id === "misc" ? (D.misc?.length ? [{ id: "misc", label: "Trending anyway", items: D.misc }] : []) : D.topics.filter(t => t.area === a.id);
+    if (!tops.length || (filter !== "all" && filter !== a.id)) return "";
+    return `<section class="wrap area" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}"><i aria-hidden="true"></i>${esc(a.label)}</h2>${a.note ? `<p>${esc(a.note)}</p>` : ""}</div>${tops.map(t => `${a.id === "misc" ? "" : `<div class="sub">${esc(t.label)}<span>${t.items.length} market${t.items.length > 1 ? "s" : ""}</span></div>`}<div class="grid">${t.items.map(card).join("")}</div>`).join("")}</section>`;
+  }).join("");
+  $("#worldsec").hidden = filter !== "all" || !D.world?.length;
+  document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.a === filter));
+}
+
+function render(d) {
+  D = d;
+  for (const t of d.topics) { AREA[t.id] = t.area; LABEL[t.id] = t.label; }
+  const when = new Date(d.generated_at).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" });
+  $("#status").innerHTML = d.sources.map(s => `<span class="src ${s.ok ? "" : "off"}" title="${s.ok ? s.count + " markets read" : "Unavailable just now"}"><i></i>${esc(s.name)} · ${esc(s.kind)}</span>`).join("") + `<span class="upd"><i aria-hidden="true"></i>Updated ${when} IST</span>`;
+  $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 8).map(c => { const f = c.o[0], dd = f.prob - c.p; return `<a class="mv" data-a="${AREA[c.k] || "misc"}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="t">${esc(tidy(c.t))}<small><b>${esc(LABEL[c.k] || "")}</b> · ${esc(favName(c))} · ${esc(c.s)}</small></span><span class="f">${pc(c.p)} →<b>${pc(f.prob)}</b><em class="d ${dd > 0 ? "up" : "dn"}">${dd > 0 ? "▲" : "▼"} ${Math.abs(Math.round(dd))} points</em></span></a>`; }).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
+  const present = (d.areas || []).filter(a => (a.id === "misc" ? d.misc?.length : d.topics.some(t => t.area === a.id)));
+  if (filter !== "all" && !present.some(a => a.id === filter)) filter = "all";
+  $("#chips").innerHTML = `<button class="chip" data-a="all" aria-pressed="false">Everything</button>` + present.map(a => `<button class="chip" data-a="${a.id}" aria-pressed="false"><i aria-hidden="true"></i>${esc(a.label)}</button>`).join("");
+  $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
+  paint();
+}
+
+$("#chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; filter = b.dataset.a; store.set("cons-area", filter); paint(); });
+
+const root = document.documentElement, tb = $("#theme");
+const dark = () => (root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches);
+const lbl = () => { tb.textContent = dark() ? "Day" : "Night"; };
+tb.addEventListener("click", () => { root.dataset.theme = dark() ? "light" : "dark"; store.set("cons-theme", root.dataset.theme); lbl(); });
+lbl();
+
+// Live while open: the edge refreshes every five minutes, so ask again every five minutes while the tab is visible.
+const load = () => fetch("/api/consensus").then(r => r.json()).then(d => { if (d?.generated_at && (!D || d.generated_at !== D.generated_at)) render(d); }).catch(() => {});
+(window.P0 || fetch("/api/consensus").then(r => r.json())).then(render).catch(() => { $("#status").innerHTML = "<span>The markets could not be reached just now. The page will try again shortly.</span>"; });
+setInterval(() => { if (!document.hidden) load(); }, 5 * 60 * 1000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden && D && Date.now() - Date.parse(D.generated_at) > 5 * 60 * 1000) load(); });
+})();
+</script>
+</body>
+</html>
