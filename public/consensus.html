@@ -42,7 +42,7 @@ a{color:inherit}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--sea);outline-offset:3px;border-radius:8px}
 .wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,4vw,44px)}
-@media (min-width:2100px){.wrap{max-width:1500px}body{font-size:18px}}
+
 [hidden]{display:none!important}
 
 /* ---- masthead ---- */
@@ -70,10 +70,17 @@ button{font:inherit;color:inherit}
 /* ---- headings ---- */
 .sh{display:flex;align-items:baseline;justify-content:space-between;gap:10px 20px;flex-wrap:wrap;margin:clamp(34px,5vw,54px) 0 12px}
 .sh h2{margin:0;font:600 clamp(24px,2.8vw,32px)/1.1 var(--sans);letter-spacing:-.01em;display:flex;align-items:center;gap:12px}
-.sh h2 i{width:10px;height:10px;border-radius:50%;background:var(--a,var(--sea))}
+.sh h2 .ic{width:28px;height:28px;color:var(--a,var(--sea));flex:none}
 .sh p{margin:0;font:400 14px var(--sans);color:var(--muted)}
 .sub{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px;font:700 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--a)}
 .sub span{color:var(--muted);font-weight:500;letter-spacing:.02em;text-transform:none}
+.sub .ic{width:16px;height:16px;align-self:center}
+.ic{fill:currentColor;display:inline-block;vertical-align:-.15em}
+.bar .btns{display:flex;gap:8px}
+.bar button,.bar a.back{display:inline-flex;align-items:center;gap:6px}
+.bar .ic{width:16px;height:16px}
+#theme{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#theme .ic{color:#f0c860}
 
 /* ---- moving today ---- */
 .moves{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:0 28px}
@@ -91,7 +98,8 @@ button{font:inherit;color:inherit}
 .chips .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:10px}
 .chips .wrap::-webkit-scrollbar{display:none}
 .chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font:600 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
-.chip i{width:7px;height:7px;border-radius:50%;background:var(--a,var(--sea))}
+.chip .ic{width:17px;height:17px;color:var(--a,var(--sea))}
+.chip[aria-pressed="true"] .ic{color:inherit}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 
 /* ---- cards ---- */
@@ -145,11 +153,32 @@ details.how li{margin:0 0 8px}
 .sk{height:120px;border-radius:18px;background:linear-gradient(100deg,var(--card) 40%,var(--line2) 50%,var(--card) 60%) 0 0/300% 100%;animation:sh 1.3s linear infinite}
 @keyframes sh{to{background-position:-150% 0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ---- poster: the whole page on one screen, for a monitor or a spare display ---- */
+.pv{position:fixed;inset:0;z-index:20;background:var(--bg);display:grid;place-items:center;padding:clamp(14px,2.2vw,30px);overflow:hidden}
+.pv .sheet{width:min(1500px,100%);display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:14px 22px}
+.pv .ph{grid-column:1/-1;display:flex;align-items:center;gap:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.pv .ph .mark{width:46px;grid-row:auto}
+.pv .ph h1{margin:0;font:italic 400 52px/1 var(--display)}
+.pv .ph .clock{margin-left:auto;text-align:right;font:500 13px var(--sans);color:var(--muted)}
+.pv .ph .clock b{display:block;font:650 34px/1 var(--sans);color:var(--ink)}
+.pv .col{display:flex;flex-direction:column;gap:6px;min-width:0}
+.pv h3{margin:6px 0 2px;display:flex;align-items:center;gap:8px;font:700 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--a,var(--sea))}
+.pv h3 .ic{width:18px;height:18px}
+.pv .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.pv .it span{font:500 14px/1.3 var(--sans);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pv .it small{grid-column:1;font:500 12px var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pv .it b{grid-row:span 2;grid-column:2;text-align:right;font:650 20px/1 var(--sans)}
+.pv .it b em{display:block;font:600 11.5px var(--sans);font-style:normal;margin-top:3px}
+.pv .x{position:fixed;top:12px;right:12px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font:600 13px var(--sans);cursor:pointer}
+.pv .grp{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+@media (max-width:900px){.pv{place-items:start center;overflow:auto}.pv .sheet{grid-template-columns:1fr}.pv .grp{grid-template-columns:1fr}}
+/* ---- big monitors: scale up as a whole, like a browser zoom (see fitMonitor) ---- */
+@media (min-width:2100px){.wrap{max-width:1880px}body{font-size:16px}}
 @media (max-width:600px){.mast p{grid-column:1/-1}.mark{grid-row:auto}.status .upd{margin-left:0}.lead b{font-size:30px}.wr{grid-template-columns:26px minmax(0,1fr) auto}}
 </style>
 </head>
 <body>
-<div class="wrap bar"><a href="/">← The House of 1400</a><button id="theme" type="button">Night</button></div>
+<div class="wrap bar"><a class="back" href="/" id="back">← The House of 1400</a><span class="btns"><button id="posterBtn" type="button">Poster</button><button id="theme" type="button">Night</button></span></div>
 <header class="wrap">
   <div class="mast">
     <svg class="mark" viewBox="0 0 80 96" role="img" aria-label="A drop of water and its ripples">
@@ -162,10 +191,10 @@ details.how li{margin:0 0 8px}
   <div class="status" id="status"><span>Reading the markets…</span></div>
 </header>
 <main>
-  <section class="wrap" aria-labelledby="mh"><div class="sh"><h2 id="mh"><i aria-hidden="true"></i>Moving today</h2><p>Real-money markets, last 24 hours</p></div><div class="moves" id="moves"><div class="sk"></div><div class="sk"></div></div></section>
+  <section class="wrap" aria-labelledby="mh"><div class="sh"><h2 id="mh"><span class="ico" data-i="a:moves"></span>Moving today</h2><p>Real-money markets, last 24 hours</p></div><div class="moves" id="moves"><div class="sk"></div><div class="sk"></div></div></section>
   <nav class="chips" aria-label="Areas"><div class="wrap" id="chips"></div></nav>
   <div id="areas"></div>
-  <section class="wrap" aria-labelledby="wh" id="worldsec" hidden><div class="sh"><h2 id="wh"><i aria-hidden="true"></i>What the world is betting on</h2><p>Busiest real-money markets in 24 hours</p></div><div class="world" id="world"></div></section>
+  <section class="wrap" aria-labelledby="wh" id="worldsec" hidden><div class="sh"><h2 id="wh"><span class="ico" data-i="a:globe"></span>What the world is betting on</h2><p>Busiest real-money markets in 24 hours</p></div><div class="world" id="world"></div></section>
   <div class="wrap">
     <details class="how"><summary>How this page picks</summary><ol>
       <li><b>Read.</b> The four hundred busiest questions on Polymarket, every open event on Kalshi, and Manifold's busiest play-money questions. Refreshed every five minutes, and the page updates itself while it is open.</li>
@@ -177,9 +206,18 @@ details.how li{margin:0 0 8px}
     <div class="note"><p>A price is what traders pay for "yes", read as the chance they give it. Polymarket and Kalshi are real money; Manifold is play money and says so.</p><p><a href="/">Back to the paper</a></p></div>
   </div>
 </main>
+<div class="pv" id="pv" hidden></div>
 <script>
 (() => {
+// ICONS:BEGIN (generated by scripts/icons.mjs from Iconify: Material Symbols, Simple Icons; do not edit by hand)
+const ICONS = {};
+{ const B = [["0 0 24 24","<path fill=\"currentColor\" d=\"m21 9-6-6 .4-.4q.5-.6 1.4-.6t1.4.6l3.2 3.2q.6.6.6 1.4t-.6 1.4zM8.7 21.4q-.6.6-1.5.6t-1.4-.6l-3.2-3.2q-.6-.6-.6-1.4t.6-1.5L3 15l6 6zm3.6-.7q-.3.3-.7.3t-.7-.3l-7.6-7.6q-.3-.3-.3-.7t.3-.7l1.4-1.4q.3-.3.7-.3t.7.3l1.6 1.6L12 7.7l-1.6-1.6q-.3-.3-.3-.7t.3-.7l1.4-1.4q.3-.3.7-.3t.8.3l7.5 7.6q.3.2.3.7t-.3.7l-1.4 1.4q-.3.3-.7.3t-.7-.3l-1.6-1.6-4.1 4.2 1.5 1.5q.3.3.3.8t-.3.7z\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M9 14v-4q0-.4.3-.7T10 9h4q.4 0 .7.3t.3.7v4q0 .4-.3.7t-.7.3h-4q-.4 0-.7-.3T9 14m0 6v-1H7q-.8 0-1.4-.6T5 17v-2H4q-.4 0-.7-.3T3 14t.3-.7.7-.3h1v-2H4q-.4 0-.7-.3T3 10t.3-.7T4 9h1V7q0-.8.6-1.4T7 5h2V4q0-.4.3-.7T10 3t.7.3.3.7v1h2V4q0-.4.3-.7T14 3t.7.3.3.7v1h2q.8 0 1.4.6T19 7v2h1q.4 0 .7.3t.3.7-.3.7-.7.3h-1v2h1q.4 0 .7.3t.3.7-.3.7-.7.3h-1v2q0 .8-.6 1.4T17 19h-2v1q0 .4-.3.7t-.7.3-.7-.3-.3-.7v-1h-2v1q0 .4-.3.7t-.7.3-.7-.3T9 20m8-3V7H7v10z\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M3 20q-.8 0-1.4-.6T1 18V8q0-.4.3-.7T2 7t.7.3.3.7v10h16q.4 0 .7.3t.3.7-.3.7-.7.3zm4-4q-.8 0-1.4-.6T5 14V6q0-.8.6-1.4T7 4h14q.8 0 1.4.6T23 6v8q0 .8-.6 1.4T21 16zm2-2q0-.8-.6-1.4T7 12v2zm10 0h2v-2q-.8 0-1.4.6T19 14m-5-1q1.3 0 2.1-.9T17 10t-.9-2.1T14 7t-2.1.9T11 10t.9 2.1 2.1.9M7 8q.8 0 1.4-.6T9 6H7zm14 0V6h-2q0 .8.6 1.4T21 8\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M11.8 20q-.8 0-1.4-.6T9.8 18t.6-1.4 1.4-.6l.6-.6.5-.3.5-.1q.6 0 1 .4t.4 1v.5q0 .5.3.8t.9.3l.6-.2q.3-.2.4-.6l.4-.8q.2-.6.7-1t1.1-.4l.5-1.4q.2-.7.1-1.6 0-2.2-1-4t-3-3v1q0 .8-.6 1.4t-1.4.6h-1v2q0 .4-.3.7t-.7.3h-1v1.7q0 .6-.4 1t-.9.3l-.6-.1-.5-.5L6.8 11h-1v1q0 .8-.5 1.3T4 14q.7 2.6 2.8 4.3t5 1.7m2-6q-.4 0-.7-.3t-.3-.7.3-.7.7-.3h1q.4 0 .7.3t.3.7-.3.7-.7.3zm2.3-3q-.5 0-.8-.4t-.1-.8l.4-1.2q0-.2.3-.4t.6-.2q.5 0 .8.4t.1.8l-.4 1.2q0 .2-.3.4t-.6.2m-4.3 11q-2 0-3.9-.8t-3.2-2.1-2.1-3.2-.8-3.9.8-3.9 2.1-3.2T8 2.8t3.9-.8 3.9.8T19 4.9t2 3.2.8 3.9-.8 3.9-2.1 3.2-3.2 2.1-3.9.8\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M6 19v1q0 .4-.3.7T5 21t-.7-.3T4 20V4q0-.4.3-.7T5 3t.7.3.3.7v1h2V4q0-.4.3-.7T9 3h6q.4 0 .7.3t.3.7v1h2V4q0-.4.3-.7T19 3t.7.3.3.7v16q0 .4-.3.7t-.7.3-.7-.3-.3-.7v-1h-2v1q0 .4-.3.7t-.7.3H9q-.4 0-.7-.3T8 20v-1zm0-2h2v-2H6zm0-4h2v-2H6zm0-4h2V7H6zm10 8h2v-2h-2zm0-4h2v-2h-2zm0-4h2V7h-2z\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M19 8.3h-.3q-.2 0-.1-.3l-.9-1.7-1.7-.8-.2-.2-.1-.3v-.3q0-.2.3-.2l1.8-.8.7-1.7.2-.2.3-.1h.3q.2 0 .1.3l.9 1.8 1.7.8.2.1.1.3v.3q0 .2-.3.2l-1.7.8-.9 1.7-.1.2zm0 14h-.3q-.2 0-.1-.3l-.9-1.7-1.7-.9-.2-.1-.1-.3v-.3q0-.2.3-.1l1.8-.9.7-1.7.2-.2.3-.1h.3q.2 0 .2.3l.8 1.7 1.7.9.2.1.1.3v.3q0 .2-.3.1l-1.7.9-.9 1.7-.1.2zM9 18.6q-.3 0-.5-.2T8 18l-1.6-3.5L3 12.9q-.3-.1-.4-.4t-.2-.5.2-.5.4-.4l3.5-1.6L8.1 6q.1-.3.4-.4t.5-.2.5.2.4.4l1.6 3.5 3.5 1.6q.3.1.4.4t.2.5-.2.5-.4.4l-3.5 1.6L9.9 18q-.1.3-.4.4t-.5.2\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M3.3 20.7Q3 20.4 3 20v-1q0-.4.3-.7T4 18t.7.3.3.7v1q0 .4-.3.7T4 21t-.7-.3m4 0Q7 20.4 7 20v-5.5q0-.4.3-.7t.7-.3.7.3.3.7V20q0 .4-.3.7T8 21t-.7-.3m4 0q-.3-.3-.3-.7v-3.5q0-.4.3-.7t.7-.3.7.3.3.7V20q0 .4-.3.7t-.7.3-.7-.3m4 0q-.3-.3-.3-.7v-5q0-.4.3-.7t.7-.3.7.3.3.7v5q0 .4-.3.7t-.7.3-.7-.3m4 0q-.3-.3-.3-.7v-9q0-.4.3-.7t.7-.3.7.3.3.7v9q0 .4-.3.7t-.7.3-.7-.3M14 12l-.8-.2-.6-.4L10 8.8l-5.3 5.3q-.3.3-.7.3t-.7-.3-.3-.7.3-.7l5.3-5.3.6-.4.8-.2q.5 0 .8.2t.6.4L14 10l5.3-5.3q.3-.3.7-.3t.7.3.3.7-.3.7l-5.3 5.3q-.2.3-.6.4t-.8.2\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M8.1 21.2q-1.8-.8-3.2-2.1t-2.1-3.2T2 12t.8-3.9 2.1-3.2 3.2-2.1T12 2t3.9.8 3.2 2.1 2.1 3.2.8 3.9-.8 3.9-2.1 3.2-3.2 2.1-3.9.8-3.9-.8M11 20v-2q-.8 0-1.4-.6T9 16v-1l-4.8-4.8-.1.9-.1.9q0 3 2 5.3t5 2.6m6.9-2.5q1-1.1 1.6-2.5T20 12q0-2.4-1.4-4.5T15 4.6V5q0 .8-.6 1.4T13 7h-2v2q0 .4-.3.7t-.7.3H8v2h6q.4 0 .7.3t.3.7v3h1q.7 0 1.2.4t.7 1\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M9 6h2V4H9zm4 0V4h2v2zm-4 8v-2h2v2zm8-4V8h2v2zm0 4v-2h2v2zm-4 0v-2h2v2zm4-8V4h2v2zm-6 2V6h2v2zM5.3 19.7Q5 19.4 5 19V5q0-.4.3-.7T6 4t.7.3.3.7v1h2v2H7v2h2v2H7v7q0 .4-.3.7T6 20t-.7-.3M15 12v-2h2v2zm-4 0v-2h2v2zm-2-2V8h2v2zm4 0V8h2v2zm2-2V6h2v2z\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M12 22q-2 0-3.9-.8t-3.2-2.1-2.1-3.2T2 12t.8-3.9 2.1-3.2 3.2-2.1T12 2t3.9.8 3.2 2.1 2.1 3.2.8 3.9-.8 3.9-2.1 3.2-3.2 2.1-3.9.8m5-12.5 1.4-.4.4-1.4q-.9-1.2-2-2t-2.5-1.4l-1.3 1v1.4zm-10 0 4-2.8V5.3l-1.3-1q-1.4.5-2.5 1.3t-2 2.1l.4 1.4zm-1 7.7 1.1-.1.8-1.4-1.5-4.3-1.4-.5-1 .8q0 1.6.5 3T6 17.1m7.3 2.7 1.2-.3.7-1.5-.6-1.1H9.5L8.8 18l.7 1.5 1.2.3 1.3.1zM9.7 15h4.6l1.3-4L12 8.4 8.4 11zm8.4 2.2q1-1.2 1.4-2.6t.5-3l-1-.6-1.4.4-1.4 4.4.7 1.3z\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M15 14.2 12.2 17q-.3.3-.7.3t-.7-.3L2.3 8.5Q2 8.2 2 7.8t.3-.6l2.8-2.8q.3-.3.7-.3t.7.3l8.5 8.4q.3.3.3.7t-.3.7m2.9 7.1-3.5-3.6 1.3-1.4 3.6 3.6q.3.3.3.7t-.3.7-.7.3-.7-.3M16 8q-1-1-1-2.5T16 3t2.5-1T21 3t1 2.5T21 8t-2.5 1T16 8\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M13 14.6q-2.4 0-3.5.2t-2 1.1l-3.4 3.4q-.2.3-.7.3t-.7-.3-.3-.7.3-.7l3.4-3.4q.8-.8 1-2T7.6 9q0-1.4.6-2.8T10 3.6q2.2-2.3 5-2.6t4.5 1.5q1.8 1.8 1.5 4.6t-2.5 5q-1.3 1.2-2.7 1.8t-2.8.7m-2.7-3q1.2 1.2 3.2.9t3.6-1.9T19 7t-1-3q-1.1-1.4-3-1t-3.6 2-2 3.5.9 3.1m4.9 10.2Q14 20.6 14 19t1.2-2.8T18 15t2.8 1.2T22 19t-1.2 2.8T18 23t-2.8-1.2\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M2 11q.2-1.3.6-2.4t1-2.2q1 1 1.5 2.1T6 11zm16.1 0q.2-1.3.8-2.5t1.4-2q.7 1 1.1 2T22 11zM3.7 17.6q-.7-1-1.1-2.2T2 13h3.8q-.2 1.3-.8 2.5t-1.4 2m16.6 0q-.9-.8-1.4-2T18 13h4q-.2 1.3-.6 2.4t-1 2.2M7.8 11q-.2-1.8-1-3.3T5 4.9q1.2-1.2 2.8-2t3.3-.8V11zm5.1 0V2q1.8.3 3.3 1T19 4.9q-1.3 1.2-2 2.7T16 11zm-2 11q-1.8-.2-3.3-1t-2.8-2q1.3-1.1 2-2.6T8 13h3zm2 0v-9h3q.3 1.8 1 3.4t2 2.7q-1.1 1.2-2.7 2T13 22\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M2.7 17.6q-.3-.3-.3-.7t.3-.7L8 11q.6-.6 1.4-.6t1.4.6l2.6 2.6 5.2-5.2H17q-.4 0-.7-.3t-.3-.7.3-.7.7-.3h4q.4 0 .7.3t.3.7v4q0 .5-.3.7t-.7.3-.7-.3-.3-.7V9.7L14.8 15q-.6.6-1.4.6T12 15l-2.6-2.6-5.3 5.3q-.3.3-.7.3t-.7-.3\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M7 14v6q0 .4-.3.7T6 21t-.7-.3T5 20V5q0-.4.3-.7T6 4h7.2l.6.2q.3.2.4.6l.2 1.2H19q.4 0 .7.3t.3.7v8q0 .4-.3.7t-.7.3h-5.2l-.6-.2q-.3-.2-.3-.6l-.3-1.2z\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"m4 4 1.6 3.3.5.5q.3.2.7.2.8 0 1.2-.6T8 6L7 4h2l1.6 3.3.5.5q.3.2.7.2.8 0 1.2-.6T13 6l-1-2h2l1.6 3.3.5.5q.3.2.7.2.8 0 1.2-.6T18 6l-1-2h3q.8 0 1.4.6T22 6v12q0 .8-.6 1.4T20 20H4q-.8 0-1.4-.6T2 18V6q0-.8.6-1.4T4 4\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"m11 14.5 4.2-2.6q.5-.4.5-.9t-.5-.8l-4.1-2.7q-.5-.3-1 0t-.6.8v5.4q0 .6.5.8t1 0M4 19q-.8 0-1.4-.6T2 17V5q0-.8.6-1.4T4 3h16q.8 0 1.4.6T22 5v12q0 .8-.6 1.4T20 19h-4v1q0 .4-.3.7t-.7.3H9q-.4 0-.7-.3T8 20v-1z\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"m12 17.3-4.1 2.5-.6.1-.6-.2q-.3-.2-.3-.4t0-.6l1-4.7-3.6-3.2q-.3-.2-.3-.5t0-.6.3-.4.6-.2l4.8-.5 1.9-4.4q.1-.3.4-.5t.5-.1.5.1.4.5l1.9 4.4 4.9.5q.3 0 .5.2t.3.4 0 .6-.3.5L16.6 14l1 4.7v.6l-.3.4-.6.2q-.3.1-.5-.1z\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M12 21q-3.8 0-6.4-2.6T3 12q0-3.4 2.3-6T11 3l.6.1q.3.1.4.4t.1.5-.1.6q-.5.7-.7 1.4t-.2 1.5q0 2.3 1.6 3.8t3.8 1.6q.8 0 1.5-.2t1.4-.6l.6-.2.5.1.4.4q.2.2 0 .6-.3 3.5-2.9 5.7T12 21\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M8.5 15.5Q7 14.1 7 12t1.5-3.5T12 7t3.5 1.5T17 12t-1.5 3.5T12 17t-3.5-1.5M2 13q-.4 0-.7-.3T1 12t.3-.7.7-.3h2q.4 0 .7.3t.3.7-.3.7-.7.3zm18 0q-.4 0-.7-.3T19 12t.3-.7.7-.3h2q.4 0 .7.3t.3.7-.3.7-.7.3zm-8.7-8.3Q11 4.4 11 4V2q0-.4.3-.7T12 1t.7.3.3.7v2q0 .4-.3.7T12 5t-.7-.3m0 18q-.3-.3-.3-.7v-2q0-.4.3-.7t.7-.3.7.3.3.7v2q0 .4-.3.7t-.7.3-.7-.3M5.7 7.1 4.6 6q-.3-.3-.3-.7t.3-.7.7-.3.7.3l1 1q.3.4.3.8t-.2.7-.7.2-.8-.2M18 19.4l-1-1q-.3-.3-.3-.8t.3-.6.6-.3.7.3l1.1 1q.3.3.3.7t-.3.7-.7.3-.7-.3M17 7.1q-.4-.3-.3-.7t.2-.7L18 4.6q.3-.3.7-.3t.7.3.3.7-.3.7l-1 1q-.3.3-.7.3t-.7-.2M4.6 19.4q-.3-.3-.3-.7t.3-.7l1-1q.3-.3.8-.3t.6.3.3.6-.3.7l-1 1.1q-.3.3-.7.3t-.7-.3\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M4 22q-.8 0-1.4-.6T2 20V6q0-.8.6-1.4T4 4h4L11.3.7q.3-.3.7-.3t.7.3L16 4h4q.8 0 1.4.6T22 6v14q0 .8-.6 1.4T20 22zm0-2h16V6H4zm2-3V9q0-.4.3-.7T7 8h10q.4 0 .7.3t.3.7v8q0 .4-.3.7t-.7.3H7q-.4 0-.7-.3T6 17\"/>"],["0 0 24 24","<path fill=\"currentColor\" d=\"M4 21q-.8 0-1.4-.6T2 19V5q0-.8.6-1.4T4 3h16q.8 0 1.4.6T22 5v14q0 .8-.6 1.4T20 21zm3-4h10q.4 0 .7-.3t.3-.7-.3-.7-.7-.3H7q-.4 0-.7.3T6 16t.3.7.7.3m0-4h2q.4 0 .7-.3t.3-.7V8q0-.4-.3-.7T9 7H7q-.4 0-.7.3T6 8v4q0 .4.3.7t.7.3m6 0h4q.4 0 .7-.3t.3-.7-.3-.7-.7-.3h-4q-.4 0-.7.3t-.3.7.3.7.7.3m0-4h4q.4 0 .7-.3T18 8t-.3-.7T17 7h-4q-.4 0-.7.3T12 8t.3.7.7.3\"/>"]], R = {"a:sport":0,"a:tech":1,"t:ai":1,"a:money":2,"a:world":3,"a:screen":4,"a:misc":5,"a:moves":6,"a:globe":7,"t:world":7,"t:f1":8,"t:football":9,"t:cricket":10,"t:tennis":11,"t:nba":12,"t:money":13,"t:india":14,"t:film":15,"t:ott":16,"t:celebs":17,"u:moon":18,"u:sun":19,"u:poster":20,"u:back":21}; for (const k in R) ICONS[k] = B[R[k]]; }
+// ICONS:END
 const $ = s => document.querySelector(s);
+const icon = k => { const i = ICONS[k]; return i ? `<svg class="ic" viewBox="${i[0]}" aria-hidden="true">${i[1]}</svg>` : ""; };
+document.querySelectorAll(".ico[data-i]").forEach(el => { el.outerHTML = icon(el.dataset.i); });
+$("#back").innerHTML = `${icon("u:back")}The House of 1400`;
+$("#posterBtn").innerHTML = `${icon("u:poster")}Poster`;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const pc = v => `${Math.round(v)}%`;
 const money = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1)}m` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
@@ -214,7 +252,7 @@ function paint() {
   $("#areas").innerHTML = (D.areas || []).map(a => {
     const tops = a.id === "misc" ? (D.misc?.length ? [{ id: "misc", label: "Trending anyway", items: D.misc }] : []) : D.topics.filter(t => t.area === a.id);
     if (!tops.length || (filter !== "all" && filter !== a.id)) return "";
-    return `<section class="wrap area" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}"><i aria-hidden="true"></i>${esc(a.label)}</h2>${a.note ? `<p>${esc(a.note)}</p>` : ""}</div>${tops.map(t => `${a.id === "misc" ? "" : `<div class="sub">${esc(t.label)}<span>${t.items.length} market${t.items.length > 1 ? "s" : ""}</span></div>`}<div class="grid">${t.items.map(card).join("")}</div>`).join("")}</section>`;
+    return `<section class="wrap area" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}">${icon("a:" + a.id)}${esc(a.label)}</h2>${a.note ? `<p>${esc(a.note)}</p>` : ""}</div>${tops.map(t => `${a.id === "misc" ? "" : `<div class="sub">${icon("t:" + t.id)}${esc(t.label)}<span>${t.items.length} market${t.items.length > 1 ? "s" : ""}</span></div>`}<div class="grid">${t.items.map(card).join("")}</div>`).join("")}</section>`;
   }).join("");
   $("#worldsec").hidden = filter !== "all" || !D.world?.length;
   document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.a === filter));
@@ -228,16 +266,17 @@ function render(d) {
   $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 8).map(c => { const f = c.o[0], dd = f.prob - c.p; return `<a class="mv" data-a="${AREA[c.k] || "misc"}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="t">${esc(tidy(c.t))}<small><b>${esc(LABEL[c.k] || "")}</b> · ${esc(favName(c))} · ${esc(c.s)}</small></span><span class="f">${pc(c.p)} →<b>${pc(f.prob)}</b><em class="d ${dd > 0 ? "up" : "dn"}">${dd > 0 ? "▲" : "▼"} ${Math.abs(Math.round(dd))} points</em></span></a>`; }).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
   const present = (d.areas || []).filter(a => (a.id === "misc" ? d.misc?.length : d.topics.some(t => t.area === a.id)));
   if (filter !== "all" && !present.some(a => a.id === filter)) filter = "all";
-  $("#chips").innerHTML = `<button class="chip" data-a="all" aria-pressed="false">Everything</button>` + present.map(a => `<button class="chip" data-a="${a.id}" aria-pressed="false"><i aria-hidden="true"></i>${esc(a.label)}</button>`).join("");
+  $("#chips").innerHTML = `<button class="chip" data-a="all" aria-pressed="false">Everything</button>` + present.map(a => `<button class="chip" data-a="${a.id}" aria-pressed="false">${icon("a:" + a.id)}${esc(a.label)}</button>`).join("");
   $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
   paint();
+  if (posterOn) showPoster(true);
 }
 
 $("#chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; filter = b.dataset.a; store.set("cons-area", filter); paint(); });
 
 const root = document.documentElement, tb = $("#theme");
 const dark = () => (root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches);
-const lbl = () => { tb.textContent = dark() ? "Day" : "Night"; };
+const lbl = () => { tb.innerHTML = dark() ? `${icon("u:sun")}Day` : `${icon("u:moon")}Night`; };
 tb.addEventListener("click", () => { root.dataset.theme = dark() ? "light" : "dark"; store.set("cons-theme", root.dataset.theme); lbl(); });
 lbl();
 
@@ -246,6 +285,45 @@ const load = () => fetch("/api/consensus").then(r => r.json()).then(d => { if (d
 (window.P0 || fetch("/api/consensus").then(r => r.json())).then(render).catch(() => { $("#status").innerHTML = "<span>The markets could not be reached just now. The page will try again shortly.</span>"; });
 setInterval(() => { if (!document.hidden) load(); }, 5 * 60 * 1000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden && D && Date.now() - Date.parse(D.generated_at) > 5 * 60 * 1000) load(); });
+
+// ---- poster: everything important on one screen (/consensus/poster, or the Poster button). Zooms down until it fits.
+function posterHTML() {
+  const when = new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" });
+  const it = (c, extra = "") => { const f = c.o[0], d = c.p != null ? f.prob - c.p : 0; return `<div class="it"><span>${esc(tidy(c.t))}</span><small>${esc(favName(c))}${extra}</small><b>${pc(f.prob)}${Math.abs(d) >= 1 ? `<em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${Math.abs(Math.round(d))}</em>` : ""}</b></div>`; };
+  const areas = (D.areas || []).filter(a => a.id !== "misc").map(a => {
+    const items = D.topics.filter(t => t.area === a.id).flatMap(t => t.items.slice(0, a.id === "sport" ? 1 : 2).map(c => ({ c, t })));
+    return items.length ? `<div data-a="${a.id}"><h3>${icon("a:" + a.id)}${esc(a.label)}</h3>${items.slice(0, 5).map(x => it(x.c, ` · ${x.t.label}`)).join("")}</div>` : "";
+  }).join("");
+  return `<button class="x" id="pvx" type="button">Close</button><div class="sheet">
+<div class="ph"><svg class="mark" viewBox="0 0 80 96" aria-hidden="true"><ellipse class="rip r3" cx="40" cy="80" rx="36" ry="10"/><ellipse class="rip r2" cx="40" cy="80" rx="26" ry="7"/><ellipse class="rip" cx="40" cy="80" rx="16" ry="4.4"/><path class="drop" d="M40 4C33 16 24 27 24 39a16 16 0 0 0 32 0c0-12-9-23-16-35z"/></svg><h1>Consensus</h1><div class="clock"><b>${when}</b>Markets updated ${new Date(D.generated_at).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" })} IST</div></div>
+<div class="col"><h3>${icon("a:moves")}Moving today</h3>${D.movers.slice(0, 7).map(c => it(c, ` · ${c.s}`)).join("")}</div>
+<div class="col"><div class="grp">${areas}</div></div>
+<div class="col"><h3>${icon("a:globe")}The world is betting on</h3>${(D.world || []).slice(0, 6).map(c => it(c, ` · ${c.s}`)).join("")}${D.misc?.length ? `<div data-a="misc"><h3>${icon("a:misc")}Trending anyway</h3>${D.misc.slice(0, 3).map(c => it(c)).join("")}</div>` : ""}</div></div>`;
+}
+function fitPoster() {
+  const P = $("#pv"), c = P.querySelector(".sheet"); if (P.hidden || !c) return;
+  c.style.zoom = ""; if (innerWidth <= 900) return;
+  let z = 1;
+  for (let i = 0; i < 4; i++) { const h = c.getBoundingClientRect().height, room = P.clientHeight - 40; if (h <= room) break; z = Math.max(0.45, z * room / h); c.style.zoom = z.toFixed(3); }
+}
+let posterOn = /\/poster$/.test(location.pathname) || new URLSearchParams(location.search).has("poster");
+function showPoster(on) {
+  posterOn = on; const P = $("#pv");
+  P.hidden = !on || !D; if (!on || !D) return;
+  P.innerHTML = posterHTML(); fitPoster(); document.fonts?.ready.then(fitPoster);
+  $("#pvx").onclick = () => { showPoster(false); if (/\/poster$/.test(location.pathname)) history.replaceState(null, "", "/consensus"); };
+}
+$("#posterBtn").addEventListener("click", () => showPoster(true));
+addEventListener("keydown", e => { if (e.key === "Escape" && posterOn) $("#pvx")?.click(); });
+setInterval(() => { if (posterOn && D) showPoster(true); }, 60 * 1000);
+
+// ---- big monitors: from 2,100px wide the page is scaled up as a whole so a 27-inch screen reads like a laptop.
+function fitMonitor() {
+  const z = innerWidth >= 2100 ? Math.min(1.5, innerWidth / 1920) : 1;
+  for (const el of document.querySelectorAll("body > .bar, body > header, body > main")) el.style.zoom = z === 1 ? "" : z.toFixed(3);
+}
+addEventListener("resize", () => { fitMonitor(); fitPoster(); });
+fitMonitor();
 })();
 </script>
 </body>
