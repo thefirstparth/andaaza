@@ -139,6 +139,9 @@ button{font:inherit;color:inherit}
 .iso{-webkit-mask:radial-gradient(closest-side at 42% 42%,#000 35%,transparent);mask:radial-gradient(closest-side at 42% 42%,#000 35%,transparent)}
 .name{display:flex;align-items:flex-end;gap:clamp(10px,1.6vw,20px)}
 .mark{width:clamp(52px,6.4vw,84px);height:auto;flex:none;margin-bottom:.3em}
+/* The drop leads the name, sized in the name's own ems: it sits on the baseline and is lifted so its middle meets the
+   middle of the capitals (Instrument Serif's cap height is .7em), so it is centred on the word at every size. */
+.mast h1 .mark.lead,.pv .ph h1 .mark.lead{width:auto;height:.62em;margin:0 .1em 0 0;align-self:baseline;position:relative;top:calc(-1 * var(--dl,.057em))}
 /* The mark: the gauge drop, the page's own device. Drawn on a 64 grid and centred both ways; the water inside moves
    like the gauges' water. */
 .mark .o{fill:none;stroke:var(--sea);stroke-width:3.6;stroke-linejoin:round}
@@ -418,8 +421,8 @@ details.how li{margin:0 0 8px}
     <svg class="iso" id="iso" aria-hidden="true" preserveAspectRatio="none"></svg>
     <div>
       <div class="name">
-        <svg class="mark" viewBox="0 0 64 64" role="img" aria-label="Andaaza: a drop of water, filled to its level"><defs><clipPath id="dm1"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm1)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>
-        <h1>Andaaza<span class="dev" lang="hi"><i>अंदाज़ा</i></span></h1>
+        
+        <h1><svg class="mark lead" viewBox="0 0 64 64" role="img" aria-label="Andaaza: a drop of water, filled to its level"><defs><clipPath id="dm1"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm1)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="dev" lang="hi"><i>अंदाज़ा</i></span></h1>
       </div>
       <!-- The name is the headword: its dictionary line follows it, so each script says the word once. -->
       <p class="dict" lang="en"><button class="say" id="say" type="button" aria-label="Hear how andaaza is said" hidden></button><span class="ipa">/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur" dir="rtl">اندازہ</span><span class="def">an estimate, a guess, a rough calculation.</span></p>
@@ -705,7 +708,7 @@ function posterHTML() {
   const nx = D.topics.filter(t => t.area === "sport").flatMap(t => (t.next || []).map(n => ({ n, k: t.id }))).sort((x, y) => (y.n.f || 0) - (x.n.f || 0) || Date.parse(x.n.st) - Date.parse(y.n.st)).slice(0, 6);
   const fx = nx.map(({ n, k }) => { const f = [...n.o].sort((x, y) => y.prob - x.prob)[0]; return `<div class="it" data-k="${k}"><span>${n.f ? "★ " : ""}${esc(n.t)}</span><small>${esc(kick(n.st))} · ${esc(LABEL[k])} · ${esc(/^draw/i.test(f.name) ? "Draw" : f.name)} favoured</small><b>${pc(f.prob)}</b></div>`; }).join("");
   return `<button class="x" id="pvx" type="button">Close</button><div class="sheet">
-<div class="ph"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dm2"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm2)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg><h1>Andaaza<span class="dev" lang="hi"><i>अंदाज़ा</i></span></h1><div class="reading">${readingHTML(D)}</div></div>
+<div class="ph"><h1><svg class="mark lead" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dm2"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm2)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="dev" lang="hi"><i>अंदाज़ा</i></span></h1><div class="reading">${readingHTML(D)}</div></div>
 <div class="board">${board()}</div>
 <div class="col"><h3>${icon("a:moves")}Currents</h3>${D.movers.slice(0, 6).map(c => it(c, `${favName(c)} · was ${pc(c.p)} · ${LABEL[c.k] || c.s}`)).join("")}</div>
 <div class="col" data-a="sport"><h3>${icon("a:sport")}Coming up</h3>${fx || `<div class="it"><span>No big matches this week</span></div>`}</div>
