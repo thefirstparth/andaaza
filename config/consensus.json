@@ -885,5 +885,10 @@
       "paving"
     ],
     "checks_rule": "A note is thrown away (never edited) when it is longer than max_chars, has an em dash, a question or exclamation mark, a banned word, ends in a comma and one of banned_tails (', highlighting the growing importance of'), or does not name any of the market's contenders."
+  },
+  "decided": {
+    "share": 95,
+    "hours": 24,
+    "rule": "A question counts as decided, and gives way (a race winner hands the F1 slot to the next race), when its leader is above 98.5%, or at least share percent with the question due to be resolved within hours hours or already past its date. Kalshi keeps finished races open a week for the official result; this stops a finished race sitting on the board."
   }
 }
