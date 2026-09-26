@@ -60,12 +60,15 @@ button{font:inherit;color:inherit}
 .ic{fill:currentColor;display:inline-block;vertical-align:-.15em}
 .eyebrow{font:800 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 
-/* ---- the water: one mask shape (a wave crest on a tall column), so no seam can ever show between crest and body.
-   Sized in container units: --pv is the level in percent, the crest's middle sits exactly on it. ---- */
-.wet{-webkit-mask:var(--wave) 0 calc(100cqh - var(--pv) * 1cqh - 4px)/40px 3000px repeat-x;mask:var(--wave) 0 calc(100cqh - var(--pv) * 1cqh - 4px)/40px 3000px repeat-x}
+/* ---- the water: a box from the floor to the level (--pv, a plain number) plus half a crest, masked by one shape
+   (a crest on a tall column) pinned to its top, so no seam can show. Inside it, a full-height copy of the dry layer
+   in white, so every letter is colour on pale above the water and white on colour below it. Only percentages and a
+   fixed mask position: nothing that browsers disagree on. ---- */
+.wbox{position:absolute;left:0;right:0;bottom:0;font-style:normal;height:calc(var(--pv) * 1% + 4px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/40px 3000px repeat-x;mask:var(--wave) 0 0/40px 3000px repeat-x}
+.wbox>.wfull.wfull{top:auto;bottom:0;height:calc((100% - 4px) * 100 / var(--pv));color:var(--on);background:none}
 :root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 3000'%3E%3Cpath d='M0 4C5 0 15 0 20 4s15 8 20 0V3000H0z'/%3E%3C/svg%3E")}
-@media (prefers-reduced-motion:no-preference){.wet{animation:tide 7s linear infinite}}
-@keyframes tide{to{-webkit-mask-position:40px calc(100cqh - var(--pv) * 1cqh - 4px);mask-position:40px calc(100cqh - var(--pv) * 1cqh - 4px)}}
+@media (prefers-reduced-motion:no-preference){.wbox{animation:tide 7s linear infinite}}
+@keyframes tide{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:40px 0;mask-position:40px 0}}
 /* Yesterday's level, as on a harbour gauge: a dashed mark. */
 .was{position:absolute;left:0;right:0;bottom:calc(var(--pp) * 1%);border-top:1.5px dashed currentColor;opacity:.55;pointer-events:none}
 
@@ -113,10 +116,9 @@ button{font:inherit;color:inherit}
 .post{display:flex;flex-direction:column;gap:10px;text-decoration:none;min-width:0}
 .post .lbl{display:flex;align-items:center;gap:7px;font:800 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a)}
 .post .lbl .ic{width:15px;height:15px}
-.staff{position:relative;height:clamp(230px,26vw,320px);border-radius:16px;background:var(--ac);overflow:hidden;container-type:size;border:1px solid color-mix(in oklab,var(--a) 22%,transparent);transition:border-color .2s}
+.staff{position:relative;height:clamp(230px,26vw,320px);border-radius:16px;background:var(--ac);overflow:hidden;border:1px solid color-mix(in oklab,var(--a) 22%,transparent);transition:border-color .2s}
 .post:hover .staff{border-color:var(--a)}
 .staff .l{position:absolute;inset:0;padding:14px 16px;color:var(--a)}
-.staff .l.wet{background:var(--a);color:var(--on)}
 /* The scale: a tick every 10, a long one at 50, numbered at 25, 50 and 75, down the right-hand edge. */
 .staff .l::after{content:"";position:absolute;right:0;top:0;bottom:0;width:14px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 10%);opacity:.5;-webkit-mask:linear-gradient(to left,#000 0 7px,transparent 7px);mask:linear-gradient(to left,#000 0 7px,transparent 7px)}
 .staff .sc{position:absolute;right:11px;transform:translateY(50%);font:700 9.5px/1 var(--sans);opacity:.6}
@@ -171,7 +173,7 @@ button{font:inherit;color:inherit}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px}
 .tk{display:grid;grid-template-columns:120px minmax(0,1fr);background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 20%,transparent);border-radius:22px;overflow:hidden;min-width:0;transition:border-color .2s,box-shadow .2s}
 .tk:hover{border-color:color-mix(in oklab,var(--a) 60%,transparent);box-shadow:var(--shadow)}
-.gauge{position:relative;display:block;text-decoration:none;background:color-mix(in oklab,var(--a) 15%,var(--card));border-right:2px dashed color-mix(in oklab,var(--a) 35%,transparent);min-height:132px;overflow:hidden;container-type:size}
+.gauge{position:relative;display:block;text-decoration:none;background:color-mix(in oklab,var(--a) 15%,var(--card));border-right:2px dashed color-mix(in oklab,var(--a) 35%,transparent);min-height:132px;overflow:hidden}
 .gauge .g{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;padding:12px 14px}
 
 .gauge .g::after{content:"";position:absolute;right:0;top:0;bottom:0;width:6px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 25%);opacity:.45}
@@ -183,7 +185,7 @@ button{font:inherit;color:inherit}
 .gauge.lo .g{justify-content:space-between}
 .gauge.lo .g span{order:-1}
 .gauge .gw{position:absolute;inset:0;display:block;font-style:normal;color:var(--a)}
-.gauge .gw.wet{background:var(--a);color:var(--on)}
+
 /* On the small gauge yesterday's level is a notch on the scale edge, so it never crosses the name. */
 .gauge .was{left:auto;width:18px;border-top-width:2px;border-top-style:solid;opacity:.9}
 .tk .bd{padding:14px 18px 15px;min-width:0;display:flex;flex-direction:column;gap:10px}
@@ -364,7 +366,7 @@ function leadOf(a) {
 function post(c, a) {
   const p = c.o[0].prob, n = `<b>${Math.round(p)}<small>%</small></b><span class="sc" style="bottom:25%">25</span><span class="sc" style="bottom:50%">50</span><span class="sc" style="bottom:75%">75</span>`;
   return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${icon("t:" + c.k) || icon("a:" + a.id)}${esc(LABEL[c.k] || a.label)}</span>
-<div class="staff" style="--pv:${lvl(p)}"><div class="l">${n}${wasMark(c, true)}</div><div class="l wet" aria-hidden="true">${n}${wasMark(c, true)}</div></div>
+<div class="staff" style="--pv:${lvl(p)}"><div class="l">${n}${wasMark(c, true)}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${n}${wasMark(c, true)}</div></div></div>
 <div class="who">${esc(favName(c))}</div><div class="q">${esc(tidy(c.t))}</div>${moved(c) ? `<div class="dl">${moved(c)}</div>` : ""}</a>`;
 }
 const board = () => (D.areas || []).filter(a => a.id !== "misc").map(a => ({ a, c: leadOf(a) })).filter(x => x.c).slice(0, 5).map(x => post(x.c, x.a)).join("");
@@ -384,7 +386,7 @@ function card(c, big) {
     key = `<ul class="key">${top.slice(1).map((o, i) => `<li><i class="s${i + 1}"></i>${esc(o.name)}<b>${pc(o.prob)}</b></li>`).join("")}${rest >= 1 ? `<li><i class="s9"></i>Others<b>${pc(rest)}</b></li>` : ""}</ul>`;
   } else seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
   const ft = [moved(c), also(c)].filter(Boolean).join("");
-  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 ? " lo" : ""}" href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="gw wet" aria-hidden="true"><div class="g">${g}</div>${wasMark(c)}</i></a>
+  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 ? " lo" : ""}" href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="wbox" aria-hidden="true"><i class="gw wfull"><div class="g">${g}</div>${wasMark(c)}</i></i></a>
 <div class="bd"><div class="meta"><span>${esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
 <h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}</div></article>`;
 }
