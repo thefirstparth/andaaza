@@ -12,10 +12,9 @@
 <script>var P0=fetch("/api/consensus").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()});P0.catch(function(){});try{var t=localStorage.getItem("cons-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Roboto Flex with the paper's axes (already cached for a paper reader) for everything that is read; Bodoni Moda
-     italic for the name and the area titles, the way a chart's title cartouche is engraved. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@62..100,400..900&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400..500&display=swap" media="print" onload="this.media='all'">
+<!-- Instrument Sans for everything that is read (its width axis keeps the gauges' big numbers compact), Instrument
+     Serif italic for the name and the section titles: one family, drawn together. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&display=swap" media="print" onload="this.media='all'">
 <!-- Tiro Devanagari Hindi, only for the Devanagari on the page (the name and the area seals); Noto Nastaliq Urdu only
      for اندازہ in the definition. Both loaded as those letters alone. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&text=%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%81&display=swap" media="print" onload="this.media='all'">
@@ -35,8 +34,8 @@
   --La:.56;--Ca:.17;--Lc:.955;--Cc:.035;--L2:.72;--L3:.86;--C2:.12;--C3:.07;--on:#fff;
   --glass:color-mix(in oklab,var(--card) 62%,transparent);--glass-edge:color-mix(in oklab,#fff 70%,transparent);
   --shadow:0 1px 1px oklch(.2 .02 245 / .04),0 12px 32px -18px oklch(.2 .02 245 / .3);
-  --sans:"Roboto Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --sans:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:"Instrument Serif","Iowan Old Style","Palatino",Georgia,serif;
   --deva:"Tiro Devanagari Hindi","Noto Serif Devanagari","Kohinoor Devanagari",serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -67,7 +66,7 @@ button{font:inherit;color:inherit}
 [hidden]{display:none!important}
 .wrap{max-width:1280px;margin:0 auto;padding-inline:clamp(16px,4vw,44px)}
 .ic{fill:currentColor;display:inline-block;vertical-align:-.15em}
-.eyebrow{font:800 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.eyebrow{font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 
 /* ---- the water: a box from the floor to the level (--pv, a plain number) plus half a crest, masked by one shape
    (a crest on a tall column) pinned to its top, so no seam can show. Inside it, a full-height copy of the dry layer
@@ -124,9 +123,9 @@ button{font:inherit;color:inherit}
 .dict .pos{font:700 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .dict .ur{display:inline-block;line-height:1;font-size:18px;font-family:"Noto Nastaliq Urdu","Noto Naskh Arabic","Geeza Pro",serif;color:var(--marigold)}
 .dict .def{color:var(--ink)}
-.mast .hero{margin:16px 0 0;font:400 clamp(21px,2.4vw,30px)/1.2 var(--sans);font-variation-settings:"wdth" 92;letter-spacing:-.01em;color:var(--ink);max-width:36ch}
+.mast .hero{margin:16px 0 0;font:400 clamp(21px,2.4vw,30px)/1.2 var(--sans);letter-spacing:-.01em;color:var(--ink);max-width:36ch}
 .reading{display:grid;gap:8px;justify-items:end;text-align:right;font:500 13px/1.35 var(--sans);color:var(--muted);min-width:230px}
-.reading .clock{font:800 clamp(34px,4vw,48px)/.9 var(--sans);font-variation-settings:"wdth" 70;color:var(--ink);letter-spacing:-.01em}
+.reading .clock{font:700 clamp(34px,4vw,48px)/.9 var(--sans);font-variation-settings:"wdth" 75;color:var(--ink);letter-spacing:-.01em}
 .reading .clock small{font:600 13px var(--sans);color:var(--muted);letter-spacing:0;margin-left:6px}
 .reading .src{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
 .reading .src span{display:inline-flex;align-items:center;gap:6px}
@@ -140,21 +139,24 @@ button{font:inherit;color:inherit}
 /* ---- the tide board: the biggest question in each area, each on its own tall staff gauge ---- */
 .board{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(8px,1vw,14px);margin-top:clamp(22px,3vw,34px)}
 .post .focus{align-self:flex-start;font:650 12px var(--sans);color:var(--a);background:var(--ac);padding:3px 9px;border-radius:99px}
-.post .focus b{font-weight:850}
+.post .focus b{font-weight:700}
 .post{display:flex;flex-direction:column;gap:10px;text-decoration:none;min-width:0}
-.post .lbl{display:flex;align-items:center;gap:7px;font:800 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a)}
-.post .lbl .ic{width:15px;height:15px}
+.post .lbl{display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden;min-width:0;font:700 11px/1 var(--sans);letter-spacing:.09em;text-transform:uppercase;color:var(--a)}
+.post .lbl .ic{width:15px;height:15px;flex:none}
+.post .lbl span{overflow:hidden;text-overflow:ellipsis}
 .staff{position:relative;height:clamp(210px,19vw,280px);border-radius:26px;background:var(--ac);overflow:hidden;border:1px solid color-mix(in oklab,var(--a) 22%,transparent);transition:border-color .2s}
 .post:hover .staff{border-color:var(--a)}
 .staff .l{position:absolute;inset:0;padding:14px 16px;color:var(--a)}
 /* The scale: a tick every 10, a long one at 50, numbered at 25, 50 and 75, down the right-hand edge. */
 .staff .l::after{content:"";position:absolute;right:0;top:0;bottom:0;width:14px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 10%);opacity:.5;-webkit-mask:linear-gradient(to left,#000 0 7px,transparent 7px);mask:linear-gradient(to left,#000 0 7px,transparent 7px)}
 .staff .sc{position:absolute;right:11px;transform:translateY(50%);font:700 9.5px/1 var(--sans);opacity:.6}
-.staff b{position:absolute;left:12px;top:12px;font:900 clamp(40px,4.3vw,66px)/.8 var(--sans);font-variation-settings:"wdth" 62;letter-spacing:-.02em}
-.staff b small{font-size:.38em;font-weight:800;margin-left:2px;letter-spacing:0}
-.staff .wl{position:absolute;right:26px;bottom:calc(var(--pp) * 1%);transform:translateY(-3px);font:800 10.5px var(--sans);white-space:nowrap}
+.staff.hi b{top:auto;bottom:14px}
+.post .who.ask{font-size:14.5px;line-height:1.28;font-weight:700}
+.staff b{position:absolute;left:12px;top:12px;font:700 clamp(40px,4.3vw,66px)/.8 var(--sans);font-variation-settings:"wdth" 75;letter-spacing:-.02em}
+.staff b small{font-size:.38em;font-weight:700;margin-left:2px;letter-spacing:0}
+.staff .wl{position:absolute;right:26px;bottom:calc(var(--pp) * 1%);transform:translateY(-3px);font:700 10.5px var(--sans);white-space:nowrap}
 .staff .wl.dn{transform:translateY(calc(100% + 4px))}
-.post .who{font:800 16px/1.15 var(--sans);font-variation-settings:"wdth" 88;color:var(--ink)}
+.post .who{font:700 16px/1.15 var(--sans);color:var(--ink)}
 .post .q{font:500 12.5px/1.35 var(--sans);color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .post .dl{font:700 12px var(--sans)}
 /* Narrower screens: no sideways scrolling; four across on a tablet, two on a phone (the last one full width). */
@@ -167,8 +169,8 @@ button{font:inherit;color:inherit}
 .sh h2 .ic{width:26px;height:26px;color:var(--a,var(--sea));align-self:center}
 .sh h2 .dev{font-size:.36em;margin:0 0 0 .1em;align-self:center;color:var(--marigold)}
 .sh p{margin:0;font:500 13.5px var(--sans);color:var(--muted)}
-.sh .n{font:800 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
-.sub{display:flex;align-items:center;gap:9px;margin:26px 0 12px;font:800 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
+.sh .n{font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
+.sub{display:flex;align-items:center;gap:9px;margin:26px 0 12px;font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
 .sub .ic{width:16px;height:16px}
 .sub span{color:var(--muted);font-weight:550;letter-spacing:.02em;text-transform:none}
 
@@ -177,15 +179,15 @@ button{font:inherit;color:inherit}
 .currents::-webkit-scrollbar{display:none}
 .cur{scroll-snap-align:start;display:flex;flex-direction:column;gap:9px;padding:16px 18px 18px;border-radius:26px;background:var(--ac);border:0;text-decoration:none;transition:border-color .2s}
 .cur:hover{border-color:var(--a)}
-.cur .tg{display:flex;justify-content:space-between;gap:8px;font:800 10.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--a)}
+.cur .tg{display:flex;justify-content:space-between;gap:8px;font:700 10.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--a)}
 .cur .tg span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:11.5px}
 .cur .t{font:600 14.5px/1.3 var(--sans);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
 .cur .who{font:650 12.5px var(--sans);color:var(--ink2)}
 .cur .fr{display:flex;align-items:baseline;gap:8px;margin-top:auto}
 .cur .fr s{text-decoration:none;font:700 17px var(--sans);color:var(--muted)}
 .cur .fr .ar{font:600 16px var(--sans);color:var(--muted)}
-.cur .fr b{font:900 40px/.9 var(--sans);font-variation-settings:"wdth" 62;color:var(--a)}
-.cur .fr em{margin-left:auto;font:800 12.5px var(--sans);font-style:normal}
+.cur .fr b{font:700 40px/.9 var(--sans);font-variation-settings:"wdth" 75;color:var(--a)}
+.cur .fr em{margin-left:auto;font:700 12.5px var(--sans);font-style:normal}
 .strip{position:relative;height:12px;border-radius:99px;background:var(--ac);overflow:hidden}
 .strip i{position:absolute;inset:0 auto 0 0;border-radius:99px;background:var(--a)}
 .strip u{position:absolute;top:-2px;bottom:-2px;width:0;border-left:2px dashed var(--ink);opacity:.6}
@@ -208,9 +210,9 @@ button{font:inherit;color:inherit}
 .gauge .g{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;padding:12px 14px}
 
 .gauge .g::after{content:"";position:absolute;right:0;top:0;bottom:0;width:6px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 25%);opacity:.45}
-.gauge b{font:900 46px/.88 var(--sans);font-variation-settings:"wdth" 62;letter-spacing:-.015em}
-.gauge b small{font-size:.44em;font-weight:800;margin-left:1px;letter-spacing:0}
-.gauge span{font:750 13px/1.22 var(--sans);font-variation-settings:"wdth" 78;overflow-wrap:break-word;hyphens:auto;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.gauge b{font:700 46px/.88 var(--sans);font-variation-settings:"wdth" 75;letter-spacing:-.015em}
+.gauge b small{font-size:.44em;font-weight:700;margin-left:1px;letter-spacing:0}
+.gauge span{font:600 13px/1.22 var(--sans);overflow-wrap:break-word;hyphens:auto;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 /* The name never crosses the waterline, only the number does: from 50% it sits at the foot under water, below 50%
    at the head, dry (three lines at most, so it clears the water either way). */
 .gauge.lo .g{justify-content:space-between}
@@ -220,25 +222,25 @@ button{font:inherit;color:inherit}
 /* On the small gauge yesterday's level is a notch on the scale edge, so it never crosses the name. */
 .gauge .was{left:auto;width:18px;border-top-width:2px;border-top-style:solid;opacity:.9}
 .tk .bd{padding:14px 18px 15px;min-width:0;display:flex;flex-direction:column;gap:10px}
-.tk .meta{display:flex;justify-content:space-between;gap:10px;font:800 10.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--a)}
+.tk .meta{display:flex;justify-content:space-between;gap:10px;font:700 10.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--a)}
 .tk .meta>span:first-child{white-space:nowrap;flex:none}
 .tk .meta>span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.tk h3{margin:0;font:750 18px/1.24 var(--sans);font-variation-settings:"wdth" 88;text-wrap:balance}
+.tk h3{margin:0;font:700 18px/1.24 var(--sans);text-wrap:balance}
 .tk h3 a{text-decoration:none}.tk h3 a:hover{text-decoration:underline;text-decoration-color:var(--a);text-underline-offset:3px}
 .seg{display:flex;gap:3px;height:11px;border-radius:99px;overflow:hidden}
 .seg i{display:block;height:100%;border-radius:99px;min-width:3px}
 .seg .s0{background:var(--a)}.seg .s1{background:var(--a2)}.seg .s2{background:var(--a3)}.seg .s9{background:color-mix(in oklab,var(--muted) 28%,var(--card))}
 .key{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:3px 14px;font:500 13px/1.35 var(--sans);color:var(--ink2)}
 .key i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
-.key b{font-weight:800;color:var(--ink);margin-left:4px}
+.key b{font-weight:700;color:var(--ink);margin-left:4px}
 .key .s1{background:var(--a2)}.key .s2{background:var(--a3)}.key .s9{background:color-mix(in oklab,var(--muted) 28%,var(--card))}
 .steps{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
 .steps div{border-top:3px solid var(--a3);padding-top:5px;font:500 12px/1.25 var(--sans);color:var(--muted)}
-.steps b{display:block;font:800 16px var(--sans);color:var(--ink)}
+.steps b{display:block;font:700 16px var(--sans);color:var(--ink)}
 .tk .ft{margin-top:auto;display:flex;flex-wrap:wrap;gap:4px 12px;font:700 12.5px/1.35 var(--sans);color:var(--muted)}
 .d.up{color:var(--up)}.d.dn{color:var(--down)}
 .also a{text-decoration:none;color:inherit;border-bottom:1px dotted currentColor;font-weight:600}
-.pl{font:800 9.5px/1 var(--sans);letter-spacing:.1em;padding:3px 6px;border:2px double var(--a);border-radius:5px;transform:rotate(-3deg);display:inline-block;color:var(--a)}
+.pl{font:700 9.5px/1 var(--sans);letter-spacing:.1em;padding:3px 6px;border:2px double var(--a);border-radius:5px;transform:rotate(-3deg);display:inline-block;color:var(--a)}
 @media (min-width:900px){
   .tk.big{grid-column:1/-1;grid-template-columns:220px minmax(0,1fr)}
   .tk.big .gauge{min-height:190px}.tk.big .g{padding:20px 24px}
@@ -253,7 +255,7 @@ button{font:inherit;color:inherit}
 .minis{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:8px 14px;margin-top:12px}
 .mini{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:center;padding:11px 16px;border-radius:20px;text-decoration:none;border:1px solid color-mix(in oklab,var(--a) 18%,var(--line));background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%))}
 .mini:hover{border-color:var(--a)}
-.mini b{font:900 22px/1 var(--sans);font-variation-settings:"wdth" 70;color:var(--a)}
+.mini b{font:700 22px/1 var(--sans);font-variation-settings:"wdth" 75;color:var(--a)}
 .mini .q{font:600 14px/1.3 var(--sans);min-width:0}
 .mini .q small{display:block;font:500 12px var(--sans);color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
@@ -262,14 +264,14 @@ button{font:inherit;color:inherit}
 .fx{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:24px;background:var(--card);border:1px solid color-mix(in oklab,var(--a) 22%,var(--line));text-decoration:none;transition:border-color .2s}
 .fx:hover{border-color:var(--a)}
 .fx .when{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;font:700 11.5px var(--sans);color:var(--muted)}
-.fx .when b{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--a);font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:10.5px}
-.fx .vs{font:800 17px/1.2 var(--sans);font-variation-settings:"wdth" 88}
+.fx .when b{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--a);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:10.5px}
+.fx .vs{font:700 17px/1.2 var(--sans);}
 .fx .vs em{font:italic 400 17px var(--display);color:var(--muted);margin:0 6px}
 .fx .three{display:flex;gap:3px;height:9px}
 .fx .three i{border-radius:99px;min-width:3px;display:block}
 .fx .three .h{background:var(--a)}.fx .three .x{background:color-mix(in oklab,var(--muted) 28%,var(--card))}.fx .three .w{background:var(--a2)}
 .fx .odds{display:flex;justify-content:space-between;gap:6px;font:500 12.5px var(--sans);color:var(--ink2)}
-.fx .odds b{color:var(--ink);font-weight:800}
+.fx .odds b{color:var(--ink);font-weight:700}
 
 /* ---- the world: each row filled like water to its chance ---- */
 .world{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:8px 18px}
@@ -278,7 +280,7 @@ button{font:inherit;color:inherit}
 .wr .n{font:italic 400 32px/1 var(--display);color:var(--a)}
 .wr .q{font:600 15px/1.3 var(--sans)}
 .wr .q small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:3px}
-.wr .p{text-align:right;font:900 26px/1 var(--sans);font-variation-settings:"wdth" 70;color:var(--a)}
+.wr .p{text-align:right;font:700 26px/1 var(--sans);font-variation-settings:"wdth" 75;color:var(--a)}
 .wr .p small{display:block;font:600 12px var(--sans);color:var(--muted);max-width:18ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
 
 /* ---- how it picks ---- */
@@ -322,13 +324,13 @@ details.how li{margin:0 0 8px}
 .pv .board{grid-column:1/-1;margin-top:4px}
 .pv .staff{height:250px}
 .pv .col{display:flex;flex-direction:column;gap:2px;min-width:0}
-.pv h3{margin:0 0 6px;display:flex;align-items:center;gap:8px;font:800 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
+.pv h3{margin:0 0 6px;display:flex;align-items:center;gap:8px;font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
 .pv h3 .ic{width:17px;height:17px}
 .pv .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 14px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
 .pv .it span{font:600 14.5px/1.3 var(--sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pv .it small{grid-column:1;font:500 12px var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pv .it b{grid-row:span 2;grid-column:2;text-align:right;font:900 26px/1 var(--sans);font-variation-settings:"wdth" 66;color:var(--a,var(--ink))}
-.pv .it b em{display:block;font:800 11.5px var(--sans);font-style:normal;margin-top:3px}
+.pv .it b{grid-row:span 2;grid-column:2;text-align:right;font:700 26px/1 var(--sans);font-variation-settings:"wdth" 75;color:var(--a,var(--ink))}
+.pv .it b em{display:block;font:700 11.5px var(--sans);font-style:normal;margin-top:3px}
 .pv .x{position:fixed;top:12px;right:12px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font:600 13px var(--sans);cursor:pointer}
 @media (max-width:900px){.pv{place-items:start center;overflow:auto}.pv .sheet{grid-template-columns:1fr}}
 /* big monitors: scaled up as a whole, like a browser zoom (see fitMonitor) */
@@ -347,7 +349,7 @@ details.how li{margin:0 0 8px}
       </div>
       <!-- The name is the headword: its dictionary line follows it, so each script says the word once. -->
       <p class="dict" lang="en"><button class="say" id="say" type="button" aria-label="Hear how andaaza is said" hidden></button><span class="ipa">/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur" dir="rtl">اندازہ</span><span class="def">an estimate, a guess, a rough calculation.</span></p>
-      <p class="hero">Everyone has one.<br>These ones have money on them.</p>
+      <p class="hero">Guesses are cheap.<br>These ones are paid for.</p>
     </div>
     <div class="reading" id="reading"><span>Reading the markets…</span></div>
   </div>
@@ -417,7 +419,19 @@ function isobaths() {
 }
 isobaths();
 
-const favName = c => (c.L ? c.o[0].name : c.o.length === 1 || c.o[0].name === "Yes" ? "Yes" : c.o[0].name);
+// A yes/no question has no name to lead with: its gauge reads "chance", and where a name is the headline (the tide
+// board) the question itself is.
+const binary = c => !c.L && (c.o.length === 1 || c.o[0].name === "Yes");
+const favName = c => (c.L ? c.o[0].name : binary(c) ? "chance" : c.o[0].name);
+// A market's own name and its question: "LALIGA: 2027 Champion" is La Liga, asking for the 2027 champion.
+const NAMES = { laliga: "La Liga", epl: "Premier League", ucl: "Champions League", "uefa champions league": "Champions League", nba: "NBA", f1: "F1" };
+function split(t) {
+  const i = String(t).indexOf(": ");
+  if (i < 0) return ["", tidy(t)];
+  let h = t.slice(0, i).trim(); const k = h.toLowerCase();
+  h = NAMES[k] || (h === h.toUpperCase() && h.length > 4 ? h.charAt(0) + h.slice(1).toLowerCase() : h);
+  return [h, tidy(t.slice(i + 2))];
+}
 const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)}${x.play ? " (play money)" : ""}">${esc(x.source)} ${pc(x.prob)}</a>`).join(" · ")}</span>` : "";
 const lvl = p => Math.max(3, Math.min(100, p)).toFixed(1);
 // Yesterday's level, drawn only when it differs enough to read as a separate mark.
@@ -432,17 +446,20 @@ function leadOf(a) {
   const items = a.id === "misc" ? D.misc || [] : D.topics.filter(t => t.area === a.id).flatMap(t => t.items);
   return items.reduce((m, c) => (!m || (c.v || 0) > (m.v || 0) ? c : m), null);
 }
-const SLOT = { ai: "Best AI model", club: "Real Madrid", football: "Football", f1: "Formula 1", cricket: "Cricket", world: "World", top: "Most traded" };
-// A gauge always shows its market's real leader. A slot about someone (Real Madrid, India) adds that side's own
-// chance on a chip when they are not the leader.
+// Each gauge is labelled with what the market is (La Liga, Champions League, World), never with why it was picked:
+// the slot (Real Madrid, India) is only how the server chose it. The gauge shows the market's real leader; a slot
+// about someone adds that side's own chance on a chip when they are not leading. The number sits wholly above the
+// water or wholly in it, never across the line.
 function post(c, a) {
-  const p = c.o[0].prob, who = favName(c), cc = c;
+  const p = c.o[0].prob, cc = c, [head, ask] = split(c.t);
+  const lb = c.slot === "ai" ? "Best AI model" : !c.st && head ? head : LABEL[c.k] || a?.label || "";
+  const who = binary(c) ? (head && !c.st ? ask : tidy(c.t)) : favName(c);
+  const q = binary(c) ? "" : c.slot === "ai" || c.st || !head ? tidy(c.st ? ask : c.t) : ask;
   const fo = c.focus ? c.o.find(o => o.name === c.focus) : null, chip = fo && fo !== c.o[0] ? `<span class="focus">${esc(fo.name)} <b>${pc(fo.prob)}</b></span>` : "";
   const n = `<b>${Math.round(p)}<small>%</small></b><span class="sc" style="bottom:25%">25</span><span class="sc" style="bottom:50%">50</span><span class="sc" style="bottom:75%">75</span>`;
-  const lb = (c.slot && SLOT[c.slot]) || LABEL[c.k] || a?.label || "";
-  return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${icon("t:" + c.k) || icon("a:" + (a?.id || "misc"))}${esc(lb)}</span>
-<div class="staff" style="--pv:${lvl(p)}"><div class="l">${n}${wasMark(cc, true)}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${n}${wasMark(cc, true)}</div></div></div>
-<div class="who">${esc(who)}</div>${chip}<div class="q">${esc(tidy(c.t))}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}</a>`;
+  return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${icon("t:" + c.k) || icon("a:" + (a?.id || "misc"))}<span>${esc(lb)}</span></span>
+<div class="staff${p >= 60 ? " hi" : ""}" style="--pv:${lvl(p)}"><div class="l">${n}${wasMark(cc, true)}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${n}${wasMark(cc, true)}</div></div></div>
+<div class="who${binary(c) ? " ask" : ""}">${esc(who)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}</a>`;
 }
 // The tide board: the server's five slots in Parth's order (best AI model, Real Madrid, football, world, most
 // traded); an older reading without them falls back to the busiest question in each area.
@@ -452,7 +469,8 @@ const board = () => (D.board?.length ? D.board.map(c => post(c, (D.areas || []).
 // A "by ... ?" question shows its nearer deadlines as steps; a yes/no question shows only its gauge and bar.
 function card(c, big) {
   const f = c.o[0], p = Math.max(0, Math.min(100, f.prob));
-  const g = `<b>${Math.round(p)}<small>%</small></b><span>${esc(favName(c))}</span>`;
+  // A yes/no question's gauge is its number alone: the question stands beside it.
+  const g = `<b>${Math.round(p)}<small>%</small></b>${binary(c) ? "" : `<span>${esc(favName(c))}</span>`}`;
   let seg, key = "";
   if (c.L && c.o.length > 1) {
     seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
@@ -463,7 +481,7 @@ function card(c, big) {
     key = `<ul class="key">${top.slice(1).map((o, i) => `<li><i class="s${i + 1}"></i>${esc(o.name)}<b>${pc(o.prob)}</b></li>`).join("")}${rest >= 1 ? `<li><i class="s9"></i>Others<b>${pc(rest)}</b></li>` : ""}</ul>`;
   } else seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
   const ft = [moved(c), also(c)].filter(Boolean).join("");
-  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 ? " lo" : ""}" href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="wbox" aria-hidden="true"><i class="gw wfull"><div class="g">${g}</div>${wasMark(c)}</i></i></a>
+  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 && !binary(c) ? " lo" : ""}" href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="wbox" aria-hidden="true"><i class="gw wfull"><div class="g">${g}</div>${wasMark(c)}</i></i></a>
 <div class="bd"><div class="meta"><span>${c.m ? `<span title="One of your must-haves">★</span> ` : ""}${esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
 <h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}</div></article>`;
 }
@@ -491,7 +509,7 @@ function fixture(n, k) {
 function current(c) {
   const f = c.o[0].prob, d = f - c.p;
   return `<a class="cur" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><div class="tg"><span>${esc(LABEL[c.k] || "")}</span><span>${esc(c.s)}</span></div>
-<div class="t">${esc(tidy(c.t))}</div><div class="who">${esc(favName(c))}</div>
+<div class="t">${esc(tidy(c.t))}</div>${binary(c) ? "" : `<div class="who">${esc(favName(c))}</div>`}
 <div class="fr"><s>${pc(c.p)}</s><span class="ar">→</span><b>${pc(f)}</b><em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)}</em></div>
 <div class="strip"><i style="width:${Math.max(2, f)}%"></i><u style="left:${Math.max(1, Math.min(99, c.p))}%"></u></div></a>`;
 }

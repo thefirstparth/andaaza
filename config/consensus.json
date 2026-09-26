@@ -715,7 +715,10 @@
       "championship presented by",
       "podium",
       "pole position",
-      "fastest lap"
+      "fastest lap",
+      "approval average",
+      "rcp ",
+      "rcp's"
     ]
   },
   "manifold_max_per_topic": 2,
