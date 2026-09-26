@@ -779,7 +779,7 @@
   "must_min_volume": 300,
   "$comment_rank": "Each subject: must-haves first (topics[].must, regex on title and outcomes; shown on as little as must_min_volume a day), then follows, then topics[].prefer, then the rest by score (0.6 x today's trade + 0.4 x lifetime trade / 30). 3 to 9 per subject: all must-haves and follows, at least per_topic_min, more only while score >= extra_min_score and extra_min_share of the subject's best.",
   "board": {
-    "$comment": "The tide board, in order: best-AI-model question, Real Madrid (next match, else a market with Madrid in it at Madrid's chance), relevant football, world, most traded. Each falls back to its subject's top market.",
+    "$comment": "The tide board, seven slots in order: best AI model, Real Madrid, football, Formula 1, cricket, world, most traded. Labels name the market; the gauge shows its leader; the followed side's chance rides on a chip. Each slot falls back to its subject's top market.",
     "ai": "which company has (the )?best ai model",
     "club": "real madrid"
   },
