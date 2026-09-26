@@ -2,8 +2,7 @@
   "$comment": "Settings for /consensus, the prediction-markets page. Independent of the paper: nothing in the paper reads this file.",
   "min_volume_24h": 2000,
   "min_volume_manifold": 500,
-  "per_topic": 6,
-  "world": 9,
+  "world": 10,
   "movers": 10,
   "topics": [
     {
@@ -26,7 +25,12 @@
       "pm_tags": [
         "f1"
       ],
-      "min_volume": 500
+      "min_volume": 500,
+      "must": [
+        "grand prix.*(winner|win)",
+        "drivers.? champion",
+        "verstappen"
+      ]
     },
     {
       "id": "football",
@@ -103,6 +107,17 @@
         "italy",
         "netherlands",
         "belgium"
+      ],
+      "must": [
+        "real madrid",
+        "la ?liga.*(champion|winner)",
+        "champions league.*(champion|winner)",
+        "ballon d.?or",
+        "clasico"
+      ],
+      "prefer": [
+        "premier league|epl",
+        "world cup"
       ]
     },
     {
@@ -140,6 +155,15 @@
         "mumbai indians",
         "chennai super kings",
         "royal challengers"
+      ],
+      "must": [
+        "india",
+        "kohli"
+      ],
+      "prefer": [
+        "ipl",
+        "world cup",
+        "ashes"
       ]
     },
     {
@@ -189,6 +213,14 @@
         "andreeva",
         "paolini",
         "zheng"
+      ],
+      "must": [
+        "alcaraz",
+        "djokovic"
+      ],
+      "prefer": [
+        "(us open|australian open|wimbledon|roland garros|french open).*(winner|champion)",
+        "number 1|#1|no\\. 1"
       ]
     },
     {
@@ -235,7 +267,13 @@
         "mavericks",
         "bucks"
       ],
-      "min_volume": 500
+      "min_volume": 500,
+      "must": [
+        "warriors|golden state"
+      ],
+      "prefer": [
+        "(nba|pro basketball).*(champion|finals|mvp)"
+      ]
     },
     {
       "id": "ai",
@@ -274,6 +312,12 @@
       "pm_tags": [
         "ai",
         "tech"
+      ],
+      "must": [
+        "best ai|top ai model|best .*ai model"
+      ],
+      "prefer": [
+        "anthropic|claude|openai|chatgpt|gpt|gemini|deepmind|deepseek|xai|grok|meta ai|llama|mistral|nvidia|model release|ipo"
       ]
     },
     {
@@ -285,9 +329,6 @@
         "crude",
         "gold",
         "silver",
-        "bitcoin",
-        "btc",
-        "ethereum",
         "recession",
         "inflation",
         "ecb",
@@ -301,12 +342,41 @@
         "ipo",
         "largest company",
         "market cap",
-        "s&p"
+        "s&p",
+        "rbi",
+        "repo rate",
+        "sensex",
+        "nifty",
+        "rupee",
+        "indian stocks",
+        "reliance",
+        "adani",
+        "nse ipo",
+        "jio ipo",
+        "flipkart ipo",
+        "phonepe",
+        "zepto",
+        "swiggy",
+        "retail sales",
+        "consumer"
       ],
       "area": "money",
       "pm_tags": [
         "economy",
         "finance"
+      ],
+      "must": [
+        "rbi|repo rate",
+        "india.*(inflation|gdp|growth)",
+        "sensex|nifty",
+        "rupee|inr"
+      ],
+      "prefer": [
+        "india|indian|reliance|adani|tata|infosys|wipro|hdfc|jio|nse|bse|flipkart|phonepe|zepto|swiggy|zomato|ola|paytm",
+        "tariff",
+        "oil|brent|crude|hormuz",
+        "recession",
+        "retail|consumer"
       ]
     },
     {
@@ -324,12 +394,17 @@
         "bangalore",
         "mumbai",
         "delhi",
-        "bjp",
-        "pakistan"
+        "bjp"
       ],
       "area": "world",
       "pm_tags": [
         "india"
+      ],
+      "must": [
+        "india|indian|modi|rbi"
+      ],
+      "prefer": [
+        "election|bihar|kerala|tamil nadu|west bengal|assam|delhi|mumbai|bengaluru|bangalore|karnataka"
       ]
     },
     {
@@ -367,6 +442,12 @@
       "pm_tags": [
         "geopolitics",
         "world"
+      ],
+      "must": [
+        "iran|hormuz|israel|gaza|ukraine|russia|ceasefire"
+      ],
+      "prefer": [
+        "china|taiwan|pakistan|nato|oil"
       ]
     },
     {
@@ -401,10 +482,20 @@
         "avengers",
         "james bond",
         "bafta",
-        "cannes"
+        "cannes",
+        "box office india",
+        "dhurandhar",
+        "ramayana",
+        "kantara",
+        "pushpa",
+        "kalki"
       ],
       "pm_tags": [
         "movies"
+      ],
+      "prefer": [
+        "bollywood|hindi|shah rukh|srk|salman|aamir|ranbir|deepika|alia|hrithik|ranveer|prabhas|allu arjun|rajinikanth|vijay|yash|pushpa|kalki|jawan|pathaan|dhurandhar|war 2|toxic|ramayana|kantara",
+        "india"
       ]
     },
     {
@@ -433,7 +524,20 @@
         "reality show",
         "the traitors",
         "squid game",
-        "stranger things"
+        "stranger things",
+        "bigg boss",
+        "sony liv",
+        "zee5",
+        "shark tank india",
+        "indian idol",
+        "panchayat",
+        "mirzapur",
+        "family man",
+        "paatal lok",
+        "netflix india"
+      ],
+      "prefer": [
+        "india|indian|bigg boss|netflix india|jiohotstar|hotstar|prime video|sony ?liv|zee5|shark tank india|indian idol|kbc|panchayat|mirzapur|family man|paatal lok|kota factory|scam 1992|heeramandi|the traitors india"
       ]
     },
     {
@@ -466,15 +570,28 @@
         "billboard",
         "spotify",
         "song of the summer",
-        "mrbeast"
+        "mrbeast",
+        "shah rukh",
+        "salman khan",
+        "deepika",
+        "alia bhatt",
+        "ranbir",
+        "priyanka chopra",
+        "diljit",
+        "arijit",
+        "ap dhillon",
+        "virat kohli"
       ],
       "pm_tags": [
         "music"
+      ],
+      "prefer": [
+        "india|indian|bollywood|shah rukh|srk|salman|aamir|deepika|alia|ranbir|priyanka|katrina|kareena|ranveer|virat|anushka|diljit|arijit|a\\.? ?r\\.? rahman|badshah|ap dhillon|ambani|kohli"
       ]
     }
   ],
   "exclude": {
-    "$comment": "Parth's standing exclusions: US domestic politics, US economic policy including the Fed, American football, baseball, hockey and college sport, esports, crypto price ladders, weather, post and view counts. NBA, film, TV and celebrities are in (26 Sep 2026).",
+    "$comment": "Parth's standing exclusions: US domestic politics, US economic policy including the Fed, American football, baseball, hockey and college sport, esports, crypto price ladders, weather, post and view counts. NBA, film, TV and celebrities are in (26 Sep 2026). Crypto out entirely (26 Sep 2026).",
     "words": [
       "senate",
       "house of representatives",
@@ -578,7 +695,24 @@
       "wnba",
       "press secretary",
       "trump's next",
-      "white house"
+      "white house",
+      "bitcoin",
+      "btc",
+      "ethereum",
+      "crypto",
+      "solana",
+      "xrp",
+      "dogecoin",
+      "memecoin",
+      "altcoin",
+      "microstrategy",
+      "coinbase",
+      "number of rate cuts",
+      "rate cuts in",
+      "golf",
+      "pga",
+      "lpga",
+      "championship presented by"
     ]
   },
   "manifold_max_per_topic": 2,
@@ -632,5 +766,19 @@
   "misc": 9,
   "fixtures_per_topic": 4,
   "fixture_min_volume_followed": 300,
-  "$comment_pm_tags": "topics[].pm_tags: Polymarket tag slugs read for that subject on top of the busiest 400 overall. topics[].notable: teams and players whose matches count as famous enough for Coming up."
+  "$comment_pm_tags": "topics[].pm_tags: Polymarket tag slugs read for that subject on top of the busiest 400 overall. topics[].notable: teams and players whose matches count as famous enough for Coming up.",
+  "per_topic_min": 3,
+  "per_topic_max": 9,
+  "extra_min_score": 15000,
+  "must_min_volume": 300,
+  "$comment_rank": "Each subject: must-haves first (topics[].must, regex on title and outcomes; shown on as little as must_min_volume a day), then follows, then topics[].prefer, then the rest by score (0.6 x today's trade + 0.4 x lifetime trade / 30). 3 to 9 per subject: all must-haves and follows, at least per_topic_min, more only while score >= extra_min_score and extra_min_share of the subject's best.",
+  "board": {
+    "$comment": "The tide board, in order: best-AI-model question, Real Madrid (next match, else a market with Madrid in it at Madrid's chance), relevant football, world, most traded. Each falls back to its subject's top market.",
+    "ai": "which company has (the )?best ai model",
+    "club": "real madrid"
+  },
+  "follow_note": "Barcelona is followed as a rival (a hatewatch), not a team Parth supports.",
+  "must_cap": 2,
+  "extra_min_share": 0.2,
+  "movers_min_volume": 10000
 }

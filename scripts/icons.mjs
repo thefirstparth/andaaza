@@ -73,7 +73,7 @@ const CONSENSUS = {
   "t:tennis": "material-symbols:sports-tennis-rounded", "t:nba": "material-symbols:sports-basketball-rounded", "t:ai": "material-symbols:memory-rounded",
   "t:money": "material-symbols:trending-up-rounded", "t:india": "material-symbols:flag-rounded", "t:world": "material-symbols:public-rounded",
   "t:film": "material-symbols:movie-rounded", "t:ott": "material-symbols:live-tv-rounded", "t:celebs": "material-symbols:star-rounded",
-  "u:moon": "material-symbols:dark-mode-rounded", "u:sun": "material-symbols:light-mode-rounded", "u:poster": "material-symbols:filter-frames-rounded", "u:back": "material-symbols:newsmode-rounded",
+  "u:moon": "material-symbols:dark-mode-rounded", "u:sun": "material-symbols:light-mode-rounded", "u:poster": "material-symbols:filter-frames-rounded",
 };
 
 async function build(WANT) {

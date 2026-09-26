@@ -3,25 +3,30 @@ import { consensus } from "../lib/consensus.js";
 import { blobConfigured, putJSON } from "../lib/blob.js";
 
 // GET /api/consensus: the prediction-markets page's data (see lib/consensus.js).
-// A visitor never waits for the markets to be read (Kalshi alone takes about twenty seconds). The last reading is
+// A visitor never waits for the markets to be read (a full Kalshi read takes about thirty seconds). The last reading is
 // kept in Blob storage and served at once; when it is more than REFRESH old, a new one is read in the background
 // after the answer has gone out, and saved for the next visitor. Only the very first visit, with nothing saved yet,
 // waits, and then only for Polymarket and Manifold (about three seconds); Kalshi follows in the background.
-const PATH = "consensus/latest.json", REFRESH = 10 * 60 * 1000;
+const PATH = "consensus/latest.json", KPATH = "consensus/kalshi-index.json", REFRESH = 10 * 60 * 1000;
 let building = null;
 
-async function readSnap() {
+async function readBlob(path) {
   try {
     const { get } = await import("@vercel/blob");
     for (const access of ["private", "public"]) {
-      try { const r = await get(PATH, { access, useCache: false }); if (r?.stream) return await new Response(r.stream).json(); } catch {}
+      try { const r = await get(path, { access, useCache: false }); if (r?.stream) return await new Response(r.stream).json(); } catch {}
     }
   } catch {}
   return null;
 }
+const readSnap = () => readBlob(PATH);
 // One background reading at a time per instance; a reading with no source at all is never saved over a good one.
+// Kalshi's index (the events that fit a subject) is read in full at most every six hours and saved; in between,
+// only those markets are re-priced (see lib/consensus.js).
 function rebuild() {
-  building ||= consensus().then(async out => { if (out.sources.some(s => s.ok)) await putJSON(PATH, out); return out; })
+  let ix = null;
+  building ||= readBlob(KPATH).then(kalshiIndex => consensus({ kalshiIndex, onKalshiIndex: x => { ix = x; } }))
+    .then(async out => { if (ix) await putJSON(KPATH, ix).catch(() => {}); if (out.sources.some(s => s.ok)) await putJSON(PATH, out); return out; })
     .catch(() => null).finally(() => { building = null; });
   return building;
 }
