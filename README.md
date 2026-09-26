@@ -53,6 +53,8 @@ Notes are saved inside the reading, so every visitor sees the same one and nobod
 - Budget: at most 3 notes a reading, 25 a day and 750 a month, and a note is rewritten only when its story changes
   (the move grows 10 points or turns, the favourite changes, or a lead note is a week old). Normal use is about ten
   searches a day. Running out means fewer notes, never errors.
+- Backup news source (optional): if Tavily fails, `NEWSDATA_API_KEY` (newsdata.io, free: 200 a day, no card) is used
+  instead. Without it, notes pause for six hours and try Tavily again.
 - Gemini's own Google Search is not used: it is not in the free tier, and Google's terms forbid storing its answers or
   showing them to others.
 - If Google retires a model, edit `why.models`. The Gemini 2.5 models are closed to new keys.

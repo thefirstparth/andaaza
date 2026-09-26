@@ -121,6 +121,13 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   2560, 3440 ultra-wide, 1440×2560 portrait, 820 tablet, 390 phone: board uses 92–94% of the width everywhere.
 - Section names chosen: Currents, Coming up, Where the money is, Miscellaneous, How this works (includes the water
   explanation). The top gauges have no title.
+- **Sections as pages (Parth, 26 Sep 2026: "not an endless PDF")**: every section is a tinted band ruled off from the
+  next (double rule in Retro). The top bar's chips are pages: Everything · ★ Favourites · Currents · each subject ·
+  Where the money is; each has an address (#sport, #favourites, #currents, #where-the-money-is), back works. Showing
+  Everything, the top bar outlines the section being read (scroll spy) and scrolls the chip into view; the row fades at
+  its edges when it scrolls. **Favourites** = every must-have (★) plus every market about someone followed (`f` flag).
+- **Notes button** (Gemini mark + count) beside Poster: each press brings the next note to the middle of the screen and
+  flashes it; on a page with no notes it opens Everything first.
 
 ## Notes: why it moved, why it leads (Gemini, `lib/why.js`)
 - Parth's call (26 Sep 2026). **Why it moved**: favourite moved ≥10 pts in a day, ≥15 in a week, ≥25 in 30 days (spread ≤ 4,
@@ -128,7 +135,12 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   (a day on Kalshi), up to settled (Parth wants Antonelli at 91% explained too), on the board, subject cards and any ★
   must-have; weekly charts and dated rankings are skipped. Shown in a tinted Gemini blue-violet panel with the Gemini
   mark (Parth: a note must be noticeable, clearly AI-written); dashed plain box in Retro.
-- Each note ends with its age in small grey text ("3 h ago", then the date).
+- Each note ends with its age in small grey text ("3 h ago", then the date), counted from now and updated every 30 s
+  with the clock.
+- Numbers as digits: the voice asks for them, and `digits()` turns any spelled-out two to ninety-nine (and "plus 24")
+  into digits, also on notes already saved (Parth caught "seven wins… plus twenty-four").
+- News backup: if Tavily fails and `NEWSDATA_API_KEY` is set, NewsData.io's free plan (200/day, commercial use OK, no
+  card; free news ~12 h late) is searched instead. Brave (paid) and Linkup (work email only) rejected.
 - Refresh: a note belongs to a story. Moved: kept while the move stays (a day move carries on as a week move, then fades
   and the note goes); rewritten only on 10 more points the same way, a reversal (a new story), or a new favourite.
   Leads: weekly. Budget caps are hard, so refresh logic can never push past the limits.

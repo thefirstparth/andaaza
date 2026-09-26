@@ -788,7 +788,7 @@
   "extra_min_share": 0.2,
   "movers_max_spread": 4,
   "why": {
-    "_about": "One-line notes under markets, written by Gemini from news that Andaaza finds with Tavily. Two kinds: 'why it moved' (a big move) and 'why it leads' (a steady favourite). Optional by design: with no GEMINI_API_KEY or TAVILY_API_KEY, or if either service fails or runs out, cards show only their usual lines and nothing else changes. Currents never get a note.",
+    "_about": "One-line notes under markets, written by Gemini from news that Andaaza finds with Tavily (or, if Tavily fails, NewsData.io when NEWSDATA_API_KEY is set). Two kinds: 'why it moved' (a big move) and 'why it leads' (a steady favourite). Optional by design: with no GEMINI_API_KEY or TAVILY_API_KEY, or if either service fails or runs out, cards show only their usual lines and nothing else changes. Currents never get a note.",
     "points": {
       "day": 10,
       "week": 15,
@@ -839,7 +839,7 @@
       "You write one short note for Andaaza, a public page that shows what prediction markets expect. Readers anywhere in the world may know nothing about the subject.",
       "Use only the numbered news you are given. Give as pick the number of the item that best supports your note. If none of them explains it, give pick 0 and an empty note. Never guess or fill in from memory.",
       "The note gives the cause: what happened, or the standing fact that explains it, with names, numbers and dates from the news. Name the favourite or the rival it is about. Present or past tense, whichever reads naturally. It may say what the event means for the question.",
-      "Aim for about 120 characters; never more than 140. One sentence. Do not repeat the percentages or the move (the page shows them) and do not mention bettors, traders, odds or the market.",
+      "Aim for about 120 characters; never more than 140. One sentence. Write every number as digits (7 wins from 7 matches, +24 goal difference, $50 billion, 3rd). Do not repeat the percentages or the move (the page shows them) and do not mention bettors, traders, odds or the market.",
       "Plain and exact, in the spirit of a good newspaper editor: no hedging (reportedly, likely, may, appears), no hype adjectives, no em dashes, no questions or exclamation marks."
     ],
     "banned": [
