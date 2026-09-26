@@ -452,7 +452,7 @@ details.how li{margin:0 0 8px}
       <li><b>Sort.</b> Each question goes to the first of your subjects whose words it contains: Formula 1, football, cricket, tennis, NBA, AI and tech, money, India, world, Bollywood and film, series and streaming, celebrities. A single match never takes a card: it goes under its sport's Coming up when it starts within a week and involves someone you follow or a team or player the subject counts as notable. When a recurring question is settled (the best AI model at the end of September), the next round (end of October) takes its place.</li>
       <li><b>Merge.</b> The same question on two sites becomes one card, the busier site leading and the other shown beside it.</li>
       <li><b>Rank.</b> Within a subject, anything about the Warriors, Real Madrid, Verstappen, Alcaraz, Djokovic or India comes first, then the rest by money traded today. The tide board is the busiest question in each area. Currents are the real-money questions in your subjects that moved four points or more in a day on a price the market agrees on (a spread of four points or less between buyers and sellers); weekly and monthly rankings, which reset each round, are left out. Miscellaneous is the busiest of everything that fits nowhere else.</li>
-      <li><b>Why it moved.</b> When a question's favourite moves ten points or more in a day (fifteen in a week, twenty-five in thirty days) on a price the market agrees on, Andaaza looks up the week's news about it on The Guardian and asks Gemini, Google's AI, which story explains the move. The answer is one plain line, marked with Gemini's logo; tap it to read the story. If no story explains the move, there is no line: Andaaza would rather say nothing than guess. The rest of the page never depends on it.</li>
+      <li><b>Why it moved, why it leads.</b> When a question's favourite moves ten points or more in a day (fifteen in a week, twenty-five in thirty days) on a price the market agrees on, or has led at between 50% and 90% for a week, Andaaza searches the recent news about it and asks Gemini, Google's AI, which story explains it. The answer is one plain line, marked with Gemini's logo; tap it to read the story. If no story explains it, there is no line: Andaaza would rather say nothing than guess. Currents get no notes, and the rest of the page never depends on them.</li>
     </ol></details>
     <div class="note"><p>A price is what traders pay for "yes", read as the chance they give it: the water level. The dashed line is where it stood a day ago. Polymarket and Kalshi are real money; Manifold is play money and says so.</p></div>
   </div>
@@ -532,8 +532,10 @@ const wasMark = (c, label) => { if (c.p == null || Math.abs(c.o[0].prob - c.p) <
 const WIN = { week: ["w", "this week"], month: ["M", "in 30 days"] };
 const shift = c => (c.mv && WIN[c.mv.k] && c[WIN[c.mv.k][0]] != null ? { d: c.mv.d, was: c[WIN[c.mv.k][0]], w: WIN[c.mv.k][1] } : { d: c.p != null ? c.o[0].prob - c.p : 0, was: c.p, w: "in a day" });
 const moved = c => { const { d, was, w } = shift(c); return Math.abs(d) >= 1 ? `<span class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)} ${w} · was ${pc(was)}</span>` : ""; };
-// Why it moved: the server's one-line note (c.why), marked with Gemini's logo; nothing at all when there is none.
-const why = c => (c.why?.x ? `<span class="why"${c.why.u ? ` data-src="${esc(c.why.u)}"` : ""} title="Why it moved. Written by Gemini from ${esc(c.why.t ? `The Guardian: ${c.why.t}` : "the news")}">${icon("s:gemini")}<span class="vh">Why it moved, written by Gemini: </span><span>${esc(c.why.x)}</span></span>` : "");
+// The server's one-line note (c.why): why it moved, or why it leads. Marked with Gemini's logo; nothing at all when
+// there is none.
+const why = c => { if (!c.why?.x) return ""; const k = c.why.k === "leads" ? "Why it leads" : "Why it moved";
+  return `<span class="why"${c.why.u ? ` data-src="${esc(c.why.u)}"` : ""} title="${k}. Written by Gemini from ${esc(c.why.t ? `the news: ${c.why.t}` : "the news")}">${icon("s:gemini")}<span class="vh">${k}, written by Gemini: </span><span>${esc(c.why.x)}</span></span>`; };
 
 // ---- the tide board: the busiest question in each area, on a staff gauge
 function leadOf(a) {
