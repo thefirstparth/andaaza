@@ -60,8 +60,18 @@ async function ask(text, search, key, json) {
 const DAYS = { day: 3, week: 9, month: 32 };
 const tavilyQuery = c => { const lead = c.o[0], binary = c.o.length === 1 || lead.name === "Yes" || c.L, t = c.t.replace(/\?$/, "");
   return binary || /\d/.test(lead.name) ? t : `${lead.name} ${t}`; };
+// Each search is kept for six hours (in this instance's memory), so reloading the bench does not spend Tavily's free
+// credits again; only new markets or new queries are searched.
+const TV_CACHE = new Map(), TV_KEEP = 6 * 36e5;
 async function tavily(c, mv, key) {
-  const t0 = Date.now(), query = tavilyQuery(c);
+  const query = tavilyQuery(c), hit = TV_CACHE.get(query);
+  if (hit && Date.now() - hit.at < TV_KEEP) return { ...hit.v, cached: true, ms: 0 };
+  const v = await tavilySearch(c, mv, key, query);
+  TV_CACHE.set(query, { at: Date.now(), v });
+  return v;
+}
+async function tavilySearch(c, mv, key, query) {
+  const t0 = Date.now();
   const r = await fetch("https://api.tavily.com/search", { method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(20000),
     body: JSON.stringify({ query, topic: "news", start_date: new Date(Date.now() - DAYS[mv.k] * 864e5).toISOString().slice(0, 10), max_results: 8, search_depth: "basic", chunks_per_source: 2,
       exclude_domains: ["polymarket.com", "kalshi.com", "manifold.markets"] }) });
@@ -88,7 +98,7 @@ async function viaTavily(c, mv, p, keys) {
   return { tv: t, model: g.model, ms: g.ms + t.ms, answer: src ? String(o.note || "").trim() : "", pick: Number(o.pick), src, none: src ? "" : "Gemini: none of the news explains it" };
 }
 const tavilyCell = a => {
-  const list = a.tv ? `<details><summary>${a.tv.results.length} news results for “${esc(a.tv.query)}”</summary><ol class="src">${a.tv.results.map(r => `<li><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a> <span class="meta">${esc(r.date)}</span></li>`).join("")}</ol></details>` : "";
+  const list = a.tv ? `<details><summary>${a.tv.results.length} news results for “${esc(a.tv.query)}”${a.tv.cached ? " (kept from an earlier load: no credit spent)" : ""}</summary><ol class="src">${a.tv.results.map(r => `<li><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a> <span class="meta">${esc(r.date)}</span></li>`).join("")}</ol></details>` : "";
   if (a.error) return `<td class="err">${esc(a.error)}${list}</td>`;
   if (!a.answer) return `<td><p class="ans none">No note: ${esc(a.none)}</p>${list}</td>`;
   const ok = checkNote(a.answer);
