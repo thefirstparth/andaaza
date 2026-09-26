@@ -135,6 +135,10 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   (a day on Kalshi), up to settled (Parth wants Antonelli at 91% explained too), on the board, subject cards and any ★
   must-have; weekly charts and dated rankings are skipped. Shown in a tinted Gemini blue-violet panel with the Gemini
   mark (Parth: a note must be noticeable, clearly AI-written); dashed plain box in Retro.
+- **Why they are favoured** (matches, added 26 Sep 2026; Parth: "at least for the favourites"): the board's match
+  gauges and Coming-up matches of anyone followed, written once within 48 h of the start from 5 days of news, rewritten
+  only if the favourite changes (`why.matches`; `which: "all"` covers every match, ~4 more searches a day). Matches
+  had been left out not for budget but because fixtures carry no price history and need a different question.
 - Each note ends with its age in small grey text ("3 h ago", then the date), counted from now and updated every 30 s
   with the clock.
 - Numbers as digits: the voice asks for them, and `digits()` turns any spelled-out two to ninety-nine (and "plus 24")
@@ -152,7 +156,8 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   hedges, analysis -ing tails and notes that name no contender.
 - A note belongs to a story: moved notes are rewritten only when the price moves 10 more points, turns, or the
   favourite changes; misses retried only after 5 more points; lead notes weekly. Caps: 3 per reading, 25/day, 750/month.
-  Order: the tide board first (moves, then leaders), other moves, other leaders. (First live fill put notes on deep
+  Order: the tide board first (moves, then leaders and matches), favourites (followed matches, ★, follows), other
+  moves, other leaders. (First live fill put notes on deep
   rows while the board waited behind minor moves; Parth saw none. The board is what everyone sees.)
 - Tested on a preview-only bench before launch (removed at launch): Parth judged Primetime, Russell, PayPal, Big
   Brother, Venezuela, Zverev, Barcelona notes good; the Arsenal one (Arteta's contract) wrong, which led to the rival
