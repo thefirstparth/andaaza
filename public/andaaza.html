@@ -82,11 +82,11 @@ button{font:inherit;color:inherit}
    (a crest on a tall column) pinned to its top, so no seam can show. Inside it, a full-height copy of the dry layer
    in white, so every letter is colour on pale above the water and white on colour below it. Only percentages and a
    fixed mask position: nothing that browsers disagree on. ---- */
-.wbox{position:absolute;left:0;right:0;bottom:0;font-style:normal;height:calc(var(--pv) * 1% + 4px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/40px 3000px repeat-x;mask:var(--wave) 0 0/40px 3000px repeat-x}
+.wbox{position:absolute;left:0;right:0;bottom:0;font-style:normal;height:calc(var(--pv) * 1% + 4px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/72px 3000px repeat-x;mask:var(--wave) 0 0/72px 3000px repeat-x}
 .wbox>.wfull.wfull{top:auto;bottom:0;height:calc((100% - 4px) * 100 / var(--pv));color:var(--on);background:none}
-:root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 3000'%3E%3Cpath d='M0 4C5 0 15 0 20 4s15 8 20 0V3000H0z'/%3E%3C/svg%3E")}
-@media (prefers-reduced-motion:no-preference){.wbox{animation:tide 7s linear infinite}}
-@keyframes tide{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:40px 0;mask-position:40px 0}}
+:root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 3000'%3E%3Cpath d='M0 4C12 .8 24 .8 36 4S60 7.2 72 4V3000H0z'/%3E%3C/svg%3E")}
+@media (prefers-reduced-motion:no-preference){.wbox{animation:tide 11s linear infinite}}
+@keyframes tide{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:72px 0;mask-position:72px 0}}
 /* Yesterday's level, as on a harbour gauge: a dashed mark. */
 .was{position:absolute;left:0;right:0;bottom:calc(var(--pp) * 1%);border-top:1.5px dashed currentColor;opacity:.55;pointer-events:none}
 
@@ -148,6 +148,10 @@ button{font:inherit;color:inherit}
 .reading .src .off i{background:var(--down)}
 .reading .src .wait i{background:var(--muted)}
 .reading .upd b{color:var(--ink);font-weight:700}
+.reading .upd .now{display:inline-flex;align-items:center;gap:6px;color:var(--sea);font-weight:700}
+.reading .upd .now i{width:7px;height:7px;border-radius:50%;background:currentColor}
+@media (prefers-reduced-motion:no-preference){.reading .upd .now i{animation:breath 1.2s ease-in-out infinite}}
+@keyframes breath{50%{opacity:.25}}
 .reading .stale{max-width:34ch;font:600 12.5px/1.4 var(--sans);color:var(--ink);background:color-mix(in oklab,var(--marigold) 22%,var(--card));padding:8px 12px;border-radius:14px}
 @media (max-width:760px){.mast{grid-template-columns:1fr}.reading{justify-items:start;text-align:left}.reading .src{justify-content:flex-start}}
 
@@ -572,9 +576,9 @@ function paint() {
 
 // The next automatic update comes from the server (next_at); the page picks it up by itself.
 function readingHTML(d) {
-  const next = Date.parse(d.next_at || 0) || Date.parse(d.generated_at) + 11 * 60 * 1000;
+  const next = Date.parse(d.next_at || 0) || Date.parse(d.generated_at) + 15 * 60 * 1000, late = d.updating || next <= Date.now();
   return `<div class="clock">${ist(Date.now())}<small>IST</small></div>
-<div class="upd">Markets read at <b>${ist(d.generated_at)}</b> · next update ${next > Date.now() ? `<b>${ist(next)}</b>` : "any moment"}</div>
+<div class="upd">Markets read at <b>${ist(d.generated_at)}</b> · ${late ? `<span class="now"><i></i>updating now</span>` : `next update <b>${ist(next)}</b>`}</div>
 ${Date.now() - Date.parse(d.generated_at) > 3 * 36e5 ? `<div class="stale">This is the last good reading, from ${esc(new Date(d.generated_at).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }))} IST. The markets are not answering just now; the page keeps trying.</div>` : ""}
 <div class="src">${d.sources.map(s => `<span class="${s.ok ? "" : s.pending ? "wait" : "off"}" title="${s.ok ? s.count + " markets read" : s.pending ? "Being read now; it will appear at the next update" : "Unavailable just now"}"><i></i>${esc(s.name)}${s.pending ? " · coming" : ""}</span>`).join("")}</div>`;
 }
@@ -638,12 +642,12 @@ const good = d => (d?.generated_at ? d : Promise.reject(new Error(d?.error || "n
 let nextT;
 const load = () => fetch("/api/consensus").then(r => r.json()).then(good).then(d => {
   if (!D || Date.parse(d.generated_at) > Date.parse(D.generated_at) || (d.sources || []).some((s, i) => s.ok !== D.sources[i]?.ok)) { render(d); keep(d); }
-  else D.next_at = d.next_at;
+  else { D.next_at = d.next_at; D.updating = d.updating; $("#reading").innerHTML = readingHTML(D); }
   plan();
 }).catch(() => plan(60 * 1000));
 function plan(ms) {
   clearTimeout(nextT);
-  const due = D?.next_at ? Date.parse(D.next_at) - Date.now() : 60 * 1000;
+  const due = !D ? 60 * 1000 : D.updating || Date.parse(D.next_at || 0) <= Date.now() ? 20 * 1000 : Date.parse(D.next_at) - Date.now() + 20 * 1000;
   nextT = setTimeout(() => (document.hidden ? plan(60 * 1000) : load()), Math.max(20 * 1000, Math.min(ms ?? due, 15 * 60 * 1000)));
 }
 const early = kept ? setTimeout(() => { if (!D) render(kept); }, 1500) : 0;

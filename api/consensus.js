@@ -48,8 +48,13 @@ function rebuild() {
   return building;
 }
 // next_at: when the page should ask again to pick up the next reading (a minute after it is due, for the build).
-const withNext = d => ({ ...d, next_at: new Date(Math.max(Date.now(), Date.parse(d.generated_at) + REFRESH) + 60 * 1000).toISOString() });
-const send = (d, cache = "public, s-maxage=120, stale-while-revalidate=600") => Response.json(withNext(d), { headers: { "cache-control": cache } });
+// next_at: when the next reading is due (the reading's time plus REFRESH), never a moving target. A reading that is
+// already due is marked `updating` (a new one is being read now) and is not cached, so the new one reaches the next
+// ask; a fresh one is cached at the edge for a minute.
+const withNext = d => { const due = Date.parse(d.generated_at) + REFRESH, late = Date.now() >= due;
+  return { ...d, next_at: new Date(due).toISOString(), ...(late ? { updating: true } : {}) }; };
+const send = (d, cache) => { const o = withNext(d);
+  return Response.json(o, { headers: { "cache-control": cache || (o.updating ? "no-store" : "public, s-maxage=60, stale-while-revalidate=30") } }); };
 
 export async function GET() {
   try {
