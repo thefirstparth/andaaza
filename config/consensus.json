@@ -865,6 +865,28 @@
       "no clear",
       "speculation"
     ],
-    "banned_rule": "A note containing any of these words, an em dash, a question mark or an exclamation mark, or longer than max_chars, is thrown away and the plain line stays. Taken from the paper's list of AI tells."
+    "banned_tails": [
+      "highlighting",
+      "underscoring",
+      "signalling",
+      "signaling",
+      "reflecting",
+      "showcasing",
+      "marking",
+      "suggesting",
+      "indicating",
+      "demonstrating",
+      "emphasising",
+      "emphasizing",
+      "reinforcing",
+      "cementing",
+      "fuelling",
+      "fueling",
+      "raising",
+      "sparking",
+      "adding to",
+      "paving"
+    ],
+    "banned_rule": "A note containing any of these words, an em dash, a question mark or an exclamation mark, or longer than max_chars, is thrown away and the plain line stays. So is one ending in a comma and one of banned_tails (', highlighting the growing importance of'): an -ing tail that fakes analysis. A tail that adds a fact (', qualifying eight-tenths ahead of Leclerc') stays. Taken from the paper's list of AI tells."
   }
 }
