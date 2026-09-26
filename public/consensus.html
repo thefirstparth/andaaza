@@ -6,126 +6,242 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Consensus</title>
 <meta name="description" content="What the world's prediction markets think, about the things Parth follows and what everyone is betting on.">
-<meta name="theme-color" content="#f5f8f8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0b1214" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eef4f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#071013" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 6C24 18 17 26 17 35a15 15 0 0 0 30 0c0-9-7-17-15-29z' fill='%230f5f73'/%3E%3C/svg%3E">
 <script>var P0=fetch("/api/consensus").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()});P0.catch(function(){});try{var t=localStorage.getItem("cons-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Roboto Flex with the paper's axes (already cached for a paper reader); Bodoni only for the letters of the name. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@62..100,400..800&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&text=Consensu0123456789&display=swap" media="print" onload="this.media='all'">
+<!-- Roboto Flex with the paper's axes (already cached for a paper reader) for everything that is read; Bodoni Moda
+     italic for the name and the area titles, the way a chart's title cartouche is engraved. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@62..100,400..900&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400..500&display=swap" media="print" onload="this.media='all'">
 <style>
+/* Consensus reads like a tide table: every chance is a water level on a staff gauge. The palette is the harbour's
+   (sea-mist ground, deep-water ink), each subject keeps its own colour, and the only ornament is the water itself. */
 :root{
   color-scheme:light;
-  --bg:#f5f8f8;--card:#ffffff;--ink:#162024;--ink2:#46545a;--muted:#75838a;--line:#e1e8e9;--line2:#edf2f2;
-  --sea:#0f5f73;--tide:#5b9eae;--foam:#e2eff1;
-  --up:#1d8352;--down:#c2453b;
-  --sport:#23874a;--tech:#0e7b93;--money:#9a6f00;--world:#4150c8;--screen:#b0407c;--misc:#6a5ac8;
-  --sport-c:#e1f3e6;--tech-c:#dcf1f5;--money-c:#f8edd2;--world-c:#e6e8fb;--screen-c:#f8e3ee;--misc-c:#ebe8fb;
-  --shadow:0 1px 2px rgba(22,32,36,.04),0 8px 24px -16px rgba(22,32,36,.18);
+  --bg:#eef4f4;--bg2:#e4eeef;--card:#ffffff;--ink:#0f1a1d;--ink2:#3f5157;--muted:#6d7f85;--line:#d6e2e4;--line2:#e7eff0;
+  --sea:#0c5a6e;--tide:#4f97a8;--foam:#dcecef;
+  --up:#17804e;--down:#c0392f;
+  --sport:#1f8a4e;--tech:#0b7896;--money:#a26f00;--world:#233f7c;--screen:#9b3a8e;--misc:#56626e;
+  --shadow:0 1px 1px rgba(15,26,29,.04),0 10px 30px -18px rgba(15,26,29,.28);
   --sans:"Roboto Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --on:#fff;--mixw:0%;--misc0:#56626e;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  color-scheme:dark;--bg:#0b1214;--card:#121b1e;--ink:#e7eeef;--ink2:#b8c5c9;--muted:#84949a;--line:#223035;--line2:#1a2629;
-  --sea:#6cc3d3;--tide:#3f8a9a;--foam:#12303a;--up:#58cf8d;--down:#ef8278;
-  --sport:#6fd08f;--tech:#62d0e6;--money:#e8c35c;--world:#a8b2ff;--screen:#f19ac6;--misc:#b8adff;--sport-c:#14301d;--tech-c:#0f2e36;--money-c:#33280a;--world-c:#1e2350;--screen-c:#3a1a2c;--misc-c:#241f48;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7)}}
+  color-scheme:dark;--bg:#071013;--bg2:#0b171a;--card:#0e1a1e;--ink:#e6eef0;--ink2:#b3c3c8;--muted:#7f929a;--line:#1d2c31;--line2:#15232a;
+  --sea:#6cc3d3;--tide:#3f8a9a;--foam:#10272e;--up:#58cf8d;--down:#ef8278;
+  --sport:#6fd08f;--tech:#62d0e6;--money:#e8c35c;--world:#a8b2ff;--screen:#e59ad6;--misc:#a4b0bb;
+  --shadow:0 1px 1px rgba(0,0,0,.3),0 12px 32px -18px rgba(0,0,0,.8);--on:#071013;--mixw:38%;--misc0:#8a97a3}}
 :root[data-theme="dark"]{
-  color-scheme:dark;--bg:#0b1214;--card:#121b1e;--ink:#e7eeef;--ink2:#b8c5c9;--muted:#84949a;--line:#223035;--line2:#1a2629;
-  --sea:#6cc3d3;--tide:#3f8a9a;--foam:#12303a;--up:#58cf8d;--down:#ef8278;
-  --sport:#6fd08f;--tech:#62d0e6;--money:#e8c35c;--world:#a8b2ff;--screen:#f19ac6;--misc:#b8adff;--sport-c:#14301d;--tech-c:#0f2e36;--money-c:#33280a;--world-c:#1e2350;--screen-c:#3a1a2c;--misc-c:#241f48;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7)}
-[data-a=sport]{--a:var(--sport);--ac:var(--sport-c)}[data-a=tech]{--a:var(--tech);--ac:var(--tech-c)}[data-a=money]{--a:var(--money);--ac:var(--money-c)}[data-a=world]{--a:var(--world);--ac:var(--world-c)}[data-a=screen]{--a:var(--screen);--ac:var(--screen-c)}[data-a=misc]{--a:var(--misc);--ac:var(--misc-c)}
+  color-scheme:dark;--bg:#071013;--bg2:#0b171a;--card:#0e1a1e;--ink:#e6eef0;--ink2:#b3c3c8;--muted:#7f929a;--line:#1d2c31;--line2:#15232a;
+  --sea:#6cc3d3;--tide:#3f8a9a;--foam:#10272e;--up:#58cf8d;--down:#ef8278;
+  --sport:#6fd08f;--tech:#62d0e6;--money:#e8c35c;--world:#a8b2ff;--screen:#e59ad6;--misc:#a4b0bb;
+  --shadow:0 1px 1px rgba(0,0,0,.3),0 12px 32px -18px rgba(0,0,0,.8);--on:#071013;--mixw:38%;--misc0:#8a97a3}
+[data-a=sport]{--a:var(--sport)}[data-a=tech]{--a:var(--tech)}[data-a=money]{--a:var(--money)}[data-a=world]{--a:var(--world)}[data-a=screen]{--a:var(--screen)}[data-a=misc]{--a:var(--misc)}
+[data-a]{--ac:color-mix(in oklab,var(--a) 12%,var(--card))}
+/* Each subject its own ink (--a0); tints and night versions are mixed from it. */
+[data-k]{--a0:var(--misc0)}
+[data-k=f1]{--a0:#d42a3a}[data-k=football]{--a0:#1f8a4e}[data-k=cricket]{--a0:#0d7c6c}[data-k=tennis]{--a0:#c25f1c}[data-k=nba]{--a0:#3d4fcc}
+[data-k=ai]{--a0:#0b7896}[data-k=money]{--a0:#a26f00}[data-k=india]{--a0:#d8700a}[data-k=world]{--a0:#233f7c}
+[data-k=film]{--a0:#7a3fc4}[data-k=ott]{--a0:#b62d6c}[data-k=celebs]{--a0:#d24f86}
+[data-k]{--a:color-mix(in oklab,var(--a0),#fff var(--mixw));--ac:color-mix(in oklab,var(--a0) 11%,var(--card));--a2:color-mix(in oklab,var(--a) 52%,var(--card));--a3:color-mix(in oklab,var(--a) 26%,var(--card))}
+
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
 a{color:inherit}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--sea);outline-offset:3px;border-radius:8px}
-.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,4vw,44px)}
-
 [hidden]{display:none!important}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:clamp(16px,4vw,44px)}
+.ic{fill:currentColor;display:inline-block;vertical-align:-.15em}
+.eyebrow{font:800 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 
-/* ---- masthead ---- */
-.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:calc(16px + env(safe-area-inset-top,0px));font:500 13px var(--sans);color:var(--muted)}
+/* ---- the water: one mask shape (a wave crest on a tall column), so no seam can ever show between crest and body.
+   Sized in container units: --pv is the level in percent, the crest's middle sits exactly on it. ---- */
+.wet{-webkit-mask:var(--wave) 0 calc(100cqh - var(--pv) * 1cqh - 4px)/40px 3000px repeat-x;mask:var(--wave) 0 calc(100cqh - var(--pv) * 1cqh - 4px)/40px 3000px repeat-x}
+:root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 3000'%3E%3Cpath d='M0 4C5 0 15 0 20 4s15 8 20 0V3000H0z'/%3E%3C/svg%3E")}
+@media (prefers-reduced-motion:no-preference){.wet{animation:tide 7s linear infinite}}
+@keyframes tide{to{-webkit-mask-position:40px calc(100cqh - var(--pv) * 1cqh - 4px);mask-position:40px calc(100cqh - var(--pv) * 1cqh - 4px)}}
+/* Yesterday's level, as on a harbour gauge: a dashed mark. */
+.was{position:absolute;left:0;right:0;bottom:calc(var(--pp) * 1%);border-top:1.5px dashed currentColor;opacity:.55;pointer-events:none}
+
+/* ---- top line ---- */
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:calc(14px + env(safe-area-inset-top,0px));font:600 13px var(--sans);color:var(--muted)}
 .bar a{text-decoration:none}.bar a:hover{color:var(--ink)}
-.bar button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;font-weight:600;cursor:pointer;color:var(--ink2)}
-.mast{background:radial-gradient(120% 140% at 0% 0%,var(--foam),transparent 60%);border-radius:0 0 32px 32px;margin-inline:calc(-1 * clamp(16px,4vw,44px));padding-inline:clamp(16px,4vw,44px);display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6px 18px;padding-block:clamp(26px,5vw,56px) 10px}
-.mark{width:clamp(56px,7vw,84px);height:auto;grid-row:span 2;overflow:visible}
+.bar .btns{display:flex;gap:8px}
+.bar button,.bar a.back{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.bar button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;font-weight:650;cursor:pointer;color:var(--ink2)}
+.bar button:hover{border-color:var(--tide);color:var(--ink)}
+.bar .ic{width:16px;height:16px}
+#theme{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#theme .ic{color:#f0c860}
+#refresh[disabled]{opacity:.75;cursor:progress}
+@media (prefers-reduced-motion:no-preference){#refresh.spin .ic{animation:spin 1s linear infinite}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:440px){.bar .lg{display:none}.bar button{padding:6px 10px}}
+
+/* ---- masthead: the name engraved over depth soundings, and the reading ---- */
+.mast{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:18px 40px;padding-block:clamp(28px,5vw,64px) clamp(18px,3vw,30px);border-bottom:1.5px solid var(--ink)}
+.iso{position:absolute;inset:0 calc(-1 * clamp(16px,4vw,44px));z-index:-1;width:calc(100% + 2 * clamp(16px,4vw,44px));height:100%;color:var(--tide);opacity:.28;pointer-events:none}
+.iso path{fill:none;stroke:currentColor;stroke-width:1}
+.iso{-webkit-mask:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent)}
+.name{display:flex;align-items:flex-end;gap:clamp(10px,1.6vw,20px)}
+.mark{width:clamp(46px,6vw,78px);height:auto;flex:none;overflow:visible;margin-bottom:.35em}
 .mark .drop{fill:var(--sea)}
 .mark .rip{fill:none;stroke:var(--tide);stroke-width:1.6}
 .mark .r2{opacity:.55}.mark .r3{opacity:.28}
 @media (prefers-reduced-motion:no-preference){.mark .rip{transform-box:fill-box;transform-origin:center;animation:ripple 5s ease-out infinite}.mark .r2{animation-delay:1.6s}.mark .r3{animation-delay:3.2s}}
 @keyframes ripple{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.3);opacity:0}}
-.mast h1{margin:0;font:italic 400 clamp(48px,8.5vw,104px)/.95 var(--display);letter-spacing:-.01em;color:var(--ink)}
-.mast p{margin:0;font:400 clamp(15px,1.6vw,18px)/1.45 var(--sans);color:var(--ink2);max-width:52ch}
-.status{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;padding:14px 0 10px;border-bottom:1px solid var(--line);font:500 13px var(--sans);color:var(--muted)}
-.status .src{display:inline-flex;align-items:center;gap:6px}
-.status .src i{width:7px;height:7px;border-radius:50%;background:var(--up)}
-.status .src.off i{background:var(--down)}
-.status .upd{margin-left:auto;display:inline-flex;align-items:center;gap:7px}
-.status .upd i{width:7px;height:7px;border-radius:50%;background:var(--sea)}
-@media (prefers-reduced-motion:no-preference){.status .upd i{animation:breath 3s ease-in-out infinite}}
-@keyframes breath{50%{opacity:.25}}
+.mast h1{margin:0;font:italic 400 clamp(60px,11vw,150px)/.82 var(--display);letter-spacing:-.02em;color:var(--ink)}
+.mast .tag{margin:14px 0 0;font:400 clamp(15px,1.5vw,18px)/1.45 var(--sans);color:var(--ink2);max-width:46ch}
+.reading{display:grid;gap:8px;justify-items:end;text-align:right;font:500 13px/1.35 var(--sans);color:var(--muted);min-width:230px}
+.reading .clock{font:800 clamp(34px,4vw,48px)/.9 var(--sans);font-variation-settings:"wdth" 70;color:var(--ink);letter-spacing:-.01em}
+.reading .clock small{font:600 13px var(--sans);color:var(--muted);letter-spacing:0;margin-left:6px}
+.reading .src{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.reading .src span{display:inline-flex;align-items:center;gap:6px}
+.reading .src i{width:7px;height:7px;border-radius:50%;background:var(--up)}
+.reading .src .off i{background:var(--down)}
+.reading .upd b{color:var(--ink);font-weight:700}
+@media (max-width:760px){.mast{grid-template-columns:1fr}.reading{justify-items:start;text-align:left}.reading .src{justify-content:flex-start}}
+
+/* ---- the tide board: the biggest question in each area, each on its own tall staff gauge ---- */
+.board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(10px,1.4vw,18px);margin-top:clamp(22px,3vw,34px)}
+.post{display:flex;flex-direction:column;gap:10px;text-decoration:none;min-width:0}
+.post .lbl{display:flex;align-items:center;gap:7px;font:800 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a)}
+.post .lbl .ic{width:15px;height:15px}
+.staff{position:relative;height:clamp(230px,26vw,320px);border-radius:16px;background:var(--ac);overflow:hidden;container-type:size;border:1px solid color-mix(in oklab,var(--a) 22%,transparent);transition:border-color .2s}
+.post:hover .staff{border-color:var(--a)}
+.staff .l{position:absolute;inset:0;padding:14px 16px;color:var(--a)}
+.staff .l.wet{background:var(--a);color:var(--on)}
+/* The scale: a tick every 10, a long one at 50, numbered at 25, 50 and 75, down the right-hand edge. */
+.staff .l::after{content:"";position:absolute;right:0;top:0;bottom:0;width:14px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 10%);opacity:.5;-webkit-mask:linear-gradient(to left,#000 0 7px,transparent 7px);mask:linear-gradient(to left,#000 0 7px,transparent 7px)}
+.staff .sc{position:absolute;right:11px;transform:translateY(50%);font:700 9.5px/1 var(--sans);opacity:.6}
+.staff b{position:absolute;left:14px;top:12px;font:900 clamp(56px,6.4vw,92px)/.8 var(--sans);font-variation-settings:"wdth" 62;letter-spacing:-.02em}
+.staff b small{font-size:.38em;font-weight:800;margin-left:2px;letter-spacing:0}
+.staff .wl{position:absolute;right:26px;bottom:calc(var(--pp) * 1%);transform:translateY(-3px);font:800 10.5px var(--sans);white-space:nowrap}
+.staff .wl.dn{transform:translateY(calc(100% + 4px))}
+.post .who{font:800 18px/1.15 var(--sans);font-variation-settings:"wdth" 88;color:var(--ink)}
+.post .q{font:500 13.5px/1.35 var(--sans);color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.post .dl{font:700 12px var(--sans)}
+@media (max-width:900px){.board{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(58vw,230px);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:clamp(16px,4vw,44px);scrollbar-width:none;margin-inline:calc(-1 * clamp(16px,4vw,44px));padding-inline:clamp(16px,4vw,44px)}.board::-webkit-scrollbar{display:none}.post{scroll-snap-align:start}}
 
 /* ---- headings ---- */
-.sh{display:flex;align-items:baseline;justify-content:space-between;gap:10px 20px;flex-wrap:wrap;margin:clamp(34px,5vw,54px) 0 12px}
-.sh h2{margin:0;font:600 clamp(24px,2.8vw,32px)/1.1 var(--sans);letter-spacing:-.01em;display:flex;align-items:center;gap:12px}
-.sh h2 .ic{width:28px;height:28px;color:var(--a,var(--sea));flex:none}
-.sh p{margin:0;font:400 14px var(--sans);color:var(--muted)}
-.sub{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px;font:700 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--a)}
-.sub span{color:var(--muted);font-weight:500;letter-spacing:.02em;text-transform:none}
-.sub .ic{width:16px;height:16px;align-self:center}
-.ic{fill:currentColor;display:inline-block;vertical-align:-.15em}
-.bar .btns{display:flex;gap:8px}
-.bar button,.bar a.back{display:inline-flex;align-items:center;gap:6px}
-.bar .ic{width:16px;height:16px}
-.bar a.back{white-space:nowrap}
-@media (max-width:440px){.bar .lg{display:none}.bar button{padding:6px 10px}}
-#refresh[disabled]{opacity:.75;cursor:progress}
-@media (prefers-reduced-motion:no-preference){#refresh.spin .ic{animation:spin 1s linear infinite}}
-@keyframes spin{to{transform:rotate(360deg)}}
-#theme{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-#theme .ic{color:#f0c860}
+.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;margin:clamp(44px,6vw,76px) 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.sh h2{margin:0;display:flex;align-items:baseline;gap:14px;font:italic 400 clamp(38px,4.6vw,60px)/.9 var(--display);letter-spacing:-.015em;color:var(--ink)}
+.sh h2 .ic{width:26px;height:26px;color:var(--a,var(--sea));align-self:center}
+.sh p{margin:0;font:500 13.5px var(--sans);color:var(--muted)}
+.sh .n{font:800 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
+.sub{display:flex;align-items:center;gap:9px;margin:26px 0 12px;font:800 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
+.sub .ic{width:16px;height:16px}
+.sub span{color:var(--muted);font-weight:550;letter-spacing:.02em;text-transform:none}
 
-/* ---- moving today ---- */
-.moves{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:0 28px}
-.mv{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);text-decoration:none}
-.mv .t{font:500 15px/1.35 var(--sans);color:var(--ink)}
-.mv .t small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:2px}
-.mv .t small b{color:var(--a);font-weight:700}
-.mv .f{text-align:right;white-space:nowrap;font:500 14px var(--sans);color:var(--muted)}
-.mv .f b{font:650 20px var(--sans);color:var(--ink);margin-left:4px}
-.mv .f em{display:block;font:600 12px var(--sans);font-style:normal}
-.mv:hover .t{text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+/* ---- currents: what moved in a day, a strip from yesterday's level to today's ---- */
+.currents{display:grid;grid-auto-flow:column;grid-auto-columns:min(78vw,290px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:clamp(16px,4vw,44px);scrollbar-width:none;padding-bottom:6px;margin-inline:calc(-1 * clamp(16px,4vw,44px));padding-inline:clamp(16px,4vw,44px)}
+.currents::-webkit-scrollbar{display:none}
+.cur{scroll-snap-align:start;display:flex;flex-direction:column;gap:9px;padding:15px 16px 16px;border-radius:20px;background:var(--card);border:1px solid var(--line);text-decoration:none;transition:border-color .2s}
+.cur:hover{border-color:var(--a)}
+.cur .tg{display:flex;justify-content:space-between;gap:8px;font:800 10.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--a)}
+.cur .tg span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:11.5px}
+.cur .t{font:600 14.5px/1.3 var(--sans);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
+.cur .who{font:650 12.5px var(--sans);color:var(--ink2)}
+.cur .fr{display:flex;align-items:baseline;gap:8px;margin-top:auto}
+.cur .fr s{text-decoration:none;font:700 17px var(--sans);color:var(--muted)}
+.cur .fr .ar{font:600 16px var(--sans);color:var(--muted)}
+.cur .fr b{font:900 40px/.9 var(--sans);font-variation-settings:"wdth" 62;color:var(--a)}
+.cur .fr em{margin-left:auto;font:800 12.5px var(--sans);font-style:normal}
+.strip{position:relative;height:12px;border-radius:99px;background:var(--ac);overflow:hidden}
+.strip i{position:absolute;inset:0 auto 0 0;border-radius:99px;background:var(--a)}
+.strip u{position:absolute;top:-2px;bottom:-2px;width:0;border-left:2px dashed var(--ink);opacity:.6}
 
 /* ---- filter ---- */
-.chips{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin-top:28px}
+.chips{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-top:34px}
 .chips .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:10px}
 .chips .wrap::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font:600 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font:650 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 .chip .ic{width:17px;height:17px;color:var(--a,var(--sea))}
+.chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink));color:var(--card)}
 .chip[aria-pressed="true"] .ic{color:inherit}
-.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 
-/* ---- cards ---- */
+/* ---- tickets: a gauge filled to the favourite's chance, which it names; the field on the right ---- */
 .area{scroll-margin-top:64px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px}
-.d.up{color:var(--up)}.d.dn{color:var(--down)}
-.also a{text-decoration:none;color:inherit;border-bottom:1px dotted currentColor}
+.tk{display:grid;grid-template-columns:120px minmax(0,1fr);background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 20%,transparent);border-radius:22px;overflow:hidden;min-width:0;transition:border-color .2s,box-shadow .2s}
+.tk:hover{border-color:color-mix(in oklab,var(--a) 60%,transparent);box-shadow:var(--shadow)}
+.gauge{position:relative;display:block;text-decoration:none;background:color-mix(in oklab,var(--a) 15%,var(--card));border-right:2px dashed color-mix(in oklab,var(--a) 35%,transparent);min-height:132px;overflow:hidden;container-type:size}
+.gauge .g{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;padding:12px 14px}
 
-/* ---- the world ---- */
-.world{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr));gap:0 36px}
-.wr{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none}
-.wr .n{font:italic 400 28px/1 var(--display);color:var(--a,var(--tide))}
-.wr .q{font:500 15px/1.35 var(--sans)}
-.wr .q small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:2px}
-.wr .p{text-align:right;font:650 20px/1 var(--sans)}
-.wr .p small{display:block;font:500 12px var(--sans);color:var(--muted);max-width:16ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+.gauge .g::after{content:"";position:absolute;right:0;top:0;bottom:0;width:6px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 25%);opacity:.45}
+.gauge b{font:900 46px/.88 var(--sans);font-variation-settings:"wdth" 62;letter-spacing:-.015em}
+.gauge b small{font-size:.44em;font-weight:800;margin-left:1px;letter-spacing:0}
+.gauge span{font:750 13px/1.22 var(--sans);font-variation-settings:"wdth" 78;overflow-wrap:break-word;hyphens:auto;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+/* The name never crosses the waterline, only the number does: from 50% it sits at the foot under water, below 50%
+   at the head, dry (three lines at most, so it clears the water either way). */
+.gauge.lo .g{justify-content:space-between}
+.gauge.lo .g span{order:-1}
+.gauge .gw{position:absolute;inset:0;display:block;font-style:normal;color:var(--a)}
+.gauge .gw.wet{background:var(--a);color:var(--on)}
+/* On the small gauge yesterday's level is a notch on the scale edge, so it never crosses the name. */
+.gauge .was{left:auto;width:18px;border-top-width:2px;border-top-style:solid;opacity:.9}
+.tk .bd{padding:14px 18px 15px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.tk .meta{display:flex;justify-content:space-between;gap:10px;font:800 10.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--a)}
+.tk .meta span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:12px;white-space:nowrap}
+.tk h3{margin:0;font:750 18px/1.24 var(--sans);font-variation-settings:"wdth" 88;text-wrap:balance}
+.tk h3 a{text-decoration:none}.tk h3 a:hover{text-decoration:underline;text-decoration-color:var(--a);text-underline-offset:3px}
+.seg{display:flex;gap:3px;height:11px;border-radius:99px;overflow:hidden}
+.seg i{display:block;height:100%;border-radius:99px;min-width:3px}
+.seg .s0{background:var(--a)}.seg .s1{background:var(--a2)}.seg .s2{background:var(--a3)}.seg .s9{background:color-mix(in oklab,var(--muted) 28%,var(--card))}
+.key{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:3px 14px;font:500 13px/1.35 var(--sans);color:var(--ink2)}
+.key i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.key b{font-weight:800;color:var(--ink);margin-left:4px}
+.key .s1{background:var(--a2)}.key .s2{background:var(--a3)}.key .s9{background:color-mix(in oklab,var(--muted) 28%,var(--card))}
+.steps{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.steps div{border-top:3px solid var(--a3);padding-top:5px;font:500 12px/1.25 var(--sans);color:var(--muted)}
+.steps b{display:block;font:800 16px var(--sans);color:var(--ink)}
+.tk .ft{margin-top:auto;display:flex;flex-wrap:wrap;gap:4px 12px;font:700 12.5px/1.35 var(--sans);color:var(--muted)}
+.d.up{color:var(--up)}.d.dn{color:var(--down)}
+.also a{text-decoration:none;color:inherit;border-bottom:1px dotted currentColor;font-weight:600}
+.pl{font:800 9.5px/1 var(--sans);letter-spacing:.1em;padding:3px 6px;border:2px double var(--a);border-radius:5px;transform:rotate(-3deg);display:inline-block;color:var(--a)}
+@media (min-width:900px){
+  .tk.big{grid-column:1/-1;grid-template-columns:220px minmax(0,1fr)}
+  .tk.big .gauge{min-height:190px}.tk.big .g{padding:20px 24px}
+  .tk.big .gauge b{font-size:92px}.tk.big .gauge span{font-size:16px}
+  .tk.big .bd{padding:22px 30px;justify-content:center;gap:12px}
+  .tk.big h3{font:italic 400 clamp(30px,3vw,42px)/1.05 var(--display);letter-spacing:-.01em}
+  .tk.big .seg{height:15px}.tk.big .key{font-size:14.5px}
+}
+@media (max-width:600px){.tk{grid-template-columns:100px minmax(0,1fr)}.gauge .g{padding:10px 11px}.gauge b{font-size:38px}.tk h3{font-size:16px}.tk .bd{padding:12px 14px}}
+
+/* ---- coming up: each sport's next matches ---- */
+.next{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px;margin-bottom:14px}
+.fx{display:flex;flex-direction:column;gap:8px;padding:13px 15px;border-radius:18px;background:var(--card);border:1px solid color-mix(in oklab,var(--a) 22%,var(--line));text-decoration:none;transition:border-color .2s}
+.fx:hover{border-color:var(--a)}
+.fx .when{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;font:700 11.5px var(--sans);color:var(--muted)}
+.fx .when b{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--a);font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:10.5px}
+.fx .vs{font:800 17px/1.2 var(--sans);font-variation-settings:"wdth" 88}
+.fx .vs em{font:italic 400 17px var(--display);color:var(--muted);margin:0 6px}
+.fx .three{display:flex;gap:3px;height:9px}
+.fx .three i{border-radius:99px;min-width:3px;display:block}
+.fx .three .h{background:var(--a)}.fx .three .x{background:color-mix(in oklab,var(--muted) 28%,var(--card))}.fx .three .w{background:var(--a2)}
+.fx .odds{display:flex;justify-content:space-between;gap:6px;font:500 12.5px var(--sans);color:var(--ink2)}
+.fx .odds b{color:var(--ink);font-weight:800}
+
+/* ---- the world: each row filled like water to its chance ---- */
+.world{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:8px 18px}
+.wr{position:relative;display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:center;padding:13px 16px;border-radius:14px;text-decoration:none;background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%));border:1px solid var(--line);overflow:hidden}
+.wr:hover{border-color:var(--a)}
+.wr .n{font:italic 400 32px/1 var(--display);color:var(--a)}
+.wr .q{font:600 15px/1.3 var(--sans)}
+.wr .q small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:3px}
+.wr .p{text-align:right;font:900 26px/1 var(--sans);font-variation-settings:"wdth" 70;color:var(--a)}
+.wr .p small{display:block;font:600 12px var(--sans);color:var(--muted);max-width:18ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
 
 /* ---- how it picks ---- */
-details.how{margin-top:48px;border-top:1px solid var(--line);padding-top:16px}
-details.how summary{cursor:pointer;font:600 15px var(--sans);color:var(--ink);list-style:none;display:flex;align-items:center;gap:10px}
+details.how{margin-top:60px;border-top:1.5px solid var(--ink);padding-top:18px}
+details.how summary{cursor:pointer;font:600 15px var(--sans);list-style:none;display:flex;align-items:center;gap:10px}
 details.how summary::-webkit-details-marker{display:none}
 details.how summary::before{content:"+";width:24px;height:24px;border-radius:50%;background:var(--foam);color:var(--sea);display:grid;place-items:center;font-weight:700}
 details.how[open] summary::before{content:"–"}
@@ -136,148 +252,63 @@ details.how li{margin:0 0 8px}
 .sk{height:120px;border-radius:18px;background:linear-gradient(100deg,var(--card) 40%,var(--line2) 50%,var(--card) 60%) 0 0/300% 100%;animation:sh 1.3s linear infinite}
 @keyframes sh{to{background-position:-150% 0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-/* ---- poster: the whole page on one screen, for a monitor or a spare display ---- */
+
+/* ---- poster: the tide board and the day on one screen, for a monitor or a spare display ---- */
 .pv{position:fixed;inset:0;z-index:20;background:var(--bg);display:grid;place-items:center;padding:clamp(14px,2.2vw,30px);overflow:hidden}
-.pv .sheet{width:min(1500px,100%);display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:14px 22px}
-.pv .ph{grid-column:1/-1;display:flex;align-items:center;gap:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
-.pv .ph .mark{width:46px;grid-row:auto}
-.pv .ph h1{margin:0;font:italic 400 52px/1 var(--display)}
-.pv .ph .clock{margin-left:auto;text-align:right;font:500 13px var(--sans);color:var(--muted)}
-.pv .ph .clock b{display:block;font:650 34px/1 var(--sans);color:var(--ink)}
-.pv .col{display:flex;flex-direction:column;gap:6px;min-width:0}
-.pv h3{margin:6px 0 2px;display:flex;align-items:center;gap:8px;font:700 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--a,var(--sea))}
-.pv h3 .ic{width:18px;height:18px}
-.pv .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
-.pv .it span{font:500 14px/1.3 var(--sans);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pv .sheet{width:min(1560px,100%);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 30px}
+.pv .ph{grid-column:1/-1;display:flex;align-items:flex-end;gap:16px;padding-bottom:14px;border-bottom:1.5px solid var(--ink)}
+.pv .ph .mark{width:50px;margin-bottom:.3em}
+.pv .ph h1{margin:0;font:italic 400 76px/.85 var(--display);letter-spacing:-.02em}
+.pv .ph .reading{margin-left:auto}
+.pv .board{grid-column:1/-1;margin-top:4px}
+.pv .staff{height:250px}
+.pv .col{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pv h3{margin:0 0 6px;display:flex;align-items:center;gap:8px;font:800 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
+.pv h3 .ic{width:17px;height:17px}
+.pv .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 14px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.pv .it span{font:600 14.5px/1.3 var(--sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pv .it small{grid-column:1;font:500 12px var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pv .it b{grid-row:span 2;grid-column:2;text-align:right;font:650 20px/1 var(--sans)}
-.pv .it b em{display:block;font:600 11.5px var(--sans);font-style:normal;margin-top:3px}
+.pv .it b{grid-row:span 2;grid-column:2;text-align:right;font:900 26px/1 var(--sans);font-variation-settings:"wdth" 66;color:var(--a,var(--ink))}
+.pv .it b em{display:block;font:800 11.5px var(--sans);font-style:normal;margin-top:3px}
 .pv .x{position:fixed;top:12px;right:12px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font:600 13px var(--sans);cursor:pointer}
-.pv .grp{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
-@media (max-width:900px){.pv{place-items:start center;overflow:auto}.pv .sheet{grid-template-columns:1fr}.pv .grp{grid-template-columns:1fr}}
-/* ---- big monitors: scale up as a whole, like a browser zoom (see fitMonitor) ---- */
-@media (min-width:2100px){.wrap{max-width:1880px}body{font-size:16px}}
-@media (max-width:600px){.mast p{grid-column:1/-1}.mark{grid-row:auto}.status .upd{margin-left:0}.lead b{font-size:30px}.wr{grid-template-columns:26px minmax(0,1fr) auto}}
-
-/* ---- subject colours: each subject its own ink (--a0); tints and dark-mode versions are mixed from it ---- */
-[data-k]{--a0:var(--misc0)}
-:root{--misc0:#56626e;--on:#fff;--mixw:0%}
-[data-k=f1]{--a0:#d42a3a}[data-k=football]{--a0:#1f8a4e}[data-k=cricket]{--a0:#0d7c6c}[data-k=tennis]{--a0:#c25f1c}[data-k=nba]{--a0:#3d4fcc}
-[data-k=ai]{--a0:#0b7896}[data-k=money]{--a0:#a26f00}[data-k=india]{--a0:#d8700a}[data-k=world]{--a0:#233f7c}
-[data-k=film]{--a0:#7a3fc4}[data-k=ott]{--a0:#b62d6c}[data-k=celebs]{--a0:#d24f86}
-[data-k]{--a:color-mix(in oklab,var(--a0),#fff var(--mixw));--ac:color-mix(in oklab,var(--a0) 11%,var(--card));--a2:color-mix(in oklab,var(--a) 52%,var(--card));--a3:color-mix(in oklab,var(--a) 26%,var(--card))}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--on:#0b1214;--mixw:38%;--misc0:#8a97a3}}
-:root[data-theme="dark"]{--on:#0b1214;--mixw:38%;--misc0:#8a97a3}
-
-/* ---- the ticket: a gauge on the left filled to the favourite's chance, the question and the field on the right ---- */
-.tk{display:grid;grid-template-columns:118px minmax(0,1fr);background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 20%,transparent);border-radius:22px;overflow:hidden;min-width:0;transition:transform .2s,box-shadow .2s}
-.tk:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-/* The water: the white layer is masked to exactly the water, crest included, so every letter is either the subject's
-   colour on the pale stub or white on the water, never one colour on itself. Sized in container units (cqh). */
-.gauge{position:relative;display:block;text-decoration:none;background:color-mix(in oklab,var(--a) 16%,var(--card));border-right:2px dashed color-mix(in oklab,var(--a) 35%,transparent);min-height:128px;overflow:hidden;container-type:size}
-.gauge .g{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:4px;padding:12px 14px;color:var(--a)}
-.gauge .wet{--lv:calc(var(--pv) * 1cqh);background:var(--a);color:var(--on);
-  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8'%3E%3Cpath d='M0 4C5 0 15 0 20 4s15 4 20 0v4H0z'/%3E%3C/svg%3E") 0 calc(100cqh - var(--lv) - 7px)/40px 8px repeat-x,linear-gradient(#000 0 0) 0 100%/100% var(--lv) no-repeat;
-  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8'%3E%3Cpath d='M0 4C5 0 15 0 20 4s15 4 20 0v4H0z'/%3E%3C/svg%3E") 0 calc(100cqh - var(--lv) - 7px)/40px 8px repeat-x,linear-gradient(#000 0 0) 0 100%/100% var(--lv) no-repeat}
-.gauge b{font:850 44px/.9 var(--sans);font-variation-settings:"wdth" 62;letter-spacing:-.01em}
-.gauge b small{font-size:.46em;font-weight:800;margin-left:1px}
-.gauge span{font:750 13px/1.22 var(--sans);font-variation-settings:"wdth" 78;overflow-wrap:break-word;hyphens:auto;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-/* The name never crosses the waterline, only the big number does: at 50% or more it sits at the foot, always under
-   water; below 50% it moves to the head, always dry (three lines at most, so it clears the water either way). */
-.gauge .g{justify-content:flex-end}
-.gauge.lo .g{justify-content:space-between}
-.gauge.lo .g span{order:-1}
-@media (prefers-reduced-motion:no-preference){.gauge .wet{animation:tide 6s linear infinite}}
-@keyframes tide{to{-webkit-mask-position:40px calc(100cqh - var(--lv) - 7px),0 100%;mask-position:40px calc(100cqh - var(--lv) - 7px),0 100%}}
-.tk .bd{padding:13px 18px 14px;min-width:0;display:flex;flex-direction:column;gap:9px}
-.tk .meta{display:flex;justify-content:space-between;gap:10px;font:800 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
-.tk .meta span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:12px;white-space:nowrap}
-.tk h3{margin:0;font:700 17.5px/1.26 var(--sans);font-variation-settings:"wdth" 90;text-wrap:balance}
-.tk h3 a{text-decoration:none}.tk h3 a:hover{text-decoration:underline;text-decoration-color:var(--a);text-underline-offset:3px}
-.seg{display:flex;gap:3px;height:11px;border-radius:99px;overflow:hidden;background:var(--line2)}
-.seg i{display:block;height:100%;border-radius:99px;min-width:3px}
-.seg .s0{background:var(--a)}.seg .s1{background:var(--a2)}.seg .s2{background:var(--a3)}.seg .s9{background:color-mix(in oklab,var(--muted) 30%,var(--card))}
-.key{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:3px 14px;font:500 13px/1.35 var(--sans);color:var(--ink2)}
-.key i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
-.key b{font-weight:800;color:var(--ink);margin-left:4px}
-.key .s1{background:var(--a2)}.key .s2{background:var(--a3)}.key .s9{background:color-mix(in oklab,var(--muted) 30%,var(--card))}
-.steps{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
-.steps div{border-top:3px solid var(--a3);padding-top:5px;font:500 12px/1.25 var(--sans);color:var(--muted)}
-.steps b{display:block;font:800 16px var(--sans);color:var(--ink)}
-.tk .ft{margin-top:auto;display:flex;flex-wrap:wrap;gap:4px 12px;font:700 12.5px/1.35 var(--sans);color:var(--muted)}
-.tk .ft .also{font-weight:600}
-.tk .pl{font:800 9.5px/1 var(--sans);letter-spacing:.1em;padding:3px 6px;border:2px double var(--a);border-radius:5px;transform:rotate(-3deg);display:inline-block}
-@media (min-width:900px){
-  .tk.big{grid-column:1/-1;grid-template-columns:200px minmax(0,1fr)}
-  .tk.big .gauge{min-height:170px}.tk.big .g{padding:20px 24px}
-  .tk.big .gauge b{font-size:80px}.tk.big .gauge span{font-size:15px}
-  .tk.big .bd{padding:20px 28px;justify-content:center}
-  .tk.big h3{font-size:clamp(24px,2.3vw,32px);line-height:1.12}
-  .tk.big .seg{height:15px}.tk.big .key{font-size:14.5px}
-}
-@media (max-width:600px){.tk{grid-template-columns:98px minmax(0,1fr)}.gauge .g{padding:10px 11px}.gauge b{font-size:36px}.tk h3{font-size:16px}.tk .bd{padding:12px 14px}}
-
-/* ---- coming up: the sport's next matches ---- */
-.next{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px;margin-bottom:14px}
-.fx{display:flex;flex-direction:column;gap:7px;padding:12px 14px;border-radius:18px;background:var(--card);border:1px solid color-mix(in oklab,var(--a) 22%,var(--line));text-decoration:none;transition:transform .2s}
-.fx:hover{transform:translateY(-2px)}
-.fx .when{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;font:700 11.5px var(--sans);color:var(--muted)}
-.fx .when b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--a);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:10.5px}
-.fx .vs{font:750 16px/1.25 var(--sans);font-variation-settings:"wdth" 90}
-.fx .vs em{font-style:normal;color:var(--muted);font-weight:500;margin:0 4px}
-.fx .three{display:flex;gap:3px;height:9px}
-.fx .three i{border-radius:99px;min-width:3px;display:block}
-.fx .three .h{background:var(--a)}.fx .three .x{background:color-mix(in oklab,var(--muted) 30%,var(--card))}.fx .three .w{background:var(--a2)}
-.fx .odds{display:flex;justify-content:space-between;gap:6px;font:500 12.5px var(--sans);color:var(--ink2)}
-.fx .odds b{color:var(--ink);font-weight:800}
-.fx .star{color:var(--a)}
-
-/* ---- tiles, headings, chips, poster, in subject colour ---- */
-.moves.tiles{display:grid;grid-auto-flow:column;grid-auto-columns:min(80vw,270px);grid-template-columns:none;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;margin-inline:calc(-1 * clamp(16px,4vw,44px));padding-inline:clamp(16px,4vw,44px)}
-.moves.tiles::-webkit-scrollbar{display:none}
-.tile{scroll-snap-align:start;background:var(--ac);border-radius:22px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;text-decoration:none;min-height:176px;transition:transform .2s}
-.tile:hover{transform:translateY(-2px)}
-.tile .tg{display:flex;justify-content:space-between;align-items:center;font:700 10.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--a)}
-.tile .tg span:last-child{color:var(--muted);letter-spacing:.03em}
-.tile .t{font:550 14.5px/1.3 var(--sans);color:var(--ink);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.tile .who{font:600 12.5px var(--sans);color:var(--ink2)}
-.tile .fr{margin-top:auto;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
-.tile .fr s{text-decoration:none;font:600 16px var(--sans);color:var(--muted)}
-.tile .fr b{font:750 36px/1 var(--sans);font-variation-settings:"wdth" 72;color:var(--a)}
-.tile .fr em{font:700 12px var(--sans);font-style:normal;background:var(--card);padding:2px 8px;border-radius:99px}
-.sh h2 .ic{width:40px;height:40px;padding:8px;border-radius:12px;background:var(--ac,var(--foam));color:var(--a,var(--sea))}
-.sub{color:var(--a,var(--sea))}
-.chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink));color:var(--card)}
-.pv .it b{color:var(--a,var(--ink))}
+@media (max-width:900px){.pv{place-items:start center;overflow:auto}.pv .sheet{grid-template-columns:1fr}}
+/* big monitors: scaled up as a whole, like a browser zoom (see fitMonitor) */
+@media (min-width:2100px){.wrap{max-width:1880px}}
 </style>
 </head>
 <body>
 <div class="wrap bar"><a class="back" href="/" id="back">← The House of 1400</a><span class="btns"><button id="refresh" type="button">Refresh</button><button id="posterBtn" type="button">Poster</button><button id="theme" type="button">Night</button></span></div>
 <header class="wrap">
   <div class="mast">
-    <svg class="mark" viewBox="0 0 80 96" role="img" aria-label="A drop of water and its ripples">
-      <ellipse class="rip r3" cx="40" cy="80" rx="36" ry="10"/><ellipse class="rip r2" cx="40" cy="80" rx="26" ry="7"/><ellipse class="rip" cx="40" cy="80" rx="16" ry="4.4"/>
-      <path class="drop" d="M40 4C33 16 24 27 24 39a16 16 0 0 0 32 0c0-12-9-23-16-35z"/>
-    </svg>
-    <h1>Consensus</h1>
-    <p>Where the world's prediction markets settle: the things you follow, and whatever everyone is betting on.</p>
+    <svg class="iso" id="iso" aria-hidden="true" preserveAspectRatio="none"></svg>
+    <div>
+      <div class="name">
+        <svg class="mark" viewBox="0 0 80 96" role="img" aria-label="A drop of water and its ripples">
+          <ellipse class="rip r3" cx="40" cy="80" rx="36" ry="10"/><ellipse class="rip r2" cx="40" cy="80" rx="26" ry="7"/><ellipse class="rip" cx="40" cy="80" rx="16" ry="4.4"/>
+          <path class="drop" d="M40 4C33 16 24 27 24 39a16 16 0 0 0 32 0c0-12-9-23-16-35z"/>
+        </svg>
+        <h1>Consensus</h1>
+      </div>
+      <p class="tag">Where the world's prediction markets settle. Every chance here is a water level: the higher the water, the surer the money.</p>
+    </div>
+    <div class="reading" id="reading"><span>Reading the markets…</span></div>
   </div>
-  <div class="status" id="status"><span>Reading the markets…</span></div>
+  <div class="board" id="board"><div class="sk" style="height:300px"></div><div class="sk" style="height:300px"></div><div class="sk" style="height:300px"></div></div>
 </header>
 <main>
-  <section class="wrap" aria-labelledby="mh"><div class="sh"><h2 id="mh"><span class="ico" data-i="a:moves"></span>Moving today</h2><p>Real-money markets, last 24 hours</p></div><div class="moves" id="moves"><div class="sk"></div><div class="sk"></div></div></section>
+  <section class="wrap" aria-labelledby="mh"><div class="sh"><h2 id="mh"><span class="ico" data-i="a:moves"></span>Currents</h2><p>What moved four points or more in a day · dashed line is yesterday's level</p></div><div class="currents" id="moves"></div></section>
   <nav class="chips" aria-label="Areas"><div class="wrap" id="chips"></div></nav>
   <div id="areas"></div>
-  <section class="wrap" aria-labelledby="wh" id="worldsec" hidden><div class="sh"><h2 id="wh"><span class="ico" data-i="a:globe"></span>What the world is betting on</h2><p>Busiest real-money markets in 24 hours</p></div><div class="world" id="world"></div></section>
+  <section class="wrap" aria-labelledby="wh" id="worldsec" hidden><div class="sh"><h2 id="wh"><span class="ico" data-i="a:globe"></span>The world is betting on</h2><p>Busiest real-money markets in 24 hours</p></div><div class="world" id="world"></div></section>
   <div class="wrap">
     <details class="how"><summary>How this page picks</summary><ol>
       <li><b>Read.</b> The four hundred busiest questions on Polymarket plus the busiest in each of your subjects' own Polymarket tags (F1, football, AI and so on, so a race or a model ranking turns up even when it is not big worldwide), every open event on Kalshi, and Manifold's busiest play-money questions. Refreshed every five minutes, and the page updates itself while it is open (a page opened on an older copy fetches the new one half a minute later). Refresh reads the markets there and then, in about twenty seconds.</li>
       <li><b>Clear the noise.</b> Questions that are all but settled (above 98.5% or below 1.5%), markets with under $2,000 traded in a day ($500 for F1 and NBA, which have fewer markets), side bets (tosses, sets, handicaps, pole, podium, fastest lap) and price ladders go. So do your standing exclusions: US domestic politics, the Fed, American football, baseball, hockey and college sport, weather, and post or view counts.</li>
-      <li><b>Sort.</b> Each question goes to the first of your subjects whose words it contains: Formula 1, football, cricket, tennis, NBA, AI and tech, money, India, world, Bollywood and film, series and streaming, celebrities. A single match never takes a card: it goes under its sport's Coming up when it starts within a week and involves someone you follow or a team or player the subject counts as notable (England v Spain, Medvedev). When a recurring question is settled (the best AI model at the end of September), the next round (end of October) takes its place.</li>
+      <li><b>Sort.</b> Each question goes to the first of your subjects whose words it contains: Formula 1, football, cricket, tennis, NBA, AI and tech, money, India, world, Bollywood and film, series and streaming, celebrities. A single match never takes a card: it goes under its sport's Coming up when it starts within a week and involves someone you follow or a team or player the subject counts as notable. When a recurring question is settled (the best AI model at the end of September), the next round (end of October) takes its place.</li>
       <li><b>Merge.</b> The same question on two sites becomes one card, the busier site leading and the other shown beside it.</li>
-      <li><b>Rank.</b> Within a subject, anything about the Warriors, Real Madrid, Verstappen, Alcaraz, Djokovic or India comes first, then the rest by money traded today. Play money appears at most twice per subject. Moving today is the real-money questions in your subjects that moved four points or more in a day. Miscellaneous is the busiest of everything that fits nowhere else.</li>
+      <li><b>Rank.</b> Within a subject, anything about the Warriors, Real Madrid, Verstappen, Alcaraz, Djokovic or India comes first, then the rest by money traded today. The tide board is the busiest question in each area. Currents are the real-money questions in your subjects that moved four points or more in a day. Miscellaneous is the busiest of everything that fits nowhere else.</li>
     </ol></details>
-    <div class="note"><p>A price is what traders pay for "yes", read as the chance they give it. Polymarket and Kalshi are real money; Manifold is play money and says so.</p><p><a href="/">Back to the paper</a></p></div>
+    <div class="note"><p>A price is what traders pay for "yes", read as the chance they give it: the water level. The dashed line is where it stood a day ago. Polymarket and Kalshi are real money; Manifold is play money and says so.</p><p><a href="/">Back to the paper</a></p></div>
   </div>
 </main>
 <div class="pv" id="pv" hidden></div>
@@ -294,20 +325,55 @@ $("#back").innerHTML = `${icon("u:back")}<span class="lg">The House of </span>14
 $("#posterBtn").innerHTML = `${icon("u:poster")}Poster`;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const pc = v => `${Math.round(v)}%`;
+const pts = d => { const n = Math.abs(Math.round(d)); return `${n} pt${n === 1 ? "" : "s"}`; };
 const money = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1)}m` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
 const tidy = t => String(t).replace(/\.\.\.\?$/, "…?").replace(/ \(([^()]*)\)$/, (m, x) => (/^(in |before |20\d\d|calendar year)/i.test(x) || t.toLowerCase().startsWith(x.toLowerCase().split(/ [-–|:] | \d/)[0]) ? "" : m));
 const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
+const ist = (d, o) => new Date(d).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", ...o });
 let D, AREA = {}, LABEL = {}, filter = store.get("cons-area") || "all";
 
-const favName = c => (c.L ? c.o[0].name : c.o.length === 1 ? "Yes" : c.o[0].name);
-const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)}${x.play ? " (play money)" : ""}">${esc(x.source)} ${pc(x.prob)}</a>`).join(" · ")}</span>` : "";
+// Depth soundings behind the name: a few smooth contour lines, drawn once to the masthead's size.
+function isobaths() {
+  const s = $("#iso"), w = 1000, h = 300; s.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  let d = "";
+  for (let k = 0; k < 9; k++) {
+    const y0 = 30 + k * 30, a = 10 + k * 2.2, f = 0.004 + k * 0.0006, ph = k * 0.9;
+    let p = `M0 ${y0}`;
+    for (let x = 20; x <= w; x += 20) p += ` L${x} ${(y0 + a * Math.sin(x * f + ph) + a * 0.5 * Math.sin(x * f * 2.3 + ph * 1.7)).toFixed(1)}`;
+    d += `<path d="${p}"/>`;
+  }
+  s.innerHTML = d;
+}
+isobaths();
 
-// A ticket: the gauge on the left is filled to the favourite's chance and names it; the right side never repeats it.
+const favName = c => (c.L ? c.o[0].name : c.o.length === 1 || c.o[0].name === "Yes" ? "Yes" : c.o[0].name);
+const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)}${x.play ? " (play money)" : ""}">${esc(x.source)} ${pc(x.prob)}</a>`).join(" · ")}</span>` : "";
+const lvl = p => Math.max(3, Math.min(100, p)).toFixed(1);
+// Yesterday's level, drawn only when it differs enough to read as a separate mark.
+// Drawn inside both the dry and the wet layer, so it reads in the subject's colour above water and white below.
+// The label sits above the mark, or below it when the mark is high enough to meet the big number.
+const wasMark = (c, label) => { if (c.p == null || Math.abs(c.o[0].prob - c.p) < 3) return ""; const pp = Math.max(1, Math.min(99, c.p)).toFixed(1);
+  return `<i class="was" style="--pp:${pp}"></i>${label ? `<span class="wl${pp > 66 ? " dn" : ""}" style="--pp:${pp}">was ${pc(c.p)}</span>` : ""}`; };
+const moved = c => { const d = c.p != null ? c.o[0].prob - c.p : 0; return Math.abs(d) >= 1 ? `<span class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)} in a day · was ${pc(c.p)}</span>` : ""; };
+
+// ---- the tide board: the busiest question in each area, on a staff gauge
+function leadOf(a) {
+  const items = a.id === "misc" ? D.misc || [] : D.topics.filter(t => t.area === a.id).flatMap(t => t.items);
+  return items.reduce((m, c) => (!m || (c.v || 0) > (m.v || 0) ? c : m), null);
+}
+function post(c, a) {
+  const p = c.o[0].prob, n = `<b>${Math.round(p)}<small>%</small></b><span class="sc" style="bottom:25%">25</span><span class="sc" style="bottom:50%">50</span><span class="sc" style="bottom:75%">75</span>`;
+  return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${icon("t:" + c.k) || icon("a:" + a.id)}${esc(LABEL[c.k] || a.label)}</span>
+<div class="staff" style="--pv:${lvl(p)}"><div class="l">${n}${wasMark(c, true)}</div><div class="l wet" aria-hidden="true">${n}${wasMark(c, true)}</div></div>
+<div class="who">${esc(favName(c))}</div><div class="q">${esc(tidy(c.t))}</div>${moved(c) ? `<div class="dl">${moved(c)}</div>` : ""}</a>`;
+}
+const board = () => (D.areas || []).filter(a => a.id !== "misc").map(a => ({ a, c: leadOf(a) })).filter(x => x.c).slice(0, 5).map(x => post(x.c, x.a)).join("");
+
+// ---- a ticket: the gauge on the left is filled to the favourite's chance and names it; the right never repeats it.
 // A "by ... ?" question shows its nearer deadlines as steps; a yes/no question shows only its gauge and bar.
-const oneName = c => (c.L ? c.o[0].name : c.o.length === 1 || c.o[0].name === "Yes" ? "Yes" : c.o[0].name);
 function card(c, big) {
   const f = c.o[0], p = Math.max(0, Math.min(100, f.prob));
-  const g = `<b>${Math.round(p)}<small>%</small></b><span>${esc(oneName(c))}</span>`;
+  const g = `<b>${Math.round(p)}<small>%</small></b><span>${esc(favName(c))}</span>`;
   let seg, key = "";
   if (c.L && c.o.length > 1) {
     seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
@@ -317,35 +383,40 @@ function card(c, big) {
     seg = `<div class="seg">${top.map((o, i) => `<i class="s${i}" style="flex:${Math.max(0.5, o.prob)}"></i>`).join("")}${rest >= 1 ? `<i class="s9" style="flex:${rest}"></i>` : ""}</div>`;
     key = `<ul class="key">${top.slice(1).map((o, i) => `<li><i class="s${i + 1}"></i>${esc(o.name)}<b>${pc(o.prob)}</b></li>`).join("")}${rest >= 1 ? `<li><i class="s9"></i>Others<b>${pc(rest)}</b></li>` : ""}</ul>`;
   } else seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
-  const d = c.p != null ? f.prob - c.p : 0;
-  const mv = Math.abs(d) >= 1 ? `<span class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${Math.abs(Math.round(d))} pts in a day · was ${pc(c.p)}</span>` : "";
-  const ft = [mv, also(c)].filter(Boolean).join("");
-  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 ? " lo" : ""}" href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${Math.max(3, p).toFixed(1)}" aria-label="${Math.round(p)}% ${esc(oneName(c))}"><div class="g">${g}</div><div class="g wet" aria-hidden="true">${g}</div></a>
+  const ft = [moved(c), also(c)].filter(Boolean).join("");
+  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 ? " lo" : ""}" href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="gw wet" aria-hidden="true"><div class="g">${g}</div>${wasMark(c)}</i></a>
 <div class="bd"><div class="meta"><span>${esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
 <h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}</div></article>`;
 }
 
-// Coming up: a match with its kick-off in India time and the three-way (or two-way) split in playing order.
-const kick = st => { const t = new Date(st), now = new Date(), fmt = o => t.toLocaleString("en-GB", { timeZone: "Asia/Kolkata", ...o });
-  const day = fmt({ year: "numeric", month: "2-digit", day: "2-digit" }), today = now.toLocaleString("en-GB", { timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit" });
-  const tom = new Date(now.getTime() + 864e5).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit" });
+// ---- coming up: a match with its kick-off in India time and the split in playing order
+const kick = st => { const t = new Date(st), now = new Date(), day = x => x.toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata" });
   if (t < now) return "Live now";
-  return `${day === today ? "Today" : day === tom ? "Tomorrow" : fmt({ weekday: "short", day: "numeric", month: "short" })} · ${fmt({ hour: "2-digit", minute: "2-digit", hour12: false })} IST`; };
+  const d = day(t) === day(now) ? "Today" : day(t) === day(new Date(now.getTime() + 864e5)) ? "Tomorrow" : t.toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", weekday: "short", day: "numeric", month: "short" });
+  return `${d} · ${ist(t, { hour12: false })} IST`; };
 function fixture(n, k) {
   const [a, b] = n.t.split(" v "), by = x => n.o.find(o => o.name === x) || { name: x, prob: 0 };
   const draw = n.o.find(o => /^draw/i.test(o.name)), row = [by(a), ...(draw ? [draw] : []), by(b)];
-  return `<a class="fx" data-k="${k}" href="${esc(n.u)}" target="_blank" rel="noopener"><div class="when"><b>${n.f ? `<span class="star">★</span> ` : ""}${esc(n.c || LABEL[k])}</b><span>${kick(n.st)}</span></div>
+  return `<a class="fx" data-k="${k}" href="${esc(n.u)}" target="_blank" rel="noopener"><div class="when"><b>${n.f ? "★ " : ""}${esc(n.c || LABEL[k])}</b><span>${kick(n.st)}</span></div>
 <div class="vs">${esc(a)}<em>v</em>${esc(b)}</div><div class="three">${row.map((o, i) => `<i class="${i === 0 ? "h" : i === row.length - 1 ? "w" : "x"}" style="flex:${Math.max(1, o.prob)}"></i>`).join("")}</div>
 <div class="odds">${row.map(o => `<span>${esc(/^draw/i.test(o.name) ? "Draw" : k === "tennis" ? o.name.split(" ").pop() : o.name)} <b>${pc(o.prob)}</b></span>`).join("")}</div></a>`;
+}
+
+// ---- currents: a strip from yesterday's level (dashed) to today's
+function current(c) {
+  const f = c.o[0].prob, d = f - c.p;
+  return `<a class="cur" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><div class="tg"><span>${esc(LABEL[c.k] || "")}</span><span>${esc(c.s)}</span></div>
+<div class="t">${esc(tidy(c.t))}</div><div class="who">${esc(favName(c))}</div>
+<div class="fr"><s>${pc(c.p)}</s><span class="ar">→</span><b>${pc(f)}</b><em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)}</em></div>
+<div class="strip"><i style="width:${Math.max(2, f)}%"></i><u style="left:${Math.max(1, Math.min(99, c.p))}%"></u></div></a>`;
 }
 
 function paint() {
   $("#areas").innerHTML = (D.areas || []).map(a => {
     const tops = a.id === "misc" ? (D.misc?.length ? [{ id: "misc", label: "Trending anyway", items: D.misc }] : []) : D.topics.filter(t => t.area === a.id);
     if (!tops.length || (filter !== "all" && filter !== a.id)) return "";
-    // The area's busiest question leads, wide.
-    const all = tops.flatMap(t => t.items), lead = all.reduce((m, c) => (!m || (c.v || 0) > (m.v || 0) ? c : m), null);
-    return `<section class="wrap area" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}">${icon("a:" + a.id)}${esc(a.label)}</h2>${a.note ? `<p>${esc(a.note)}</p>` : ""}</div>${tops.map(t => {
+    const all = tops.flatMap(t => t.items), lead = leadOf(a), nm = all.length, nx = tops.reduce((s, t) => s + (t.next?.length || 0), 0);
+    return `<section class="wrap area" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}">${icon("a:" + a.id)}${esc(a.label)}</h2><p><span class="n">${nm} market${nm === 1 ? "" : "s"}${nx ? ` · ${nx} coming up` : ""}</span></p></div>${tops.map(t => {
       const items = t.items.includes(lead) ? [lead, ...t.items.filter(c => c !== lead)] : t.items;
       return `${a.id === "misc" ? "" : `<div class="sub" data-k="${t.id}">${icon("t:" + t.id)}${esc(t.label)}<span>${t.items.length ? `${t.items.length} market${t.items.length > 1 ? "s" : ""}` : ""}${t.next?.length ? `${t.items.length ? " · " : ""}${t.next.length} coming up` : ""}</span></div>`}${t.next?.length ? `<div class="next">${t.next.map(n => fixture(n, t.id)).join("")}</div>` : ""}${items.length ? `<div class="grid">${items.map(c => card(c, c === lead && all.length > 2)).join("")}</div>` : ""}`;
     }).join("")}</section>`;
@@ -354,20 +425,27 @@ function paint() {
   document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.a === filter));
 }
 
+function readingHTML(d) {
+  const next = Date.parse(d.generated_at) + 5 * 60 * 1000;
+  return `<div class="clock">${ist(Date.now())}<small>IST</small></div>
+<div class="upd">Markets read at <b>${ist(d.generated_at)}</b> · ${next > Date.now() ? `next reading ${ist(next)}` : "next reading any moment"}</div>
+<div class="src">${d.sources.map(s => `<span class="${s.ok ? "" : "off"}" title="${s.ok ? s.count + " markets read" : "Unavailable just now"}"><i></i>${esc(s.name)}</span>`).join("")}</div>`;
+}
+
 function render(d) {
   D = d;
   for (const t of d.topics) { AREA[t.id] = t.area; LABEL[t.id] = t.label; }
-  const when = new Date(d.generated_at).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" });
-  $("#status").innerHTML = d.sources.map(s => `<span class="src ${s.ok ? "" : "off"}" title="${s.ok ? s.count + " markets read" : "Unavailable just now"}"><i></i>${esc(s.name)} · ${esc(s.kind)}</span>`).join("") + `<span class="upd"><i aria-hidden="true"></i>Updated ${when} IST</span>`;
-  $("#moves").className = "moves tiles";
-  $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 10).map(c => { const f = c.o[0], dd = f.prob - c.p; return `<a class="tile" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><div class="tg"><span>${esc(LABEL[c.k] || "")}</span><span>${esc(c.s)}</span></div><div class="t">${esc(tidy(c.t))}</div><div class="who">${esc(favName(c))}</div><div class="fr"><s>${pc(c.p)}</s>→<b>${pc(f.prob)}</b><em class="d ${dd > 0 ? "up" : "dn"}">${dd > 0 ? "▲" : "▼"} ${Math.abs(Math.round(dd))} in a day</em></div></a>`; }).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
+  $("#reading").innerHTML = readingHTML(d);
+  $("#board").innerHTML = board();
+  $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 10).map(current).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
   const present = (d.areas || []).filter(a => (a.id === "misc" ? d.misc?.length : d.topics.some(t => t.area === a.id)));
   if (filter !== "all" && !present.some(a => a.id === filter)) filter = "all";
-  $("#chips").innerHTML = `<button class="chip" data-a="all" aria-pressed="false">Everything</button>` + present.map(a => `<button class="chip" data-a="${a.id}" aria-pressed="false" data-area="${a.id}">${icon("a:" + a.id)}${esc(a.label)}</button>`).join("");
-  $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
+  $("#chips").innerHTML = `<button class="chip" data-a="all" aria-pressed="false">Everything</button>` + present.map(a => `<button class="chip" data-a="${a.id}" aria-pressed="false">${icon("a:" + a.id)}${esc(a.label)}</button>`).join("");
+  $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" data-k="${esc(c.k)}" style="--pv:${lvl(c.o[0].prob)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
   paint();
   if (posterOn) showPoster(true);
 }
+setInterval(() => { if (D) { $("#reading").innerHTML = readingHTML(D); const c = $("#pv .reading"); if (c) c.innerHTML = readingHTML(D); } }, 30 * 1000);
 
 $("#chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; filter = b.dataset.a; store.set("cons-area", filter); paint(); });
 
@@ -379,8 +457,9 @@ lbl();
 
 // Live while open: the edge refreshes every five minutes, so ask again every five minutes while the tab is visible.
 const load = () => fetch("/api/consensus").then(r => r.json()).then(d => { if (d?.generated_at && (!D || d.generated_at !== D.generated_at)) render(d); }).catch(() => {});
-(window.P0 || fetch("/api/consensus").then(r => r.json())).then(render).catch(() => { $("#status").innerHTML = "<span>The markets could not be reached just now. The page will try again shortly.</span>"; });
+(window.P0 || fetch("/api/consensus").then(r => r.json())).then(render).catch(() => { $("#reading").innerHTML = "<span>The markets could not be reached just now. The page will try again shortly.</span>"; });
 setInterval(() => { if (!document.hidden) load(); }, 5 * 60 * 1000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden && D && Date.now() - Date.parse(D.generated_at) > 5 * 60 * 1000) load(); });
 // The edge answers at once with its last copy and rebuilds behind it, so a page opened on an old copy asks again
 // half a minute later, when the new one is ready.
 const age = () => (D ? Date.now() - Date.parse(D.generated_at) : 0);
@@ -393,24 +472,18 @@ rb.addEventListener("click", () => {
   fetch(`/api/consensus?fresh=${Date.now()}`).then(r => r.json()).then(d => { if (d?.generated_at) render(d); })
     .catch(() => {}).finally(() => { rb.disabled = false; rb.classList.remove("spin"); rbLabel(); });
 });
-document.addEventListener("visibilitychange", () => { if (!document.hidden && D && Date.now() - Date.parse(D.generated_at) > 5 * 60 * 1000) load(); });
 
-// ---- poster: everything important on one screen (/consensus/poster, or the Poster button). Zooms down until it fits.
+// ---- poster: the tide board and the day on one screen (/consensus/poster, or the Poster button). Zooms to fit.
 function posterHTML() {
-  const when = new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" });
-  const it = (c, extra = "") => { const f = c.o[0], d = c.p != null ? f.prob - c.p : 0; return `<div class="it" data-k="${esc(c.k)}"><span>${esc(tidy(c.t))}</span><small>${esc(favName(c))}${extra}</small><b>${pc(f.prob)}${Math.abs(d) >= 1 ? `<em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${Math.abs(Math.round(d))}</em>` : ""}</b></div>`; };
-  const areas = (D.areas || []).filter(a => a.id !== "misc").map(a => {
-    const items = D.topics.filter(t => t.area === a.id).flatMap(t => t.items.slice(0, a.id === "sport" ? 1 : 2).map(c => ({ c, t })));
-    // Sport also shows its next two matches (followed first), kick-off in India time.
-    const nx = a.id === "sport" ? D.topics.filter(t => t.area === "sport").flatMap(t => (t.next || []).map(n => ({ n, k: t.id }))).sort((x, y) => (y.n.f || 0) - (x.n.f || 0) || Date.parse(x.n.st) - Date.parse(y.n.st)).slice(0, 2) : [];
-    const fx = nx.map(({ n, k }) => { const f = [...n.o].sort((x, y) => y.prob - x.prob)[0]; return `<div class="it" data-k="${k}"><span>${esc(n.t)}</span><small>${esc(kick(n.st))} · ${esc(/^draw/i.test(f.name) ? "Draw" : f.name)}</small><b>${pc(f.prob)}</b></div>`; }).join("");
-    return items.length || fx ? `<div data-a="${a.id}"><h3>${icon("a:" + a.id)}${esc(a.label)}</h3>${items.slice(0, 4).map(x => it(x.c, ` · ${x.t.label}`)).join("")}${fx}</div>` : "";
-  }).join("");
+  const it = (c, sub) => { const f = c.o[0], d = c.p != null ? f.prob - c.p : 0; return `<div class="it" data-k="${esc(c.k)}"><span>${esc(tidy(c.t))}</span><small>${esc(sub)}</small><b>${pc(f.prob)}${Math.abs(d) >= 1 ? `<em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)}</em>` : ""}</b></div>`; };
+  const nx = D.topics.filter(t => t.area === "sport").flatMap(t => (t.next || []).map(n => ({ n, k: t.id }))).sort((x, y) => (y.n.f || 0) - (x.n.f || 0) || Date.parse(x.n.st) - Date.parse(y.n.st)).slice(0, 6);
+  const fx = nx.map(({ n, k }) => { const f = [...n.o].sort((x, y) => y.prob - x.prob)[0]; return `<div class="it" data-k="${k}"><span>${n.f ? "★ " : ""}${esc(n.t)}</span><small>${esc(kick(n.st))} · ${esc(LABEL[k])} · ${esc(/^draw/i.test(f.name) ? "Draw" : f.name)} favoured</small><b>${pc(f.prob)}</b></div>`; }).join("");
   return `<button class="x" id="pvx" type="button">Close</button><div class="sheet">
-<div class="ph"><svg class="mark" viewBox="0 0 80 96" aria-hidden="true"><ellipse class="rip r3" cx="40" cy="80" rx="36" ry="10"/><ellipse class="rip r2" cx="40" cy="80" rx="26" ry="7"/><ellipse class="rip" cx="40" cy="80" rx="16" ry="4.4"/><path class="drop" d="M40 4C33 16 24 27 24 39a16 16 0 0 0 32 0c0-12-9-23-16-35z"/></svg><h1>Consensus</h1><div class="clock"><b>${when}</b>Markets updated ${new Date(D.generated_at).toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" })} IST</div></div>
-<div class="col"><h3>${icon("a:moves")}Moving today</h3>${D.movers.slice(0, 7).map(c => it(c, ` · ${c.s}`)).join("")}</div>
-<div class="col"><div class="grp">${areas}</div></div>
-<div class="col"><h3>${icon("a:globe")}The world is betting on</h3>${(D.world || []).slice(0, 6).map(c => it(c, ` · ${c.s}`)).join("")}${D.misc?.length ? `<div data-a="misc"><h3>${icon("a:misc")}Trending anyway</h3>${D.misc.slice(0, 3).map(c => it(c)).join("")}</div>` : ""}</div></div>`;
+<div class="ph"><svg class="mark" viewBox="0 0 80 96" aria-hidden="true"><ellipse class="rip r3" cx="40" cy="80" rx="36" ry="10"/><ellipse class="rip r2" cx="40" cy="80" rx="26" ry="7"/><ellipse class="rip" cx="40" cy="80" rx="16" ry="4.4"/><path class="drop" d="M40 4C33 16 24 27 24 39a16 16 0 0 0 32 0c0-12-9-23-16-35z"/></svg><h1>Consensus</h1><div class="reading">${readingHTML(D)}</div></div>
+<div class="board">${board()}</div>
+<div class="col"><h3>${icon("a:moves")}Currents</h3>${D.movers.slice(0, 6).map(c => it(c, `${favName(c)} · was ${pc(c.p)} · ${LABEL[c.k] || c.s}`)).join("")}</div>
+<div class="col" data-a="sport"><h3>${icon("a:sport")}Coming up</h3>${fx || `<div class="it"><span>No big matches this week</span></div>`}</div>
+<div class="col"><h3>${icon("a:globe")}The world is betting on</h3>${(D.world || []).slice(0, 6).map(c => it(c, `${favName(c)} · ${c.s}`)).join("")}</div></div>`;
 }
 function fitPoster() {
   const P = $("#pv"), c = P.querySelector(".sheet"); if (P.hidden || !c) return;
@@ -429,7 +502,6 @@ function showPoster(on) {
 }
 $("#posterBtn").addEventListener("click", () => showPoster(true));
 addEventListener("keydown", e => { if (e.key === "Escape" && posterOn) $("#pvx")?.click(); });
-setInterval(() => { if (posterOn && D) showPoster(true); }, 60 * 1000);
 
 // ---- big monitors: from 2,100px wide the page is scaled up as a whole so a 27-inch screen reads like a laptop.
 function fitMonitor() {
