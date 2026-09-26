@@ -824,7 +824,7 @@
       "gemini-3.5-flash",
       "gemini-3.5-flash-lite"
     ],
-    "models_rule": "Tried in order: a model that is busy or retired hands over to the next. To change model, edit this list.",
+    "models_rule": "Tried in order. On the free key the Flash models allow 20 calls a day each and Flash-Lite 500 (AI Studio → Rate limits); a model whose day is used up is skipped until midnight Pacific (12:30 pm IST), one that is busy or retired hands over to the next. To change model, edit this list.",
     "max_chars": 140,
     "voice": [
       "You write one short note for Andaaza, a public page that shows what prediction markets expect. Readers anywhere in the world may know nothing about the subject.",
