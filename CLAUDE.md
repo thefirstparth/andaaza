@@ -1,5 +1,16 @@
 # Andaaza (अंदाज़ा): context for a new session
 
+> **The first rule, above every other: Andaaza must stay fully functional forever, whether or not Claude (or any AI,
+> or anyone) is around to look after it. Judge every decision by that.** In practice:
+> - Nothing at run time may call Claude or any AI, and nothing may depend on a scheduled job, a person, or a session.
+> - Prefer plain, long-lived web standards and free public data over clever or new features; anything newer must
+>   fall back gracefully in browsers that lack it.
+> - Every outside dependency (a source, storage, fonts, the host) needs a fallback, so the page degrades, never breaks.
+> - Stay inside free tiers with room to spare; running out must mean "slower", never "down".
+> - Keep it understandable to a stranger: choices live in `config/consensus.json` in plain words, and the README says
+>   how to fix things by hand without code.
+> - If a change would make Andaaza need ongoing care to keep working, don't make it; propose another way.
+
 Read this first. It is the whole story so far: what Andaaza is, how it works, every decision Parth made (and the ones
 he rejected), the mistakes already fixed, and how he likes to work. The README covers day-to-day upkeep.
 
