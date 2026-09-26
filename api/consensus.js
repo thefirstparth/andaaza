@@ -27,12 +27,20 @@ const newer = (a, b) => (age(a) <= age(b) ? a : b);
 // One background reading at a time per instance. A reading with no source at all never replaces a good one.
 // prev: the reading being replaced, whose notes carry over (lib/why.js). Notes are skipped when the markets took long
 // to read (a full Kalshi scan), so the reading always finishes well inside the time limit. Previews keep what each note
-// was made from, for the test bench (api/why-test.js).
+// was made from (the search and the news), to judge the notes in this API's answer.
 function rebuild(prev) {
   let ix = null;
   building ||= (blobConfigured() ? readBlob(KPATH) : Promise.resolve(null))
     .then(kalshiIndex => consensus({ kalshiIndex, onKalshiIndex: x => { ix = x; } }))
-    .then(out => addNotes(out, prev || mem, { skip: out.took_ms > 20000, debug: !!PRE }).catch(() => out))
+    .then(async out => {
+      // Vercel may run several copies of this function. If another copy saved a reading while this one was reading the
+      // markets, its notes (and its count of searches spent) are the latest: carry those over and write none this time,
+      // so two copies never spend the budget twice.
+      let last = prev || mem, skip = out.took_ms > 20000;
+      const saved = blobConfigured() ? await readBlob(PATH) : null;
+      if (saved?.generated_at && (!last || Date.parse(saved.generated_at) > Date.parse(last.generated_at))) { skip ||= age(saved) < REFRESH; last = saved; }
+      return addNotes(out, last, { skip, debug: !!PRE }).catch(() => out);
+    })
     .then(async out => {
       if (!out.sources.some(s => s.ok)) return null;
       mem = out;
