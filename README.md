@@ -1,12 +1,17 @@
-# Andaaza (अंदाज़ा), for whoever looks after it next
+# Andaaza (अंदाज़ा)
 
-Andaaza is the prediction-markets page at `/andaaza`: what Polymarket, Kalshi and Manifold think about the things
-Parth follows. It stands alone. It shares the Vercel project with The House of 1400 but no code, no data and no
-schedule with it, and it never calls Claude or any other AI. It keeps running as long as the Vercel project, the
-Blob store and at least one of the three sources exist.
+Watch the world change its mind.
+
+## For whoever looks after it next
+
+Andaaza, at https://getandaaza.vercel.app, shows what Polymarket, Kalshi and Manifold think about the things Parth
+follows, as water levels. It is a site of its own: its own repository and Vercel project, no schedule, and it never
+calls Claude or any other AI. It keeps running as long as the Vercel project, its Blob store and at least one of the
+three sources exist. (It began inside The House of 1400 as "Pulse", then "Consensus"; the history came with it.)
 
 ## How it runs
-- `public/andaaza.html`: the whole page (HTML, CSS, JS in one file). No framework, no build step beyond copying.
+- `public/index.html`: the whole page (HTML, CSS, JS in one file). No framework and no build step: Vercel serves
+  `public/` as it is. The poster is the same page at `/poster`.
 - `api/consensus.js`: the page's only data call. Serves the newest reading at once (memory, then Blob), reads the
   markets again in the background when the reading is over fifteen minutes old.
 - `lib/consensus.js`: reads the three sources, sorts markets into subjects, picks and ranks them.
@@ -24,6 +29,7 @@ Blob store and at least one of the three sources exist.
 | Google Fonts | Falls back to system fonts; the layout holds. |
 
 ## Free-tier budget (Vercel Hobby)
+- Storage: a Vercel Blob store connected to this project (Storage tab). Without it the page still works, from memory.
 - Blob writes: a reading is taken and saved at most every 15 minutes, only while someone is looking; Kalshi's list at
   most every 6 hours. Normal use stays well inside the free allowance; a screen showing it round the clock all month
   would need about 2,900, and if the allowance runs out readings carry on from memory. Reads happen only when memory
@@ -35,5 +41,8 @@ Blob store and at least one of the three sources exist.
 - A source changed its API: its reader is one function in `lib/consensus.js` (`polymarket`, `kalshiScan` and
   `kalshiReprice`, `manifold`). To switch a source off, make its function return `[]`.
 - Polymarket renamed a tag: update the topic's `pm_tags`; the busiest 400 are read regardless.
-- Check it locally: `npm run dev`, then open `/andaaza.html`. Data only: `node -e "import('./lib/consensus.js').then(m=>m.consensus()).then(d=>console.log(d.topics.map(t=>t.id+':'+t.items.length)))"`.
-- Its own address is andaaza-live.vercel.app (poster at /poster); see middleware.js to add another. Old addresses (`/consensus`, `/pulse`, `/markets`) redirect to `/andaaza`; the poster is also at `/andaaza/poster`.
+- Check it locally: `npm install`, then `npm run dev` and open http://localhost:3000. Data only: `npm run check`.
+- Icons are vendored into the page: edit the list in `scripts/icons.mjs`, then `npm run icons`.
+- A domain of its own (say andaaza.in): add it in the Vercel project's Settings → Domains; nothing in the code changes.
+- Old addresses on house14.vercel.app (`/andaaza`, `/consensus`, `/pulse`, `/markets`) and andaaza-live.vercel.app
+  redirect here; those redirects live in The House of 1400's vercel.json.
