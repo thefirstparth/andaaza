@@ -812,7 +812,7 @@
     "per_reading": 3,
     "per_day": 25,
     "per_month": 750,
-    "budget_rule": "Each note costs one Tavily search (1,000 free a month) and one Gemini call (free key: 20 a day on each Flash model, 500 on Flash-Lite). At most per_reading notes a reading, per_day a day (IST) and per_month a month, in this order: board moves, other moves, board leaders, other leaders. A reading happens at most every fifteen minutes however many people visit, so more visitors never means more notes. Both keys are free plans with no card: if a limit is ever reached the service refuses, notes pause and nothing is charged.",
+    "budget_rule": "Each note costs one Tavily search (1,000 free a month) and one Gemini call (free key: 20 a day on each Flash model, 500 on Flash-Lite). At most per_reading notes a reading, per_day a day (IST) and per_month a month, in this order: the tide board (moves, then leaders), other moves, other leaders. A reading happens at most every fifteen minutes however many people visit, so more visitors never means more notes. Both keys are free plans with no card: if a limit is ever reached the service refuses, notes pause and nothing is charged.",
     "news_days": {
       "day": 3,
       "week": 9,
@@ -888,7 +888,6 @@
   },
   "decided": {
     "share": 95,
-    "hours": 24,
-    "rule": "A question counts as decided, and gives way (a race winner hands the F1 slot to the next race), when its leader is above 98.5%, or at least share percent with the question due to be resolved within hours hours or already past its date. Kalshi keeps finished races open a week for the official result; this stops a finished race sitting on the board."
+    "rule": "A question counts as decided, and gives way (a race winner hands the F1 slot to the next race), when its leader is above 98.5%, or at least share percent once the question is past the date it was due to be settled. Kalshi keeps finished races open a week for the official result; this stops a finished race sitting on the board. A question still ahead of its date stays, however sure."
   }
 }

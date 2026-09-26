@@ -140,7 +140,8 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   hedges, analysis -ing tails and notes that name no contender.
 - A note belongs to a story: moved notes are rewritten only when the price moves 10 more points, turns, or the
   favourite changes; misses retried only after 5 more points; lead notes weekly. Caps: 3 per reading, 25/day, 750/month.
-  Order: board moves, other moves, board leaders, card leaders.
+  Order: the tide board first (moves, then leaders), other moves, other leaders. (First live fill put notes on deep
+  rows while the board waited behind minor moves; Parth saw none. The board is what everyone sees.)
 - Tested on a preview-only bench before launch (removed at launch): Parth judged Primetime, Russell, PayPal, Big
   Brother, Venezuela, Zverev, Barcelona notes good; the Arsenal one (Arteta's contract) wrong, which led to the rival
   search (Manchester City's points case).
@@ -151,7 +152,7 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 
 ## Mistakes already made (don't repeat)
 - A finished race stayed on the board: Kalshi keeps race markets open a week (Russell 98%, under the 98.5% cut).
-  Now `decided` (config): a leader ≥95% on a question due within 24 h, or past its due date, gives way.
+  Now `decided` (config): a leader ≥95% on a question past its due date gives way (Parth: only past, not upcoming).
 - The page was capped at 1280px, zoomed only from 2100px: every laptop and 1080p screen between had wide empty margins.
 - Container query units (`cqh`) for the water: Safari showed 17% as full. Use percentages only.
 - Board label named the reason ("Real Madrid") above Barcelona's 80%: labels name the market.
