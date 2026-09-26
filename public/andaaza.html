@@ -109,9 +109,14 @@ button{font:inherit;color:inherit}
 .mark .w{fill:var(--sea)}
 @media (prefers-reduced-motion:no-preference){.mark .w{animation:markw 4s linear infinite}}
 @keyframes markw{to{transform:translateX(32px)}}
-.mast h1{margin:0;font:italic 400 clamp(60px,11vw,150px)/.82 var(--display);letter-spacing:-.02em;color:var(--ink);display:flex;align-items:flex-end;flex-wrap:wrap;gap:0 .16em}
+.mast h1{margin:0;font:italic 400 clamp(60px,11vw,150px)/.82 var(--display);letter-spacing:-.02em;color:var(--ink);display:flex;align-items:baseline;flex-wrap:wrap;gap:0 .16em}
 /* अंदाज़ा: the name in its own script, small, in marigold, sitting on the same line like a seal beside a signature. */
-.dev{font:400 .3em/1 var(--deva);letter-spacing:0;color:var(--marigold);padding:.14em .32em .02em;border:1.5px solid currentColor;border-radius:.3em;margin-bottom:.34em;font-style:normal}
+/* The seal: अंदाज़ा beside the name, the area's Hindi name beside each title. Sits on the title's baseline, then is
+   lifted (--lift, in the seal's own ems) so its middle meets the middle of the title's capitals; inside, the letters'
+   main band (headline stroke to baseline) is centred, with equal room above and below for the vowel marks.
+   Measured for Instrument Serif and Tiro Devanagari Hindi; fixed proportions, so it holds at every size. */
+.dev{--lift:.865em;--band:-.03em;font:400 .3em/1 var(--deva);letter-spacing:0;color:var(--marigold);display:inline-block;box-sizing:border-box;height:1.62em;line-height:1.62em;padding:0 .36em;border:1.5px solid currentColor;border-radius:.32em;font-style:normal;position:relative;top:calc(-1 * var(--lift))}
+.dev>i{font-style:normal;position:relative;top:var(--band)}
 /* The name is the headword: under it one dictionary line (say it, how, what it is, its Urdu spelling, what it
    means), then the hero line. Each script says the word once: Andaaza in the name, अंदाज़ा in the seal, اندازہ here. */
 .dict{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;margin:14px 0 0;font:400 16px/1.4 var(--sans);color:var(--ink2)}
@@ -167,7 +172,7 @@ button{font:inherit;color:inherit}
 .sh{display:flex;align-items:flex-end;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;margin:clamp(44px,6vw,76px) 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .sh h2{margin:0;display:flex;align-items:baseline;gap:14px;font:italic 400 clamp(38px,4.6vw,60px)/.9 var(--display);letter-spacing:-.015em;color:var(--ink)}
 .sh h2 .ic{width:26px;height:26px;color:var(--a,var(--sea));align-self:center}
-.sh h2 .dev{font-size:.36em;margin:0 0 0 .1em;align-self:center;color:var(--marigold)}
+.sh h2 .dev{--lift:.648em;font-size:.36em;margin:0 0 0 .1em;color:var(--marigold)}
 .sh p{margin:0;font:500 13.5px var(--sans);color:var(--muted)}
 .sh .n{font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
 .sub{display:flex;align-items:center;gap:9px;margin:26px 0 12px;font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
@@ -193,9 +198,17 @@ button{font:inherit;color:inherit}
 .strip u{position:absolute;top:-2px;bottom:-2px;width:0;border-left:2px dashed var(--ink);opacity:.6}
 
 /* ---- filter ---- */
-.chips{position:sticky;top:0;z-index:5;background:color-mix(in oklab,var(--bg) 70%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border-bottom:1px solid var(--glass-edge);margin-top:34px}
-.chips .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:10px}
-.chips .wrap::-webkit-scrollbar{display:none}
+.chips{position:sticky;top:0;z-index:12;background:color-mix(in oklab,var(--bg) 70%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border-bottom:1px solid var(--glass-edge);margin-top:0}
+/* The top bar: pinned from the start. The small logo slides in once the masthead has scrolled away, so the name is
+   never on screen twice; on a phone it is the drop alone, leaving the room to the areas. */
+.chips .wrap{display:flex;align-items:center;gap:0;padding-block:9px}
+.chipset{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1}
+.chipset::-webkit-scrollbar{display:none}
+.brand{display:flex;align-items:center;gap:8px;flex:none;text-decoration:none;color:var(--ink);max-width:0;opacity:0;overflow:hidden;margin-right:0;transition:max-width .35s ease,opacity .25s ease,margin-right .35s ease}
+.brand .mark{width:26px;height:26px;margin:0;flex:none}
+.brand span{font:italic 400 24px/1 var(--display);letter-spacing:-.01em;white-space:nowrap}
+.chips.on .brand{max-width:180px;opacity:1;margin-right:16px}
+@media (max-width:600px){.brand span{display:none}.chips.on .brand{max-width:32px;margin-right:10px}}
 .chip{flex:none;border:0;background:var(--ac,var(--card));border-radius:999px;padding:8px 15px;font:650 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 .chip .ic{width:17px;height:17px;color:var(--a,var(--sea))}
 .chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink));color:var(--card)}
@@ -319,7 +332,7 @@ details.how li{margin:0 0 8px}
 .pv .sheet{width:min(1560px,100%);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 30px}
 .pv .ph{grid-column:1/-1;display:flex;align-items:flex-end;gap:16px;padding-bottom:14px;border-bottom:1.5px solid var(--ink)}
 .pv .ph .mark{width:50px;margin-bottom:.3em}
-.pv .ph h1{margin:0;font:italic 400 76px/.85 var(--display);letter-spacing:-.02em;display:flex;align-items:flex-end;gap:0 .16em}
+.pv .ph h1{margin:0;font:italic 400 76px/.85 var(--display);letter-spacing:-.02em;display:flex;align-items:baseline;gap:0 .16em}
 .pv .ph .reading{margin-left:auto}
 .pv .board{grid-column:1/-1;margin-top:4px}
 .pv .staff{height:250px}
@@ -339,13 +352,14 @@ details.how li{margin:0 0 8px}
 </head>
 <body>
 <div class="wrap bar"><span></span><span class="btns"><button id="posterBtn" type="button">Poster</button><button id="theme" type="button">Night</button></span></div>
-<header class="wrap">
+<nav class="chips" id="topbar" aria-label="Andaaza and its areas"><div class="wrap"><a class="brand" href="#" aria-label="Andaaza, back to the top"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dm4"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm4)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg><span>Andaaza</span></a><div class="chipset" id="chips"></div></div></nav>
+<header class="wrap" id="top">
   <div class="mast">
     <svg class="iso" id="iso" aria-hidden="true" preserveAspectRatio="none"></svg>
     <div>
       <div class="name">
         <svg class="mark" viewBox="0 0 64 64" role="img" aria-label="Andaaza: a drop of water, filled to its level"><defs><clipPath id="dm1"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm1)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>
-        <h1>Andaaza<span class="dev" lang="hi">अंदाज़ा</span></h1>
+        <h1>Andaaza<span class="dev" lang="hi"><i>अंदाज़ा</i></span></h1>
       </div>
       <!-- The name is the headword: its dictionary line follows it, so each script says the word once. -->
       <p class="dict" lang="en"><button class="say" id="say" type="button" aria-label="Hear how andaaza is said" hidden></button><span class="ipa">/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur" dir="rtl">اندازہ</span><span class="def">an estimate, a guess, a rough calculation.</span></p>
@@ -357,8 +371,7 @@ details.how li{margin:0 0 8px}
 </header>
 <main>
   <section class="wrap" aria-labelledby="mh"><div class="sh"><h2 id="mh"><span class="ico" data-i="a:moves"></span>Currents</h2><p>Moves of four points or more in a day, on prices traders agree on</p></div><div class="currents" id="moves"></div></section>
-  <nav class="chips" aria-label="Areas"><div class="wrap" id="chips"></div></nav>
-  <div id="areas"></div>
+  <div id="areas" style="scroll-margin-top:64px"></div>
   <section class="wrap" aria-labelledby="wh" id="worldsec" hidden><div class="sh"><h2 id="wh"><span class="ico" data-i="a:globe"></span>Where the money is</h2><p>The most-bet questions anywhere, last 24 hours</p></div><div class="world" id="world"></div></section>
   <div class="wrap">
     <details class="how"><summary>How this works</summary><ol>
@@ -519,7 +532,7 @@ function paint() {
     const tops = a.id === "misc" ? (D.misc?.length ? [{ id: "misc", label: "Trending anyway", items: D.misc }] : []) : D.topics.filter(t => t.area === a.id);
     if (!tops.length || (filter !== "all" && filter !== a.id)) return "";
     const all = tops.flatMap(t => t.items), lead = leadOf(a), nm = all.length, nx = tops.reduce((s, t) => s + (t.next?.length || 0), 0);
-    return `<section class="wrap area" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}">${icon("a:" + a.id)}${esc(a.label)}${AREA_HI[a.id] ? `<span class="dev" lang="hi">${AREA_HI[a.id]}</span>` : ""}</h2><p><span class="n">${nm} market${nm === 1 ? "" : "s"}${nx ? ` · ${nx} coming up` : ""}</span></p></div>${tops.map(t => {
+    return `<section class="wrap area" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}">${icon("a:" + a.id)}${esc(a.label)}${AREA_HI[a.id] ? `<span class="dev" lang="hi"><i>${AREA_HI[a.id]}</i></span>` : ""}</h2><p><span class="n">${nm} market${nm === 1 ? "" : "s"}${nx ? ` · ${nx} coming up` : ""}</span></p></div>${tops.map(t => {
       const items = t.items.includes(lead) ? [lead, ...t.items.filter(c => c !== lead)] : t.items;
       return `${a.id === "misc" ? "" : `<div class="sub" data-k="${t.id}">${icon("t:" + t.id)}${esc(t.label)}<span>${t.items.length ? `${t.items.length} market${t.items.length > 1 ? "s" : ""}` : ""}${t.next?.length ? `${t.items.length ? " · " : ""}${t.next.length} coming up` : ""}</span></div>`}${t.next?.length ? `<div class="next">${t.next.map(n => fixture(n, t.id)).join("")}</div>` : ""}${items.length ? `<div class="grid">${items.slice(0, 3).map(c => card(c, c === lead && all.length > 2)).join("")}</div>` : ""}${items.length > 3 ? `<div class="minis">${items.slice(3).map(mini).join("")}</div>` : ""}`;
     }).join("")}</section>`;
@@ -552,7 +565,10 @@ function render(d) {
 }
 setInterval(() => { if (D) { $("#reading").innerHTML = readingHTML(D); const c = $("#pv .reading"); if (c) c.innerHTML = readingHTML(D); } }, 30 * 1000);
 
-$("#chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; filter = b.dataset.a; store.set("cons-area", filter); paint(); });
+$("#chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; filter = b.dataset.a; store.set("cons-area", filter); paint();
+  const t = $("#areas"); if (t && t.getBoundingClientRect().top > 80) t.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); });
+try { new IntersectionObserver(([e]) => $("#topbar").classList.toggle("on", !e.isIntersecting), { rootMargin: "-64px 0px 0px 0px" }).observe($(".mast h1")); } catch { $("#topbar").classList.add("on"); }
+$(".brand").addEventListener("click", e => { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); });
 
 // The definition's speaker: the device's own voice, Hindi if it has one (अंदाज़ा), else English read phonetically.
 {
@@ -607,7 +623,7 @@ function posterHTML() {
   const nx = D.topics.filter(t => t.area === "sport").flatMap(t => (t.next || []).map(n => ({ n, k: t.id }))).sort((x, y) => (y.n.f || 0) - (x.n.f || 0) || Date.parse(x.n.st) - Date.parse(y.n.st)).slice(0, 6);
   const fx = nx.map(({ n, k }) => { const f = [...n.o].sort((x, y) => y.prob - x.prob)[0]; return `<div class="it" data-k="${k}"><span>${n.f ? "★ " : ""}${esc(n.t)}</span><small>${esc(kick(n.st))} · ${esc(LABEL[k])} · ${esc(/^draw/i.test(f.name) ? "Draw" : f.name)} favoured</small><b>${pc(f.prob)}</b></div>`; }).join("");
   return `<button class="x" id="pvx" type="button">Close</button><div class="sheet">
-<div class="ph"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dm2"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm2)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg><h1>Andaaza<span class="dev" lang="hi">अंदाज़ा</span></h1><div class="reading">${readingHTML(D)}</div></div>
+<div class="ph"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dm2"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm2)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg><h1>Andaaza<span class="dev" lang="hi"><i>अंदाज़ा</i></span></h1><div class="reading">${readingHTML(D)}</div></div>
 <div class="board">${board()}</div>
 <div class="col"><h3>${icon("a:moves")}Currents</h3>${D.movers.slice(0, 6).map(c => it(c, `${favName(c)} · was ${pc(c.p)} · ${LABEL[c.k] || c.s}`)).join("")}</div>
 <div class="col" data-a="sport"><h3>${icon("a:sport")}Coming up</h3>${fx || `<div class="it"><span>No big matches this week</span></div>`}</div>
