@@ -59,7 +59,6 @@ const WANT = {
   "t:cadillac": "simple-icons:cadillac",
   "t:cadillac f1 team": "simple-icons:cadillac",
   // the top line's buttons
-  "u:drop": "material-symbols:water-drop-rounded",
   "u:moon": "material-symbols:dark-mode-rounded",
   "u:sun": "material-symbols:light-mode-rounded",
   "u:poster": "material-symbols:filter-frames-rounded",
