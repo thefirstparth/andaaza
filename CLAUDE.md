@@ -114,19 +114,22 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 - Section names chosen: Currents, Coming up, Where the money is, Miscellaneous, How this works (includes the water
   explanation). The top gauges have no title.
 
-## Why it moved (Gemini notes, `lib/why.js`)
-- Parth's call (26 Sep 2026): a ≤140-character reason under markets that moved ≥10 pts in a day, ≥15 in a week or
-  ≥25 in 30 days (spread ≤ 4, real money; Currents excluded), on the board, cards, rows and Where the money is; the
-  poster shows only the board's. Name: **Why it moved**, shown as a monochrome Gemini mark (saves space).
-- Voice: T. A. Bhide, the House of 1400's fictional editor: plain reporting, fact first, named sources, the paper's
-  banned words; a sentence about absence is never printed. Rules copied into `why.voice`/`why.banned`, not read from
-  the paper.
-- Gemini gets headlines from The Guardian's API and picks one (pick 0 = no note). Not Gemini's search grounding
-  (terms forbid storing or showing grounded answers to others), not Google News RSS (personal-use terms), not GDELT
-  (rate-limited). Free grounding-free Gemini 2.5 Flash, then Flash-Lite.
-- A note belongs to a move: kept while the move stands (hysteresis at 70% of the threshold), rewritten after
-  24 h / 3 d / 7 d, on 10 more points, or a change of direction; a miss is retried after 6 h. 3 new notes a reading,
-  60 a day. Notes ride inside the saved reading: no extra Blob writes.
+## Notes: why it moved, why it leads (Gemini, `lib/why.js`)
+- Parth's call (26 Sep 2026). **Why it moved**: favourite moved ≥10 pts in a day, ≥15 in a week, ≥25 in 30 days (spread ≤ 4,
+  real money), anywhere but **Currents** (never notes there). **Why it leads**: favourite 50–89% now and a week ago
+  (a day on Kalshi), board and subject cards only; ≥90% needs no note; weekly charts and dated rankings are skipped.
+  Shown as a monochrome Gemini mark + the line; UI parked until the answers are judged good on the test bench.
+- Each note = 1 Tavily search (free 1,000/month) + 1 Gemini call (free key, no billing). Gemini gets the news, the
+  market's rules and contenders, picks one item (0 = no note) and writes ≤140 chars. Style: Bhide as a general guide
+  only (fact first, the actual cause, names and numbers, no hedging), not newspaper strictness. Code rejects em dashes,
+  hedges, analysis -ing tails and notes that name no contender.
+- A note belongs to a story: moved notes are rewritten only when the price moves 10 more points, turns, or the
+  favourite changes; misses retried only after 5 more points; lead notes weekly. Caps: 3 per reading, 25/day, 750/month.
+  Order: board moves, other moves, board leaders, card leaders.
+- Rejected, with reasons: Gemini's own Google Search (not free on current models; terms forbid storing or showing its
+  answers to others), Gemini 2.5 (closed to new keys), Google News RSS (personal-use terms), GDELT (rate-limited),
+  The Guardian (thin on India), Grok (paid). ChatGPT Plus / Claude Pro include no API use; Google AI Pro gives $10/month
+  Cloud credit but needs billing, and a billing project with $0 prepaid refuses even free calls (402).
 
 ## Mistakes already made (don't repeat)
 - Container query units (`cqh`) for the water: Safari showed 17% as full. Use percentages only.
