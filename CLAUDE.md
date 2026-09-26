@@ -116,9 +116,12 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 
 ## Notes: why it moved, why it leads (Gemini, `lib/why.js`)
 - Parth's call (26 Sep 2026). **Why it moved**: favourite moved ≥10 pts in a day, ≥15 in a week, ≥25 in 30 days (spread ≤ 4,
-  real money), anywhere but **Currents** (never notes there). **Why it leads**: favourite 50–89% now and a week ago
-  (a day on Kalshi), board and subject cards only; ≥90% needs no note; weekly charts and dated rankings are skipped.
-  Shown as a monochrome Gemini mark + the line; UI parked until the answers are judged good on the test bench.
+  real money), anywhere but **Currents** (never notes there). **Why it leads**: favourite ≥50% now and a week ago
+  (a day on Kalshi), up to settled (Parth wants Antonelli at 91% explained too), on the board, subject cards and any ★
+  must-have; weekly charts and dated rankings are skipped. Shown in a tinted Gemini blue-violet panel with the Gemini
+  mark (Parth: a note must be noticeable, clearly AI-written); dashed plain box in Retro.
+- Visitors never add cost: one reading per 15 min at most; a second function copy that finds a fresher saved reading
+  writes no notes. Both keys are free plans without a card, so a limit means "notes pause", never a bill.
 - Each note = 1 Tavily search (free 1,000/month) + 1 Gemini call (free key, no billing). Gemini gets the news, the
   market's rules and contenders, picks one item (0 = no note) and writes ≤140 chars. Style: Bhide as a general guide
   only (fact first, the actual cause, names and numbers, no hedging), not newspaper strictness. Code rejects em dashes,
@@ -126,6 +129,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 - A note belongs to a story: moved notes are rewritten only when the price moves 10 more points, turns, or the
   favourite changes; misses retried only after 5 more points; lead notes weekly. Caps: 3 per reading, 25/day, 750/month.
   Order: board moves, other moves, board leaders, card leaders.
+- Tested on a preview-only bench before launch (removed at launch): Parth judged Primetime, Russell, PayPal, Big
+  Brother, Venezuela, Zverev, Barcelona notes good; the Arsenal one (Arteta's contract) wrong, which led to the rival
+  search (Manchester City's points case).
 - Rejected, with reasons: Gemini's own Google Search (not free on current models; terms forbid storing or showing its
   answers to others), Gemini 2.5 (closed to new keys), Google News RSS (personal-use terms), GDELT (rate-limited),
   The Guardian (thin on India), Grok (paid). ChatGPT Plus / Claude Pro include no API use; Google AI Pro gives $10/month

@@ -41,21 +41,26 @@ three sources exist. (It began inside The House of 1400 as "Pulse", then "Consen
 ## Notes: why it moved, why it leads (optional)
 Two kinds of one-line note, written in the background reading (`lib/why.js`, settings in `why` in
 `config/consensus.json`): **why it moved** when a favourite moves 10 points in a day (15 in a week, 25 in thirty days)
-on a tight price, anywhere but Currents; **why it leads** for a steady favourite (50–90% for a week) on the tide board
-and the subject cards. Each note is one Tavily news search plus one Gemini call: Gemini reads the news and the market's
+on a tight price, anywhere but Currents; **why it leads** for a steady favourite (50% or more for a week) on the tide
+board, the subject cards and any must-have. Each note is one Tavily news search plus one Gemini call: Gemini reads the news and the market's
 rules, picks the story that explains it and writes a line, which code then checks. No story explains it: no note.
 Notes are saved inside the reading, so every visitor sees the same one and nobody waits for it.
 - Keys in Vercel → getandaaza → Settings → Environment Variables: `GEMINI_API_KEY` (aistudio.google.com, a project
   **without** billing, so it stays on the free tier; a billing project with no balance refuses every call) and
   `TAVILY_API_KEY` (tavily.com, 1,000 free searches a month). Delete either to switch notes off; nothing else changes.
+- Which markets: big moves anywhere but Currents; steady favourites (50% or more for a week) on the tide board, the
+  subject cards and any ★ must-have.
 - Budget: at most 3 notes a reading, 25 a day and 750 a month, and a note is rewritten only when its story changes
   (the move grows 10 points or turns, the favourite changes, or a lead note is a week old). Normal use is about ten
   searches a day. Running out means fewer notes, never errors.
 - Gemini's own Google Search is not used: it is not in the free tier, and Google's terms forbid storing its answers or
   showing them to others.
 - If Google retires a model, edit `why.models`. The Gemini 2.5 models are closed to new keys.
-- Preview deployments save their readings under `preview/` in Blob and have a test bench at `/api/why-test` (404 on
-  the live site) showing every note, what it was made from, and the budget.
+- More visitors never mean more notes: a reading happens at most every fifteen minutes however many people look, and
+  if two copies of the function read at once, the second writes no notes. Both keys are free plans with no card, so
+  nothing can ever be charged; at a limit the service refuses and notes pause.
+- To judge the notes: `/api/consensus` ends with `why` (every note, every miss and why, searches spent today and this
+  month). Preview deployments save under `preview/` in Blob and also record the search and news behind each note.
 
 ## Fixing things by hand
 - A subject shows the wrong things: edit its `words`, `must` or `prefer` in `config/consensus.json`.
