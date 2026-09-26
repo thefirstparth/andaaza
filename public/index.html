@@ -239,6 +239,7 @@ button{font:inherit;color:inherit}
 .why time{font-size:.88em;font-weight:500;color:var(--muted);white-space:nowrap;margin-left:2px}
 .post .why{font-size:12px;line-height:1.36;gap:6px;padding:7px 8px 8px 7px;border-radius:10px}.post .why .ic{width:13px;height:13px}
 .mini .why,.wr .why{margin-top:7px;font-size:12px;padding:6px 10px 7px 8px}
+.fx .why{margin-top:10px;font-size:12px;padding:6px 10px 7px 8px}
 [data-theme=retro] .why{background:transparent;border:1px dashed color-mix(in oklab,var(--ink) 55%,transparent);border-radius:3px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Narrower screens: no sideways scrolling; four across on a tablet, two on a phone (the last one full width). */
@@ -570,7 +571,7 @@ const moved = c => { const { d, was, w } = shift(c); return Math.abs(d) >= 1 ? `
 // How old a note is, small and grey after it: "40 min ago", "3 h ago", then the date ("24 Sep").
 const noteAge = a => { const t = Date.parse(a || ""); if (!t) return ""; const m = Math.max(1, Math.round((Date.now() - t) / 6e4));
   return m < 60 ? `${m} min ago` : m < 24 * 60 ? `${Math.round(m / 60)} h ago` : new Date(t).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short" }); };
-const why = c => { if (!c.why?.x) return ""; const k = c.why.k === "leads" ? "Why it leads" : "Why it moved", age = noteAge(c.why.a);
+const why = c => { if (!c.why?.x) return ""; const k = c.why.k === "leads" ? "Why it leads" : c.why.k === "match" ? "Why they are favoured" : "Why it moved", age = noteAge(c.why.a);
   return `<span class="why"${c.why.u ? ` data-src="${esc(c.why.u)}"` : ""} title="${k}. Written by Gemini from ${esc(c.why.t ? `the news: ${c.why.t}` : "the news")}">${icon("s:gemini")}<span class="vh">${k}, written by Gemini: </span><span>${esc(c.why.x)}${age ? ` <time datetime="${esc(c.why.a)}">${age}</time>` : ""}</span></span>`; };
 
 // ---- the tide board: the busiest question in each area, on a staff gauge
@@ -634,7 +635,7 @@ function fixture(n, k) {
   const draw = n.o.find(o => /^draw/i.test(o.name)), row = [by(a), ...(draw ? [draw] : []), by(b)];
   return `<a class="fx" data-k="${k}" href="${esc(n.u)}" target="_blank" rel="noopener"><div class="when"><b>${n.f ? "★ " : ""}${esc(n.c || LABEL[k])}</b><span>${kick(n.st)}</span></div>
 <div class="vs">${esc(a)}<em>v</em>${esc(b)}</div><div class="three">${row.map((o, i) => `<i class="${i === 0 ? "h" : i === row.length - 1 ? "w" : "x"}" style="flex:${Math.max(1, o.prob)}"></i>`).join("")}</div>
-<div class="odds">${row.map(o => `<span>${esc(/^draw/i.test(o.name) ? "Draw" : k === "tennis" ? o.name.split(" ").pop() : o.name)} <b>${pc(o.prob)}</b></span>`).join("")}</div></a>`;
+<div class="odds">${row.map(o => `<span>${esc(/^draw/i.test(o.name) ? "Draw" : k === "tennis" ? o.name.split(" ").pop() : o.name)} <b>${pc(o.prob)}</b></span>`).join("")}</div>${why(n)}</a>`;
 }
 
 // ---- currents: a strip from yesterday's level (dashed) to today's
@@ -730,7 +731,7 @@ setInterval(() => { if (D) { $("#reading").innerHTML = readingHTML(D); const c =
 // them, and opens everything first if the page shown has none.
 let noteAt = -1;
 function notesBtn() {
-  const n = D ? new Set([...D.board, ...D.topics.flatMap(t => t.items), ...(D.misc || []), ...(D.world || [])].filter(c => c.why?.x).map(c => c.u)).size : 0;
+  const n = D ? new Set([...D.board, ...D.topics.flatMap(t => [...t.items, ...(t.next || [])]), ...(D.misc || []), ...(D.world || [])].filter(c => c.why?.x).map(c => c.u)).size : 0;
   document.querySelectorAll(".js-notes").forEach(b => { b.hidden = !n; b.innerHTML = `${icon("s:gemini")}<span class="t">Notes</span> <b>${n}</b>`; b.title = b.ariaLabel = `Go to the next note (${n} on the page)`; });
 }
 document.querySelectorAll(".js-notes").forEach(b => b.addEventListener("click", () => {
