@@ -30,7 +30,7 @@
   --bg:oklch(.975 .006 265);--bg2:oklch(.955 .009 265);--card:#fff;--ink:oklch(.2 .02 245);--ink2:oklch(.42 .02 240);--muted:oklch(.56 .015 240);
   --line:oklch(.9 .008 235);--line2:oklch(.94 .006 235);
   --sea:oklch(.45 .15 268);--tide:oklch(.66 .09 262);--foam:oklch(.93 .03 268);--marigold:oklch(.72 .16 62);
-  --up:oklch(.55 .15 150);--down:oklch(.56 .19 27);
+  --up:oklch(.55 .15 150);--down:oklch(.56 .19 27);--ai:oklch(.55 .19 285);--ai2:oklch(.62 .16 245);
   --La:.56;--Ca:.17;--Lc:.955;--Cc:.035;--L2:.72;--L3:.86;--C2:.12;--C3:.07;--on:#fff;
   --glass:color-mix(in oklab,var(--card) 62%,transparent);--glass-edge:color-mix(in oklab,#fff 70%,transparent);
   --shadow:0 1px 1px oklch(.2 .02 245 / .04),0 12px 32px -18px oklch(.2 .02 245 / .3);
@@ -41,13 +41,13 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="retro"]){
   color-scheme:dark;--bg:oklch(.14 .008 240);--bg2:oklch(.17 .01 240);--card:oklch(.19 .012 240);--ink:oklch(.95 .006 240);--ink2:oklch(.8 .012 240);--muted:oklch(.64 .015 240);
   --line:oklch(.27 .012 240);--line2:oklch(.23 .01 240);--sea:oklch(.78 .11 270);--tide:oklch(.6 .09 265);--foam:oklch(.26 .05 270);--marigold:oklch(.8 .14 70);--up:oklch(.78 .15 150);--down:oklch(.74 .15 27);
-  --La:.8;--Ca:.14;--Lc:.26;--Cc:.05;--L2:.6;--L3:.4;--C2:.1;--C3:.06;--on:oklch(.16 .02 240);
+  --La:.8;--Ca:.14;--Lc:.26;--Cc:.05;--L2:.6;--L3:.4;--C2:.1;--C3:.06;--on:oklch(.16 .02 240);--ai:oklch(.78 .13 290);--ai2:oklch(.8 .11 245);
   --glass:color-mix(in oklab,var(--card) 58%,transparent);--glass-edge:color-mix(in oklab,#fff 12%,transparent);
   --shadow:0 1px 1px rgba(0,0,0,.3),0 14px 36px -18px rgba(0,0,0,.85)}}
 :root[data-theme="dark"]{
   color-scheme:dark;--bg:oklch(.14 .008 240);--bg2:oklch(.17 .01 240);--card:oklch(.19 .012 240);--ink:oklch(.95 .006 240);--ink2:oklch(.8 .012 240);--muted:oklch(.64 .015 240);
   --line:oklch(.27 .012 240);--line2:oklch(.23 .01 240);--sea:oklch(.78 .11 270);--tide:oklch(.6 .09 265);--foam:oklch(.26 .05 270);--marigold:oklch(.8 .14 70);--up:oklch(.78 .15 150);--down:oklch(.74 .15 27);
-  --La:.8;--Ca:.14;--Lc:.26;--Cc:.05;--L2:.6;--L3:.4;--C2:.1;--C3:.06;--on:oklch(.16 .02 240);
+  --La:.8;--Ca:.14;--Lc:.26;--Cc:.05;--L2:.6;--L3:.4;--C2:.1;--C3:.06;--on:oklch(.16 .02 240);--ai:oklch(.78 .13 290);--ai2:oklch(.8 .11 245);
   --glass:color-mix(in oklab,var(--card) 58%,transparent);--glass-edge:color-mix(in oklab,#fff 12%,transparent);
   --shadow:0 1px 1px rgba(0,0,0,.3),0 14px 36px -18px rgba(0,0,0,.85)}
 /* ---- Retro: an old printed tide almanac. Aged paper, printer's inks (the same neel and marigold, every subject a
@@ -55,7 +55,7 @@
    a typewriter face for the numbers. Same layout, same water. ---- */
 :root[data-theme="retro"]{
   color-scheme:light;--bg:#efe5cf;--bg2:#e7dbbf;--card:#f8f0dd;--ink:#2a1f16;--ink2:#4c3c2d;--muted:#7a6750;--line:#cfbc98;--line2:#dfd0ae;
-  --sea:#2e3a86;--tide:#6c74ab;--foam:#e4dcc5;--marigold:#b35d17;--up:#2e6a39;--down:#a13a29;
+  --sea:#2e3a86;--tide:#6c74ab;--foam:#e4dcc5;--marigold:#b35d17;--up:#2e6a39;--down:#a13a29;--ai:#4b3a86;--ai2:#2e3a86;
   --La:.45;--Ca:.1;--Lc:.905;--Cc:.03;--L2:.62;--L3:.78;--C2:.07;--C3:.045;--on:#f8f0dd;
   --glass:#efe5cf;--glass-edge:#2a1f16;--shadow:none;
   --sans:"Libre Caslon Text","Iowan Old Style",Georgia,serif;--num:"IBM Plex Mono",ui-monospace,Menlo,monospace}
@@ -221,13 +221,19 @@ button{font:inherit;color:inherit}
 .post .who{font:700 16px/1.15 var(--sans);color:var(--ink)}
 .post .q{font:500 12.5px/1.35 var(--sans);color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .post .dl{font:700 12px var(--sans)}
-/* Why it moved: one line of news under a market that moved a lot, after the Gemini mark. Only drawn when there is a
-   note; otherwise the plain "up so many points" line stands alone. Tapping it opens the news it came from. */
-.why{display:flex;gap:6px;align-items:flex-start;font:500 12.5px/1.38 var(--sans);color:var(--ink2);text-align:left;white-space:normal}
-.why .ic{width:13px;height:13px;flex:none;margin-top:.14em;color:var(--muted)}
-.why[data-src]{cursor:pointer}.why[data-src]:hover>span:last-child{text-decoration:underline dotted;text-underline-offset:3px}
-.post .why{font-size:12px;margin-top:-4px}
-.mini .why,.wr .why{margin-top:5px;font-size:12px}
+/* A note (why it moved, why it leads): one line of news in its own panel, tinted in Gemini's blue-violet and led by
+   its mark, so a market with a note is easy to spot and the text reads as written by an AI. Only drawn when there
+   is a note; otherwise the card is as it always was. Tapping it opens the news it came from. */
+.why{display:flex;gap:8px;align-items:flex-start;padding:8px 11px 9px 9px;border-radius:12px;text-align:left;white-space:normal;
+  font:500 12.5px/1.4 var(--sans);color:var(--ink);
+  background:linear-gradient(135deg,color-mix(in oklab,var(--ai) 9%,var(--card)),color-mix(in oklab,var(--ai2) 7%,var(--card)));
+  border:1px solid color-mix(in oklab,var(--ai) 28%,transparent)}
+.why .ic{width:15px;height:15px;flex:none;margin-top:.05em;color:var(--ai)}
+.why[data-src]{cursor:pointer}.why[data-src]:hover{border-color:color-mix(in oklab,var(--ai) 55%,transparent)}
+.why[data-src]:hover>span:last-child{text-decoration:underline dotted;text-underline-offset:3px}
+.post .why{font-size:12px;line-height:1.36;gap:6px;padding:7px 8px 8px 7px;border-radius:10px}.post .why .ic{width:13px;height:13px}
+.mini .why,.wr .why{margin-top:7px;font-size:12px;padding:6px 10px 7px 8px}
+[data-theme=retro] .why{background:transparent;border:1px dashed color-mix(in oklab,var(--ink) 55%,transparent);border-radius:3px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Narrower screens: no sideways scrolling; four across on a tablet, two on a phone (the last one full width). */
 @media (max-width:1000px){.board{grid-template-columns:repeat(4,minmax(0,1fr))}.staff{height:210px}.staff b{font-size:54px}}
