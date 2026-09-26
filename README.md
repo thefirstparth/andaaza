@@ -29,7 +29,7 @@ three sources exist. (It began inside The House of 1400 as "Pulse", then "Consen
 | Google Fonts | Falls back to system fonts; the layout holds. |
 
 ## Free-tier budget (Vercel Hobby)
-- Storage: a Vercel Blob store connected to this project (Storage tab). Without it the page still works, from memory.
+- Storage: the Vercel Blob store `andaaza-readings` (Mumbai, private), connected to the `getandaaza` project (Storage tab). Without it the page still works, from memory.
 - Blob writes: a reading is taken and saved at most every 15 minutes, only while someone is looking; Kalshi's list at
   most every 6 hours. Normal use stays well inside the free allowance; a screen showing it round the clock all month
   would need about 2,900, and if the allowance runs out readings carry on from memory. Reads happen only when memory
