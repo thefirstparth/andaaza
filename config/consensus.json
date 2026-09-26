@@ -810,8 +810,9 @@
     "per_day": 60,
     "budget_rule": "At most per_reading new notes each reading (every fifteen minutes) and per_day a day (IST), tide board first, then the biggest moves. Gemini's free tier allows far more; running out only means fewer notes.",
     "models": [
-      "gemini-2.5-flash",
-      "gemini-2.5-flash-lite"
+      "gemini-3.8-flash",
+      "gemini-3.5-flash",
+      "gemini-3.5-flash-lite"
     ],
     "models_rule": "Tried in order; if Google retires one, the next is used. When none answers, cards simply show the plain line. To change model, edit this list.",
     "news_days": {
