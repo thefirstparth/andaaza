@@ -82,8 +82,8 @@ button{font:inherit;color:inherit}
    (a crest on a tall column) pinned to its top, so no seam can show. Inside it, a full-height copy of the dry layer
    in white, so every letter is colour on pale above the water and white on colour below it. Only percentages and a
    fixed mask position: nothing that browsers disagree on. ---- */
-.wbox{position:absolute;left:0;right:0;bottom:0;font-style:normal;height:calc(var(--pv) * 1% + 4px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/var(--ww) 3000px repeat-x;mask:var(--wave) 0 0/var(--ww) 3000px repeat-x}
-.wbox>.wfull.wfull{top:auto;bottom:0;height:calc((100% - 4px) * 100 / var(--pv));color:var(--on);background:none}
+.wbox{position:absolute;left:0;right:0;bottom:0;font-style:normal;height:calc((var(--pv) + var(--bob)) * 1% + 4px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/var(--ww) 3000px repeat-x;mask:var(--wave) 0 0/var(--ww) 3000px repeat-x}
+.wbox>.wfull.wfull{top:auto;bottom:0;height:calc((100% - 4px) * 100 / (var(--pv) + var(--bob)));color:var(--on);background:none}
 :root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 3000'%3E%3Cpath d='M0 4C12 .8 24 .8 36 4S60 7.2 72 4V3000H0z'/%3E%3C/svg%3E")}
 /* The sea state comes from the data: how far the market moved today (see seaOf). Calm is a long low swell, choppy
    short steep waves that run faster. Each box starts its wave at its own point (--ph), so no two move in step. */
@@ -102,6 +102,15 @@ button{font:inherit;color:inherit}
   .board.rise .post:nth-child(5) .staff{animation-delay:.28s}.board.rise .post:nth-child(6) .staff{animation-delay:.35s}.board.rise .post:nth-child(7) .staff{animation-delay:.42s}
 }
 @keyframes rise{from{--pv:3}}
+/* The water breathes while the page is open: the line rises and falls around its level (the numbers stay still), by
+   as much as the market moved today. Calm barely stirs, choppy heaves. Each gauge on its own clock. */
+@property --bob{syntax:"<number>";inherits:true;initial-value:0}
+:root{--bob:0}
+[data-sea=calm]{--amp:.5;--bt:7s}[data-sea=normal]{--amp:1;--bt:5.5s}[data-sea=choppy]{--amp:2;--bt:4s}
+@media (prefers-reduced-motion:no-preference){
+  [data-sea] .wbox{animation:tide var(--wt) linear infinite,bob var(--bt,6s) ease-in-out infinite alternate;animation-delay:calc(var(--ph,0) * -1s),calc(var(--ph,0) * -.7s)}
+}
+@keyframes bob{from{--bob:calc(var(--amp,1) * -1)}to{--bob:var(--amp,1)}}
 /* Yesterday's level, as on a harbour gauge: a dashed mark. */
 .was{position:absolute;left:0;right:0;bottom:calc(var(--pp) * 1%);border-top:1.5px dashed currentColor;opacity:.55;pointer-events:none}
 
