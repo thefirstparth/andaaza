@@ -1,6 +1,6 @@
 import { waitUntil } from "@vercel/functions";
 import { consensus } from "../lib/consensus.js";
-import { blobConfigured, putJSON } from "../lib/blob.js";
+import { blobConfigured, putJSON, readPath, PRE } from "../lib/blob.js";
 import { addNotes } from "../lib/why.js";
 
 // GET /api/consensus: Andaaza's data (see lib/consensus.js).
@@ -16,32 +16,23 @@ import { addNotes } from "../lib/why.js";
 //   2,900 writes; if the free allowance runs out, readings carry on from memory and nothing breaks.
 // - If Blob is missing, full or failing, the page still works from memory and the edge cache, just with slower first
 //   visits. If every source fails, the last good reading keeps being served, and the page says how old it is.
-// Preview deployments (a branch being tried out) share the Blob store with the live site, so they save under their own
-// folder and can never overwrite what visitors see.
-const PRE = process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production" ? `${process.env.VERCEL_ENV}/` : "";
+// Preview deployments save under their own folder (PRE, see lib/blob.js).
 const PATH = `${PRE}consensus/latest.json`, KPATH = `${PRE}consensus/kalshi-index.json`;
 const REFRESH = 15 * 60 * 1000, SAVE_EVERY = REFRESH;
 let building = null, mem = null, savedAt = 0;
 
-async function readBlob(path) {
-  try {
-    const { get } = await import("@vercel/blob");
-    for (const access of ["private", "public"]) {
-      try { const r = await get(path, { access, useCache: false }); if (r?.stream) return await new Response(r.stream).json(); } catch {}
-    }
-  } catch {}
-  return null;
-}
+const readBlob = readPath;
 const age = d => (d?.generated_at ? Date.now() - Date.parse(d.generated_at) : Infinity);
 const newer = (a, b) => (age(a) <= age(b) ? a : b);
 // One background reading at a time per instance. A reading with no source at all never replaces a good one.
-// prev: the reading being replaced, whose "why it moved" notes carry over (lib/why.js). Notes are skipped when the
-// markets took long to read (a full Kalshi scan), so the reading always finishes well inside the time limit.
+// prev: the reading being replaced, whose notes carry over (lib/why.js). Notes are skipped when the markets took long
+// to read (a full Kalshi scan), so the reading always finishes well inside the time limit. Previews keep what each note
+// was made from, for the test bench (api/why-test.js).
 function rebuild(prev) {
   let ix = null;
   building ||= (blobConfigured() ? readBlob(KPATH) : Promise.resolve(null))
     .then(kalshiIndex => consensus({ kalshiIndex, onKalshiIndex: x => { ix = x; } }))
-    .then(out => addNotes(out, prev || mem, { skip: out.took_ms > 30000 }).catch(() => out))
+    .then(out => addNotes(out, prev || mem, { skip: out.took_ms > 20000, debug: !!PRE }).catch(() => out))
     .then(async out => {
       if (!out.sources.some(s => s.ok)) return null;
       mem = out;
