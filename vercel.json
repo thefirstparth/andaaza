@@ -14,8 +14,7 @@
     { "source": "/consensus", "destination": "/", "permanent": true }
   ],
   "functions": {
-    "api/consensus.js": { "includeFiles": "config/consensus.json", "maxDuration": 60 },
-    "api/why-test.js": { "includeFiles": "config/consensus.json", "maxDuration": 60 }
+    "api/consensus.js": { "includeFiles": "config/consensus.json", "maxDuration": 60 }
   },
   "headers": [
     { "source": "/", "headers": [{ "key": "cache-control", "value": "public, max-age=0, must-revalidate" }] }
