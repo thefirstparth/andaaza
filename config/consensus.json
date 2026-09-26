@@ -805,9 +805,11 @@
       "max": 98.5,
       "keep_slack": 5,
       "refresh_days": 7,
-      "news_days": 14
+      "news_days": 14,
+      "regrow_points": 5,
+      "after_match_hours": 3
     },
-    "leads_rule": "Why it leads: the favourite is at least min percent now and was at least min a week ago (a day ago on Kalshi), with no big move, up to max (settled questions are not shown at all). On the tide board, the first three cards of each subject, and any must-have (★) wherever it is; not other rows, Miscellaneous or Where the money is. Rewritten every refresh_days days, or when the favourite changes.",
+    "leads_rule": "Why it leads: the favourite is at least min percent now and was at least min a week ago (a day ago on Kalshi), with no big move, up to max (settled questions are not shown at all). On the tide board, the first three cards of each subject, and any must-have (★) wherever it is; not other rows, Miscellaneous or Where the money is. Rewritten when the facts behind it change: after the leader's next match (after_match_hours after its start, if it is listed in Coming up), when the price has moved regrow_points either way since the note was written, when the favourite changes, and at the latest every refresh_days days.",
     "matches": {
       "which": "followed",
       "hours_before": 48,
