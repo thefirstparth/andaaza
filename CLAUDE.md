@@ -105,7 +105,8 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Background: faint **lehariya** (Rajasthani wave tie-dye; lehar = wave) in neel/marigold, fading at the edges.
   Reading panel: IST clock, "Markets read at … · next update …", source dots.
 - Area titles carry Hindi seals: खेल, टेक, पैसा, दुनिया, परदा, फुटकर.
-- A glass top bar (logo + area filters) appears **only after scrolling past the tide board**. Poster and the look
+- A glass top bar (logo + area filters) appears **once the header's buttons have scrolled out of view** (was: after the
+  tide board; changed 26 Sep 2026 because on the board no Notes button was reachable). Poster and the look
   button (Day/Night/Retro) sit **top right of the header, above the clock**, and again at the right end of the top bar
   (icons only on a phone). Parth moved them from the floating bottom-right capsule (26 Sep 2026): it hid market data.
 - **Footer:** "Made with ♥ in India" (madewithloveinindia.org) "by Parth Bhatia" · aside **"Ideas by Parth. Typing by
@@ -127,7 +128,8 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Everything, the top bar outlines the section being read (scroll spy) and scrolls the chip into view; the row fades at
   its edges when it scrolls. **Favourites** = every must-have (★) plus every market about someone followed (`f` flag).
 - **Notes button** (Gemini mark + count) beside Poster: each press brings the next note to the middle of the screen and
-  flashes it; on a page with no notes it opens Everything first.
+  flashes it; a note shown twice (board and its card) is one stop; wraps after the last; on a page with no notes it
+  opens Everything first. Tested on the live data: 17 notes, 17 stops, laptop clicks and phone taps.
 
 ## Notes: why it moved, why it leads (Gemini, `lib/why.js`)
 - Parth's call (26 Sep 2026). **Why it moved**: favourite moved ≥10 pts in a day, ≥15 in a week, ≥25 in 30 days (spread ≤ 4,
@@ -147,7 +149,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   card; free news ~12 h late) is searched instead. Brave (paid) and Linkup (work email only) rejected.
 - Refresh: a note belongs to a story. Moved: kept while the move stays (a day move carries on as a week move, then fades
   and the note goes); rewritten only on 10 more points the same way, a reversal (a new story), or a new favourite.
-  Leads: weekly. Budget caps are hard, so refresh logic can never push past the limits.
+  Leads (Parth: "7 wins from 7 will go stale"): rewritten after the leader's next match ends (its start + 3 h, taken
+  from Coming up when the note is written, `nm`), on a 5-point move either way, a new favourite, or at the latest
+  weekly. Budget caps are hard, so refresh logic can never push past the limits.
 - Visitors never add cost: one reading per 15 min at most; a second function copy that finds a fresher saved reading
   writes no notes. Both keys are free plans without a card, so a limit means "notes pause", never a bill.
 - Each note = 1 Tavily search (free 1,000/month) + 1 Gemini call (free key, no billing). Gemini gets the news, the
