@@ -8,7 +8,8 @@ import { moveOf, checkNote } from "../lib/why.js";
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const WHEN = { day: "since yesterday", week: "in the past week", month: "in the past thirty days" };
 const FIELD = { day: "p", week: "w", month: "M" };
-const MODELS = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
+// Gemini 2.5 is closed to new API keys (Google's 404 says so), so the bench tries the current models, newest first.
+const MODELS = ["gemini-3.8-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite"];
 
 async function readSaved() {
   try {
@@ -39,12 +40,12 @@ async function ask(text, search, key) {
     try {
       const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
         method: "POST", headers: { "content-type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(body), signal: AbortSignal.timeout(40000) });
-      if (!r.ok) { last = `${model}: HTTP ${r.status} ${(await r.text()).slice(0, 300)}`; if (r.status === 404 || r.status === 400) continue; return { error: last }; }
+      if (!r.ok) { last = `${last ? `${last}\n` : ""}${model}: HTTP ${r.status} ${(await r.text()).replace(/\s+/g, " ").slice(0, 400)}`; if (r.status === 404 || r.status === 400) continue; return { error: last }; }
       const j = await r.json(), cand = j.candidates?.[0], g = cand?.groundingMetadata || {};
       const answer = (cand?.content?.parts || []).map(p => p.text || "").join("").trim();
       return { model, ms: Date.now() - t0, answer, finish: cand?.finishReason, queries: g.webSearchQueries || [],
         sources: (g.groundingChunks || []).map(x => x.web).filter(Boolean).map(w => ({ uri: w.uri, title: w.title })), widget: g.searchEntryPoint?.renderedContent || "" };
-    } catch (e) { last = `${model}: ${e.message}`; }
+    } catch (e) { last = `${last ? `${last}\n` : ""}${model}: ${e.message}`; }
   }
   return { error: last || "no model answered" };
 }
@@ -85,7 +86,7 @@ h1{font-size:20px;margin:0 0 4px}p.lede{color:var(--muted);margin:0 0 16px;max-w
 .wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:900px;background:var(--card)}
 th,td{border:1px solid var(--line);padding:10px 12px;vertical-align:top;text-align:left}th{font-size:13px;color:var(--muted)}
 td:first-child{width:24%}.ans{margin:0 0 6px;font-size:16px}.meta{margin:0 0 4px;color:var(--muted);font-size:12.5px}
-.src{margin:4px 0;padding-left:18px;font-size:12.5px}.src a{color:inherit}.err{color:var(--bad);font-size:13px}
+.src{margin:4px 0;padding-left:18px;font-size:12.5px}.src a{color:inherit}.err{color:var(--bad);font-size:13px;white-space:pre-wrap}
 pre{white-space:pre-wrap;font-size:12px;color:var(--muted)}.widget{margin-top:6px;max-width:100%;overflow:hidden}
 nav{margin:14px 0;font-weight:600}nav a{color:inherit}
 </style></head><body><h1>Why it moved: test bench</h1>
