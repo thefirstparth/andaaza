@@ -41,8 +41,10 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 - `public/index.html`: the entire page (HTML+CSS+JS, no framework, no build). Icons are vendored between
   `ICONS:BEGIN/END` by `npm run icons` (Iconify: Material Symbols rounded + Simple Icons).
 - `api/consensus.js`: the only API. Serves the newest reading at once (instance memory, else Blob), and when it is
-  over **15 min** old reads the markets again **in the background** (`waitUntil`). `next_at` = reading time + 15 min;
-  if overdue it returns `updating: true` (page shows "updating now" and asks every 20 s). Fresh readings cached at the
+  over **15 min** old reads the markets again **in the background** (`waitUntil`). readings keep to the clock: one per quarter
+  hour (:00/:15/:30/:45 IST), taken by the first visit after it begins; `next_at` = the next quarter hour; if overdue it
+  returns `updating: true` (page shows "updating now", asks every 20 s and repaints by itself, no reload needed).
+  Parth asked about 20 min: note spending is set by stories and caps, not reading frequency, so 15 stayed. Fresh readings cached at the
   edge 60 s; overdue ones not cached. Very first visit ever: quick reading without Kalshi (~3 s), Kalshi follows.
 - `lib/consensus.js`: reads **Polymarket** (busiest 400 + each subject's `pm_tags`), **Kalshi**, **Manifold**
   (play money, marked). Kalshi is read in full at most every **6 h** into a saved index of ~450 relevant events;
@@ -103,8 +105,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Background: faint **lehariya** (Rajasthani wave tie-dye; lehar = wave) in neel/marigold, fading at the edges.
   Reading panel: IST clock, "Markets read at … · next update …", source dots.
 - Area titles carry Hindi seals: खेल, टेक, पैसा, दुनिया, परदा, फुटकर.
-- A glass top bar (logo + area filters) appears **only after scrolling past the tide board**. Poster/Night live in a
-  floating glass capsule bottom-right.
+- A glass top bar (logo + area filters) appears **only after scrolling past the tide board**. Poster and the look
+  button (Day/Night/Retro) sit **top right of the header, above the clock**, and again at the right end of the top bar
+  (icons only on a phone). Parth moved them from the floating bottom-right capsule (26 Sep 2026): it hid market data.
 - **Footer:** "Made with ♥ in India" (madewithloveinindia.org) "by Parth Bhatia" · aside **"Ideas by Parth. Typing by
   Claude. Complaints to Parth."** (Claude mark, muted, orange on hover; Parth's tone: stark, sarcastic, funny, but
   the ideas are his; never imply Claude did everything) · "Prices from Polymarket, Kalshi and Manifold. Andaaza reads
