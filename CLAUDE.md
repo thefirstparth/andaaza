@@ -2,7 +2,8 @@
 
 > **The first rule, above every other: Andaaza must stay fully functional forever, whether or not Claude (or any AI,
 > or anyone) is around to look after it. Judge every decision by that.** In practice:
-> - Nothing at run time may call Claude or any AI, and nothing may depend on a scheduled job, a person, or a session.
+> - Nothing at run time may depend on Claude or any AI, a scheduled job, a person, or a session. AI may add optional
+>   notes (Gemini's "why it moved", decided 26 Sep 2026); the page must look and work the same without them.
 > - Prefer plain, long-lived web standards and free public data over clever or new features; anything newer must
 >   fall back gracefully in browsers that lack it.
 > - Every outside dependency (a source, storage, fonts, the host) needs a fallback, so the page degrades, never breaks.
@@ -28,7 +29,7 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   redirect here from the paper's vercel.json. **The two sites must never depend on or link to each other.**
 
 ## Non-negotiables
-1. **Must run forever without Claude.** Nothing calls any AI. No scheduled jobs. Everything decided at run time from
+1. **Must run forever without Claude.** Nothing depends on any AI (the optional Gemini notes are the only AI call). No scheduled jobs. Everything decided at run time from
    live data and `config/consensus.json`. Plain, widely supported CSS/JS; fixed font metrics, not fragile tricks.
 2. **No hardcoded markets or stories.** Choices are rules (regex patterns, thresholds), never named market IDs.
 3. **Fast:** the page must show data in well under 3 s (5 s max), then update in the background.
@@ -112,6 +113,20 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   2560×1440 monitor (Parth's BenQ), fits laptop, stacks on phone.
 - Section names chosen: Currents, Coming up, Where the money is, Miscellaneous, How this works (includes the water
   explanation). The top gauges have no title.
+
+## Why it moved (Gemini notes, `lib/why.js`)
+- Parth's call (26 Sep 2026): a ≤140-character reason under markets that moved ≥10 pts in a day, ≥15 in a week or
+  ≥25 in 30 days (spread ≤ 4, real money; Currents excluded), on the board, cards, rows and Where the money is; the
+  poster shows only the board's. Name: **Why it moved**, shown as a monochrome Gemini mark (saves space).
+- Voice: T. A. Bhide, the House of 1400's fictional editor: plain reporting, fact first, named sources, the paper's
+  banned words; a sentence about absence is never printed. Rules copied into `why.voice`/`why.banned`, not read from
+  the paper.
+- Gemini gets headlines from The Guardian's API and picks one (pick 0 = no note). Not Gemini's search grounding
+  (terms forbid storing or showing grounded answers to others), not Google News RSS (personal-use terms), not GDELT
+  (rate-limited). Free grounding-free Gemini 2.5 Flash, then Flash-Lite.
+- A note belongs to a move: kept while the move stands (hysteresis at 70% of the threshold), rewritten after
+  24 h / 3 d / 7 d, on 10 more points, or a change of direction; a miss is retried after 6 h. 3 new notes a reading,
+  60 a day. Notes ride inside the saved reading: no extra Blob writes.
 
 ## Mistakes already made (don't repeat)
 - Container query units (`cqh`) for the water: Safari showed 17% as full. Use percentages only.
