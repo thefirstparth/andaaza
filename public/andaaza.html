@@ -82,11 +82,26 @@ button{font:inherit;color:inherit}
    (a crest on a tall column) pinned to its top, so no seam can show. Inside it, a full-height copy of the dry layer
    in white, so every letter is colour on pale above the water and white on colour below it. Only percentages and a
    fixed mask position: nothing that browsers disagree on. ---- */
-.wbox{position:absolute;left:0;right:0;bottom:0;font-style:normal;height:calc(var(--pv) * 1% + 4px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/72px 3000px repeat-x;mask:var(--wave) 0 0/72px 3000px repeat-x}
+.wbox{position:absolute;left:0;right:0;bottom:0;font-style:normal;height:calc(var(--pv) * 1% + 4px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/var(--ww) 3000px repeat-x;mask:var(--wave) 0 0/var(--ww) 3000px repeat-x}
 .wbox>.wfull.wfull{top:auto;bottom:0;height:calc((100% - 4px) * 100 / var(--pv));color:var(--on);background:none}
 :root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 3000'%3E%3Cpath d='M0 4C12 .8 24 .8 36 4S60 7.2 72 4V3000H0z'/%3E%3C/svg%3E")}
-@media (prefers-reduced-motion:no-preference){.wbox{animation:tide 11s linear infinite}}
-@keyframes tide{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:72px 0;mask-position:72px 0}}
+/* The sea state comes from the data: how far the market moved today (see seaOf). Calm is a long low swell, choppy
+   short steep waves that run faster. Each box starts its wave at its own point (--ph), so no two move in step. */
+:root{--ww:72px;--wt:11s}
+[data-sea=calm]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 3000'%3E%3Cpath d='M0 4C20 2 40 2 60 4S100 6 120 4V3000H0z'/%3E%3C/svg%3E");--ww:120px;--wt:18s}
+[data-sea=choppy]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 3000'%3E%3Cpath d='M0 4C7.3 -.5 14.7 -.5 22 4S36.7 8.5 44 4V3000H0z'/%3E%3C/svg%3E");--ww:44px;--wt:5s}
+@media (prefers-reduced-motion:no-preference){.wbox{animation:tide var(--wt) linear infinite;animation-delay:calc(var(--ph,0) * -1s)}}
+@keyframes tide{from{-webkit-mask-position:0 0;mask-position:0 0}to{-webkit-mask-position:var(--ww) 0;mask-position:var(--ww) 0}}
+/* The level is a registered number, so the water can rise: the tide board fills on first load, and every gauge moves
+   from its old level to its new one when a reading arrives. Browsers without this simply show the level. */
+@property --pv{syntax:"<number>";inherits:true;initial-value:50}
+@media (prefers-reduced-motion:no-preference){
+  :is(.staff,.gauge)[data-u]{transition:--pv 1.4s cubic-bezier(.3,.7,.2,1),border-color .2s}
+  .board.rise .staff{animation:rise 1.5s cubic-bezier(.3,.7,.2,1) both}
+  .board.rise .post:nth-child(2) .staff{animation-delay:.07s}.board.rise .post:nth-child(3) .staff{animation-delay:.14s}.board.rise .post:nth-child(4) .staff{animation-delay:.21s}
+  .board.rise .post:nth-child(5) .staff{animation-delay:.28s}.board.rise .post:nth-child(6) .staff{animation-delay:.35s}.board.rise .post:nth-child(7) .staff{animation-delay:.42s}
+}
+@keyframes rise{from{--pv:3}}
 /* Yesterday's level, as on a harbour gauge: a dashed mark. */
 .was{position:absolute;left:0;right:0;bottom:calc(var(--pp) * 1%);border-top:1.5px dashed currentColor;opacity:.55;pointer-events:none}
 
@@ -108,9 +123,11 @@ button{font:inherit;color:inherit}
 
 /* ---- masthead: the name engraved over depth soundings, and the reading ---- */
 .mast{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:18px 40px;padding-block:clamp(28px,5vw,64px) clamp(18px,3vw,30px);border-bottom:1.5px solid var(--ink)}
-.iso{position:absolute;inset:0 calc(-1 * clamp(16px,4vw,44px));z-index:-1;width:calc(100% + 2 * clamp(16px,4vw,44px));height:100%;color:var(--tide);opacity:.28;pointer-events:none}
-.iso path{fill:none;stroke:currentColor;stroke-width:1}
-.iso{-webkit-mask:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent)}
+.iso{position:absolute;inset:0 calc(-1 * clamp(16px,4vw,44px));z-index:-1;width:calc(100% + 2 * clamp(16px,4vw,44px));height:100%;color:var(--tide);opacity:.16;pointer-events:none}
+.iso path{fill:none;stroke-width:1.6;stroke-linecap:round}
+.iso .a{stroke:var(--sea)}.iso .b{stroke:var(--marigold)}.iso .c{stroke:var(--tide)}
+/* Faint, and fading out towards the edges and the foot, so it colours the masthead without crossing the name. */
+.iso{-webkit-mask:radial-gradient(closest-side at 42% 42%,#000 35%,transparent);mask:radial-gradient(closest-side at 42% 42%,#000 35%,transparent)}
 .name{display:flex;align-items:flex-end;gap:clamp(10px,1.6vw,20px)}
 .mark{width:clamp(52px,6.4vw,84px);height:auto;flex:none;margin-bottom:.3em}
 /* The mark: the gauge drop, the page's own device. Drawn on a 64 grid and centred both ways; the water inside moves
@@ -122,10 +139,11 @@ button{font:inherit;color:inherit}
 .mast h1{margin:0;font:italic 400 clamp(60px,11vw,150px)/.82 var(--display);letter-spacing:-.02em;color:var(--ink);display:flex;align-items:baseline;flex-wrap:wrap;gap:0 .16em}
 /* अंदाज़ा: the name in its own script, small, in marigold, sitting on the same line like a seal beside a signature. */
 /* The seal: अंदाज़ा beside the name, the area's Hindi name beside each title. Sits on the title's baseline, then is
-   lifted (--lift, in the seal's own ems) so its middle meets the middle of the title's capitals; inside, the letters'
+   lifted (--lift, in the seal's own ems) so its middle meets the middle of the title's lowercase letters (the x-height,
+   where the eye reads a mostly lowercase word); inside, the letters'
    main band (headline stroke to baseline) is centred, with equal room above and below for the vowel marks.
    Measured for Instrument Serif and Tiro Devanagari Hindi; fixed proportions, so it holds at every size. */
-.dev{--lift:.865em;--band:-.03em;font:400 .3em/1 var(--deva);letter-spacing:0;color:var(--marigold);display:inline-block;box-sizing:border-box;height:1.62em;line-height:1.62em;padding:0 .36em;border:1.5px solid currentColor;border-radius:.32em;font-style:normal;position:relative;top:calc(-1 * var(--lift))}
+.dev{--lift:.515em;--band:-.03em;font:400 .3em/1 var(--deva);letter-spacing:0;color:var(--marigold);display:inline-block;box-sizing:border-box;height:1.62em;line-height:1.62em;padding:0 .36em;border:1.5px solid currentColor;border-radius:.32em;font-style:normal;position:relative;top:calc(-1 * var(--lift))}
 .dev>i{font-style:normal;position:relative;top:var(--band)}
 /* The name is the headword: under it one dictionary line (say it, how, what it is, its Urdu spelling, what it
    means), then the hero line. Each script says the word once: Andaaza in the name, अंदाज़ा in the seal, اندازہ here. */
@@ -166,7 +184,7 @@ button{font:inherit;color:inherit}
 [data-theme=retro] :is(.mast,.pv .ph){border-bottom:3px double var(--ink)}
 [data-theme=retro] .sh{border-bottom:1px solid var(--ink)}
 [data-theme=retro] .social .ig{background:#8b3a62}
-[data-theme=retro] .iso{opacity:.4}
+[data-theme=retro] .iso{opacity:.22}
 [data-theme=retro] .post .lbl{letter-spacing:.03em}
 
 /* ---- the tide board: the biggest question in each area, each on its own tall staff gauge ---- */
@@ -199,7 +217,7 @@ button{font:inherit;color:inherit}
 .sh{display:flex;align-items:flex-end;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;margin:clamp(44px,6vw,76px) 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .sh h2{margin:0;display:flex;align-items:baseline;gap:14px;font:italic 400 clamp(38px,4.6vw,60px)/.9 var(--display);letter-spacing:-.015em;color:var(--ink)}
 .sh h2 .ic{width:26px;height:26px;color:var(--a,var(--sea));align-self:center}
-.sh h2 .dev{--lift:.648em;font-size:.36em;margin:0 0 0 .1em;color:var(--marigold)}
+.sh h2 .dev{--lift:.371em;font-size:.36em;margin:0 0 0 .1em;color:var(--marigold)}
 .sh p{margin:0;font:500 13.5px var(--sans);color:var(--muted)}
 .sh .n{font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
 .sub{display:flex;align-items:center;gap:9px;margin:26px 0 12px;font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
@@ -225,7 +243,7 @@ button{font:inherit;color:inherit}
 .strip u{position:absolute;top:-2px;bottom:-2px;width:0;border-left:2px dashed var(--ink);opacity:.6}
 
 /* ---- filter ---- */
-.chips{position:sticky;top:0;z-index:12;background:color-mix(in oklab,var(--bg) 70%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border-bottom:1px solid var(--glass-edge);margin-top:0}
+.chips{position:fixed;left:0;right:0;top:0;z-index:12;transform:translateY(-105%);transition:transform .35s ease;background:color-mix(in oklab,var(--bg) 70%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border-bottom:1px solid var(--glass-edge);margin-top:0}
 /* The top bar: pinned from the start. The small logo slides in once the masthead has scrolled away, so the name is
    never on screen twice; on a phone it is the drop alone, leaving the room to the areas. */
 .chips .wrap{display:flex;align-items:center;gap:0;padding-block:9px}
@@ -234,6 +252,7 @@ button{font:inherit;color:inherit}
 .brand{display:flex;align-items:center;gap:8px;flex:none;text-decoration:none;color:var(--ink);max-width:0;opacity:0;overflow:hidden;margin-right:0;transition:max-width .35s ease,opacity .25s ease,margin-right .35s ease}
 .brand .mark{width:26px;height:26px;margin:0;flex:none}
 .brand span{font:italic 400 24px/1 var(--display);letter-spacing:-.01em;white-space:nowrap}
+.chips.on{transform:none}
 .chips.on .brand{max-width:180px;opacity:1;margin-right:16px}
 @media (max-width:600px){.brand span{display:none}.chips.on .brand{max-width:32px;margin-right:10px}}
 .chip{flex:none;border:0;background:var(--ac,var(--card));border-radius:999px;padding:8px 15px;font:650 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
@@ -377,7 +396,7 @@ details.how li{margin:0 0 8px}
 .pv .it b{grid-row:span 2;grid-column:2;text-align:right;font:700 26px/1 var(--sans);font-variation-settings:"wdth" 75;color:var(--a,var(--ink))}
 .pv .it b em{display:block;font:700 11.5px var(--sans);font-style:normal;margin-top:3px}
 .pv .x{position:fixed;top:12px;right:12px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font:600 13px var(--sans);cursor:pointer}
-@media (max-width:900px){.pv{place-items:start center;overflow:auto}.pv .sheet{grid-template-columns:1fr}}
+@media (max-width:900px){.pv{place-items:start center;overflow:auto}.pv .sheet{grid-template-columns:minmax(0,1fr);min-width:0}.pv .ph{flex-wrap:wrap;padding-right:64px}.pv .ph h1{font-size:52px}.pv .ph .reading{margin-left:0;justify-items:start;text-align:left}.pv .ph .reading .src{justify-content:flex-start}}
 /* big monitors: scaled up as a whole, like a browser zoom (see fitMonitor) */
 @media (min-width:2100px){.wrap{max-width:1880px}}
 </style>
@@ -452,18 +471,16 @@ const AREA_HI = {"sport": "खेल", "tech": "टेक", "money": "पैस�
 let D, AREA = {}, LABEL = {}, filter = store.get("cons-area") || "all";
 
 // Depth soundings behind the name: a few smooth contour lines, drawn once to the masthead's size.
-function isobaths() {
-  const s = $("#iso"), w = 1000, h = 300; s.setAttribute("viewBox", `0 0 ${w} ${h}`);
-  let d = "";
-  for (let k = 0; k < 9; k++) {
-    const y0 = 30 + k * 30, a = 10 + k * 2.2, f = 0.004 + k * 0.0006, ph = k * 0.9;
-    let p = `M0 ${y0}`;
-    for (let x = 20; x <= w; x += 20) p += ` L${x} ${(y0 + a * Math.sin(x * f + ph) + a * 0.5 * Math.sin(x * f * 2.3 + ph * 1.7)).toFixed(1)}`;
-    d += `<path d="${p}"/>`;
-  }
-  s.innerHTML = d;
+// Lehariya behind the name: the Rajasthani tie-dye of diagonal wave bands (lehar is Hindi for wave), neel and
+// marigold in turn. A pattern, so it is drawn once at any size.
+function lehariya() {
+  const s = $("#iso");
+  s.removeAttribute("viewBox"); s.removeAttribute("preserveAspectRatio");
+  const wave = y => `M-40 ${y}q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0 20 0`;
+  s.innerHTML = `<defs><pattern id="lh" width="120" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)">
+<path class="a" d="${wave(8)}"/><path class="b" d="${wave(19)}"/><path class="a" d="${wave(30)}"/><path class="c" d="${wave(41)}"/></pattern></defs><rect width="100%" height="100%" fill="url(#lh)"/>`;
 }
-isobaths();
+lehariya();
 
 // A yes/no question has no name to lead with: its gauge reads "chance", and where a name is the headline (the tide
 // board) the question itself is.
@@ -480,6 +497,10 @@ function split(t) {
 }
 const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)}${x.play ? " (play money)" : ""}">${esc(x.source)} ${pc(x.prob)}</a>`).join(" · ")}</span>` : "";
 const lvl = p => Math.max(3, Math.min(100, p)).toFixed(1);
+// The water's mood, read from the market itself: calm under 2 points of movement in a day, choppy from 8.
+const seaOf = c => { const d = c.p != null ? Math.abs(c.o[0].prob - c.p) : 0; return d >= 8 ? "choppy" : d < 2 ? "calm" : "normal"; };
+const phase = u => { let h = 0; for (const ch of String(u)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return (h % 97) / 9; };
+const seaAttr = c => `data-sea="${seaOf(c)}" data-u="${esc(c.u)}"`;
 // Yesterday's level, drawn only when it differs enough to read as a separate mark.
 // Drawn inside both the dry and the wet layer, so it reads in the subject's colour above water and white below.
 // The label sits above the mark, or below it when the mark is high enough to meet the big number.
@@ -504,7 +525,7 @@ function post(c, a) {
   const fo = c.focus ? c.o.find(o => o.name === c.focus) : null, chip = fo && fo !== c.o[0] ? `<span class="focus">${esc(fo.name)} <b>${pc(fo.prob)}</b></span>` : "";
   const n = `<b>${Math.round(p)}<small>%</small></b><span class="sc" style="bottom:25%">25</span><span class="sc" style="bottom:50%">50</span><span class="sc" style="bottom:75%">75</span>`;
   return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${icon("t:" + c.k) || icon("a:" + (a?.id || "misc"))}<span>${esc(lb)}</span></span>
-<div class="staff" style="--pv:${lvl(p)}"><div class="l">${n}${wasMark(cc, true)}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${n}${wasMark(cc, true)}</div></div></div>
+<div class="staff" ${seaAttr(c)} style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}"><div class="l">${n}${wasMark(cc, true)}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${n}${wasMark(cc, true)}</div></div></div>
 <div class="who${binary(c) ? " ask" : ""}">${esc(who)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}</a>`;
 }
 // The tide board: the server's five slots in Parth's order (best AI model, Real Madrid, football, world, most
@@ -527,7 +548,7 @@ function card(c, big) {
     key = `<ul class="key">${top.slice(1).map((o, i) => `<li><i class="s${i + 1}"></i>${esc(o.name)}<b>${pc(o.prob)}</b></li>`).join("")}${rest >= 1 ? `<li><i class="s9"></i>Others<b>${pc(rest)}</b></li>` : ""}</ul>`;
   } else seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
   const ft = [moved(c), also(c)].filter(Boolean).join("");
-  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 && !binary(c) ? " lo" : ""}" href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="wbox" aria-hidden="true"><i class="gw wfull"><div class="g">${g}</div>${wasMark(c)}</i></i></a>
+  return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 && !binary(c) ? " lo" : ""}" ${seaAttr(c)} href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="wbox" aria-hidden="true"><i class="gw wfull"><div class="g">${g}</div>${wasMark(c)}</i></i></a>
 <div class="bd"><div class="meta"><span>${c.m ? `<span title="One of your must-haves">★</span> ` : ""}${esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
 <h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}</div></article>`;
 }
@@ -583,24 +604,38 @@ ${Date.now() - Date.parse(d.generated_at) > 3 * 36e5 ? `<div class="stale">This 
 <div class="src">${d.sources.map(s => `<span class="${s.ok ? "" : s.pending ? "wait" : "off"}" title="${s.ok ? s.count + " markets read" : s.pending ? "Being read now; it will appear at the next update" : "Unavailable just now"}"><i></i>${esc(s.name)}${s.pending ? " · coming" : ""}</span>`).join("")}</div>`;
 }
 
+// Before a reading is repainted, remember each gauge's level; afterwards start each from there, so the water moves.
+const levels = () => { const m = {}; document.querySelectorAll("[data-u]").forEach(e => { m[e.dataset.u] = e.style.getPropertyValue("--pv"); }); return m; };
+function flow(old) {
+  const els = [...document.querySelectorAll("[data-u]")].filter(e => old[e.dataset.u] && old[e.dataset.u] !== e.style.getPropertyValue("--pv"));
+  const to = els.map(e => e.style.getPropertyValue("--pv"));
+  els.forEach(e => { e.style.transition = "none"; e.style.setProperty("--pv", old[e.dataset.u]); });
+  void document.body.offsetHeight;
+  els.forEach((e, i) => { e.style.transition = ""; e.style.setProperty("--pv", to[i]); });
+}
+let firstPaint = true;
 function render(d) {
+  const old = D ? levels() : null;
   D = d;
   for (const t of d.topics) { AREA[t.id] = t.area; LABEL[t.id] = t.label; }
   $("#reading").innerHTML = readingHTML(d);
   $("#board").innerHTML = board();
+  $("#board").classList.toggle("rise", firstPaint); firstPaint = false;
   $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 10).map(current).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
   const present = (d.areas || []).filter(a => (a.id === "misc" ? d.misc?.length : d.topics.some(t => t.area === a.id)));
   if (filter !== "all" && !present.some(a => a.id === filter)) filter = "all";
   $("#chips").innerHTML = `<button class="chip" data-a="all" aria-pressed="false">Everything</button>` + present.map(a => `<button class="chip" data-a="${a.id}" aria-pressed="false">${icon("a:" + a.id)}${esc(a.label)}</button>`).join("");
   $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" data-k="${esc(c.k)}" style="--pv:${lvl(c.o[0].prob)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
   paint();
+  if (old) requestAnimationFrame(() => flow(old));
   if (posterOn) showPoster(true);
 }
 setInterval(() => { if (D) { $("#reading").innerHTML = readingHTML(D); const c = $("#pv .reading"); if (c) c.innerHTML = readingHTML(D); } }, 30 * 1000);
 
 $("#chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; filter = b.dataset.a; store.set("cons-area", filter); paint();
   const t = $("#areas"); if (t && t.getBoundingClientRect().top > 80) t.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); });
-try { new IntersectionObserver(([e]) => $("#topbar").classList.toggle("on", !e.isIntersecting), { rootMargin: "-64px 0px 0px 0px" }).observe($(".mast h1")); } catch { $("#topbar").classList.add("on"); }
+// The top bar stays out of the way over the header and the tide board, and slides in once they are scrolled past.
+try { new IntersectionObserver(([e]) => $("#topbar").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0), { rootMargin: "0px" }).observe($("#board")); } catch { $("#topbar").classList.add("on"); }
 $(".brand").addEventListener("click", e => { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); });
 
 // The definition's speaker: the device's own voice, Hindi if it has one (अंदाज़ा), else English read phonetically.
