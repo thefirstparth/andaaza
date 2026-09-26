@@ -808,11 +808,17 @@
       "news_days": 14
     },
     "leads_rule": "Why it leads: the favourite is at least min percent now and was at least min a week ago (a day ago on Kalshi), with no big move, up to max (settled questions are not shown at all). On the tide board, the first three cards of each subject, and any must-have (★) wherever it is; not other rows, Miscellaneous or Where the money is. Rewritten every refresh_days days, or when the favourite changes.",
+    "matches": {
+      "which": "followed",
+      "hours_before": 48,
+      "news_days": 5
+    },
+    "matches_rule": "Why X is favoured, for a single match: the tide board's match gauges and the Coming up matches of anyone followed (set which to \"all\" for every Coming up match, about 4 more searches a day). Written once, within hours_before hours of the start, from the last news_days days of news; rewritten only if the favourite changes.",
     "short_lived": "Weekly charts and dated rankings ('Billboard Hot 100 (Oct 10, 2026)', 'this week') get no notes: they reset too often.",
     "per_reading": 3,
     "per_day": 25,
     "per_month": 750,
-    "budget_rule": "Each note costs one Tavily search (1,000 free a month) and one Gemini call (free key: 20 a day on each Flash model, 500 on Flash-Lite). At most per_reading notes a reading, per_day a day (IST) and per_month a month, in this order: the tide board (moves, then leaders), other moves, other leaders. A reading happens at most every fifteen minutes however many people visit, so more visitors never means more notes. Both keys are free plans with no card: if a limit is ever reached the service refuses, notes pause and nothing is charged.",
+    "budget_rule": "Each note costs one Tavily search (1,000 free a month) and one Gemini call (free key: 20 a day on each Flash model, 500 on Flash-Lite). At most per_reading notes a reading, per_day a day (IST) and per_month a month, in this order: the tide board (moves, then leaders and matches), favourites (followed matches, must-haves, follows), other moves, other leaders. A reading happens at most every fifteen minutes however many people visit, so more visitors never means more notes. Both keys are free plans with no card: if a limit is ever reached the service refuses, notes pause and nothing is charged.",
     "news_days": {
       "day": 3,
       "week": 9,
