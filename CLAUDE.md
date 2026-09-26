@@ -109,8 +109,13 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Claude. Complaints to Parth."** (Claude mark, muted, orange on hover; Parth's tone: stark, sarcastic, funny, but
   the ideas are his; never imply Claude did everything) · "Prices from Polymarket, Kalshi and Manifold. Andaaza reads
   them; it takes no bets." · Instagram button first (filled, gradient), LinkedIn quieter.
-- **Poster** (`/poster` or the button): tide board + Currents + Coming up + Where the money is on one screen; fills a
-  2560×1440 monitor (Parth's BenQ), fits laptop, stacks on phone.
+- **Poster** (`/poster` or the button): tide board + Currents + Coming up + Where the money is on one screen; always
+  spans the full width and is scaled so its height fills the screen (laptop, 2560×1440 BenQ GW2790Q, ultra-wide);
+  on a monitor on its side the three lists stack; stacks and scrolls on phone and tablet.
+- **Width (Parth, 26 Sep 2026: "fix this once and for all")**: no max-width. The page always fills the screen's width
+  with margins `--gut` = clamp(16px, 3vw, 64px) (one variable; the Currents bleed uses it too), and is scaled
+  smoothly with width by `fitMonitor` (1× to 1920px, 1.33× at 2560, max 1.5×). QA widths: 1280, 1470, 1728, 1920,
+  2560, 3440 ultra-wide, 1440×2560 portrait, 820 tablet, 390 phone: board uses 92–94% of the width everywhere.
 - Section names chosen: Currents, Coming up, Where the money is, Miscellaneous, How this works (includes the water
   explanation). The top gauges have no title.
 
@@ -120,6 +125,10 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   (a day on Kalshi), up to settled (Parth wants Antonelli at 91% explained too), on the board, subject cards and any ★
   must-have; weekly charts and dated rankings are skipped. Shown in a tinted Gemini blue-violet panel with the Gemini
   mark (Parth: a note must be noticeable, clearly AI-written); dashed plain box in Retro.
+- Each note ends with its age in small grey text ("3 h ago", then the date).
+- Refresh: a note belongs to a story. Moved: kept while the move stays (a day move carries on as a week move, then fades
+  and the note goes); rewritten only on 10 more points the same way, a reversal (a new story), or a new favourite.
+  Leads: weekly. Budget caps are hard, so refresh logic can never push past the limits.
 - Visitors never add cost: one reading per 15 min at most; a second function copy that finds a fresher saved reading
   writes no notes. Both keys are free plans without a card, so a limit means "notes pause", never a bill.
 - Each note = 1 Tavily search (free 1,000/month) + 1 Gemini call (free key, no billing). Gemini gets the news, the
@@ -138,6 +147,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Cloud credit but needs billing, and a billing project with $0 prepaid refuses even free calls (402).
 
 ## Mistakes already made (don't repeat)
+- A finished race stayed on the board: Kalshi keeps race markets open a week (Russell 98%, under the 98.5% cut).
+  Now `decided` (config): a leader ≥95% on a question due within 24 h, or past its due date, gives way.
+- The page was capped at 1280px, zoomed only from 2100px: every laptop and 1080p screen between had wide empty margins.
 - Container query units (`cqh`) for the water: Safari showed 17% as full. Use percentages only.
 - Board label named the reason ("Real Madrid") above Barcelona's 80%: labels name the market.
 - `next update` kept moving to "now + 1 min"; fixed to reading time + 15 min / "updating now".

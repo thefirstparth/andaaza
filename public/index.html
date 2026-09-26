@@ -74,7 +74,11 @@ a{color:inherit}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--sea);outline-offset:3px;border-radius:8px}
 [hidden]{display:none!important}
-.wrap{max-width:1280px;margin:0 auto;padding-inline:clamp(16px,4vw,44px)}
+/* The page always fills the screen's width (laptop, 1080p, a 27-inch, an ultra-wide or a monitor on its side), with
+   margins that grow gently; on wide screens everything is also scaled up smoothly (fitMonitor), so nothing floats in
+   a column of white. Long text keeps its own measure (ch limits). */
+:root{--gut:clamp(16px,3vw,64px)}
+.wrap{margin:0 auto;padding-inline:var(--gut)}
 .ic{fill:currentColor;display:inline-block;vertical-align:-.15em}
 .eyebrow{font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 
@@ -132,7 +136,7 @@ button{font:inherit;color:inherit}
 
 /* ---- masthead: the name engraved over depth soundings, and the reading ---- */
 .mast{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:18px 40px;padding-block:clamp(28px,5vw,64px) clamp(18px,3vw,30px);border-bottom:1.5px solid var(--ink)}
-.iso{position:absolute;inset:0 calc(-1 * clamp(16px,4vw,44px));z-index:-1;width:calc(100% + 2 * clamp(16px,4vw,44px));height:100%;color:var(--tide);opacity:.16;pointer-events:none}
+.iso{position:absolute;inset:0 calc(-1 * var(--gut));z-index:-1;width:calc(100% + 2 * var(--gut));height:100%;color:var(--tide);opacity:.16;pointer-events:none}
 .iso path{fill:none;stroke-width:1.6;stroke-linecap:round}
 .iso .a{stroke:var(--sea)}.iso .b{stroke:var(--marigold)}.iso .c{stroke:var(--tide)}
 /* Faint, and fading out towards the edges and the foot, so it colours the masthead without crossing the name. */
@@ -231,6 +235,7 @@ button{font:inherit;color:inherit}
 .why .ic{width:15px;height:15px;flex:none;margin-top:.05em;color:var(--ai)}
 .why[data-src]{cursor:pointer}.why[data-src]:hover{border-color:color-mix(in oklab,var(--ai) 55%,transparent)}
 .why[data-src]:hover>span:last-child{text-decoration:underline dotted;text-underline-offset:3px}
+.why time{font-size:.88em;font-weight:500;color:var(--muted);white-space:nowrap;margin-left:2px}
 .post .why{font-size:12px;line-height:1.36;gap:6px;padding:7px 8px 8px 7px;border-radius:10px}.post .why .ic{width:13px;height:13px}
 .mini .why,.wr .why{margin-top:7px;font-size:12px;padding:6px 10px 7px 8px}
 [data-theme=retro] .why{background:transparent;border:1px dashed color-mix(in oklab,var(--ink) 55%,transparent);border-radius:3px}
@@ -251,7 +256,7 @@ button{font:inherit;color:inherit}
 .sub span{color:var(--muted);font-weight:550;letter-spacing:.02em;text-transform:none}
 
 /* ---- currents: what moved in a day, a strip from yesterday's level to today's ---- */
-.currents{display:grid;grid-auto-flow:column;grid-auto-columns:min(78vw,290px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:clamp(16px,4vw,44px);scrollbar-width:none;padding-bottom:6px;margin-inline:calc(-1 * clamp(16px,4vw,44px));padding-inline:clamp(16px,4vw,44px)}
+.currents{display:grid;grid-auto-flow:column;grid-auto-columns:min(78vw,290px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gut);scrollbar-width:none;padding-bottom:6px;margin-inline:calc(-1 * var(--gut));padding-inline:var(--gut)}
 .currents::-webkit-scrollbar{display:none}
 .cur{scroll-snap-align:start;display:flex;flex-direction:column;gap:9px;padding:16px 18px 18px;border-radius:26px;background:var(--ac);border:0;text-decoration:none;transition:border-color .2s}
 .cur:hover{border-color:var(--a)}
@@ -406,7 +411,7 @@ details.how li{margin:0 0 8px}
 
 /* ---- poster: the tide board and the day on one screen, for a monitor or a spare display ---- */
 .pv{position:fixed;inset:0;z-index:20;background:var(--bg);display:grid;place-items:center;padding:clamp(14px,2.2vw,30px);overflow:hidden}
-.pv .sheet{width:min(1560px,100%);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 30px}
+.pv .sheet{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 30px}
 .pv .ph{grid-column:1/-1;display:flex;align-items:flex-end;gap:16px;padding-bottom:14px;border-bottom:1.5px solid var(--ink)}
 .pv .ph .mark{width:50px;margin-bottom:.3em}
 .pv .ph h1{margin:0;font:italic 400 76px/.85 var(--display);letter-spacing:-.02em;display:flex;align-items:baseline;gap:0 .16em}
@@ -423,8 +428,8 @@ details.how li{margin:0 0 8px}
 .pv .it b em{display:block;font:700 11.5px var(--sans);font-style:normal;margin-top:3px}
 .pv .x{position:fixed;top:12px;right:12px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font:600 13px var(--sans);cursor:pointer}
 @media (max-width:900px){.pv{place-items:start center;overflow:auto}.pv .sheet{grid-template-columns:minmax(0,1fr);min-width:0}.pv .ph{flex-wrap:wrap;padding-right:64px}.pv .ph h1{font-size:52px}.pv .ph .reading{margin-left:0;justify-items:start;text-align:left}.pv .ph .reading .src{justify-content:flex-start}}
-/* big monitors: scaled up as a whole, like a browser zoom (see fitMonitor) */
-@media (min-width:2100px){.wrap{max-width:1880px}}
+/* A monitor on its side: the poster's three lists stack under the board, filling the tall screen. */
+@media (min-width:901px) and (orientation:portrait){.pv .sheet{grid-template-columns:minmax(0,1fr)}.pv .staff{height:320px}}
 </style>
 </head>
 <body>
@@ -454,7 +459,7 @@ details.how li{margin:0 0 8px}
     <details class="how"><summary>How this works</summary><ol>
       <li><b>The water level.</b> A market's price is what traders pay for "yes", so it reads as the chance they give it. Andaaza draws it as water: the higher the water, the surer the money. The dashed mark is where it stood a day ago.</li>
       <li><b>Read.</b> The four hundred busiest questions on Polymarket plus the busiest in each of your subjects' own Polymarket tags (F1, football, AI and so on, so a race or a model ranking turns up even when it is not big worldwide), every open event on Kalshi, and Manifold's busiest play-money questions. The last reading is saved and shown at once, so the page opens in a moment; a new reading is taken in the background every fifteen minutes or so, and the page picks it up by itself at the time shown at the top.</li>
-      <li><b>Clear the noise.</b> Questions that are all but settled (above 98.5% or below 1.5%), markets with under $2,000 traded in a day ($500 for F1 and NBA, which have fewer markets), side bets (tosses, sets, handicaps, pole, podium, fastest lap) and price ladders go. So do your standing exclusions: US domestic politics, the Fed, American football, baseball, hockey and college sport, weather, and post or view counts.</li>
+      <li><b>Clear the noise.</b> Questions that are all but settled (above 98.5% or below 1.5%, or 95% on a question due to be settled within a day, like a race that has finished), markets with under $2,000 traded in a day ($500 for F1 and NBA, which have fewer markets), side bets (tosses, sets, handicaps, pole, podium, fastest lap) and price ladders go. So do your standing exclusions: US domestic politics, the Fed, American football, baseball, hockey and college sport, weather, and post or view counts.</li>
       <li><b>Sort.</b> Each question goes to the first of your subjects whose words it contains: Formula 1, football, cricket, tennis, NBA, AI and tech, money, India, world, Bollywood and film, series and streaming, celebrities. A single match never takes a card: it goes under its sport's Coming up when it starts within a week and involves someone you follow or a team or player the subject counts as notable. When a recurring question is settled (the best AI model at the end of September), the next round (end of October) takes its place.</li>
       <li><b>Merge.</b> The same question on two sites becomes one card, the busier site leading and the other shown beside it.</li>
       <li><b>Rank.</b> Within a subject, anything about the Warriors, Real Madrid, Verstappen, Alcaraz, Djokovic or India comes first, then the rest by money traded today. The tide board is the busiest question in each area. Currents are the real-money questions in your subjects that moved four points or more in a day on a price the market agrees on (a spread of four points or less between buyers and sellers); weekly and monthly rankings, which reset each round, are left out. Miscellaneous is the busiest of everything that fits nowhere else.</li>
@@ -540,8 +545,11 @@ const shift = c => (c.mv && WIN[c.mv.k] && c[WIN[c.mv.k][0]] != null ? { d: c.mv
 const moved = c => { const { d, was, w } = shift(c); return Math.abs(d) >= 1 ? `<span class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)} ${w} · was ${pc(was)}</span>` : ""; };
 // The server's one-line note (c.why): why it moved, or why it leads. Marked with Gemini's logo; nothing at all when
 // there is none.
-const why = c => { if (!c.why?.x) return ""; const k = c.why.k === "leads" ? "Why it leads" : "Why it moved";
-  return `<span class="why"${c.why.u ? ` data-src="${esc(c.why.u)}"` : ""} title="${k}. Written by Gemini from ${esc(c.why.t ? `the news: ${c.why.t}` : "the news")}">${icon("s:gemini")}<span class="vh">${k}, written by Gemini: </span><span>${esc(c.why.x)}</span></span>`; };
+// How old a note is, small and grey after it: "40 min ago", "3 h ago", then the date ("24 Sep").
+const noteAge = a => { const t = Date.parse(a || ""); if (!t) return ""; const m = Math.max(1, Math.round((Date.now() - t) / 6e4));
+  return m < 60 ? `${m} min ago` : m < 24 * 60 ? `${Math.round(m / 60)} h ago` : new Date(t).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short" }); };
+const why = c => { if (!c.why?.x) return ""; const k = c.why.k === "leads" ? "Why it leads" : "Why it moved", age = noteAge(c.why.a);
+  return `<span class="why"${c.why.u ? ` data-src="${esc(c.why.u)}"` : ""} title="${k}. Written by Gemini from ${esc(c.why.t ? `the news: ${c.why.t}` : "the news")}">${icon("s:gemini")}<span class="vh">${k}, written by Gemini: </span><span>${esc(c.why.x)}${age ? ` <time datetime="${esc(c.why.a)}">${age}</time>` : ""}</span></span>`; };
 
 // ---- the tide board: the busiest question in each area, on a staff gauge
 function leadOf(a) {
@@ -742,10 +750,13 @@ function posterHTML() {
 function fitPoster() {
   const P = $("#pv"), c = P.querySelector(".sheet"); if (P.hidden || !c) return;
   c.style.zoom = ""; if (innerWidth <= 900) return;
-  // Shrink to fit the height; on a big monitor (from 2,100px) also grow to fill the width.
-  const big = innerWidth >= 2100, room = P.clientHeight - 40, roomW = P.clientWidth - 40;
+  // The sheet always spans the full width; it is then scaled so its height fills the screen: shrunk on a short
+  // laptop, grown on a tall or big monitor. Growth stops before the columns get too narrow to read (a sheet at
+  // least 1,400px wide in its own terms, 860px on a monitor on its side) and at 1.6x.
+  const room = P.clientHeight - 40, minW = innerHeight > innerWidth ? 860 : 1400, top = Math.min(1.6, Math.max(1, (P.clientWidth - 40) / minW));
   let z = 1;
-  for (let i = 0; i < 5; i++) { const r = c.getBoundingClientRect(), f = Math.min(room / r.height, big ? roomW / r.width : 1); if (Math.abs(f - 1) < 0.01 || (!big && f >= 1)) break; z = Math.max(0.45, Math.min(big ? 1.6 : 1, z * f)); c.style.zoom = z.toFixed(3); }
+  // Text reflows as the scale changes, so this settles in a few steps; it always ends inside the screen.
+  for (let i = 0; i < 8; i++) { const f = room / c.getBoundingClientRect().height; if (f >= 1 && f < 1.015) break; const n = Math.max(0.45, Math.min(top, z * (f < 1 ? f * 0.995 : f))); if (Math.abs(n - z) < 0.002) break; z = n; c.style.zoom = z.toFixed(3); }
 }
 let posterOn = /\/poster$/.test(location.pathname) || new URLSearchParams(location.search).has("poster");
 function showPoster(on) {
@@ -757,9 +768,10 @@ function showPoster(on) {
 $("#posterBtn").addEventListener("click", () => showPoster(true));
 addEventListener("keydown", e => { if (e.key === "Escape" && posterOn) $("#pvx")?.click(); });
 
-// ---- big monitors: from 2,100px wide the page is scaled up as a whole so a 27-inch screen reads like a laptop.
+// ---- wide screens: the page is scaled up smoothly with the width (1x to 1,920px, 1.33x on a 2,560px 27-inch, at most
+// 1.5x on an ultra-wide), like a browser zoom, so a big monitor reads like a laptop and still fills edge to edge.
 function fitMonitor() {
-  const z = innerWidth >= 2100 ? Math.min(1.5, innerWidth / 1920) : 1;
+  const z = Math.max(1, Math.min(1.5, innerWidth / 1920));
   for (const el of document.querySelectorAll("body > .bar, body > header, body > main")) el.style.zoom = z === 1 ? "" : z.toFixed(3);
 }
 addEventListener("resize", () => { fitMonitor(); fitPoster(); });
