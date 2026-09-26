@@ -1,6 +1,7 @@
 import { waitUntil } from "@vercel/functions";
 import { consensus } from "../lib/consensus.js";
-import { blobConfigured, putJSON } from "../lib/blob.js";
+import { blobConfigured, putJSON, readPath, PRE } from "../lib/blob.js";
+import { addNotes } from "../lib/why.js";
 
 // GET /api/consensus: Andaaza's data (see lib/consensus.js).
 // A visitor never waits for the markets to be read (a full Kalshi read takes about thirty seconds). The last reading is
@@ -15,26 +16,31 @@ import { blobConfigured, putJSON } from "../lib/blob.js";
 //   2,900 writes; if the free allowance runs out, readings carry on from memory and nothing breaks.
 // - If Blob is missing, full or failing, the page still works from memory and the edge cache, just with slower first
 //   visits. If every source fails, the last good reading keeps being served, and the page says how old it is.
-const PATH = "consensus/latest.json", KPATH = "consensus/kalshi-index.json";
+// Preview deployments save under their own folder (PRE, see lib/blob.js).
+const PATH = `${PRE}consensus/latest.json`, KPATH = `${PRE}consensus/kalshi-index.json`;
 const REFRESH = 15 * 60 * 1000, SAVE_EVERY = REFRESH;
 let building = null, mem = null, savedAt = 0;
 
-async function readBlob(path) {
-  try {
-    const { get } = await import("@vercel/blob");
-    for (const access of ["private", "public"]) {
-      try { const r = await get(path, { access, useCache: false }); if (r?.stream) return await new Response(r.stream).json(); } catch {}
-    }
-  } catch {}
-  return null;
-}
+const readBlob = readPath;
 const age = d => (d?.generated_at ? Date.now() - Date.parse(d.generated_at) : Infinity);
 const newer = (a, b) => (age(a) <= age(b) ? a : b);
 // One background reading at a time per instance. A reading with no source at all never replaces a good one.
-function rebuild() {
+// prev: the reading being replaced, whose notes carry over (lib/why.js). Notes are skipped when the markets took long
+// to read (a full Kalshi scan), so the reading always finishes well inside the time limit. Previews keep what each note
+// was made from (the search and the news), to judge the notes in this API's answer.
+function rebuild(prev) {
   let ix = null;
   building ||= (blobConfigured() ? readBlob(KPATH) : Promise.resolve(null))
     .then(kalshiIndex => consensus({ kalshiIndex, onKalshiIndex: x => { ix = x; } }))
+    .then(async out => {
+      // Vercel may run several copies of this function. If another copy saved a reading while this one was reading the
+      // markets, its notes (and its count of searches spent) are the latest: carry those over and write none this time,
+      // so two copies never spend the budget twice.
+      let last = prev || mem, skip = out.took_ms > 20000;
+      const saved = blobConfigured() ? await readBlob(PATH) : null;
+      if (saved?.generated_at && (!last || Date.parse(saved.generated_at) > Date.parse(last.generated_at))) { skip ||= age(saved) < REFRESH; last = saved; }
+      return addNotes(out, last, { skip, debug: !!PRE }).catch(() => out);
+    })
     .then(async out => {
       if (!out.sources.some(s => s.ok)) return null;
       mem = out;
@@ -64,7 +70,7 @@ export async function GET() {
       if (snap?.generated_at) { best = newer(best, snap); if (snap === best) savedAt = Math.max(savedAt, Date.parse(snap.generated_at)); }
     }
     if (best) {
-      if (age(best) > REFRESH) waitUntil(rebuild());
+      if (age(best) > REFRESH) waitUntil(rebuild(best));
       return send(best);
     }
     // Nothing anywhere: a quick reading without Kalshi now, the full one in the background.

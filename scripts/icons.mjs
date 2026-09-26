@@ -16,6 +16,7 @@ const ICON_LIST = {
   "t:film": "material-symbols:movie-rounded", "t:ott": "material-symbols:live-tv-rounded", "t:celebs": "material-symbols:star-rounded",
   "u:moon": "material-symbols:dark-mode-rounded", "u:sun": "material-symbols:light-mode-rounded", "u:poster": "material-symbols:filter-frames-rounded", "u:speak": "material-symbols:volume-up-rounded",
   "s:instagram": "simple-icons:instagram", "s:linkedin": "simple-icons:linkedin", "u:retro": "material-symbols:radio-rounded", "s:claude": "simple-icons:claude",
+  "s:gemini": "simple-icons:googlegemini",
 };
 
 async function build(WANT) {

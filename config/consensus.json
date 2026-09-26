@@ -786,5 +786,104 @@
   "follow_note": "Barcelona is followed as a rival (a hatewatch), not a team Parth supports.",
   "must_cap": 2,
   "extra_min_share": 0.2,
-  "movers_max_spread": 4
+  "movers_max_spread": 4,
+  "why": {
+    "_about": "One-line notes under markets, written by Gemini from news that Andaaza finds with Tavily. Two kinds: 'why it moved' (a big move) and 'why it leads' (a steady favourite). Optional by design: with no GEMINI_API_KEY or TAVILY_API_KEY, or if either service fails or runs out, cards show only their usual lines and nothing else changes. Currents never get a note.",
+    "points": {
+      "day": 10,
+      "week": 15,
+      "month": 25
+    },
+    "points_rule": "Why it moved: the favourite moved at least this many points in a day, a week or thirty days (shortest window first), on a spread of at most max_spread points, in real money. Anywhere on the page except Currents. Week and month changes come from Polymarket only.",
+    "max_spread": 4,
+    "keep_share": 0.7,
+    "regrow_points": 10,
+    "miss_regrow": 5,
+    "moved_rule": "One note per move. It stays while the move stays above keep_share of the threshold, and is rewritten only when the price moves regrow_points more, the move turns round, or the favourite changes. When the news explains nothing, it is not asked again until the price moves miss_regrow more.",
+    "leads": {
+      "min": 50,
+      "max": 98.5,
+      "keep_slack": 5,
+      "refresh_days": 7,
+      "news_days": 14
+    },
+    "leads_rule": "Why it leads: the favourite is at least min percent now and was at least min a week ago (a day ago on Kalshi), with no big move, up to max (settled questions are not shown at all). On the tide board, the first three cards of each subject, and any must-have (★) wherever it is; not other rows, Miscellaneous or Where the money is. Rewritten every refresh_days days, or when the favourite changes.",
+    "short_lived": "Weekly charts and dated rankings ('Billboard Hot 100 (Oct 10, 2026)', 'this week') get no notes: they reset too often.",
+    "per_reading": 3,
+    "per_day": 25,
+    "per_month": 750,
+    "budget_rule": "Each note costs one Tavily search (1,000 free a month) and one Gemini call (free key: 20 a day on each Flash model, 500 on Flash-Lite). At most per_reading notes a reading, per_day a day (IST) and per_month a month, in this order: board moves, other moves, board leaders, other leaders. A reading happens at most every fifteen minutes however many people visit, so more visitors never means more notes. Both keys are free plans with no card: if a limit is ever reached the service refuses, notes pause and nothing is charged.",
+    "news_days": {
+      "day": 3,
+      "week": 9,
+      "month": 32
+    },
+    "news_results": 8,
+    "query_names": {
+      "epl": "Premier League",
+      "laliga": "La Liga",
+      "ucl": "Champions League",
+      "uefa champions league": "Champions League",
+      "nba": "NBA",
+      "f1": "Formula 1"
+    },
+    "query_rule": "The news search is the question without dates, years or brackets (league codes spelt out by query_names), led by the favourite's name and, for a move, the rival that moved most the other way (5 points or more); for a lead, the runner-up.",
+    "models": [
+      "gemini-3.8-flash",
+      "gemini-3.5-flash",
+      "gemini-3.5-flash-lite"
+    ],
+    "models_rule": "Tried in order. On the free key the Flash models allow 20 calls a day each and Flash-Lite 500 (AI Studio → Rate limits); a model whose day is used up is skipped until midnight Pacific (12:30 pm IST), one that is busy or retired hands over to the next. To change model, edit this list.",
+    "max_chars": 140,
+    "voice": [
+      "You write one short note for Andaaza, a public page that shows what prediction markets expect. Readers anywhere in the world may know nothing about the subject.",
+      "Use only the numbered news you are given. Give as pick the number of the item that best supports your note. If none of them explains it, give pick 0 and an empty note. Never guess or fill in from memory.",
+      "The note gives the cause: what happened, or the standing fact that explains it, with names, numbers and dates from the news. Name the favourite or the rival it is about. Present or past tense, whichever reads naturally. It may say what the event means for the question.",
+      "Aim for about 120 characters; never more than 140. One sentence. Do not repeat the percentages or the move (the page shows them) and do not mention bettors, traders, odds or the market.",
+      "Plain and exact, in the spirit of a good newspaper editor: no hedging (reportedly, likely, may, appears), no hype adjectives, no em dashes, no questions or exclamation marks."
+    ],
+    "banned": [
+      "reportedly",
+      "likely",
+      "may have",
+      "might",
+      "possibly",
+      "appears to",
+      "seems",
+      "unclear",
+      "no clear",
+      "speculation",
+      "odds",
+      "bettors",
+      "traders",
+      "prediction market",
+      "pivotal",
+      "crucial",
+      "underscores",
+      "testament",
+      "landscape",
+      "delve",
+      "amid"
+    ],
+    "banned_tails": [
+      "highlighting",
+      "underscoring",
+      "signalling",
+      "signaling",
+      "reflecting",
+      "showcasing",
+      "suggesting",
+      "indicating",
+      "demonstrating",
+      "emphasising",
+      "emphasizing",
+      "reinforcing",
+      "cementing",
+      "fuelling",
+      "fueling",
+      "sparking",
+      "paving"
+    ],
+    "checks_rule": "A note is thrown away (never edited) when it is longer than max_chars, has an em dash, a question or exclamation mark, a banned word, ends in a comma and one of banned_tails (', highlighting the growing importance of'), or does not name any of the market's contenders."
+  }
 }

@@ -2,7 +2,8 @@
 
 > **The first rule, above every other: Andaaza must stay fully functional forever, whether or not Claude (or any AI,
 > or anyone) is around to look after it. Judge every decision by that.** In practice:
-> - Nothing at run time may call Claude or any AI, and nothing may depend on a scheduled job, a person, or a session.
+> - Nothing at run time may depend on Claude or any AI, a scheduled job, a person, or a session. AI may add optional
+>   notes (Gemini's "why it moved", decided 26 Sep 2026); the page must look and work the same without them.
 > - Prefer plain, long-lived web standards and free public data over clever or new features; anything newer must
 >   fall back gracefully in browsers that lack it.
 > - Every outside dependency (a source, storage, fonts, the host) needs a fallback, so the page degrades, never breaks.
@@ -28,7 +29,7 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   redirect here from the paper's vercel.json. **The two sites must never depend on or link to each other.**
 
 ## Non-negotiables
-1. **Must run forever without Claude.** Nothing calls any AI. No scheduled jobs. Everything decided at run time from
+1. **Must run forever without Claude.** Nothing depends on any AI (the optional Gemini notes are the only AI call). No scheduled jobs. Everything decided at run time from
    live data and `config/consensus.json`. Plain, widely supported CSS/JS; fixed font metrics, not fragile tricks.
 2. **No hardcoded markets or stories.** Choices are rules (regex patterns, thresholds), never named market IDs.
 3. **Fast:** the page must show data in well under 3 s (5 s max), then update in the background.
@@ -112,6 +113,29 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   2560×1440 monitor (Parth's BenQ), fits laptop, stacks on phone.
 - Section names chosen: Currents, Coming up, Where the money is, Miscellaneous, How this works (includes the water
   explanation). The top gauges have no title.
+
+## Notes: why it moved, why it leads (Gemini, `lib/why.js`)
+- Parth's call (26 Sep 2026). **Why it moved**: favourite moved ≥10 pts in a day, ≥15 in a week, ≥25 in 30 days (spread ≤ 4,
+  real money), anywhere but **Currents** (never notes there). **Why it leads**: favourite ≥50% now and a week ago
+  (a day on Kalshi), up to settled (Parth wants Antonelli at 91% explained too), on the board, subject cards and any ★
+  must-have; weekly charts and dated rankings are skipped. Shown in a tinted Gemini blue-violet panel with the Gemini
+  mark (Parth: a note must be noticeable, clearly AI-written); dashed plain box in Retro.
+- Visitors never add cost: one reading per 15 min at most; a second function copy that finds a fresher saved reading
+  writes no notes. Both keys are free plans without a card, so a limit means "notes pause", never a bill.
+- Each note = 1 Tavily search (free 1,000/month) + 1 Gemini call (free key, no billing). Gemini gets the news, the
+  market's rules and contenders, picks one item (0 = no note) and writes ≤140 chars. Style: Bhide as a general guide
+  only (fact first, the actual cause, names and numbers, no hedging), not newspaper strictness. Code rejects em dashes,
+  hedges, analysis -ing tails and notes that name no contender.
+- A note belongs to a story: moved notes are rewritten only when the price moves 10 more points, turns, or the
+  favourite changes; misses retried only after 5 more points; lead notes weekly. Caps: 3 per reading, 25/day, 750/month.
+  Order: board moves, other moves, board leaders, card leaders.
+- Tested on a preview-only bench before launch (removed at launch): Parth judged Primetime, Russell, PayPal, Big
+  Brother, Venezuela, Zverev, Barcelona notes good; the Arsenal one (Arteta's contract) wrong, which led to the rival
+  search (Manchester City's points case).
+- Rejected, with reasons: Gemini's own Google Search (not free on current models; terms forbid storing or showing its
+  answers to others), Gemini 2.5 (closed to new keys), Google News RSS (personal-use terms), GDELT (rate-limited),
+  The Guardian (thin on India), Grok (paid). ChatGPT Plus / Claude Pro include no API use; Google AI Pro gives $10/month
+  Cloud credit but needs billing, and a billing project with $0 prepaid refuses even free calls (402).
 
 ## Mistakes already made (don't repeat)
 - Container query units (`cqh`) for the water: Safari showed 17% as full. Use percentages only.
