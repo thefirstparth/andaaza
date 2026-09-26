@@ -786,5 +786,84 @@
   "follow_note": "Barcelona is followed as a rival (a hatewatch), not a team Parth supports.",
   "must_cap": 2,
   "extra_min_share": 0.2,
-  "movers_max_spread": 4
+  "movers_max_spread": 4,
+  "why": {
+    "_about": "Why it moved: a one-line reason under a market that has moved a lot, written by Gemini from news headlines that Andaaza fetches from The Guardian. Optional by design: with no GEMINI_API_KEY or GUARDIAN_API_KEY, or if either service fails, cards show only the plain line (up or down so many points) and nothing else changes. Currents never get a note.",
+    "points": {
+      "day": 10,
+      "week": 15,
+      "month": 25
+    },
+    "points_rule": "A market qualifies when its favourite has moved at least this many points in a day, a week or thirty days (the shortest window that qualifies wins), its spread is at most max_spread points, and it is real money. Week and month changes come from Polymarket only.",
+    "max_spread": 4,
+    "keep_share": 0.7,
+    "keep_rule": "A market that already has a note keeps it while the move stays above keep_share of the threshold (7 of 10 points), so notes do not flicker on and off.",
+    "refresh_hours": {
+      "day": 24,
+      "week": 72,
+      "month": 168
+    },
+    "regrow_points": 10,
+    "retry_hours": 6,
+    "refresh_rule": "A note is rewritten when it is older than refresh_hours for its window, when the price has moved regrow_points more since it was written, or when the move changes direction. When the headlines explain nothing, that is remembered and not asked again for retry_hours.",
+    "per_reading": 3,
+    "per_day": 60,
+    "budget_rule": "At most per_reading new notes each reading (every fifteen minutes) and per_day a day (IST), tide board first, then the biggest moves. Gemini's free tier allows far more; running out only means fewer notes.",
+    "models": [
+      "gemini-2.5-flash",
+      "gemini-2.5-flash-lite"
+    ],
+    "models_rule": "Tried in order; if Google retires one, the next is used. When none answers, cards simply show the plain line. To change model, edit this list.",
+    "news_days": {
+      "day": 3,
+      "week": 9,
+      "month": 32
+    },
+    "headlines": 10,
+    "max_chars": 140,
+    "voice": [
+      "You write one line for Andaaza, a public page that shows what prediction markets think. The line says why a market moved. Write like T. A. Bhide, an old-school newspaper editor: plain reporting, right before first.",
+      "Pick the one headline that reports the development most likely to have caused the move, and give its number as pick. If none of the headlines clearly explains it, give pick 0 and leave note empty. Never guess and never explain from general knowledge.",
+      "The note says what happened, fact first, in the past tense, with names, numbers or dates where the headline has them. At most 140 characters, one sentence, no full stop needed.",
+      "Do not mention the market, its odds, traders, bettors, prices or percentages: the page already shows the move. Do not mention headlines, articles, reports or the newspaper.",
+      "No em dashes, no questions, no exclamation marks, no quotation marks. No 'reportedly', 'amid', 'experts say' or other vague attribution. No adjectives for effect. No clause that ends in an -ing word to fake analysis."
+    ],
+    "banned": [
+      "pivotal",
+      "crucial",
+      "landmark",
+      "testament",
+      "underscores",
+      "underscoring",
+      "highlights",
+      "highlighting",
+      "showcases",
+      "delve",
+      "landscape",
+      "navigate",
+      "robust",
+      "seamless",
+      "notably",
+      "quietly",
+      "amid",
+      "reportedly",
+      "experts say",
+      "odds",
+      "bettors",
+      "traders",
+      "prediction market",
+      "headline",
+      "article",
+      "may have",
+      "might",
+      "possibly",
+      "likely",
+      "appears to",
+      "seems",
+      "unclear",
+      "no clear",
+      "speculation"
+    ],
+    "banned_rule": "A note containing any of these words, an em dash, a question mark or an exclamation mark, or longer than max_chars, is thrown away and the plain line stays. Taken from the paper's list of AI tells."
+  }
 }
