@@ -3,6 +3,7 @@
 // made from (the Tavily search and the news Gemini read), the queue, and the budget. It spends nothing by itself.
 // ?run=1 takes a reading now and writes the next notes in line (at most why.per_reading, within the same daily and
 // monthly budget as the site), then saves it, so the next few can be judged without waiting fifteen minutes.
+// ?redo=<market url> forgets that market's note first, so it is written again (first in line) under the current rules.
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { consensus } from "../lib/consensus.js";
@@ -22,7 +23,7 @@ function row(n, card) {
   const body = n.x
     ? `<p class="ans">${esc(n.x)}</p><p class="meta">${n.x.length} chars · ${esc(n.model || "")} · source: <a href="${esc(n.src)}" target="_blank" rel="noopener">${esc(n.st)}</a> (${esc(host(n.src))})</p>`
     : `<p class="ans none">No note: ${esc(n.miss)}</p>${d?.raw ? `<p class="meta">Gemini wrote: “${esc(d.raw)}”${d.pick ? ` (picked item ${d.pick})` : ""}</p>` : ""}`;
-  return `<tr><td><span class="tag ${n.kind}">${kind}</span><b>${esc(n.t)}</b><p class="meta">${esc(n.fav)} ${Math.round(n.lvl)}%${move} · written ${ago(n.at)}</p></td><td>${body}${news}</td></tr>`;
+  return `<tr><td><span class="tag ${n.kind}">${kind}</span><b>${esc(n.t)}</b><p class="meta">${esc(n.fav)} ${Math.round(n.lvl)}%${move} · written ${ago(n.at)} · <a href="?redo=${encodeURIComponent(n.u)}">rewrite</a></p></td><td>${body}${news}</td></tr>`;
 }
 
 export async function GET(req) {
@@ -30,10 +31,11 @@ export async function GET(req) {
   const B = JSON.parse(readFileSync(join(process.cwd(), "config", "consensus.json"), "utf8")).why;
   const url = new URL(req.url);
   let d = await readPath(PATH), ran = "";
-  if (url.searchParams.get("run")) {
-    const t0 = Date.now(), prev = d;
+  const redo = url.searchParams.get("redo");
+  if (url.searchParams.get("run") || redo) {
+    const t0 = Date.now(), prev = d && redo ? { ...d, why: { ...d.why, notes: (d.why?.notes || []).filter(n => n.u !== redo) } } : d;
     const out = await consensus({ kalshiIndex: await readPath(KPATH) });
-    d = await addNotes(out, prev, { debug: true, skip: out.took_ms > 20000 });
+    d = await addNotes(out, prev, { debug: true, skip: out.took_ms > 20000, first: redo });
     await putJSON(PATH, d).catch(() => {});
     ran = `<p class="ok">Ran a reading just now (${((Date.now() - t0) / 1000).toFixed(0)} s)${out.took_ms > 20000 ? ": the markets took too long to read, so no notes this time; try again" : ""}.</p>`;
   }

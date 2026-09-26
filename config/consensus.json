@@ -819,6 +819,15 @@
       "month": 32
     },
     "news_results": 8,
+    "query_names": {
+      "epl": "Premier League",
+      "laliga": "La Liga",
+      "ucl": "Champions League",
+      "uefa champions league": "Champions League",
+      "nba": "NBA",
+      "f1": "Formula 1"
+    },
+    "query_rule": "The news search is the question without dates, years or brackets (league codes spelt out by query_names), led by the favourite's name and, for a move, the rival that moved most the other way (5 points or more); for a lead, the runner-up.",
     "models": [
       "gemini-3.8-flash",
       "gemini-3.5-flash",
@@ -830,7 +839,7 @@
       "You write one short note for Andaaza, a public page that shows what prediction markets expect. Readers anywhere in the world may know nothing about the subject.",
       "Use only the numbered news you are given. Give as pick the number of the item that best supports your note. If none of them explains it, give pick 0 and an empty note. Never guess or fill in from memory.",
       "The note gives the cause: what happened, or the standing fact that explains it, with names, numbers and dates from the news. Name the favourite or the rival it is about. Present or past tense, whichever reads naturally. It may say what the event means for the question.",
-      "At most 140 characters, one sentence. Do not repeat the percentages or the move (the page shows them) and do not mention bettors, traders, odds or the market.",
+      "Aim for about 120 characters; never more than 140. One sentence. Do not repeat the percentages or the move (the page shows them) and do not mention bettors, traders, odds or the market.",
       "Plain and exact, in the spirit of a good newspaper editor: no hedging (reportedly, likely, may, appears), no hype adjectives, no em dashes, no questions or exclamation marks."
     ],
     "banned": [
