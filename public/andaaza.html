@@ -727,7 +727,7 @@ function showPoster(on) {
   posterOn = on; const P = $("#pv");
   P.hidden = !on || !D; if (!on || !D) return;
   P.innerHTML = posterHTML(); fitPoster(); document.fonts?.ready.then(fitPoster);
-  $("#pvx").onclick = () => { showPoster(false); if (/\/poster$/.test(location.pathname)) history.replaceState(null, "", "/andaaza"); };
+  $("#pvx").onclick = () => { showPoster(false); if (/\/poster$/.test(location.pathname)) history.replaceState(null, "", location.pathname.replace(/\/poster$/, "") || "/"); };
 }
 $("#posterBtn").addEventListener("click", () => showPoster(true));
 addEventListener("keydown", e => { if (e.key === "Escape" && posterOn) $("#pvx")?.click(); });
