@@ -36,4 +36,4 @@ Blob store and at least one of the three sources exist.
   `kalshiReprice`, `manifold`). To switch a source off, make its function return `[]`.
 - Polymarket renamed a tag: update the topic's `pm_tags`; the busiest 400 are read regardless.
 - Check it locally: `npm run dev`, then open `/andaaza.html`. Data only: `node -e "import('./lib/consensus.js').then(m=>m.consensus()).then(d=>console.log(d.topics.map(t=>t.id+':'+t.items.length)))"`.
-- Old addresses (`/consensus`, `/pulse`, `/markets`) redirect to `/andaaza`; the poster is `/andaaza/poster`.
+- Its own address is andaaza-live.vercel.app (poster at /poster); see middleware.js to add another. Old addresses (`/consensus`, `/pulse`, `/markets`) redirect to `/andaaza`; the poster is also at `/andaaza/poster`.
