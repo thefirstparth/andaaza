@@ -712,7 +712,10 @@
       "golf",
       "pga",
       "lpga",
-      "championship presented by"
+      "championship presented by",
+      "podium",
+      "pole position",
+      "fastest lap"
     ]
   },
   "manifold_max_per_topic": 2,
@@ -780,5 +783,5 @@
   "follow_note": "Barcelona is followed as a rival (a hatewatch), not a team Parth supports.",
   "must_cap": 2,
   "extra_min_share": 0.2,
-  "movers_min_volume": 10000
+  "movers_max_spread": 4
 }

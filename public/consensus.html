@@ -6,8 +6,8 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Consensus</title>
 <meta name="description" content="What the world's prediction markets think, about the things Parth follows and what everyone is betting on.">
-<meta name="theme-color" content="#eef4f4" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#071013" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f7f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1114" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 6C24 18 17 26 17 35a15 15 0 0 0 30 0c0-9-7-17-15-29z' fill='%230f5f73'/%3E%3C/svg%3E">
 <script>var P0=fetch("/api/consensus").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()});P0.catch(function(){});try{var t=localStorage.getItem("cons-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,38 +17,42 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@62..100,400..900&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400..500&display=swap" media="print" onload="this.media='all'">
 <style>
-/* Consensus reads like a tide table: every chance is a water level on a staff gauge. The palette is the harbour's
-   (sea-mist ground, deep-water ink), each subject keeps its own colour, and the only ornament is the water itself. */
+/* Colour, as a system (26 Sep 2026). A quiet neutral ground; one brand hue, deep water; and every subject a tonal
+   palette on one hue wheel in OKLCH, so each is equally bold at the same lightness and none shouts over another
+   (Material 3's tonal palettes). Tone roles: --a the subject's ink and its water, --ac its container, --a2/--a3 the
+   field's lesser outcomes, --on text on the water. Night mode is near-black for OLED, with lighter, softer inks.
+   Floating controls are glass (Liquid Glass): translucent, blurred, hairline edge. Shapes are generous. */
 :root{
   color-scheme:light;
-  --bg:#eef4f4;--bg2:#e4eeef;--card:#ffffff;--ink:#0f1a1d;--ink2:#3f5157;--muted:#6d7f85;--line:#d6e2e4;--line2:#e7eff0;
-  --sea:#0c5a6e;--tide:#4f97a8;--foam:#dcecef;
-  --up:#17804e;--down:#c0392f;
-  --sport:#1f8a4e;--tech:#0b7896;--money:#a26f00;--world:#233f7c;--screen:#9b3a8e;--misc:#56626e;
-  --shadow:0 1px 1px rgba(15,26,29,.04),0 10px 30px -18px rgba(15,26,29,.28);
+  --bg:oklch(.975 .005 230);--bg2:oklch(.955 .008 230);--card:#fff;--ink:oklch(.2 .02 245);--ink2:oklch(.42 .02 240);--muted:oklch(.56 .015 240);
+  --line:oklch(.9 .008 235);--line2:oklch(.94 .006 235);
+  --sea:oklch(.48 .11 225);--tide:oklch(.66 .08 220);--foam:oklch(.93 .03 220);
+  --up:oklch(.55 .15 150);--down:oklch(.56 .19 27);
+  --La:.56;--Ca:.17;--Lc:.955;--Cc:.035;--L2:.72;--L3:.86;--C2:.12;--C3:.07;--on:#fff;
+  --glass:color-mix(in oklab,var(--card) 62%,transparent);--glass-edge:color-mix(in oklab,#fff 70%,transparent);
+  --shadow:0 1px 1px oklch(.2 .02 245 / .04),0 12px 32px -18px oklch(.2 .02 245 / .3);
   --sans:"Roboto Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
-  --on:#fff;--mixw:0%;--misc0:#56626e;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  color-scheme:dark;--bg:#071013;--bg2:#0b171a;--card:#0e1a1e;--ink:#e6eef0;--ink2:#b3c3c8;--muted:#7f929a;--line:#1d2c31;--line2:#15232a;
-  --sea:#6cc3d3;--tide:#3f8a9a;--foam:#10272e;--up:#58cf8d;--down:#ef8278;
-  --sport:#6fd08f;--tech:#62d0e6;--money:#e8c35c;--world:#a8b2ff;--screen:#e59ad6;--misc:#a4b0bb;
-  --shadow:0 1px 1px rgba(0,0,0,.3),0 12px 32px -18px rgba(0,0,0,.8);--on:#071013;--mixw:38%;--misc0:#8a97a3}}
+  color-scheme:dark;--bg:oklch(.14 .008 240);--bg2:oklch(.17 .01 240);--card:oklch(.19 .012 240);--ink:oklch(.95 .006 240);--ink2:oklch(.8 .012 240);--muted:oklch(.64 .015 240);
+  --line:oklch(.27 .012 240);--line2:oklch(.23 .01 240);--sea:oklch(.78 .1 215);--tide:oklch(.6 .08 220);--foam:oklch(.26 .04 225);--up:oklch(.78 .15 150);--down:oklch(.74 .15 27);
+  --La:.8;--Ca:.14;--Lc:.26;--Cc:.05;--L2:.6;--L3:.4;--C2:.1;--C3:.06;--on:oklch(.16 .02 240);
+  --glass:color-mix(in oklab,var(--card) 58%,transparent);--glass-edge:color-mix(in oklab,#fff 12%,transparent);
+  --shadow:0 1px 1px rgba(0,0,0,.3),0 14px 36px -18px rgba(0,0,0,.85)}}
 :root[data-theme="dark"]{
-  color-scheme:dark;--bg:#071013;--bg2:#0b171a;--card:#0e1a1e;--ink:#e6eef0;--ink2:#b3c3c8;--muted:#7f929a;--line:#1d2c31;--line2:#15232a;
-  --sea:#6cc3d3;--tide:#3f8a9a;--foam:#10272e;--up:#58cf8d;--down:#ef8278;
-  --sport:#6fd08f;--tech:#62d0e6;--money:#e8c35c;--world:#a8b2ff;--screen:#e59ad6;--misc:#a4b0bb;
-  --shadow:0 1px 1px rgba(0,0,0,.3),0 12px 32px -18px rgba(0,0,0,.8);--on:#071013;--mixw:38%;--misc0:#8a97a3}
-[data-a=sport]{--a:var(--sport)}[data-a=tech]{--a:var(--tech)}[data-a=money]{--a:var(--money)}[data-a=world]{--a:var(--world)}[data-a=screen]{--a:var(--screen)}[data-a=misc]{--a:var(--misc)}
-[data-a]{--ac:color-mix(in oklab,var(--a) 12%,var(--card))}
-/* Each subject its own ink (--a0); tints and night versions are mixed from it. */
-[data-k]{--a0:var(--misc0)}
-[data-k=f1]{--a0:#d42a3a}[data-k=football]{--a0:#1f8a4e}[data-k=cricket]{--a0:#0d7c6c}[data-k=tennis]{--a0:#c25f1c}[data-k=nba]{--a0:#3d4fcc}
-[data-k=ai]{--a0:#0b7896}[data-k=money]{--a0:#a26f00}[data-k=india]{--a0:#d8700a}[data-k=world]{--a0:#233f7c}
-[data-k=film]{--a0:#7a3fc4}[data-k=ott]{--a0:#b62d6c}[data-k=celebs]{--a0:#d24f86}
-[data-k]{--a:color-mix(in oklab,var(--a0),#fff var(--mixw));--ac:color-mix(in oklab,var(--a0) 11%,var(--card));--a2:color-mix(in oklab,var(--a) 52%,var(--card));--a3:color-mix(in oklab,var(--a) 26%,var(--card))}
-
+  color-scheme:dark;--bg:oklch(.14 .008 240);--bg2:oklch(.17 .01 240);--card:oklch(.19 .012 240);--ink:oklch(.95 .006 240);--ink2:oklch(.8 .012 240);--muted:oklch(.64 .015 240);
+  --line:oklch(.27 .012 240);--line2:oklch(.23 .01 240);--sea:oklch(.78 .1 215);--tide:oklch(.6 .08 220);--foam:oklch(.26 .04 225);--up:oklch(.78 .15 150);--down:oklch(.74 .15 27);
+  --La:.8;--Ca:.14;--Lc:.26;--Cc:.05;--L2:.6;--L3:.4;--C2:.1;--C3:.06;--on:oklch(.16 .02 240);
+  --glass:color-mix(in oklab,var(--card) 58%,transparent);--glass-edge:color-mix(in oklab,#fff 12%,transparent);
+  --shadow:0 1px 1px rgba(0,0,0,.3),0 14px 36px -18px rgba(0,0,0,.85)}
+/* The hue wheel: areas, then subjects. Yellows cannot hold much chroma, so money and India carry less. */
+[data-a=sport]{--h:150}[data-a=tech]{--h:215}[data-a=money]{--h:85;--k:.75}[data-a=world]{--h:262}[data-a=screen]{--h:320}[data-a=misc]{--h:240;--k:.15}
+[data-k],[data-a=all]{--h:240;--k:.15}
+[data-k=f1]{--h:27;--k:1}[data-k=tennis]{--h:50;--k:1}[data-k=india]{--h:68;--k:.9}[data-k=money]{--h:88;--k:.72}[data-k=football]{--h:150;--k:1}[data-k=cricket]{--h:180;--k:.85}
+[data-k=ai]{--h:222;--k:.95}[data-k=world]{--h:262;--k:.9}[data-k=nba]{--h:285;--k:1}[data-k=film]{--h:308;--k:1}[data-k=celebs]{--h:340;--k:1}[data-k=ott]{--h:5;--k:1}
+[data-a],[data-k]{--a:oklch(var(--La) calc(var(--Ca) * var(--k,1)) var(--h));--ac:oklch(var(--Lc) calc(var(--Cc) * var(--k,1)) var(--h));
+  --a2:oklch(var(--L2) calc(var(--C2) * var(--k,1)) var(--h));--a3:oklch(var(--L3) calc(var(--C3) * var(--k,1)) var(--h))}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
@@ -77,8 +81,12 @@ button{font:inherit;color:inherit}
 .bar a{text-decoration:none}.bar a:hover{color:var(--ink)}
 .bar .btns{display:flex;gap:8px}
 .bar button,.bar a.back{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-.bar button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;font-weight:650;cursor:pointer;color:var(--ink2)}
-.bar button:hover{border-color:var(--tide);color:var(--ink)}
+/* The controls float: a glass capsule in the bottom-right corner, within thumb reach on a phone. */
+.bar.wrap{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));left:auto;top:auto;z-index:15;max-width:none;margin:0;padding:0;pointer-events:none}
+.bar>span:first-child{display:none}
+.bar .btns{pointer-events:auto;padding:5px;border-radius:999px;background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);border:1px solid var(--glass-edge);box-shadow:var(--shadow)}
+.bar button{border:0;background:transparent;border-radius:999px;padding:7px 14px;font-weight:700;cursor:pointer;color:var(--ink)}
+.bar button:hover{background:color-mix(in oklab,var(--ink) 7%,transparent)}
 .bar .ic{width:16px;height:16px}
 #theme{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 #theme .ic{color:#f0c860}
@@ -114,7 +122,7 @@ button{font:inherit;color:inherit}
 .post{display:flex;flex-direction:column;gap:10px;text-decoration:none;min-width:0}
 .post .lbl{display:flex;align-items:center;gap:7px;font:800 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a)}
 .post .lbl .ic{width:15px;height:15px}
-.staff{position:relative;height:clamp(230px,26vw,320px);border-radius:16px;background:var(--ac);overflow:hidden;border:1px solid color-mix(in oklab,var(--a) 22%,transparent);transition:border-color .2s}
+.staff{position:relative;height:clamp(230px,26vw,320px);border-radius:26px;background:var(--ac);overflow:hidden;border:1px solid color-mix(in oklab,var(--a) 22%,transparent);transition:border-color .2s}
 .post:hover .staff{border-color:var(--a)}
 .staff .l{position:absolute;inset:0;padding:14px 16px;color:var(--a)}
 /* The scale: a tick every 10, a long one at 50, numbered at 25, 50 and 75, down the right-hand edge. */
@@ -142,7 +150,7 @@ button{font:inherit;color:inherit}
 /* ---- currents: what moved in a day, a strip from yesterday's level to today's ---- */
 .currents{display:grid;grid-auto-flow:column;grid-auto-columns:min(78vw,290px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:clamp(16px,4vw,44px);scrollbar-width:none;padding-bottom:6px;margin-inline:calc(-1 * clamp(16px,4vw,44px));padding-inline:clamp(16px,4vw,44px)}
 .currents::-webkit-scrollbar{display:none}
-.cur{scroll-snap-align:start;display:flex;flex-direction:column;gap:9px;padding:15px 16px 16px;border-radius:20px;background:var(--card);border:1px solid var(--line);text-decoration:none;transition:border-color .2s}
+.cur{scroll-snap-align:start;display:flex;flex-direction:column;gap:9px;padding:16px 18px 18px;border-radius:26px;background:var(--ac);border:0;text-decoration:none;transition:border-color .2s}
 .cur:hover{border-color:var(--a)}
 .cur .tg{display:flex;justify-content:space-between;gap:8px;font:800 10.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--a)}
 .cur .tg span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:11.5px}
@@ -158,10 +166,10 @@ button{font:inherit;color:inherit}
 .strip u{position:absolute;top:-2px;bottom:-2px;width:0;border-left:2px dashed var(--ink);opacity:.6}
 
 /* ---- filter ---- */
-.chips{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-top:34px}
+.chips{position:sticky;top:0;z-index:5;background:color-mix(in oklab,var(--bg) 70%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border-bottom:1px solid var(--glass-edge);margin-top:34px}
 .chips .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:10px}
 .chips .wrap::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font:650 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.chip{flex:none;border:0;background:var(--ac,var(--card));border-radius:999px;padding:8px 15px;font:650 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 .chip .ic{width:17px;height:17px;color:var(--a,var(--sea))}
 .chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink));color:var(--card)}
 .chip[aria-pressed="true"] .ic{color:inherit}
@@ -169,7 +177,7 @@ button{font:inherit;color:inherit}
 /* ---- tickets: a gauge filled to the favourite's chance, which it names; the field on the right ---- */
 .area{scroll-margin-top:64px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px}
-.tk{display:grid;grid-template-columns:120px minmax(0,1fr);background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 20%,transparent);border-radius:22px;overflow:hidden;min-width:0;transition:border-color .2s,box-shadow .2s}
+.tk{display:grid;grid-template-columns:120px minmax(0,1fr);background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 20%,transparent);border-radius:28px;overflow:hidden;min-width:0;transition:border-color .2s,box-shadow .2s}
 .tk:hover{border-color:color-mix(in oklab,var(--a) 60%,transparent);box-shadow:var(--shadow)}
 .gauge{position:relative;display:block;text-decoration:none;background:color-mix(in oklab,var(--a) 15%,var(--card));border-right:2px dashed color-mix(in oklab,var(--a) 35%,transparent);min-height:132px;overflow:hidden}
 .gauge .g{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;padding:12px 14px}
@@ -218,7 +226,7 @@ button{font:inherit;color:inherit}
 
 /* ---- a subject's further markets: one line each, filled like water to the favourite's chance ---- */
 .minis{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:8px 14px;margin-top:12px}
-.mini{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:center;padding:10px 14px;border-radius:14px;text-decoration:none;border:1px solid color-mix(in oklab,var(--a) 18%,var(--line));background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%))}
+.mini{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:center;padding:11px 16px;border-radius:20px;text-decoration:none;border:1px solid color-mix(in oklab,var(--a) 18%,var(--line));background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%))}
 .mini:hover{border-color:var(--a)}
 .mini b{font:900 22px/1 var(--sans);font-variation-settings:"wdth" 70;color:var(--a)}
 .mini .q{font:600 14px/1.3 var(--sans);min-width:0}
@@ -226,7 +234,7 @@ button{font:inherit;color:inherit}
 
 /* ---- coming up: each sport's next matches ---- */
 .next{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px;margin-bottom:14px}
-.fx{display:flex;flex-direction:column;gap:8px;padding:13px 15px;border-radius:18px;background:var(--card);border:1px solid color-mix(in oklab,var(--a) 22%,var(--line));text-decoration:none;transition:border-color .2s}
+.fx{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:24px;background:var(--card);border:1px solid color-mix(in oklab,var(--a) 22%,var(--line));text-decoration:none;transition:border-color .2s}
 .fx:hover{border-color:var(--a)}
 .fx .when{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;font:700 11.5px var(--sans);color:var(--muted)}
 .fx .when b{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--a);font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:10.5px}
@@ -240,7 +248,7 @@ button{font:inherit;color:inherit}
 
 /* ---- the world: each row filled like water to its chance ---- */
 .world{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:8px 18px}
-.wr{position:relative;display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:center;padding:13px 16px;border-radius:14px;text-decoration:none;background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%));border:1px solid var(--line);overflow:hidden}
+.wr{position:relative;display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 18px;border-radius:22px;text-decoration:none;background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%));border:1px solid var(--line);overflow:hidden}
 .wr:hover{border-color:var(--a)}
 .wr .n{font:italic 400 32px/1 var(--display);color:var(--a)}
 .wr .q{font:600 15px/1.3 var(--sans)}
@@ -305,7 +313,7 @@ details.how li{margin:0 0 8px}
   <div class="board" id="board"><div class="sk" style="height:300px"></div><div class="sk" style="height:300px"></div><div class="sk" style="height:300px"></div></div>
 </header>
 <main>
-  <section class="wrap" aria-labelledby="mh"><div class="sh"><h2 id="mh"><span class="ico" data-i="a:moves"></span>Currents</h2><p>What moved four points or more in a day · dashed line is yesterday's level</p></div><div class="currents" id="moves"></div></section>
+  <section class="wrap" aria-labelledby="mh"><div class="sh"><h2 id="mh"><span class="ico" data-i="a:moves"></span>Currents</h2><p>Moves of four points or more in a day, on prices traders agree on</p></div><div class="currents" id="moves"></div></section>
   <nav class="chips" aria-label="Areas"><div class="wrap" id="chips"></div></nav>
   <div id="areas"></div>
   <section class="wrap" aria-labelledby="wh" id="worldsec" hidden><div class="sh"><h2 id="wh"><span class="ico" data-i="a:globe"></span>The world is betting on</h2><p>Busiest real-money markets in 24 hours</p></div><div class="world" id="world"></div></section>
@@ -315,7 +323,7 @@ details.how li{margin:0 0 8px}
       <li><b>Clear the noise.</b> Questions that are all but settled (above 98.5% or below 1.5%), markets with under $2,000 traded in a day ($500 for F1 and NBA, which have fewer markets), side bets (tosses, sets, handicaps, pole, podium, fastest lap) and price ladders go. So do your standing exclusions: US domestic politics, the Fed, American football, baseball, hockey and college sport, weather, and post or view counts.</li>
       <li><b>Sort.</b> Each question goes to the first of your subjects whose words it contains: Formula 1, football, cricket, tennis, NBA, AI and tech, money, India, world, Bollywood and film, series and streaming, celebrities. A single match never takes a card: it goes under its sport's Coming up when it starts within a week and involves someone you follow or a team or player the subject counts as notable. When a recurring question is settled (the best AI model at the end of September), the next round (end of October) takes its place.</li>
       <li><b>Merge.</b> The same question on two sites becomes one card, the busier site leading and the other shown beside it.</li>
-      <li><b>Rank.</b> Within a subject, anything about the Warriors, Real Madrid, Verstappen, Alcaraz, Djokovic or India comes first, then the rest by money traded today. The tide board is the busiest question in each area. Currents are the real-money questions in your subjects that moved four points or more in a day. Miscellaneous is the busiest of everything that fits nowhere else.</li>
+      <li><b>Rank.</b> Within a subject, anything about the Warriors, Real Madrid, Verstappen, Alcaraz, Djokovic or India comes first, then the rest by money traded today. The tide board is the busiest question in each area. Currents are the real-money questions in your subjects that moved four points or more in a day on a price the market agrees on (a spread of four points or less between buyers and sellers); weekly and monthly rankings, which reset each round, are left out. Miscellaneous is the busiest of everything that fits nowhere else.</li>
     </ol></details>
     <div class="note"><p>A price is what traders pay for "yes", read as the chance they give it: the water level. The dashed line is where it stood a day ago. Polymarket and Kalshi are real money; Manifold is play money and says so.</p></div>
   </div>
