@@ -5,8 +5,8 @@ Watch the world change its mind.
 ## For whoever looks after it next
 
 Andaaza, at https://getandaaza.vercel.app, shows what Polymarket, Kalshi and Manifold think about the things Parth
-follows, as water levels. It is a site of its own: its own repository and Vercel project, no schedule, and it never
-calls Claude or any other AI. It keeps running as long as the Vercel project, its Blob store and at least one of the
+follows, as water levels. It is a site of its own: its own repository and Vercel project, and no schedule. One optional
+extra calls an AI: "why it moved" notes written by Gemini (see below). Nothing depends on them. It keeps running as long as the Vercel project, its Blob store and at least one of the
 three sources exist. (It began inside The House of 1400 as "Pulse", then "Consensus"; the history came with it.)
 
 ## How it runs
@@ -15,6 +15,7 @@ three sources exist. (It began inside The House of 1400 as "Pulse", then "Consen
 - `api/consensus.js`: the page's only data call. Serves the newest reading at once (memory, then Blob), reads the
   markets again in the background when the reading is over fifteen minutes old.
 - `lib/consensus.js`: reads the three sources, sorts markets into subjects, picks and ranks them.
+- `lib/why.js`: the optional "why it moved" notes (see below).
 - `config/consensus.json`: every choice in words: subjects and their keywords, must-haves, follows, exclusions,
   minimums, the tide board. Most changes are edits here, not code.
 
@@ -27,6 +28,7 @@ three sources exist. (It began inside The House of 1400 as "Pulse", then "Consen
 | Blob storage (gone, full, failing) | Works from memory and the edge cache; first visits after a quiet spell are slower (3 to 5 s). |
 | The whole API | Each browser shows the last reading it saw, straight away, with its age. |
 | Google Fonts | Falls back to system fonts; the layout holds. |
+| Gemini or The Guardian (down, key gone, quota, model retired) | No new notes; cards show the plain "up so many points" line. Tries again an hour later. |
 
 ## Free-tier budget (Vercel Hobby)
 - Storage: the Vercel Blob store `andaaza-readings` (Mumbai, private), connected to the `getandaaza` project (Storage tab). Without it the page still works, from memory.
@@ -35,6 +37,18 @@ three sources exist. (It began inside The House of 1400 as "Pulse", then "Consen
   would need about 2,900, and if the allowance runs out readings carry on from memory. Reads happen only when memory
   has nothing fresh.
 - Function time: a reading takes about 4 s (a full Kalshi read, every 6 hours, about 45 s; the limit is 60 s).
+
+## Why it moved (optional)
+When a market's favourite moves 10 points in a day (15 in a week, 25 in thirty days) on a tight price, the background
+reading fetches the week's headlines about it from The Guardian's open API and asks Gemini which one explains the move.
+Gemini writes one line in the paper's plain style; code checks it (140 characters, banned words, no em dash) and it is
+saved inside the reading, so every visitor sees the same note and nobody waits for it. No story explains it: no note.
+- Needs two keys in Vercel → getandaaza → Settings → Environment Variables: `GEMINI_API_KEY` (aistudio.google.com)
+  and `GUARDIAN_API_KEY` (open-platform.theguardian.com). Delete either to switch notes off; nothing else changes.
+- Settings in words: `why` in `config/consensus.json` (thresholds, how often notes are rewritten, the daily budget,
+  the models, the voice and the banned words). If Google retires a model, add the new name to `why.models`.
+- Gemini's own web search is not used: Google's terms do not allow search answers to be stored or shown to others.
+- Preview deployments save their readings under `preview/` in Blob, so trying a branch never touches the live page.
 
 ## Fixing things by hand
 - A subject shows the wrong things: edit its `words`, `must` or `prefer` in `config/consensus.json`.
