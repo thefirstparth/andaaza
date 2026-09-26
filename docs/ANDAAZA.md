@@ -8,7 +8,7 @@ Blob store and at least one of the three sources exist.
 ## How it runs
 - `public/andaaza.html`: the whole page (HTML, CSS, JS in one file). No framework, no build step beyond copying.
 - `api/consensus.js`: the page's only data call. Serves the newest reading at once (memory, then Blob), reads the
-  markets again in the background when the reading is over ten minutes old.
+  markets again in the background when the reading is over fifteen minutes old.
 - `lib/consensus.js`: reads the three sources, sorts markets into subjects, picks and ranks them.
 - `config/consensus.json`: every choice in words: subjects and their keywords, must-haves, follows, exclusions,
   minimums, the tide board. Most changes are edits here, not code.
@@ -24,8 +24,10 @@ Blob store and at least one of the three sources exist.
 | Google Fonts | Falls back to system fonts; the layout holds. |
 
 ## Free-tier budget (Vercel Hobby)
-- Blob writes: the reading is saved at most every 30 minutes, Kalshi's list at most every 6 hours, so about 1,600
-  writes a month even with a poster left open all day. Blob reads happen only when memory has nothing fresh.
+- Blob writes: a reading is taken and saved at most every 15 minutes, only while someone is looking; Kalshi's list at
+  most every 6 hours. Normal use stays well inside the free allowance; a screen showing it round the clock all month
+  would need about 2,900, and if the allowance runs out readings carry on from memory. Reads happen only when memory
+  has nothing fresh.
 - Function time: a reading takes about 4 s (a full Kalshi read, every 6 hours, about 45 s; the limit is 60 s).
 
 ## Fixing things by hand

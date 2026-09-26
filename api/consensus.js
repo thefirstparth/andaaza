@@ -10,12 +10,13 @@ import { blobConfigured, putJSON } from "../lib/blob.js";
 //
 // Built to run untended for years on free tiers:
 // - The newest reading lives in this instance's memory; Blob storage is read only when memory has nothing fresh.
-// - Blob writes are budgeted: the reading is saved at most every SAVE_EVERY and Kalshi's index at most every six hours
-//   (about 1,600 writes a month, inside the free allowance even with a poster left open all day).
+// - Blob writes are budgeted: a reading is taken and saved at most every fifteen minutes, and only while someone is
+//   looking; Kalshi's index at most every six hours. A screen showing it round the clock all month would need about
+//   2,900 writes; if the free allowance runs out, readings carry on from memory and nothing breaks.
 // - If Blob is missing, full or failing, the page still works from memory and the edge cache, just with slower first
 //   visits. If every source fails, the last good reading keeps being served, and the page says how old it is.
 const PATH = "consensus/latest.json", KPATH = "consensus/kalshi-index.json";
-const REFRESH = 10 * 60 * 1000, SAVE_EVERY = 30 * 60 * 1000;
+const REFRESH = 15 * 60 * 1000, SAVE_EVERY = REFRESH;
 let building = null, mem = null, savedAt = 0;
 
 async function readBlob(path) {

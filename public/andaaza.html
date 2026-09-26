@@ -404,7 +404,7 @@ details.how li{margin:0 0 8px}
   <div class="wrap">
     <details class="how"><summary>How this works</summary><ol>
       <li><b>The water level.</b> A market's price is what traders pay for "yes", so it reads as the chance they give it. Andaaza draws it as water: the higher the water, the surer the money. The dashed mark is where it stood a day ago.</li>
-      <li><b>Read.</b> The four hundred busiest questions on Polymarket plus the busiest in each of your subjects' own Polymarket tags (F1, football, AI and so on, so a race or a model ranking turns up even when it is not big worldwide), every open event on Kalshi, and Manifold's busiest play-money questions. The last reading is saved and shown at once, so the page opens in a moment; a new reading is taken in the background every ten minutes or so, and the page picks it up by itself at the time shown at the top.</li>
+      <li><b>Read.</b> The four hundred busiest questions on Polymarket plus the busiest in each of your subjects' own Polymarket tags (F1, football, AI and so on, so a race or a model ranking turns up even when it is not big worldwide), every open event on Kalshi, and Manifold's busiest play-money questions. The last reading is saved and shown at once, so the page opens in a moment; a new reading is taken in the background every fifteen minutes or so, and the page picks it up by itself at the time shown at the top.</li>
       <li><b>Clear the noise.</b> Questions that are all but settled (above 98.5% or below 1.5%), markets with under $2,000 traded in a day ($500 for F1 and NBA, which have fewer markets), side bets (tosses, sets, handicaps, pole, podium, fastest lap) and price ladders go. So do your standing exclusions: US domestic politics, the Fed, American football, baseball, hockey and college sport, weather, and post or view counts.</li>
       <li><b>Sort.</b> Each question goes to the first of your subjects whose words it contains: Formula 1, football, cricket, tennis, NBA, AI and tech, money, India, world, Bollywood and film, series and streaming, celebrities. A single match never takes a card: it goes under its sport's Coming up when it starts within a week and involves someone you follow or a team or player the subject counts as notable. When a recurring question is settled (the best AI model at the end of September), the next round (end of October) takes its place.</li>
       <li><b>Merge.</b> The same question on two sites becomes one card, the busier site leading and the other shown beside it.</li>
@@ -627,7 +627,7 @@ const lbl = () => { const [i, t] = NEXT[look()]; tb.innerHTML = `${icon(i)}${t}`
 tb.addEventListener("click", () => { root.dataset.theme = LOOKS[(LOOKS.indexOf(look()) + 1) % 3]; store.set("cons-theme", root.dataset.theme); retroFonts(); lbl(); document.fonts?.ready.then(() => { fitPoster?.(); }); });
 retroFonts(); lbl();
 
-// Live while open: ask again when the server says the next reading is due (next_at), and in any case every ten
+// Live while open: ask again when the server says the next reading is due (next_at), and in any case every fifteen
 // minutes while the tab is visible. The answer is always the saved reading, so it comes back in a moment.
 // This device also keeps the last reading it showed: if the server is slow (over a second and a half) or down, that
 // is shown at once, and replaced as soon as a newer one arrives. A failed ask backs off to a minute.
@@ -644,7 +644,7 @@ const load = () => fetch("/api/consensus").then(r => r.json()).then(good).then(d
 function plan(ms) {
   clearTimeout(nextT);
   const due = D?.next_at ? Date.parse(D.next_at) - Date.now() : 60 * 1000;
-  nextT = setTimeout(() => (document.hidden ? plan(60 * 1000) : load()), Math.max(20 * 1000, Math.min(ms ?? due, 10 * 60 * 1000)));
+  nextT = setTimeout(() => (document.hidden ? plan(60 * 1000) : load()), Math.max(20 * 1000, Math.min(ms ?? due, 15 * 60 * 1000)));
 }
 const early = kept ? setTimeout(() => { if (!D) render(kept); }, 1500) : 0;
 (window.P0 || fetch("/api/consensus").then(r => r.json())).then(good).then(d => { clearTimeout(early); if (!D || Date.parse(d.generated_at) >= Date.parse(D.generated_at)) { render(d); keep(d); } plan(); })
