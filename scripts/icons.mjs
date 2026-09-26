@@ -1,4 +1,4 @@
-// Fetches the icons from Iconify once and writes them into public/app.js and public/consensus.html (between
+// Fetches the icons from Iconify once and writes them into public/app.js and public/andaaza.html (between
 // ICONS:BEGIN and ICONS:END), so neither page ever calls Iconify at run time. Run by hand when the list below changes:
 //   node scripts/icons.mjs
 // Section marks and weather: Material Symbols, rounded (Apache 2.0). Team marks: Simple Icons (CC0), which are
@@ -64,7 +64,7 @@ const WANT = {
   "u:sun": "material-symbols:light-mode-rounded",
   "u:poster": "material-symbols:filter-frames-rounded",
 };
-// Consensus (/consensus) gets its own, smaller set, written into public/consensus.html.
+// Andaaza (/andaaza) gets its own, smaller set, written into public/andaaza.html.
 const CONSENSUS = {
   "a:sport": "material-symbols:exercise-rounded", "a:tech": "material-symbols:memory-rounded", "a:money": "material-symbols:payments-rounded",
   "a:world": "material-symbols:globe-asia-rounded", "a:screen": "material-symbols:theaters-rounded", "a:misc": "material-symbols:auto-awesome-rounded",
@@ -107,5 +107,5 @@ const put = (file, block, anchor) => {
 const A = await build(WANT);
 put("public/app.js", A.block, "// ------------------------------------------------------------------ helpers");
 const C = await build(CONSENSUS);
-put("public/consensus.html", C.block, "const $ = s => document.querySelector(s);");
-console.log(`icons: ${A.count} into public/app.js (${(A.block.length / 1024).toFixed(1)} KB), ${C.count} into public/consensus.html (${(C.block.length / 1024).toFixed(1)} KB)`);
+put("public/andaaza.html", C.block, "const $ = s => document.querySelector(s);");
+console.log(`icons: ${A.count} into public/app.js (${(A.block.length / 1024).toFixed(1)} KB), ${C.count} into public/andaaza.html (${(C.block.length / 1024).toFixed(1)} KB)`);

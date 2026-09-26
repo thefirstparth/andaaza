@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Consensus</title>
-<meta name="description" content="What the world's prediction markets think, about the things Parth follows and what everyone is betting on.">
-<meta name="theme-color" content="#f5f7f9" media="(prefers-color-scheme: light)">
+<title>Andaaza</title>
+<meta name="description" content="Andaaza (अंदाज़ा): the world's best guess, with money on it. Prediction markets on the things Parth follows, and what everyone is betting on.">
+<meta name="theme-color" content="#f5f6fb" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1114" media="(prefers-color-scheme: dark)">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 6C24 18 17 26 17 35a15 15 0 0 0 30 0c0-9-7-17-15-29z' fill='%230f5f73'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 6C24 18 17 26 17 35a15 15 0 0 0 30 0c0-9-7-17-15-29z' fill='%233f46a8'/%3E%3C/svg%3E">
 <script>var P0=fetch("/api/consensus").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()});P0.catch(function(){});try{var t=localStorage.getItem("cons-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +16,8 @@
      italic for the name and the area titles, the way a chart's title cartouche is engraved. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@62..100,400..900&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,400..500&display=swap" media="print" onload="this.media='all'">
+<!-- Tiro Devanagari Hindi, only for the letters of अंदाज़ा: the name in its own script, set like a type founder's seal. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&text=%E0%A4%85%E0%A4%82%E0%A4%A6%E0%A4%BE%E0%A4%9C%E0%A4%BC%E0%A4%BE&display=swap" media="print" onload="this.media='all'">
 <style>
 /* Colour, as a system (26 Sep 2026). A quiet neutral ground; one brand hue, deep water; and every subject a tonal
    palette on one hue wheel in OKLCH, so each is equally bold at the same lightness and none shouts over another
@@ -24,25 +26,26 @@
    Floating controls are glass (Liquid Glass): translucent, blurred, hairline edge. Shapes are generous. */
 :root{
   color-scheme:light;
-  --bg:oklch(.975 .005 230);--bg2:oklch(.955 .008 230);--card:#fff;--ink:oklch(.2 .02 245);--ink2:oklch(.42 .02 240);--muted:oklch(.56 .015 240);
+  --bg:oklch(.975 .006 265);--bg2:oklch(.955 .009 265);--card:#fff;--ink:oklch(.2 .02 245);--ink2:oklch(.42 .02 240);--muted:oklch(.56 .015 240);
   --line:oklch(.9 .008 235);--line2:oklch(.94 .006 235);
-  --sea:oklch(.48 .11 225);--tide:oklch(.66 .08 220);--foam:oklch(.93 .03 220);
+  --sea:oklch(.45 .15 268);--tide:oklch(.66 .09 262);--foam:oklch(.93 .03 268);--marigold:oklch(.72 .16 62);
   --up:oklch(.55 .15 150);--down:oklch(.56 .19 27);
   --La:.56;--Ca:.17;--Lc:.955;--Cc:.035;--L2:.72;--L3:.86;--C2:.12;--C3:.07;--on:#fff;
   --glass:color-mix(in oklab,var(--card) 62%,transparent);--glass-edge:color-mix(in oklab,#fff 70%,transparent);
   --shadow:0 1px 1px oklch(.2 .02 245 / .04),0 12px 32px -18px oklch(.2 .02 245 / .3);
   --sans:"Roboto Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --deva:"Tiro Devanagari Hindi","Noto Serif Devanagari","Kohinoor Devanagari",serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   color-scheme:dark;--bg:oklch(.14 .008 240);--bg2:oklch(.17 .01 240);--card:oklch(.19 .012 240);--ink:oklch(.95 .006 240);--ink2:oklch(.8 .012 240);--muted:oklch(.64 .015 240);
-  --line:oklch(.27 .012 240);--line2:oklch(.23 .01 240);--sea:oklch(.78 .1 215);--tide:oklch(.6 .08 220);--foam:oklch(.26 .04 225);--up:oklch(.78 .15 150);--down:oklch(.74 .15 27);
+  --line:oklch(.27 .012 240);--line2:oklch(.23 .01 240);--sea:oklch(.78 .11 270);--tide:oklch(.6 .09 265);--foam:oklch(.26 .05 270);--marigold:oklch(.8 .14 70);--up:oklch(.78 .15 150);--down:oklch(.74 .15 27);
   --La:.8;--Ca:.14;--Lc:.26;--Cc:.05;--L2:.6;--L3:.4;--C2:.1;--C3:.06;--on:oklch(.16 .02 240);
   --glass:color-mix(in oklab,var(--card) 58%,transparent);--glass-edge:color-mix(in oklab,#fff 12%,transparent);
   --shadow:0 1px 1px rgba(0,0,0,.3),0 14px 36px -18px rgba(0,0,0,.85)}}
 :root[data-theme="dark"]{
   color-scheme:dark;--bg:oklch(.14 .008 240);--bg2:oklch(.17 .01 240);--card:oklch(.19 .012 240);--ink:oklch(.95 .006 240);--ink2:oklch(.8 .012 240);--muted:oklch(.64 .015 240);
-  --line:oklch(.27 .012 240);--line2:oklch(.23 .01 240);--sea:oklch(.78 .1 215);--tide:oklch(.6 .08 220);--foam:oklch(.26 .04 225);--up:oklch(.78 .15 150);--down:oklch(.74 .15 27);
+  --line:oklch(.27 .012 240);--line2:oklch(.23 .01 240);--sea:oklch(.78 .11 270);--tide:oklch(.6 .09 265);--foam:oklch(.26 .05 270);--marigold:oklch(.8 .14 70);--up:oklch(.78 .15 150);--down:oklch(.74 .15 27);
   --La:.8;--Ca:.14;--Lc:.26;--Cc:.05;--L2:.6;--L3:.4;--C2:.1;--C3:.06;--on:oklch(.16 .02 240);
   --glass:color-mix(in oklab,var(--card) 58%,transparent);--glass-edge:color-mix(in oklab,#fff 12%,transparent);
   --shadow:0 1px 1px rgba(0,0,0,.3),0 14px 36px -18px rgba(0,0,0,.85)}
@@ -104,7 +107,9 @@ button{font:inherit;color:inherit}
 .mark .r2{opacity:.55}.mark .r3{opacity:.28}
 @media (prefers-reduced-motion:no-preference){.mark .rip{transform-box:fill-box;transform-origin:center;animation:ripple 5s ease-out infinite}.mark .r2{animation-delay:1.6s}.mark .r3{animation-delay:3.2s}}
 @keyframes ripple{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.3);opacity:0}}
-.mast h1{margin:0;font:italic 400 clamp(60px,11vw,150px)/.82 var(--display);letter-spacing:-.02em;color:var(--ink)}
+.mast h1{margin:0;font:italic 400 clamp(60px,11vw,150px)/.82 var(--display);letter-spacing:-.02em;color:var(--ink);display:flex;align-items:flex-end;flex-wrap:wrap;gap:0 .16em}
+/* अंदाज़ा: the name in its own script, small, in marigold, sitting on the same line like a seal beside a signature. */
+.dev{font:400 .3em/1 var(--deva);letter-spacing:0;color:var(--marigold);padding:.14em .32em .02em;border:1.5px solid currentColor;border-radius:.3em;margin-bottom:.34em;font-style:normal}
 .mast .tag{margin:14px 0 0;font:400 clamp(15px,1.5vw,18px)/1.45 var(--sans);color:var(--ink2);max-width:46ch}
 .reading{display:grid;gap:8px;justify-items:end;text-align:right;font:500 13px/1.35 var(--sans);color:var(--muted);min-width:230px}
 .reading .clock{font:800 clamp(34px,4vw,48px)/.9 var(--sans);font-variation-settings:"wdth" 70;color:var(--ink);letter-spacing:-.01em}
@@ -115,6 +120,7 @@ button{font:inherit;color:inherit}
 .reading .src .off i{background:var(--down)}
 .reading .src .wait i{background:var(--muted)}
 .reading .upd b{color:var(--ink);font-weight:700}
+.reading .stale{max-width:34ch;font:600 12.5px/1.4 var(--sans);color:var(--ink);background:color-mix(in oklab,var(--marigold) 22%,var(--card));padding:8px 12px;border-radius:14px}
 @media (max-width:760px){.mast{grid-template-columns:1fr}.reading{justify-items:start;text-align:left}.reading .src{justify-content:flex-start}}
 
 /* ---- the tide board: the biggest question in each area, each on its own tall staff gauge ---- */
@@ -275,7 +281,7 @@ details.how li{margin:0 0 8px}
 .pv .sheet{width:min(1560px,100%);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 30px}
 .pv .ph{grid-column:1/-1;display:flex;align-items:flex-end;gap:16px;padding-bottom:14px;border-bottom:1.5px solid var(--ink)}
 .pv .ph .mark{width:50px;margin-bottom:.3em}
-.pv .ph h1{margin:0;font:italic 400 76px/.85 var(--display);letter-spacing:-.02em}
+.pv .ph h1{margin:0;font:italic 400 76px/.85 var(--display);letter-spacing:-.02em;display:flex;align-items:flex-end;gap:0 .16em}
 .pv .ph .reading{margin-left:auto}
 .pv .board{grid-column:1/-1;margin-top:4px}
 .pv .staff{height:250px}
@@ -304,9 +310,9 @@ details.how li{margin:0 0 8px}
           <ellipse class="rip r3" cx="40" cy="80" rx="36" ry="10"/><ellipse class="rip r2" cx="40" cy="80" rx="26" ry="7"/><ellipse class="rip" cx="40" cy="80" rx="16" ry="4.4"/>
           <path class="drop" d="M40 4C33 16 24 27 24 39a16 16 0 0 0 32 0c0-12-9-23-16-35z"/>
         </svg>
-        <h1>Consensus</h1>
+        <h1>Andaaza<span class="dev" lang="hi">अंदाज़ा</span></h1>
       </div>
-      <p class="tag">Where the world's prediction markets settle. Every chance here is a water level: the higher the water, the surer the money.</p>
+      <p class="tag">The world's best guess, with money on it. Every chance here is a water level: the higher the water, the surer the money.</p>
     </div>
     <div class="reading" id="reading"><span>Reading the markets…</span></div>
   </div>
@@ -458,6 +464,7 @@ function readingHTML(d) {
   const next = Date.parse(d.next_at || 0) || Date.parse(d.generated_at) + 11 * 60 * 1000;
   return `<div class="clock">${ist(Date.now())}<small>IST</small></div>
 <div class="upd">Markets read at <b>${ist(d.generated_at)}</b> · next update ${next > Date.now() ? `<b>${ist(next)}</b>` : "any moment"}</div>
+${Date.now() - Date.parse(d.generated_at) > 3 * 36e5 ? `<div class="stale">This is the last good reading, from ${esc(new Date(d.generated_at).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }))} IST. The markets are not answering just now; the page keeps trying.</div>` : ""}
 <div class="src">${d.sources.map(s => `<span class="${s.ok ? "" : s.pending ? "wait" : "off"}" title="${s.ok ? s.count + " markets read" : s.pending ? "Being read now; it will appear at the next update" : "Unavailable just now"}"><i></i>${esc(s.name)}${s.pending ? " · coming" : ""}</span>`).join("")}</div>`;
 }
 
@@ -486,23 +493,35 @@ lbl();
 
 // Live while open: ask again when the server says the next reading is due (next_at), and in any case every ten
 // minutes while the tab is visible. The answer is always the saved reading, so it comes back in a moment.
+// This device also keeps the last reading it showed: if the server is slow (over a second and a half) or down, that
+// is shown at once, and replaced as soon as a newer one arrives. A failed ask backs off to a minute.
+const KEEP = "andaaza-last";
+const keep = d => { try { localStorage.setItem(KEEP, JSON.stringify(d)); } catch {} };
+const kept = (() => { try { const d = JSON.parse(localStorage.getItem(KEEP) || "null"); return d?.generated_at ? d : null; } catch { return null; } })();
+const good = d => (d?.generated_at ? d : Promise.reject(new Error(d?.error || "no reading")));
 let nextT;
-const load = () => fetch("/api/consensus").then(r => r.json()).then(d => { if (d?.generated_at && (!D || d.generated_at !== D.generated_at || (d.sources || []).some((s, i) => s.ok !== D.sources[i]?.ok))) render(d); else if (d?.next_at) D.next_at = d.next_at; plan(); }).catch(() => plan(60 * 1000));
+const load = () => fetch("/api/consensus").then(r => r.json()).then(good).then(d => {
+  if (!D || Date.parse(d.generated_at) > Date.parse(D.generated_at) || (d.sources || []).some((s, i) => s.ok !== D.sources[i]?.ok)) { render(d); keep(d); }
+  else D.next_at = d.next_at;
+  plan();
+}).catch(() => plan(60 * 1000));
 function plan(ms) {
   clearTimeout(nextT);
   const due = D?.next_at ? Date.parse(D.next_at) - Date.now() : 60 * 1000;
   nextT = setTimeout(() => (document.hidden ? plan(60 * 1000) : load()), Math.max(20 * 1000, Math.min(ms ?? due, 10 * 60 * 1000)));
 }
-(window.P0 || fetch("/api/consensus").then(r => r.json())).then(d => { render(d); plan(); }).catch(() => { $("#reading").innerHTML = "<span>The markets could not be reached just now. The page will try again shortly.</span>"; plan(30 * 1000); });
+const early = kept ? setTimeout(() => { if (!D) render(kept); }, 1500) : 0;
+(window.P0 || fetch("/api/consensus").then(r => r.json())).then(good).then(d => { clearTimeout(early); if (!D || Date.parse(d.generated_at) >= Date.parse(D.generated_at)) { render(d); keep(d); } plan(); })
+  .catch(() => { clearTimeout(early); if (!D && kept) render(kept); if (!D) $("#reading").innerHTML = "<span>The markets could not be reached just now. The page will try again shortly.</span>"; plan(60 * 1000); });
 document.addEventListener("visibilitychange", () => { if (!document.hidden && D && Date.now() > Date.parse(D.next_at || 0)) load(); });
 
-// ---- poster: the tide board and the day on one screen (/consensus/poster, or the Poster button). Zooms to fit.
+// ---- poster: the tide board and the day on one screen (/andaaza/poster, or the Poster button). Zooms to fit.
 function posterHTML() {
   const it = (c, sub) => { const f = c.o[0], d = c.p != null ? f.prob - c.p : 0; return `<div class="it" data-k="${esc(c.k)}"><span>${esc(tidy(c.t))}</span><small>${esc(sub)}</small><b>${pc(f.prob)}${Math.abs(d) >= 1 ? `<em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)}</em>` : ""}</b></div>`; };
   const nx = D.topics.filter(t => t.area === "sport").flatMap(t => (t.next || []).map(n => ({ n, k: t.id }))).sort((x, y) => (y.n.f || 0) - (x.n.f || 0) || Date.parse(x.n.st) - Date.parse(y.n.st)).slice(0, 6);
   const fx = nx.map(({ n, k }) => { const f = [...n.o].sort((x, y) => y.prob - x.prob)[0]; return `<div class="it" data-k="${k}"><span>${n.f ? "★ " : ""}${esc(n.t)}</span><small>${esc(kick(n.st))} · ${esc(LABEL[k])} · ${esc(/^draw/i.test(f.name) ? "Draw" : f.name)} favoured</small><b>${pc(f.prob)}</b></div>`; }).join("");
   return `<button class="x" id="pvx" type="button">Close</button><div class="sheet">
-<div class="ph"><svg class="mark" viewBox="0 0 80 96" aria-hidden="true"><ellipse class="rip r3" cx="40" cy="80" rx="36" ry="10"/><ellipse class="rip r2" cx="40" cy="80" rx="26" ry="7"/><ellipse class="rip" cx="40" cy="80" rx="16" ry="4.4"/><path class="drop" d="M40 4C33 16 24 27 24 39a16 16 0 0 0 32 0c0-12-9-23-16-35z"/></svg><h1>Consensus</h1><div class="reading">${readingHTML(D)}</div></div>
+<div class="ph"><svg class="mark" viewBox="0 0 80 96" aria-hidden="true"><ellipse class="rip r3" cx="40" cy="80" rx="36" ry="10"/><ellipse class="rip r2" cx="40" cy="80" rx="26" ry="7"/><ellipse class="rip" cx="40" cy="80" rx="16" ry="4.4"/><path class="drop" d="M40 4C33 16 24 27 24 39a16 16 0 0 0 32 0c0-12-9-23-16-35z"/></svg><h1>Andaaza<span class="dev" lang="hi">अंदाज़ा</span></h1><div class="reading">${readingHTML(D)}</div></div>
 <div class="board">${board()}</div>
 <div class="col"><h3>${icon("a:moves")}Currents</h3>${D.movers.slice(0, 6).map(c => it(c, `${favName(c)} · was ${pc(c.p)} · ${LABEL[c.k] || c.s}`)).join("")}</div>
 <div class="col" data-a="sport"><h3>${icon("a:sport")}Coming up</h3>${fx || `<div class="it"><span>No big matches this week</span></div>`}</div>
@@ -521,7 +540,7 @@ function showPoster(on) {
   posterOn = on; const P = $("#pv");
   P.hidden = !on || !D; if (!on || !D) return;
   P.innerHTML = posterHTML(); fitPoster(); document.fonts?.ready.then(fitPoster);
-  $("#pvx").onclick = () => { showPoster(false); if (/\/poster$/.test(location.pathname)) history.replaceState(null, "", "/consensus"); };
+  $("#pvx").onclick = () => { showPoster(false); if (/\/poster$/.test(location.pathname)) history.replaceState(null, "", "/andaaza"); };
 }
 $("#posterBtn").addEventListener("click", () => showPoster(true));
 addEventListener("keydown", e => { if (e.key === "Escape" && posterOn) $("#pvx")?.click(); });
