@@ -730,13 +730,15 @@ setInterval(() => { if (D) { $("#reading").innerHTML = readingHTML(D); const c =
 // Notes: a button that takes you through every note on the page in turn (board first), highlighting each; it counts
 // them, and opens everything first if the page shown has none.
 let noteAt = -1;
+// A note shown twice (on the board and again on its subject's card) is one stop: the first place it appears.
+const noteStops = () => { const seen = new Set(); return [...document.querySelectorAll(".why")].filter(e => e.offsetParent && !seen.has(e.textContent) && seen.add(e.textContent)); };
 function notesBtn() {
-  const n = D ? new Set([...D.board, ...D.topics.flatMap(t => [...t.items, ...(t.next || [])]), ...(D.misc || []), ...(D.world || [])].filter(c => c.why?.x).map(c => c.u)).size : 0;
+  const n = D ? new Set([...D.board, ...D.topics.flatMap(t => [...t.items, ...(t.next || [])]), ...(D.misc || []), ...(D.world || [])].filter(c => c.why?.x).map(c => c.why.x)).size : 0;
   document.querySelectorAll(".js-notes").forEach(b => { b.hidden = !n; b.innerHTML = `${icon("s:gemini")}<span class="t">Notes</span> <b>${n}</b>`; b.title = b.ariaLabel = `Go to the next note (${n} on the page)`; });
 }
 document.querySelectorAll(".js-notes").forEach(b => b.addEventListener("click", () => {
-  let els = [...document.querySelectorAll(".why")].filter(e => e.offsetParent);
-  if (!els.length && filter !== "all") { go("all"); els = [...document.querySelectorAll(".why")].filter(e => e.offsetParent); }
+  let els = noteStops();
+  if (!els.length && filter !== "all") { go("all"); els = noteStops(); }
   if (!els.length) return;
   noteAt = (noteAt + 1) % els.length;
   const e = els[noteAt];
@@ -747,8 +749,9 @@ document.querySelectorAll(".js-notes").forEach(b => b.addEventListener("click", 
 // A note sits inside its market's link: tapping the note opens the news it came from instead.
 document.addEventListener("click", e => { const w = e.target.closest?.(".why[data-src]"); if (!w) return; e.preventDefault(); e.stopPropagation(); open(w.dataset.src, "_blank", "noopener"); }, true);
 $("#chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if (b) go(b.dataset.a); });
-// The top bar stays out of the way over the header and the tide board, and slides in once they are scrolled past.
-try { new IntersectionObserver(([e]) => $("#topbar").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0), { rootMargin: "0px" }).observe($("#board")); } catch { $("#topbar").classList.add("on"); }
+// The top bar stays out of the way over the header, and slides in once the header's buttons (Notes, Poster, the look)
+// have scrolled out of view, so they are always in reach: on the tide board too, where the Notes button leads first.
+try { new IntersectionObserver(([e]) => $("#topbar").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0), { rootMargin: "0px" }).observe($(".mast .ctl")); } catch { $("#topbar").classList.add("on"); }
 $(".brand").addEventListener("click", e => { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); });
 
 // The definition's speaker: the device's own voice, Hindi if it has one (अंदाज़ा), else English read phonetically.
