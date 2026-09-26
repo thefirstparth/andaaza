@@ -44,7 +44,9 @@ async function ask(text, search, key, json) {
     try {
       const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
         method: "POST", headers: { "content-type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(body), signal: AbortSignal.timeout(40000) });
-      if (!r.ok) { last = `${last ? `${last}\n` : ""}${model}: HTTP ${r.status} ${(await r.text()).replace(/\s+/g, " ").slice(0, 400)}`; if (r.status === 404 || r.status === 400 || r.status === 429) continue; return { error: last }; }
+      if (!r.ok) { last = `${last ? `${last}\n` : ""}${model}: HTTP ${r.status} ${(await r.text()).replace(/\s+/g, " ").slice(0, 400)}`; if (r.status === 404 || r.status === 400 || r.status === 429) continue;
+        // 402/403: the key itself (a billing project with no balance, a restricted or wrong key); other models won't help.
+        return { error: `${r.status === 402 ? "The key's Google project has prepaid billing with no balance, so even free calls fail. " : r.status === 403 ? "Google refused this key (wrong, restricted or disabled). " : ""}${last}` }; }
       const j = await r.json(), cand = j.candidates?.[0], g = cand?.groundingMetadata || {};
       const answer = (cand?.content?.parts || []).map(p => p.text || "").join("").trim();
       return { model, ms: Date.now() - t0, answer, finish: cand?.finishReason, queries: g.webSearchQueries || [],
