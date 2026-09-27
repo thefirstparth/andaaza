@@ -130,6 +130,8 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 - **Board notes aligned** (Parth, 27 Sep 2026: notes looked random; a caption strip under the board was rejected: "the
   note should be next to the prediction"): each gauge's parts sit on shared rows (CSS subgrid), so every note sits
   under its own gauge, on the same line as the others, in same-height boxes. Without subgrid: the stacked layout.
+  The move line ("▲ 1 pt in a day") stays in the text block right under the subtitle (8px): putting it on a shared
+  row too left gaps under short columns (Parth caught it).
 - **Notes button** (Gemini mark + count), floating bottom right and travelling with you (Parth, 27 Sep 2026; it
   replaced the header and top-bar Notes buttons; the footer leaves room under it). A solid Gemini blue-violet pill
   with a › arrow so it reads as pressable; sized with the screen (font clamp 14–21px: ~42px tall on a laptop, 55px on
