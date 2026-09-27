@@ -209,6 +209,24 @@ button{font:inherit;color:inherit}
 .post .focus{align-self:flex-start;font:650 12px var(--sans);color:var(--a);background:var(--ac);padding:3px 9px;border-radius:99px}
 .post .focus b{font-weight:700}
 .post{display:flex;flex-direction:column;gap:10px;text-decoration:none;min-width:0}
+.post .hd{display:flex;flex-direction:column;gap:6px;align-items:flex-start;min-width:0}.post .hd>*{max-width:100%}
+.post .dl:empty,.post .nowhy{display:none}
+/* Option A (aligned): each gauge's parts sit on shared rows across the board (CSS subgrid), so every note starts on
+   the same line and the note boxes are the same height; browsers without subgrid keep the stacked layout. */
+@supports (grid-template-rows:subgrid){
+  [data-nb=aligned] .board{row-gap:0}
+  [data-nb=aligned] .post{display:grid;grid-row:span 5;grid-template-rows:subgrid;row-gap:10px;padding-bottom:clamp(16px,2vw,24px)}
+  [data-nb=aligned] .post .dl:empty,[data-nb=aligned] .post .nowhy{display:block}
+  [data-nb=aligned] .post .why{align-self:stretch}
+}
+/* Option B (strip): gauges stay bare with a small mark by the label; the notes sit in one list under the board. */
+[data-nb=strip] .board .why{display:none}
+.lbl .nmark{display:none;color:var(--ai);font-size:12px;margin-left:2px}[data-nb=strip] .lbl .nmark{display:inline}
+.bnotes{display:none}
+[data-nb=strip] .bnotes{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));gap:10px 18px;margin-top:clamp(18px,2.4vw,28px)}
+.bnotes .bn{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:start}
+.bnotes .bn>b{font:700 10.5px/1.9 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--a);white-space:nowrap}
+.bnotes .why{padding:0;background:none;border:0;font-size:13px}
 .post .lbl{display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden;min-width:0;font:700 11px/1 var(--sans);letter-spacing:.09em;text-transform:uppercase;color:var(--a)}
 .post .lbl .ic{width:15px;height:15px;flex:none}
 .post .lbl span{overflow:hidden;text-overflow:ellipsis}
@@ -467,6 +485,7 @@ details.how li{margin:0 0 8px}
     <div class="ctl" role="group" aria-label="View"><button class="js-notes" type="button" hidden>Notes</button><button class="js-poster" type="button">Poster</button><button class="js-theme" type="button">Night</button></div>
   </div>
   <div class="board" id="board"><div class="sk" style="height:300px"></div><div class="sk" style="height:300px"></div><div class="sk" style="height:300px"></div></div>
+  <div class="bnotes" id="bnotes"></div>
 </header>
 <main>
   <section class="wrap panel" id="movesec" data-a="moves" aria-labelledby="mh"><div class="sh"><h2 id="mh"><span class="ico" data-i="a:moves"></span>Currents</h2><p>Moves of four points or more in a day, on prices traders agree on</p></div><div class="currents" id="moves"></div></section>
@@ -523,6 +542,7 @@ const AREA_HI = {"sport": "खेल", "tech": "टेक", "money": "पैस�
 // left with the back button; without an address the last page chosen on this device opens.
 const HASH = { fav: "favourites", moves: "currents", flow: "where-the-money-is" }, UNHASH = Object.fromEntries(Object.entries(HASH).map(([k, v]) => [v, k]));
 const fromHash = () => { const h = decodeURIComponent(location.hash.slice(1)); return h ? UNHASH[h] || h : ""; };
+document.documentElement.dataset.nb = new URLSearchParams(location.search).get("nb") || "aligned";
 let D, AREA = {}, LABEL = {}, filter = fromHash() || store.get("cons-area") || "all";
 
 // Depth soundings behind the name: a few smooth contour lines, drawn once to the masthead's size.
@@ -590,13 +610,15 @@ function post(c, a) {
   const q = binary(c) ? "" : c.slot === "ai" || c.st || !head ? tidy(c.st ? ask : c.t) : ask;
   const fo = c.focus ? c.o.find(o => o.name === c.focus) : null, chip = fo && fo !== c.o[0] ? `<span class="focus">${esc(fo.name)} <b>${pc(fo.prob)}</b></span>` : "";
   const n = `<b>${Math.round(p)}<small>%</small></b><span class="sc" style="bottom:25%">25</span><span class="sc" style="bottom:50%">50</span><span class="sc" style="bottom:75%">75</span>`;
-  return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${icon("t:" + c.k) || icon("a:" + (a?.id || "misc"))}<span>${esc(lb)}</span></span>
+  return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${icon("t:" + c.k) || icon("a:" + (a?.id || "misc"))}<span>${esc(lb)}</span>${c.why?.x ? `<span class="nmark" aria-hidden="true">✦</span>` : ""}</span>
 <div class="staff" ${seaAttr(c)} style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}"><div class="l">${n}${wasMark(cc, true)}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${n}${wasMark(cc, true)}</div></div></div>
-<div class="who${binary(c) ? " ask" : ""}">${esc(who)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}${why(cc)}</a>`;
+<div class="hd"><div class="who${binary(c) ? " ask" : ""}">${esc(who)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}</div><div class="dl">${moved(cc)}</div>${why(cc) || `<span class="nowhy"></span>`}</a>`;
 }
 // The tide board: the server's five slots in Parth's order (best AI model, Real Madrid, football, world, most
 // traded); an older reading without them falls back to the busiest question in each area.
 const board = () => (D.board?.length ? D.board.map(c => post(c, (D.areas || []).find(a => a.id === AREA[c.k]))) : (D.areas || []).filter(a => a.id !== "misc").map(a => ({ a, c: leadOf(a) })).filter(x => x.c).slice(0, 5).map(x => post(x.c, x.a))).join("");
+const boardNotes = () => (D.board || []).filter(c => c.why?.x).map(c => { const [head] = split(c.t); const lb = c.slot === "ai" ? "Best AI model" : !c.st && head ? head : LABEL[c.k] || "";
+  return `<div class="bn" data-k="${esc(c.k)}"><b>${esc(lb)}</b>${why(c)}</div>`; }).join("");
 
 // ---- a ticket: the gauge on the left is filled to the favourite's chance and names it; the right never repeats it.
 // A "by ... ?" question shows its nearer deadlines as steps; a yes/no question shows only its gauge and bar.
@@ -711,7 +733,7 @@ function render(d) {
   D = d;
   for (const t of d.topics) { AREA[t.id] = t.area; LABEL[t.id] = t.label; }
   $("#reading").innerHTML = readingHTML(d);
-  $("#board").innerHTML = board();
+  $("#board").innerHTML = board(); $("#bnotes").innerHTML = boardNotes();
   $("#board").classList.toggle("rise", firstPaint); firstPaint = false;
   $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 10).map(current).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
   const present = (d.areas || []).filter(a => (a.id === "misc" ? d.misc?.length : d.topics.some(t => t.area === a.id)));
