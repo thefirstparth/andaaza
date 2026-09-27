@@ -131,8 +131,10 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   note should be next to the prediction"): each gauge's parts sit on shared rows (CSS subgrid), so every note sits
   under its own gauge, on the same line as the others, in same-height boxes. Without subgrid: the stacked layout.
 - **Notes button** (Gemini mark + count), floating bottom right and travelling with you (Parth, 27 Sep 2026; it
-  replaced the header and top-bar Notes buttons; small, and the footer leaves room under it). Shows "3 / 13" once
-  you start. Each press brings the next note to the middle of the screen and
+  replaced the header and top-bar Notes buttons; the footer leaves room under it). A solid Gemini blue-violet pill
+  with a › arrow so it reads as pressable; sized with the screen (font clamp 14–21px: ~42px tall on a laptop, 55px on
+  the BenQ, compact on a phone). Once started it names where you are ("7 / 13 · La Liga"; the market's name is hidden
+  on a phone) and the current note keeps a ring until the next press, restored after each reading's repaint. Each press brings the next note to the middle of the screen and
   flashes it; a note shown twice (board and its card) is one stop; wraps after the last; on a page with no notes it
   opens Everything first. Tested on the live data: 17 notes, 17 stops, laptop clicks and phone taps.
 
