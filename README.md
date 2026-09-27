@@ -76,8 +76,13 @@ Notes are saved inside the reading, so every visitor sees the same one and nobod
   them; Polymarket/Kalshi/Manifold marks kept in the config). To add one: a brand or competition as `set:icon` from
   icon-sets.iconify.design, a country or person by flag code (a face is found by name automatically), a football
   league by its ESPN code under `crests`; run `npm run logos`, commit `public/logos.js` and `public/marks/`. The page
-  never asks anyone for them at run time; if they fail to load, names show without marks. No free source has Grand
-  Slam logos or drivers' personal logos (they stay without). Trademarks and photos belong to their owners.
+  never asks anyone for them at run time; if they fail to load, names show without marks. Marks with no icon set
+  (Grand Slams, IPL, LaLiga, Verstappen's MV, Alcaraz's CA) are listed under `own` with the address they came from
+  (the owner's site, ESPN or Wikipedia); a rerun keeps the saved copy if an address stops working. Faces must be
+  from 2025 or later: ESPN's headshot if ESPN updated it since, else Wikipedia's lead photo, else a Wikimedia Commons
+  portrait; `scripts/faces.mjs` finds the face (pico, a small face detector) and crops around it; no clear, big,
+  recent face means the flag stays. Wikimedia photos are credited on /credits (made by the same run). Trademarks and
+  photos belong to their owners.
 - A domain of its own (say andaaza.in): add it in the Vercel project's Settings → Domains; nothing in the code changes.
 - Old addresses on house14.vercel.app (`/andaaza`, `/consensus`, `/pulse`, `/markets`) and andaaza-live.vercel.app
   redirect here; those redirects live in The House of 1400's vercel.json.

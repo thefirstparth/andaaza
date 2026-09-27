@@ -83,6 +83,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 - **Currents:** moves of 4+ points in a day where the favourite's **spread ≤ 4 points** (traders agree on the price)
   and the usual floor is met; weekly/monthly rankings excluded. Parth: the amount is only a proxy for accuracy.
 - **Where the money is:** the 10 busiest markets overall.
+- **Section order** (Parth, 27 Sep 2026, from the data: World trades as much as Sport and holds the war/oil must-haves,
+  Tech had 5 of 10 Currents, Sport is the longest and already fills 4 of 7 board gauges): top gauges → Currents →
+  Where the money is → World → Tech → Sport → Money → Screen → Misc. Area order lives in config `areas`.
 
 ## Design (Parth approved each of these; don't regress them)
 - **Water is the theme.** Numbers are drawn twice and masked by the waterline: subject colour above, white below
@@ -115,7 +118,21 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   "also" links (not in the card meta: it truncated "$136k today"), competition marks on board labels, and on a card
   title only when its label doesn't already say it (Champions League under Football, oil under Money; not F1 under
   Formula 1). Letter badges (RM, FCB) were tried and dropped as clutter. In small gauges the mark sits on its own line
-  above the name. Retro tones pictures toward sepia (faces greyscale).
+  above the name. Retro tones pictures toward sepia (faces greyscale). Parth pushed back on "no free source" for Grand
+  Slams and personal logos ("did we try our best?"): they came from the owners' own sites and Wikipedia (`own` in
+  config/logos.json): Wimbledon, Roland-Garros, AO, US Open (its ball only), IPL (its batsman only), LaLiga (ESPN),
+  ATP. ESPN's Champions League/Premier League/World Cup logos were unreadable small: the line marks stay.
+  **Personal logos only when famous on their own** (Parth: "only if the logo is more famous than a certain threshold";
+  rule chosen: the logo has its own Wikipedia article, like Jumpman or CR7). Verstappen's MV, Alcaraz's CA and
+  Djokovic's ND don't, so they are kept in config/logos.json with `famous: false` and faces show; Hamilton's mark was
+  unreadable at text size anyway.
+  **Faces** (Parth: "cropped well… centred… photos from 2025 or 2026, not before"): ESPN if updated since 2025 (F1:
+  Apr 2026), else Wikipedia's lead photo taken since 2025, else the newest Commons "(cropped)" portrait, else any
+  Commons photo with exactly one clear face at ≥22% of the short side (spectators behind Albon and Fonseca measured
+  15–19%, real close-ups 24%+). `scripts/faces.mjs` (pico, MIT) finds the face; it must be the largest
+  clear face and ≥14% of the photo (a first run picked spectators' faces for Alcaraz, Zverev, Fonseca, Albon). 96px
+  JPEG centred on the face. No such photo: the flag (Indian cricketers have none on Commons since 2025).
+  Credits on /credits (public/credits.html), linked from the footer.
 - Area titles carry Hindi seals: खेल, टेक, पैसा, दुनिया, परदा, फुटकर.
 - A glass top bar (logo + area filters) appears **once the header's buttons have scrolled out of view** (was: after the
   tide board; changed 26 Sep 2026 because on the board no Notes button was reachable). Poster and the look
