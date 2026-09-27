@@ -127,7 +127,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Where the money is; each has an address (#sport, #favourites, #currents, #where-the-money-is), back works. Showing
   Everything, the top bar outlines the section being read (scroll spy) and scrolls the chip into view; the row fades at
   its edges when it scrolls. **Favourites** = every must-have (★) plus every market about someone followed (`f` flag).
-- **Notes button** (Gemini mark + count) beside Poster: each press brings the next note to the middle of the screen and
+- **Notes button** (Gemini mark + count), floating bottom right and travelling with you (Parth, 27 Sep 2026; it
+  replaced the header and top-bar Notes buttons; small, and the footer leaves room under it). Shows "3 / 13" once
+  you start. Each press brings the next note to the middle of the screen and
   flashes it; a note shown twice (board and its card) is one stop; wraps after the last; on a page with no notes it
   opens Everything first. Tested on the live data: 17 notes, 17 stops, laptop clicks and phone taps.
 

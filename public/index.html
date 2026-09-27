@@ -326,8 +326,17 @@ main>.panel:last-of-type{margin-bottom:0}
 .chip.here{box-shadow:inset 0 0 0 1.5px var(--a,var(--ink));color:var(--ink)}
 .why.flash{animation:flash 1.6s ease}
 @keyframes flash{0%,100%{box-shadow:0 0 0 0 transparent}20%,60%{box-shadow:0 0 0 4px color-mix(in oklab,var(--ai) 45%,transparent)}}
-.ctl .js-notes{color:var(--ai)}.ctl .js-notes .ic{color:var(--ai)}
-.ctl .js-notes b{font-variant-numeric:tabular-nums;color:var(--ink2);font-weight:700}
+/* The Notes button floats bottom right and travels with you. Small (the mark and a count; the mark alone on a phone)
+   so it covers little, and the footer leaves room under it at the end of the page. */
+.notesfab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:16;
+  display:inline-flex;align-items:center;gap:8px;padding:10px 16px 10px 13px;border-radius:999px;cursor:pointer;
+  font:700 13.5px var(--sans);color:var(--ai);border:1px solid color-mix(in oklab,var(--ai) 35%,transparent);
+  background:color-mix(in oklab,var(--card) 84%,transparent);-webkit-backdrop-filter:blur(14px) saturate(1.5);backdrop-filter:blur(14px) saturate(1.5);box-shadow:var(--shadow)}
+.notesfab:hover{border-color:var(--ai)}
+.notesfab .ic{width:17px;height:17px;color:var(--ai)}
+.notesfab b{font-variant-numeric:tabular-nums;color:var(--ink2);font-weight:700}
+@media (max-width:600px){.notesfab .t{display:none}.notesfab{padding:11px 14px 11px 12px}}
+[data-theme=retro] .notesfab{background:var(--card);-webkit-backdrop-filter:none;backdrop-filter:none;border:1.5px solid var(--ink);border-radius:4px;box-shadow:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px}
 .tk{display:grid;grid-template-columns:120px minmax(0,1fr);background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 20%,transparent);border-radius:28px;overflow:hidden;min-width:0;transition:border-color .2s,box-shadow .2s}
 .tk:hover{border-color:color-mix(in oklab,var(--a) 60%,transparent);box-shadow:var(--shadow)}
@@ -468,7 +477,7 @@ details.how li{margin:0 0 8px}
 </style>
 </head>
 <body>
-<nav class="chips" id="topbar" aria-label="Andaaza and its areas"><div class="wrap"><a class="brand" href="#" aria-label="Andaaza, back to the top"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dm4"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm4)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg><span>Andaaza</span></a><div class="chipset" id="chips"></div><div class="ctl"><button class="js-notes" type="button" hidden>Notes</button><button class="js-poster" type="button">Poster</button><button class="js-theme" type="button">Night</button></div></div></nav>
+<nav class="chips" id="topbar" aria-label="Andaaza and its areas"><div class="wrap"><a class="brand" href="#" aria-label="Andaaza, back to the top"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dm4"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm4)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg><span>Andaaza</span></a><div class="chipset" id="chips"></div><div class="ctl"><button class="js-poster" type="button">Poster</button><button class="js-theme" type="button">Night</button></div></div></nav>
 <header class="wrap" id="top">
   <div class="mast">
     <svg class="iso" id="iso" aria-hidden="true" preserveAspectRatio="none"></svg>
@@ -482,7 +491,7 @@ details.how li{margin:0 0 8px}
       <p class="hero">Watch the world change its mind.</p>
     </div>
     <div class="reading" id="reading"><span>Reading the markets…</span></div>
-    <div class="ctl" role="group" aria-label="View"><button class="js-notes" type="button" hidden>Notes</button><button class="js-poster" type="button">Poster</button><button class="js-theme" type="button">Night</button></div>
+    <div class="ctl" role="group" aria-label="View"><button class="js-poster" type="button">Poster</button><button class="js-theme" type="button">Night</button></div>
   </div>
   <div class="board" id="board"><div class="sk" style="height:300px"></div><div class="sk" style="height:300px"></div><div class="sk" style="height:300px"></div></div>
   <div class="bnotes" id="bnotes"></div>
@@ -517,6 +526,8 @@ details.how li{margin:0 0 8px}
     </div>
   </div>
 </footer>
+<!-- Notes: one button that stays in the bottom-right corner wherever you are, and takes you through the notes. -->
+<button class="notesfab js-notes" type="button" hidden>Notes</button>
 <div class="pv" id="pv" hidden></div>
 <script>
 (() => {
@@ -756,7 +767,13 @@ let noteAt = -1;
 const noteStops = () => { const seen = new Set(); return [...document.querySelectorAll(".why")].filter(e => e.offsetParent && !seen.has(e.textContent) && seen.add(e.textContent)); };
 function notesBtn() {
   const n = D ? new Set([...D.board, ...D.topics.flatMap(t => [...t.items, ...(t.next || [])]), ...(D.misc || []), ...(D.world || [])].filter(c => c.why?.x).map(c => c.why.x)).size : 0;
-  document.querySelectorAll(".js-notes").forEach(b => { b.hidden = !n; b.innerHTML = `${icon("s:gemini")}<span class="t">Notes</span> <b>${n}</b>`; b.title = b.ariaLabel = `Go to the next note (${n} on the page)`; });
+  noteCount = n; noteLabel();
+}
+let noteCount = 0;
+// "Notes 13" until you start, then where you are: "3 / 13".
+function noteLabel() {
+  const n = noteCount, at = noteAt >= 0 && noteAt < n ? `${noteAt + 1} / ${n}` : `${n}`;
+  document.querySelectorAll(".js-notes").forEach(b => { b.hidden = !n; b.innerHTML = `${icon("s:gemini")}<span class="t">Notes</span> <b>${at}</b>`; b.title = b.ariaLabel = `Go to the next note (${n} on the page)`; });
 }
 document.querySelectorAll(".js-notes").forEach(b => b.addEventListener("click", () => {
   let els = noteStops();
@@ -766,6 +783,7 @@ document.querySelectorAll(".js-notes").forEach(b => b.addEventListener("click", 
   const e = els[noteAt];
   e.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
   document.querySelectorAll(".why.flash").forEach(x => x.classList.remove("flash")); void e.offsetWidth; e.classList.add("flash");
+  noteLabel();
 }));
 
 // A note sits inside its market's link: tapping the note opens the news it came from instead.
