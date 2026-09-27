@@ -2,23 +2,18 @@
   "name": "andaaza",
   "private": true,
   "type": "module",
-  "engines": {
-    "node": ">=22"
-  },
+  "engines": { "node": ">=22" },
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "check": "node scripts/check.mjs",
     "icons": "node scripts/icons.mjs",
-    "logos": "node scripts/logos.mjs"
+    "marks": "node scripts/marks.mjs"
   },
   "dependencies": {
     "@vercel/blob": "^2.8.0",
     "@vercel/functions": "^2.0.0"
   },
   "devDependencies": {
-    "jpeg-js": "^0.4.4",
-    "picojs": "^1.0.0",
-    "pngjs": "^7.0.0",
     "svgo": "^3.3.5"
   }
 }

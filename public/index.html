@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#0d1114" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CclipPath id='c'%3E%3Cpath d='M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z'/%3E%3C/clipPath%3E%3C/defs%3E%3Cpath d='M0 35q8-5 16 0t16 0 16 0 16 0V64H0z' fill='%233f46a8' clip-path='url%28%23c%29'/%3E%3Cpath d='M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z' fill='none' stroke='%233f46a8' stroke-width='4.5' stroke-linejoin='round'/%3E%3C/svg%3E">
 <script>var P0=fetch("/api/consensus").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()});P0.catch(function(){});try{var t=localStorage.getItem("cons-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<!-- Logos, flags, crests and faces beside names (public/logos.js, made by `npm run logos` from config/logos.json): loaded
+<!-- Logos, flags, crests and faces beside names (public/logos.js and public/marks/, copied by `npm run marks` from the library github.com/thefirstparth/marks): loaded
      on the side, so the markets never wait for them; without the file the page shows no marks. -->
 <script src="/logos.js" async></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -568,7 +568,11 @@ function mark(name) {
   const L = window.ANDAAZA_LOGOS, n = fold(name); if (!L || !n) return "";
   // A longer name takes the mark of a name it starts with ("Mercedes AMG Motorsport"), but a club only by two words or
   // more ("Inter" must not give Inter Miami Internazionale's crest).
-  if (!MARKS.has(n)) { let v = L.names[n]; if (!v) { let best = ""; for (const k in L.names) if (k.length > best.length && n.startsWith(k + " ") && (k.includes(" ") || !/^[cC]/.test(L.names[k]))) best = k; v = best ? L.names[best] : ""; } MARKS.set(n, v); }
+  // A club's name with its "FC"/"CF" ("Arsenal FC", "Sevilla FC") is the club. A one-word country or club only leads a
+  // longer name when the rest is not a person's surname ("Spain O/U 2.5", "India Women"), so Chad Smith gets no flag.
+  if (!MARKS.has(n)) { const bare = n.replace(/^(fc|cf|rc|ac|sc|club) (?=\w{4})/, "").replace(/ (fc|cf|afc|sc|fk|sk|cf)$/, ""); let v = L.names[n] || L.names[bare];
+    if (!v) { let best = ""; for (const k in L.names) if (k.length > best.length && n.startsWith(k + " ") && (k.includes(" ") ? true : /^[if]/.test(L.names[k]) && (L.names[k][0] === "i" || /^(\d|o u|1st|2nd|u\d|women|men|national|team|a|b|xi|v|vs)\b/.test(n.slice(k.length + 1))))) best = k; v = best ? L.names[best] : ""; }
+    MARKS.set(n, v); }
   return markHTML(MARKS.get(n));
 }
 // One mark by its code (public/logos.js): "i:" a drawing in the text colour, "f:" a flag, "c:"/"C:" a coloured picture
@@ -576,13 +580,14 @@ function mark(name) {
 // that fails to load removes itself and the name stands alone.
 function markHTML(v) {
   const L = window.ANDAAZA_LOGOS; if (!L || !v) return "";
-  const f = v.slice(2), file = /\.\w+$/.test(f) ? f : f + ".png", dark = file.replace(/(\.\w+)$/, "-dark$1");
+  const f = v.slice(2), q = L.files?.[f] ? `?v=${L.files[f]}` : "", dark = f.replace(/(\.\w+)$/, "-dark$1"), dq = L.files?.[dark] ? `?v=${L.files[dark]}` : "";
   const img = (src, cls) => `<img class="${cls}" src="/marks/${src}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`;
-  if (v[0] === "c") return img(file, "lg lg-c");
-  if (v[0] === "C") return `<span class="lg lg-cc">${img(file, "lt")}${img(dark, "dk")}</span>`;
-  if (v[0] === "p") return img(file, "lg lg-p");
-  if (v[0] === "m") return `<i class="lg lg-m" style="--m:url(/marks/${file})" aria-hidden="true"></i>`;
-  const ic = L.icons[f]; return ic ? `<svg class="lg ${v[0] === "f" ? "lg-f" : "lg-b"}${f.startsWith("arcticons") ? " lg-a" : ""}" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
+  if (v[0] === "c") return img(f + q, "lg lg-c");
+  if (v[0] === "C") return `<span class="lg lg-cc">${img(f + q, "lt")}${img(dark + dq, "dk")}</span>`;
+  if (v[0] === "p") return img(f + q, "lg lg-p");
+  if (v[0] === "f") return img(f + q, "lg lg-f");
+  if (v[0] === "m") return `<i class="lg lg-m" style="--m:url(/marks/${f + q})" aria-hidden="true"></i>`;
+  const ic = L.icons[f]; return ic ? `<svg class="lg lg-b${ic[2] ? " lg-a" : ""}" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
 }
 // A name with its mark, the mark kept on the same line as the first word (it never sits on a line of its own).
 function named(name) {
@@ -900,7 +905,13 @@ const keep = d => { try { localStorage.setItem(KEEP, JSON.stringify(d)); } catch
 const kept = (() => { try { const d = JSON.parse(localStorage.getItem(KEEP) || "null"); return d?.generated_at ? d : null; } catch { return null; } })();
 const good = d => (d?.generated_at ? d : Promise.reject(new Error(d?.error || "no reading")));
 let nextT;
-const load = () => fetch("/api/consensus").then(r => r.json()).then(good).then(d => {
+// New marks without a reload: with each reading the page checks the tiny /marks/version.json; if the library copy
+// changed (a new deploy), it loads the new name list and repaints only the marks. Nothing else is fetched again.
+const checkMarks = () => fetch("/marks/version.json", { cache: "no-store" }).then(r => r.json()).then(m => {
+  if (!m?.v || !window.ANDAAZA_LOGOS || m.v === window.ANDAAZA_LOGOS.v) return;
+  const s = document.createElement("script"); s.src = `/logos.js?v=${m.v}`; s.async = true; document.head.appendChild(s);
+}).catch(() => {});
+const load = () => (checkMarks(), fetch("/api/consensus")).then(r => r.json()).then(good).then(d => {
   if (!D || Date.parse(d.generated_at) > Date.parse(D.generated_at) || (d.sources || []).some((s, i) => s.ok !== D.sources[i]?.ok)) { render(d); keep(d); }
   else { D.next_at = d.next_at; D.updating = d.updating; $("#reading").innerHTML = readingHTML(D); }
   plan();

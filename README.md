@@ -71,18 +71,12 @@ Notes are saved inside the reading, so every visitor sees the same one and nobod
 - Polymarket renamed a tag: update the topic's `pm_tags`; the busiest 400 are read regardless.
 - Check it locally: `npm install`, then `npm run dev` and open http://localhost:3000. Data only: `npm run check`.
 - Icons are vendored into the page: edit the list in `scripts/icons.mjs`, then `npm run icons`.
-- Logos, flags, club crests and faces: drawings in `public/logos.js`, pictures in `public/marks/`, both made once from
-  `config/logos.json` by `npm run logos` (Iconify's free sets; ESPN's crests and headshots, as The House of 1400 shows
-  them; Polymarket/Kalshi/Manifold marks kept in the config). To add one: a brand or competition as `set:icon` from
-  icon-sets.iconify.design, a country or person by flag code (a face is found by name automatically), a football
-  league by its ESPN code under `crests`; run `npm run logos`, commit `public/logos.js` and `public/marks/`. The page
-  never asks anyone for them at run time; if they fail to load, names show without marks. Marks with no icon set
-  (Grand Slams, IPL, LaLiga, Verstappen's MV, Alcaraz's CA) are listed under `own` with the address they came from
-  (the owner's site, ESPN or Wikipedia); a rerun keeps the saved copy if an address stops working. Faces must be
-  from 2025 or later: ESPN's headshot if ESPN updated it since, else Wikipedia's lead photo, else a Wikimedia Commons
-  portrait; `scripts/faces.mjs` finds the face (pico, a small face detector) and crops around it; no clear, big,
-  recent face means the flag stays. Wikimedia photos are credited on /credits (made by the same run). Trademarks and
-  photos belong to their owners.
+- Logos, flags, crests and faces come from the shared library **github.com/thefirstparth/marks** (its README explains
+  names, sources, licences and where gathering stops). `npm run marks` copies what the page needs into `public/marks/`
+  and writes `public/logos.js`; the page never calls the library, so it works if the library disappears. A daily
+  routine (07:50 IST) adds marks for names Andaaza shows without one and refreshes Andaaza's copy; an open page swaps
+  in new marks by itself (`/marks/version.json`). To add a mark by hand: add it in the library, `npm run build` there,
+  then `npm run marks` here. Photo credits: /credits.
 - A domain of its own (say andaaza.in): add it in the Vercel project's Settings → Domains; nothing in the code changes.
 - Old addresses on house14.vercel.app (`/andaaza`, `/consensus`, `/pulse`, `/markets`) and andaaza-live.vercel.app
   redirect here; those redirects live in The House of 1400's vercel.json.
