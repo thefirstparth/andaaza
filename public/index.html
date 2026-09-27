@@ -313,9 +313,11 @@ button{font:inherit;color:inherit}
 .tk h3 .lg{width:1em;height:1em;vertical-align:-.14em;margin-right:.3em;opacity:.85}
 .lg-b{fill:currentColor}.lg-a [stroke]{stroke-width:3.4}.lbl .lg{margin-right:0}
 .lg-f{border-radius:50%;box-shadow:0 0 0 1px color-mix(in oklab,var(--ink) 14%,transparent)}
-.lg-c,.lg-cc{width:1.2em;height:1.2em;vertical-align:-.24em;object-fit:contain}.lg-cc img{width:100%;height:100%;object-fit:contain;display:block}.lg-cc .dk{display:none}
+.lg-c,.lg-cc{width:1.2em;height:1.2em;vertical-align:-.24em;object-fit:contain}img.lg-c{width:auto;max-width:3.2em}.lg-cc img{width:100%;height:100%;object-fit:contain;display:block}.lg-cc .dk{display:none}
 [data-theme=dark] .lg-cc .lt{display:none}[data-theme=dark] .lg-cc .dk{display:block}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="retro"]) .lg-cc .lt{display:none}:root:not([data-theme="light"]):not([data-theme="retro"]) .lg-cc .dk{display:block}}
+.lg-m{background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+@supports not ((mask-image:none) or (-webkit-mask-image:none)){.lg-m{display:none}}
 .lg-p{width:1.36em;height:1.36em;vertical-align:-.34em;border-radius:50%;object-fit:cover;object-position:50% 20%;background:color-mix(in oklab,currentColor 13%,transparent)}
 [data-theme=retro] .lg-f,[data-theme=retro] .lg-c,[data-theme=retro] .lg-cc{filter:grayscale(.55) sepia(.35)}[data-theme=retro] .lg-p{filter:grayscale(1) sepia(.3) contrast(1.05)}
 .chip{flex:none;border:0;background:var(--ac,var(--card));border-radius:999px;padding:8px 15px;font:650 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
@@ -517,8 +519,8 @@ details.how li{margin:0 0 8px}
 <main>
   <section class="wrap panel" id="movesec" data-a="moves" aria-labelledby="mh"><div class="sh"><h2 id="mh"><span class="ico" data-i="a:moves"></span>Currents</h2><p>Moves of four points or more in a day, on prices traders agree on</p></div><div class="currents" id="moves"></div></section>
   <section class="wrap panel" id="favsec" data-a="fav" aria-labelledby="fh" hidden><div class="sh"><h2 id="fh"><span class="fstar" aria-hidden="true">★</span>Favourites</h2><p>Your must-haves (★) and everyone you follow, from every subject</p></div><div id="favs"></div></section>
-  <div id="areas" style="scroll-margin-top:64px"></div>
   <section class="wrap panel" aria-labelledby="wh" id="worldsec" data-a="flow" hidden><div class="sh"><h2 id="wh"><span class="ico" data-i="a:globe"></span>Where the money is</h2><p>The most-bet questions anywhere, last 24 hours</p></div><div class="world" id="world"></div></section>
+  <div id="areas" style="scroll-margin-top:64px"></div>
   <div class="wrap" id="howsec">
     <details class="how"><summary>How this works</summary><ol>
       <li><b>The water level.</b> A market's price is what traders pay for "yes", so it reads as the chance they give it. Andaaza draws it as water: the higher the water, the surer the money. The dashed mark is where it stood a day ago.</li>
@@ -537,7 +539,7 @@ details.how li{margin:0 0 8px}
     <svg class="mark sm" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dm3"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dm3)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>
     <p class="made"><a href="https://madewithloveinindia.org" target="_blank" rel="noopener">Made with <span aria-label="Love" style="color: #f43f5e">&hearts;</span> in India</a> by Parth Bhatia</p>
     <p class="aside">Ideas by Parth. Typing by <span class="claude"><span class="ico" data-i="s:claude"></span>Claude</span>. Complaints to Parth.</p>
-    <p class="src">Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</p>
+    <p class="src">Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets. <a href="/credits">Photo credits</a></p>
     <div class="social">
       <a class="ig" href="https://www.instagram.com/bearded.bhatia/" target="_blank" rel="noopener" aria-label="Parth Bhatia on Instagram"><span class="ico" data-i="s:instagram"></span>Follow on Instagram<small>@bearded.bhatia</small></a>
       <a class="li" href="https://www.linkedin.com/in/connectwithparth/" target="_blank" rel="noopener" aria-label="Parth Bhatia on LinkedIn"><span class="ico" data-i="s:linkedin"></span>LinkedIn</a>
@@ -567,14 +569,20 @@ function mark(name) {
   // A longer name takes the mark of a name it starts with ("Mercedes AMG Motorsport"), but a club only by two words or
   // more ("Inter" must not give Inter Miami Internazionale's crest).
   if (!MARKS.has(n)) { let v = L.names[n]; if (!v) { let best = ""; for (const k in L.names) if (k.length > best.length && n.startsWith(k + " ") && (k.includes(" ") || !/^[cC]/.test(L.names[k]))) best = k; v = best ? L.names[best] : ""; } MARKS.set(n, v); }
-  const v = MARKS.get(n); if (!v) return "";
-  // Crests and faces are small pictures in /marks/ (a crest's Night version where ESPN draws one); if one fails to
-  // load it hides itself and the name stands alone.
-  const img = (f, cls) => `<img class="${cls}" src="/marks/${f}.png" alt="" loading="lazy" decoding="async" onerror="this.remove()">`;
-  if (v[0] === "c") return img(v.slice(2), "lg lg-c");
-  if (v[0] === "C") return `<span class="lg lg-cc">${img(v.slice(2), "lt")}${img(v.slice(2) + "-dark", "dk")}</span>`;
-  if (v[0] === "p") return img(v.slice(2), "lg lg-p");
-  const ic = L.icons[v.slice(2)]; return ic ? `<svg class="lg ${v[0] === "f" ? "lg-f" : "lg-b"}${v.startsWith("i:arcticons") ? " lg-a" : ""}" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
+  return markHTML(MARKS.get(n));
+}
+// One mark by its code (public/logos.js): "i:" a drawing in the text colour, "f:" a flag, "c:"/"C:" a coloured picture
+// in /marks/ (C: with a Night version), "p:" a face, "m:" a single-colour picture painted in the text colour. A picture
+// that fails to load removes itself and the name stands alone.
+function markHTML(v) {
+  const L = window.ANDAAZA_LOGOS; if (!L || !v) return "";
+  const f = v.slice(2), file = /\.\w+$/.test(f) ? f : f + ".png", dark = file.replace(/(\.\w+)$/, "-dark$1");
+  const img = (src, cls) => `<img class="${cls}" src="/marks/${src}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`;
+  if (v[0] === "c") return img(file, "lg lg-c");
+  if (v[0] === "C") return `<span class="lg lg-cc">${img(file, "lt")}${img(dark, "dk")}</span>`;
+  if (v[0] === "p") return img(file, "lg lg-p");
+  if (v[0] === "m") return `<i class="lg lg-m" style="--m:url(/marks/${file})" aria-hidden="true"></i>`;
+  const ic = L.icons[f]; return ic ? `<svg class="lg ${v[0] === "f" ? "lg-f" : "lg-b"}${f.startsWith("arcticons") ? " lg-a" : ""}" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
 }
 // A name with its mark, the mark kept on the same line as the first word (it never sits on a line of its own).
 function named(name) {
@@ -586,7 +594,7 @@ function named(name) {
 function compMark(title) {
   const L = window.ANDAAZA_LOGOS, t = ` ${fold(title)} `; if (!L) return "";
   let best = ""; for (const k in L.comps) if (k.length > best.length && t.includes(` ${k} `)) best = k;
-  const ic = best && L.icons[L.comps[best]]; return ic ? `<svg class="ic lg lg-b${L.comps[best].startsWith("arcticons") ? " lg-a" : ""}" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
+  return best ? markHTML(L.comps[best]).replace('class="lg', 'class="ic lg') : "";
 }
 // A card's title carries its competition or commodity's mark (Champions League, oil) only when its label doesn't
 // already say it (an F1 card under "Formula 1" gets none).
@@ -799,7 +807,7 @@ function render(d) {
   $("#board").classList.toggle("rise", firstPaint); firstPaint = false;
   $("#moves").innerHTML = d.movers.length ? d.movers.slice(0, 10).map(current).join("") : `<p style="color:var(--muted)">Nothing has moved much today.</p>`;
   const present = (d.areas || []).filter(a => (a.id === "misc" ? d.misc?.length : d.topics.some(t => t.area === a.id)));
-  const pages = ["all", ...(favList().length ? ["fav"] : []), ...(d.movers.length ? ["moves"] : []), ...present.map(a => a.id), ...(d.world?.length ? ["flow"] : [])];
+  const pages = ["all", ...(favList().length ? ["fav"] : []), ...(d.movers.length ? ["moves"] : []), ...(d.world?.length ? ["flow"] : []), ...present.map(a => a.id)];
   if (!pages.includes(filter)) filter = "all";
   const chipOf = id => id === "all" ? "Everything" : id === "fav" ? `<span aria-hidden="true">★</span>Favourites` : id === "moves" ? `${icon("a:moves")}Currents` : id === "flow" ? `${icon("a:globe")}Where the money is` : `${icon("a:" + id)}${esc(present.find(a => a.id === id).label)}`;
   $("#chips").innerHTML = pages.map(id => `<button class="chip" data-a="${id}" aria-pressed="false">${chipOf(id)}</button>`).join("");

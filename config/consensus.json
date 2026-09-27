@@ -744,20 +744,20 @@
   },
   "areas": [
     {
-      "id": "sport",
-      "label": "Sport"
+      "id": "world",
+      "label": "World & India"
     },
     {
       "id": "tech",
       "label": "Tech"
     },
     {
-      "id": "money",
-      "label": "Money"
+      "id": "sport",
+      "label": "Sport"
     },
     {
-      "id": "world",
-      "label": "World & India"
+      "id": "money",
+      "label": "Money"
     },
     {
       "id": "screen",

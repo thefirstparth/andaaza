@@ -6,7 +6,8 @@
     "circle-flags": "Circle Flags (HatScripts), MIT: round flags.",
     "bxl": "BoxIcons, MIT", "mingcute": "MingCute, Apache 2.0", "material-symbols": "Material Symbols (Google), Apache 2.0", "hugeicons": "Hugeicons, MIT",
     "espn": "ESPN: club crests and player headshots, as The House of 1400 shows them. Trademarks and photos belong to their owners.",
-    "custom": "Polymarket (its own pinned-tab icon), Kalshi (the K of its wordmark, via Wikimedia Commons), Manifold (its own logo)."
+    "custom": "Polymarket (its own pinned-tab icon), Kalshi (the K of its wordmark, via Wikimedia Commons), Manifold (its own logo).",
+    "own": "Personal and tournament marks from their owners' sites, ESPN and Wikipedia (see \"own\"). Trademarks belong to their owners."
   },
   "brands": {
     "claude": "simple-icons:claude", "anthropic": "simple-icons:anthropic",
@@ -70,5 +71,18 @@
     "harry kane": "gb-eng", "kylian mbappe": "fr", "lamine yamal": "es", "lionel messi": "ar", "rodri": "es", "vinicius junior": "br", "jude bellingham": "gb-eng",
     "erling haaland": "no", "mohamed salah": "eg", "ousmane dembele": "fr", "raphinha": "br", "pedri": "es", "cristiano ronaldo": "pt", "florian wirtz": "de",
     "virat kohli": "in", "rohit sharma": "in", "shubman gill": "in", "jasprit bumrah": "in"
+  },
+  "own": {
+    "$comment": "Marks kept from their owners' own sites, ESPN or Wikipedia, saved once into public/marks/ by `npm run logos` (a rerun keeps the saved copy if a source has moved). style: drawing = single-colour SVG shown in the text colour (crop = the part of a wider logo to show); mono = single-colour picture painted in the text colour; colour = shown as it is (dark = a version for Night). for: name (beside a person or team) or competition (on a gauge label or card title). also = other names that get the same mark. A person's own logo (famous: true/false) replaces their face only when the logo is famous on its own: it has its own Wikipedia article (like Jordan's Jumpman or CR7). MV, CA and ND are not there yet, so those three show faces; set famous to true to show the logo instead.",
+    "max verstappen": {"url": "https://www.verstappen.com/_verstappenshop/img/favicon/safari-pinned-tab.svg", "style": "drawing", "for": "name", "famous": false},
+    "carlos alcaraz": {"url": "https://carlosalcaraz.com/wp-content/uploads/2020/05/logo-carlos-alcaraz.svg", "style": "drawing", "for": "name", "crop": "0 -57 269 269", "famous": false},
+    "wimbledon": {"url": "https://en.wikipedia.org/wiki/Special:FilePath/Wimbledon.svg", "style": "colour", "for": "competition"},
+    "roland garros": {"url": "https://images.prismic.io/fft-rg-site%2F95765448-c7fa-428b-b565-8368dba90b17_logo.svg", "style": "colour", "for": "competition", "also": ["french open", "roland-garros"]},
+    "australian open": {"url": "https://commons.wikimedia.org/wiki/Special:FilePath/Australian_Open_Logo_2017.svg", "style": "colour", "for": "competition"},
+    "us open": {"url": "https://en.wikipedia.org/wiki/Special:FilePath/Usopen-header-logo.svg", "style": "colour", "for": "competition", "crop": "-1 -14 53 53"},
+    "atp": {"url": "https://commons.wikimedia.org/wiki/Special:FilePath/ATP_Tour_logo.svg", "style": "drawing", "for": "competition"},
+    "indian premier league": {"url": "https://en.wikipedia.org/wiki/Special:FilePath/Indian_Premier_League_Official_Logo.svg", "style": "colour", "for": "competition", "also": ["ipl"], "crop": "0 0 11.6 19.7"},
+    "la liga": {"url": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/15.png&w=64&h=64", "dark": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500-dark/15.png&w=64&h=64", "style": "colour", "for": "competition", "also": ["laliga"]},
+    "novak djokovic": {"drawing": ["0 0 350 350", "<path d=\"M211 166c-84-20-167 31-189 114 0 1 0 2-1 4-1 4-2 9-2 13-3 20-3 25 11 30 7 3 17 6 36 6s57-2 87-22c33-21 57-62 66-98-10-3-22-3-34-1-10 57-57 101-114 108-1-3-1-10 1-24 0-2 1-5 1-7a124.6 124.6 0 0 1 245 43h14c7-77-44-148-121-166M66 120h14v26c-18 8-35 19-48 34h-2V18c25 0 48-3 72 3 63 15 112 68 120 133-14-5-28-7-42-7-4-12-10-24-17-34-19-28-49-48-84-54-4-1-9-2-13-2z\"/>"], "for": "name", "famous": false}
   }
 }
