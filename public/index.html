@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#0d1114" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CclipPath id='c'%3E%3Cpath d='M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z'/%3E%3C/clipPath%3E%3C/defs%3E%3Cpath d='M0 35q8-5 16 0t16 0 16 0 16 0V64H0z' fill='%233f46a8' clip-path='url%28%23c%29'/%3E%3Cpath d='M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z' fill='none' stroke='%233f46a8' stroke-width='4.5' stroke-linejoin='round'/%3E%3C/svg%3E">
 <script>var P0=fetch("/api/consensus").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()});P0.catch(function(){});try{var t=localStorage.getItem("cons-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<!-- Logos, flags and monograms beside names (public/logos.js, made by `npm run logos` from config/logos.json): loaded
+<!-- Logos, flags, crests and faces beside names (public/logos.js, made by `npm run logos` from config/logos.json): loaded
      on the side, so the markets never wait for them; without the file the page shows no marks. -->
 <script src="/logos.js" async></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -310,13 +310,14 @@ button{font:inherit;color:inherit}
    small badges in the subject's colour. Retro inks the flags like an old print. */
 .lg{display:inline-block;width:1.08em;height:1.08em;vertical-align:-.17em;margin-right:.34em;flex:none}
 .mk{white-space:nowrap}
-.lg-b{fill:currentColor}.lg-b [stroke]{stroke-width:3.4}.lbl .lg{margin-right:0}
+.tk h3 .lg{width:1em;height:1em;vertical-align:-.14em;margin-right:.3em;opacity:.85}
+.lg-b{fill:currentColor}.lg-a [stroke]{stroke-width:3.4}.lbl .lg{margin-right:0}
 .lg-f{border-radius:50%;box-shadow:0 0 0 1px color-mix(in oklab,var(--ink) 14%,transparent)}
-.lg-t{display:inline-block!important;width:auto!important;height:auto;padding:.22em .42em;border-radius:99px;font:800 .62em/1 var(--sans);letter-spacing:.03em;vertical-align:.12em;
-  color:var(--a,var(--ink2));background:color-mix(in oklab,var(--a,var(--ink)) 14%,transparent);box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--a,var(--ink)) 30%,transparent)}
-.gauge .lg-t,.staff .lg-t{color:inherit;background:color-mix(in oklab,currentColor 14%,transparent);box-shadow:inset 0 0 0 1px color-mix(in oklab,currentColor 35%,transparent)}
-[data-theme=retro] .lg-f{filter:grayscale(.55) sepia(.35)}
-[data-theme=retro] .lg-t{border-radius:3px;font-family:var(--num,var(--sans))}
+.lg-c,.lg-cc{width:1.2em;height:1.2em;vertical-align:-.24em;object-fit:contain}.lg-cc img{width:100%;height:100%;object-fit:contain;display:block}.lg-cc .dk{display:none}
+[data-theme=dark] .lg-cc .lt{display:none}[data-theme=dark] .lg-cc .dk{display:block}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="retro"]) .lg-cc .lt{display:none}:root:not([data-theme="light"]):not([data-theme="retro"]) .lg-cc .dk{display:block}}
+.lg-p{width:1.36em;height:1.36em;vertical-align:-.34em;border-radius:50%;object-fit:cover;object-position:50% 20%;background:color-mix(in oklab,currentColor 13%,transparent)}
+[data-theme=retro] .lg-f,[data-theme=retro] .lg-c,[data-theme=retro] .lg-cc{filter:grayscale(.55) sepia(.35)}[data-theme=retro] .lg-p{filter:grayscale(1) sepia(.3) contrast(1.05)}
 .chip{flex:none;border:0;background:var(--ac,var(--card));border-radius:999px;padding:8px 15px;font:650 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 .chip .ic{width:17px;height:17px;color:var(--a,var(--sea))}
 .chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink));color:var(--card)}
@@ -556,17 +557,24 @@ const $ = s => document.querySelector(s);
 const icon = k => { const i = ICONS[k]; return i ? `<svg class="ic" viewBox="${i[0]}" aria-hidden="true">${i[1]}</svg>` : ""; };
 document.querySelectorAll(".ico[data-i]").forEach(el => { el.outerHTML = icon(el.dataset.i); });
 document.querySelectorAll(".js-poster").forEach(b => { b.innerHTML = `${icon("u:poster")}<span class="t">Poster</span>`; b.title = "Poster: the board and the day on one screen"; });
-// ---- marks beside names (public/logos.js): a brand in the text's own colour, a round flag, or a club monogram.
+// ---- marks beside names (public/logos.js): a brand in the text's own colour, a round flag, a club crest or a face (pictures in /marks/).
 // A name matches exactly, or starts with a longer known name ("Mercedes AMG Motorsport" is Mercedes, "Harrison
 // Ford" is not Ford). Nothing is shown for a name with no mark, or before the file has arrived.
 const fold = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
 const MARKS = new Map();
 function mark(name) {
   const L = window.ANDAAZA_LOGOS, n = fold(name); if (!L || !n) return "";
-  if (!MARKS.has(n)) { let v = L.names[n]; if (!v) { let best = ""; for (const k in L.names) if (k.length > best.length && n.startsWith(k + " ")) best = k; v = best ? L.names[best] : ""; } MARKS.set(n, v); }
+  // A longer name takes the mark of a name it starts with ("Mercedes AMG Motorsport"), but a club only by two words or
+  // more ("Inter" must not give Inter Miami Internazionale's crest).
+  if (!MARKS.has(n)) { let v = L.names[n]; if (!v) { let best = ""; for (const k in L.names) if (k.length > best.length && n.startsWith(k + " ") && (k.includes(" ") || !/^[cC]/.test(L.names[k]))) best = k; v = best ? L.names[best] : ""; } MARKS.set(n, v); }
   const v = MARKS.get(n); if (!v) return "";
-  if (v[0] === "t") return `<span class="lg lg-t" aria-hidden="true">${esc(v.slice(2))}</span>`;
-  const ic = L.icons[v.slice(2)]; return ic ? `<svg class="lg ${v[0] === "f" ? "lg-f" : "lg-b"}" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
+  // Crests and faces are small pictures in /marks/ (a crest's Night version where ESPN draws one); if one fails to
+  // load it hides itself and the name stands alone.
+  const img = (f, cls) => `<img class="${cls}" src="/marks/${f}.png" alt="" loading="lazy" decoding="async" onerror="this.remove()">`;
+  if (v[0] === "c") return img(v.slice(2), "lg lg-c");
+  if (v[0] === "C") return `<span class="lg lg-cc">${img(v.slice(2), "lt")}${img(v.slice(2) + "-dark", "dk")}</span>`;
+  if (v[0] === "p") return img(v.slice(2), "lg lg-p");
+  const ic = L.icons[v.slice(2)]; return ic ? `<svg class="lg ${v[0] === "f" ? "lg-f" : "lg-b"}${v.startsWith("i:arcticons") ? " lg-a" : ""}" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
 }
 // A name with its mark, the mark kept on the same line as the first word (it never sits on a line of its own).
 function named(name) {
@@ -578,8 +586,11 @@ function named(name) {
 function compMark(title) {
   const L = window.ANDAAZA_LOGOS, t = ` ${fold(title)} `; if (!L) return "";
   let best = ""; for (const k in L.comps) if (k.length > best.length && t.includes(` ${k} `)) best = k;
-  const ic = best && L.icons[L.comps[best]]; return ic ? `<svg class="ic lg lg-b" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
+  const ic = best && L.icons[L.comps[best]]; return ic ? `<svg class="ic lg lg-b${L.comps[best].startsWith("arcticons") ? " lg-a" : ""}" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
 }
+// A card's title carries its competition or commodity's mark (Champions League, oil) only when its label doesn't
+// already say it (an F1 card under "Formula 1" gets none).
+const titleMark = c => { const m = compMark(c.t); return m && m !== compMark(LABEL[c.k] || "") ? m : ""; };
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const pc = v => `${Math.round(v)}%`;
 const pts = d => { const n = Math.abs(Math.round(d)); return `${n} pt${n === 1 ? "" : "s"}`; };
@@ -621,7 +632,7 @@ function split(t) {
   h = NAMES[k] || (h === h.toUpperCase() && h.length > 4 ? h.charAt(0) + h.slice(1).toLowerCase() : h);
   return [h, tidy(t.slice(i + 2))];
 }
-const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)}${x.play ? " (play money)" : ""}">${esc(x.source)} ${pc(x.prob)}</a>`).join(" · ")}</span>` : "";
+const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)}${x.play ? " (play money)" : ""}">${mark(x.source)}${esc(x.source)} ${pc(x.prob)}</a>`).join(" · ")}</span>` : "";
 const lvl = p => Math.max(3, Math.min(100, p)).toFixed(1);
 // The water's mood, read from the market itself: calm under 2 points of movement in a day, choppy from 8.
 const seaOf = c => { const d = c.p != null ? Math.abs(c.o[0].prob - c.p) : 0; return d >= 8 ? "choppy" : d < 2 ? "calm" : "normal"; };
@@ -687,7 +698,7 @@ function card(c, big) {
   const ft = [moved(c), also(c)].filter(Boolean).join("");
   return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 && !binary(c) ? " lo" : ""}" ${seaAttr(c)} href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="wbox" aria-hidden="true"><i class="gw wfull"><div class="g">${g}</div>${wasMark(c)}</i></i></a>
 <div class="bd"><div class="meta"><span>${c.m ? `<span title="One of your must-haves">★</span> ` : ""}${esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
-<h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}${why(c)}</div></article>`;
+<h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${titleMark(c)}${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}${why(c)}</div></article>`;
 }
 
 // ---- a subject's further markets, one line each, the row filled like water to the favourite's chance
@@ -764,7 +775,7 @@ function readingHTML(d) {
   return `<div class="clock">${ist(Date.now())}<small>IST</small></div>
 <div class="upd">Markets read at <b>${ist(d.generated_at)}</b> · ${late ? `<span class="now"><i></i>updating now</span>` : `next update <b>${ist(next)}</b>`}</div>
 ${Date.now() - Date.parse(d.generated_at) > 3 * 36e5 ? `<div class="stale">This is the last good reading, from ${esc(new Date(d.generated_at).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }))} IST. The markets are not answering just now; the page keeps trying.</div>` : ""}
-<div class="src">${d.sources.map(s => `<span class="${s.ok ? "" : s.pending ? "wait" : "off"}" title="${s.ok ? s.count + " markets read" : s.pending ? "Being read now; it will appear at the next update" : "Unavailable just now"}"><i></i>${esc(s.name)}${s.pending ? " · coming" : ""}</span>`).join("")}</div>`;
+<div class="src">${d.sources.map(s => `<span class="${s.ok ? "" : s.pending ? "wait" : "off"}" title="${s.ok ? s.count + " markets read" : s.pending ? "Being read now; it will appear at the next update" : "Unavailable just now"}"><i></i>${mark(s.name)}${esc(s.name)}${s.pending ? " · coming" : ""}</span>`).join("")}</div>`;
 }
 
 // Before a reading is repainted, remember each gauge's level; afterwards start each from there, so the water moves.
@@ -778,7 +789,7 @@ function flow(old) {
 }
 let firstPaint = true;
 // The marks may arrive after the first paint: then draw the board and sections again, once.
-window.onAndaazaLogos = () => { MARKS.clear(); if (D) { $("#board").innerHTML = board(); paint(); if (posterOn) showPoster(true); } };
+window.onAndaazaLogos = () => { MARKS.clear(); if (D) { $("#reading").innerHTML = readingHTML(D); $("#board").innerHTML = board(); paint(); if (posterOn) showPoster(true); } };
 function render(d) {
   const old = D ? levels() : null;
   D = d;

@@ -40,9 +40,10 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 ## Architecture (tiny on purpose)
 - `public/index.html`: the entire page (HTML+CSS+JS, no framework, no build). Icons are vendored between
   `ICONS:BEGIN/END` by `npm run icons` (Iconify: Material Symbols rounded + Simple Icons).
-- `public/logos.js`: logos, flags and club monograms, generated once by `npm run logos` from `config/logos.json`
-  (Iconify: Simple Icons, Arcticons, Circle Flags, BoxIcons, MingCute; 122 marks, ~27 KB gzip), loaded async after the
-  first paint; never fetched from anyone at run time; without it names simply show bare.
+- `public/logos.js` + `public/marks/`: logos, flags, club crests (ESPN, ~170 clubs: top 5 leagues, Portugal, Netherlands,
+  Champions League, NBA; a Night version where ESPN has one) and faces (ESPN headshots, found by name), made once by
+  `npm run logos` from `config/logos.json`; loaded after first paint as lazy pictures; never fetched from anyone at run
+  time; without them names simply show bare.
 - `api/consensus.js`: the only API. Serves the newest reading at once (instance memory, else Blob), and when it is
   over **15 min** old reads the markets again **in the background** (`waitUntil`). readings keep to the clock: one per quarter
   hour (:00/:15/:30/:45 IST), taken by the first visit after it begins; `next_at` = the next quarter hour; if overdue it
@@ -107,11 +108,14 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   · hero **"Watch the world change its mind."** Each form of the word appears **once** (Parth disliked repetition).
   Background: faint **lehariya** (Rajasthani wave tie-dye; lehar = wave) in neel/marigold, fading at the edges.
   Reading panel: IST clock, "Markets read at … · next update …", source dots.
-- **Logos** (Parth, 27 Sep 2026: "icons/vectors/logos for important things… survive without Claude… all themes"):
-  brand marks in the text colour (AI labs, F1 makers, streaming, Indian fintech), round flags for countries and for
-  drivers/players/cricketers by nationality, competition logos on board labels (Champions League, F1, Premier League,
-  NBA, FIFA). Club crests aren't free (trademarks) → small monogram badges (RM, FCB, GSW…). In small gauges the mark
-  sits on its own line above the name (beside it, names got clipped). Retro tones flags toward sepia.
+- **Logos** (Parth, 27 Sep 2026: "icons/vectors/logos for important things… survive without Claude… all themes";
+  then "make it look better, not cluttered"): brand marks in the text colour (AI labs, F1 makers, SpaceX, Nvidia,
+  streaming, fintech), club crests in colour (Night uses ESPN's dark versions), faces for drivers and tennis players
+  (else the flag they play under), round flags for countries, Polymarket/Kalshi/Manifold marks in the reading panel and
+  "also" links (not in the card meta: it truncated "$136k today"), competition marks on board labels, and on a card
+  title only when its label doesn't already say it (Champions League under Football, oil under Money; not F1 under
+  Formula 1). Letter badges (RM, FCB) were tried and dropped as clutter. In small gauges the mark sits on its own line
+  above the name. Retro tones pictures toward sepia (faces greyscale).
 - Area titles carry Hindi seals: खेल, टेक, पैसा, दुनिया, परदा, फुटकर.
 - A glass top bar (logo + area filters) appears **once the header's buttons have scrolled out of view** (was: after the
   tide board; changed 26 Sep 2026 because on the board no Notes button was reachable). Poster and the look
