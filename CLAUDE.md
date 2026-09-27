@@ -127,6 +127,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Where the money is; each has an address (#sport, #favourites, #currents, #where-the-money-is), back works. Showing
   Everything, the top bar outlines the section being read (scroll spy) and scrolls the chip into view; the row fades at
   its edges when it scrolls. **Favourites** = every must-have (★) plus every market about someone followed (`f` flag).
+- **Board notes aligned** (Parth, 27 Sep 2026: notes looked random; a caption strip under the board was rejected: "the
+  note should be next to the prediction"): each gauge's parts sit on shared rows (CSS subgrid), so every note sits
+  under its own gauge, on the same line as the others, in same-height boxes. Without subgrid: the stacked layout.
 - **Notes button** (Gemini mark + count), floating bottom right and travelling with you (Parth, 27 Sep 2026; it
   replaced the header and top-bar Notes buttons; small, and the footer leaves room under it). Shows "3 / 13" once
   you start. Each press brings the next note to the middle of the screen and
