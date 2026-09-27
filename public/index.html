@@ -319,17 +319,26 @@ main>.panel:last-of-type{margin-bottom:0}
 .chip.here{box-shadow:inset 0 0 0 1.5px var(--a,var(--ink));color:var(--ink)}
 .why.flash{animation:flash 1.6s ease}
 @keyframes flash{0%,100%{box-shadow:0 0 0 0 transparent}20%,60%{box-shadow:0 0 0 4px color-mix(in oklab,var(--ai) 45%,transparent)}}
-/* The Notes button floats bottom right and travels with you. Small (the mark and a count; the mark alone on a phone)
-   so it covers little, and the footer leaves room under it at the end of the page. */
+/* The Notes button floats bottom right and travels with you: a solid Gemini blue-violet pill with an arrow, so it
+   reads as something to press; its size follows the screen (larger on desktops and big monitors, compact on a
+   phone). Once you start it names where you are ("7 / 13 · La Liga"), and that note keeps a ring until the next press. */
 .notesfab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:16;
-  display:inline-flex;align-items:center;gap:8px;padding:10px 16px 10px 13px;border-radius:999px;cursor:pointer;
-  font:700 13.5px var(--sans);color:var(--ai);border:1px solid color-mix(in oklab,var(--ai) 35%,transparent);
-  background:color-mix(in oklab,var(--card) 84%,transparent);-webkit-backdrop-filter:blur(14px) saturate(1.5);backdrop-filter:blur(14px) saturate(1.5);box-shadow:var(--shadow)}
-.notesfab:hover{border-color:var(--ai)}
-.notesfab .ic{width:17px;height:17px;color:var(--ai)}
-.notesfab b{font-variant-numeric:tabular-nums;color:var(--ink2);font-weight:700}
-@media (max-width:600px){.notesfab .t{display:none}.notesfab{padding:11px 14px 11px 12px}}
-[data-theme=retro] .notesfab{background:var(--card);-webkit-backdrop-filter:none;backdrop-filter:none;border:1.5px solid var(--ink);border-radius:4px;box-shadow:none}
+  display:inline-flex;align-items:center;gap:.55em;max-width:min(460px,calc(100vw - 32px));padding:.72em 1.1em .72em .9em;border-radius:999px;cursor:pointer;
+  font:700 clamp(14px,.5vw + 8.5px,21px)/1.1 var(--sans);color:#fff;border:0;
+  background:linear-gradient(120deg,var(--ai),var(--ai2));box-shadow:0 6px 22px -6px color-mix(in oklab,var(--ai) 70%,transparent),var(--shadow);transition:transform .15s,box-shadow .15s}
+.notesfab:hover{transform:translateY(-2px);box-shadow:0 10px 26px -6px color-mix(in oklab,var(--ai) 80%,transparent),var(--shadow)}
+.notesfab:focus-visible{outline:3px solid color-mix(in oklab,var(--ai) 50%,transparent);outline-offset:3px}
+.notesfab .ic{width:1.2em;height:1.2em;color:#fff;flex:none}
+.notesfab b{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.notesfab .w{font-weight:600;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.notesfab .go{font-size:1.25em;line-height:.8;margin-left:.05em;flex:none}
+@media (max-width:600px){.notesfab .t,.notesfab .w{display:none}}
+[data-theme=dark] .notesfab,[data-theme=dark] .notesfab .ic{color:oklch(.16 .02 240)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="retro"]) .notesfab,:root:not([data-theme="light"]):not([data-theme="retro"]) .notesfab .ic{color:oklch(.16 .02 240)}}
+[data-theme=retro] .notesfab{background:var(--ink);color:var(--bg);border-radius:4px;box-shadow:none}[data-theme=retro] .notesfab .ic{color:var(--bg)}
+/* The note the button is on: a ring that stays until the next press. */
+.why.current{outline:2px solid var(--ai);outline-offset:2px;background:color-mix(in oklab,var(--ai) 14%,var(--card))}
+[data-theme=retro] .why.current{outline:2px solid var(--ink);background:color-mix(in oklab,var(--ink) 8%,var(--card))}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px}
 .tk{display:grid;grid-template-columns:120px minmax(0,1fr);background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 20%,transparent);border-radius:28px;overflow:hidden;min-width:0;transition:border-color .2s,box-shadow .2s}
 .tk:hover{border-color:color-mix(in oklab,var(--a) 60%,transparent);box-shadow:var(--shadow)}
@@ -756,13 +765,23 @@ let noteAt = -1;
 const noteStops = () => { const seen = new Set(); return [...document.querySelectorAll(".why")].filter(e => e.offsetParent && !seen.has(e.textContent) && seen.add(e.textContent)); };
 function notesBtn() {
   const n = D ? new Set([...D.board, ...D.topics.flatMap(t => [...t.items, ...(t.next || [])]), ...(D.misc || []), ...(D.world || [])].filter(c => c.why?.x).map(c => c.why.x)).size : 0;
-  noteCount = n; noteLabel();
+  noteCount = n;
+  // After a repaint (a new reading), the ring goes back on the same note, found by its text; if it is gone, start over.
+  if (noteAt >= 0) { const els = noteStops(), i = els.findIndex(e => e.textContent === noteText); noteAt = i; if (i >= 0) els[i].classList.add("current"); }
+  noteLabel();
 }
+let noteText = "";
 let noteCount = 0;
 // "Notes 13" until you start, then where you are: "3 / 13".
+// Which market a note belongs to, in a few words: the gauge's label, the card's question, the row's title, the match.
+const noteWhere = e => { const fx = e.closest(".fx")?.querySelector(".vs"); if (fx) return [...fx.childNodes].map(n => n.textContent.trim()).join(" ").replace(/\s+/g, " ").slice(0, 40);
+  const h = e.closest(".post")?.querySelector(".lbl span") || e.closest(".tk")?.querySelector("h3") || e.closest(".mini, .wr")?.querySelector(".q");
+  return h ? (h.firstChild?.textContent || h.textContent).replace(/\s+/g, " ").trim().slice(0, 40) : ""; };
 function noteLabel() {
-  const n = noteCount, at = noteAt >= 0 && noteAt < n ? `${noteAt + 1} / ${n}` : `${n}`;
-  document.querySelectorAll(".js-notes").forEach(b => { b.hidden = !n; b.innerHTML = `${icon("s:gemini")}<span class="t">Notes</span> <b>${at}</b>`; b.title = b.ariaLabel = `Go to the next note (${n} on the page)`; });
+  const n = noteCount, on = noteAt >= 0 && noteAt < n, cur = on ? document.querySelector(".why.current") : null, where = cur ? noteWhere(cur) : "";
+  document.querySelectorAll(".js-notes").forEach(b => { b.hidden = !n;
+    b.innerHTML = `${icon("s:gemini")}${on ? `<b>${noteAt + 1} / ${n}</b>${where ? `<span class="w">· ${esc(where)}</span>` : ""}` : `<span class="t">Notes</span> <b>${n}</b>`}<span class="go" aria-hidden="true">›</span>`;
+    b.title = b.ariaLabel = on ? `Note ${noteAt + 1} of ${n}${where ? `, ${where}` : ""}. Go to the next note` : `Go through the ${n} notes on the page`; });
 }
 document.querySelectorAll(".js-notes").forEach(b => b.addEventListener("click", () => {
   let els = noteStops();
@@ -771,7 +790,7 @@ document.querySelectorAll(".js-notes").forEach(b => b.addEventListener("click", 
   noteAt = (noteAt + 1) % els.length;
   const e = els[noteAt];
   e.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
-  document.querySelectorAll(".why.flash").forEach(x => x.classList.remove("flash")); void e.offsetWidth; e.classList.add("flash");
+  document.querySelectorAll(".why.flash, .why.current").forEach(x => x.classList.remove("flash", "current")); void e.offsetWidth; e.classList.add("flash", "current"); noteText = e.textContent;
   noteLabel();
 }));
 
