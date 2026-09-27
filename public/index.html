@@ -209,15 +209,16 @@ button{font:inherit;color:inherit}
 .post .focus{align-self:flex-start;font:650 12px var(--sans);color:var(--a);background:var(--ac);padding:3px 9px;border-radius:99px}
 .post .focus b{font-weight:700}
 .post{display:flex;flex-direction:column;gap:10px;text-decoration:none;min-width:0}
-.post .hd{display:flex;flex-direction:column;gap:6px;align-items:flex-start;min-width:0}.post .hd>*{max-width:100%}
+.post .hd{display:flex;flex-direction:column;gap:6px;align-items:flex-start;min-width:0}.post .hd .dl{margin-top:2px}.post .hd>*{max-width:100%}
 .post .dl:empty,.post .nowhy{display:none}
-/* Each gauge's parts sit on shared rows across the board (CSS subgrid): every note sits right under its own gauge,
-   starts on the same line as the others, and the note boxes are the same height (Parth, 27 Sep 2026: notes stay next
-   to their prediction, lined up). Browsers without subgrid keep the stacked layout. */
+/* Each gauge's parts sit on shared rows across the board (CSS subgrid): label, gauge, its text, and the note, so every
+   note sits right under its own gauge, starts on the same line as the others, and the note boxes are the same height
+   (Parth, 27 Sep 2026). The move line stays inside the text block, straight under the subtitle, never on a shared row
+   (lining it up left gaps under short columns). Browsers without subgrid keep the stacked layout. */
 @supports (grid-template-rows:subgrid){
   .board{row-gap:0}
-  .post{display:grid;grid-row:span 5;grid-template-rows:subgrid;row-gap:10px;padding-bottom:clamp(16px,2vw,24px)}
-  .post .dl:empty,.post .nowhy{display:block}
+  .post{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:10px;padding-bottom:clamp(16px,2vw,24px)}
+  .post .nowhy{display:block}
   .post .why{align-self:stretch}
 }
 .post .lbl{display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden;min-width:0;font:700 11px/1 var(--sans);letter-spacing:.09em;text-transform:uppercase;color:var(--a)}
@@ -623,7 +624,7 @@ function post(c, a) {
   const n = `<b>${Math.round(p)}<small>%</small></b><span class="sc" style="bottom:25%">25</span><span class="sc" style="bottom:50%">50</span><span class="sc" style="bottom:75%">75</span>`;
   return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${icon("t:" + c.k) || icon("a:" + (a?.id || "misc"))}<span>${esc(lb)}</span></span>
 <div class="staff" ${seaAttr(c)} style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}"><div class="l">${n}${wasMark(cc, true)}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${n}${wasMark(cc, true)}</div></div></div>
-<div class="hd"><div class="who${binary(c) ? " ask" : ""}">${esc(who)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}</div><div class="dl">${moved(cc)}</div>${why(cc) || `<span class="nowhy"></span>`}</a>`;
+<div class="hd"><div class="who${binary(c) ? " ask" : ""}">${esc(who)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}</div>${why(cc) || `<span class="nowhy"></span>`}</a>`;
 }
 // The tide board: the server's five slots in Parth's order (best AI model, Real Madrid, football, world, most
 // traded); an older reading without them falls back to the busiest question in each area.
