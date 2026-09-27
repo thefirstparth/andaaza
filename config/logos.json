@@ -1,10 +1,12 @@
 {
-  "$comment": "Logos, flags and monograms shown beside names on the page (next to a gauge's leader, a card's contenders and each side of a match). Fetched once by `npm run logos` from Iconify's free sets and saved in public/logos.js, so the page never calls anyone for them. Names are matched without case or accents; a longer name wins over a shorter one it contains. To add one: put the name here and run `npm run logos`. A name with no entry simply shows no mark.",
+  "$comment": "Logos, flags, club crests and faces shown beside names on the page (next to a gauge's leader, a card's contenders and each side of a match). Fetched once by `npm run logos` (Iconify's free sets, ESPN's crests and headshots) and saved in public/logos.js and public/marks/, so the page never calls anyone for them. Names are matched without case or accents; a longer name wins over a shorter one it contains. To add one: put the name here and run `npm run logos`. A name with no entry simply shows no mark.",
   "sources": {
     "simple-icons": "Simple Icons, CC0: single-colour brand marks. Trademarks belong to their owners.",
     "arcticons": "Arcticons, CC BY-SA 4.0: line-art marks, used where Simple Icons has none.",
     "circle-flags": "Circle Flags (HatScripts), MIT: round flags.",
-    "bxl": "BoxIcons, MIT", "mingcute": "MingCute, Apache 2.0"
+    "bxl": "BoxIcons, MIT", "mingcute": "MingCute, Apache 2.0", "material-symbols": "Material Symbols (Google), Apache 2.0", "hugeicons": "Hugeicons, MIT",
+    "espn": "ESPN: club crests and player headshots, as The House of 1400 shows them. Trademarks and photos belong to their owners.",
+    "custom": "Polymarket (its own pinned-tab icon), Kalshi (the K of its wordmark, via Wikimedia Commons), Manifold (its own logo)."
   },
   "brands": {
     "claude": "simple-icons:claude", "anthropic": "simple-icons:anthropic",
@@ -27,18 +29,25 @@
     "premier league": "simple-icons:premierleague", "epl": "simple-icons:premierleague",
     "champions league": "arcticons:uefa", "uefa": "arcticons:uefa",
     "formula 1": "simple-icons:f1", "f1": "simple-icons:f1", "grand prix": "simple-icons:f1",
-    "nba": "simple-icons:nba", "fifa": "simple-icons:fifa", "world cup": "simple-icons:fifa", "olympic": "arcticons:olympics"
+    "nba": "simple-icons:nba", "fifa": "simple-icons:fifa", "world cup": "simple-icons:fifa", "olympic": "arcticons:olympics",
+    "oil": "hugeicons:oil-barrel", "crude": "hugeicons:oil-barrel", "brent": "hugeicons:oil-barrel", "wti": "hugeicons:oil-barrel",
+    "rupee": "material-symbols:currency-rupee-rounded", "inr": "material-symbols:currency-rupee-rounded",
+    "dollar": "material-symbols:attach-money-rounded", "usd": "material-symbols:attach-money-rounded",
+    "spacex": "simple-icons:spacex", "starship": "simple-icons:spacex", "nvidia": "simple-icons:nvidia"
   },
-  "monograms": {
-    "$comment": "Clubs with no free logo (club crests are trademarks no free set carries): a round badge with its initials, in the subject's colour.",
-    "real madrid": "RM", "barcelona": "FCB", "atletico madrid": "ATM", "betis": "BET", "sevilla": "SEV", "villarreal": "VIL", "real sociedad": "RSO", "athletic club": "ATH",
-    "manchester city": "MCI", "manchester united": "MUN", "arsenal": "ARS", "liverpool": "LIV", "chelsea": "CHE", "tottenham": "TOT", "newcastle": "NEW", "aston villa": "AVL",
-    "bayern munich": "FCB", "borussia dortmund": "BVB", "paris saint-germain": "PSG", "psg": "PSG", "juventus": "JUV", "inter": "INT", "ac milan": "MIL", "napoli": "NAP",
-    "golden state warriors": "GSW", "warriors": "GSW", "los angeles lakers": "LAL", "los angeles l": "LAL", "boston celtics": "BOS", "oklahoma city": "OKC", "new york": "NYK",
-    "minnesota": "MIN", "denver": "DEN", "philadelphia": "PHI", "phoenix suns": "PHX", "san antonio": "SAS", "utah jazz": "UTA", "orlando magic": "ORL", "milwaukee": "MIL",
-    "cleveland": "CLE", "houston": "HOU", "dallas": "DAL", "miami": "MIA", "indiana": "IND",
-    "west indies": "WI", "team world": "TW",
-    "williams": "WIL", "alpine": "ALP", "haas": "HAA", "racing bulls": "RB", "sauber": "SAU"
+  "crests": {
+    "$comment": "Club crests from ESPN's team lists for these leagues, saved as small pictures in public/marks/ (a darker-background version too where ESPN has one). Names are the clubs' own (\"Real Madrid\", \"Golden State Warriors\"); NBA teams also answer to their city and nickname. Add a league by its ESPN code; add another name for a club under aliases.",
+    "soccer": ["esp.1", "eng.1", "ger.1", "ita.1", "fra.1", "por.1", "ned.1", "uefa.champions"],
+    "basketball": ["nba"],
+    "aliases": { "psg": "Paris Saint-Germain", "man city": "Manchester City", "man united": "Manchester United", "man utd": "Manchester United", "spurs": "Tottenham Hotspur",
+      "tottenham": "Tottenham Hotspur", "inter": "Internazionale", "inter milan": "Internazionale", "ac milan": "AC Milan", "bayern": "Bayern Munich", "atletico": "Atlético Madrid",
+      "dortmund": "Borussia Dortmund", "newcastle": "Newcastle United", "barca": "Barcelona", "fc barcelona": "Barcelona" }
+  },
+  "custom": {
+    "$comment": "Hand-kept marks with no free set: [viewBox, SVG drawing]. Drawn in the text colour.",
+    "polymarket": ["419 464 1246 1246", "<path d=\"M1044.5 613.1 557.3 752.5l-2.3.5v668.9l2.3.7c7.9 2.5 972.2 278.2 972.4 278s.2-276.1.1-613.3l-.3-612.9zm391.5 191c0 193.9-.1 204.1-1.7 203.7-16-4.3-710-203.2-710.5-203.7-.7-.6 706.8-203.7 710.5-204 1.6-.1 1.7 10.2 1.7 204m-426.3 180.6a150447 150447 0 0 1 359 102.9c-.4.4-714.1 204.5-716.9 205.1l-2.8.5v-205.6c0-113.1.3-205.6.8-205.6s162.3 46.2 359.9 102.7m426.3 386.4v204.1l-2.7-.5c-1.6-.3-161.7-46-356-101.6-194.2-55.6-353.5-101.1-353.9-101.1q-.6 0 0-.7c.5-.6 709.5-204 711.9-204.2.4-.1.7 91.8.7 204\"/>"],
+    "kalshi": ["-23 0 226 226", "<path d=\"m105.2 105.6 74.5 117H115L54.3 122v100.7H0V3.4h54.3V99l65.2-95.7h58z\"/>"],
+    "manifold": ["1 1 22 22", "<g fill=\"none\" stroke=\"currentColor\" style=\"stroke-width:2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5.2 17.1 18.7 6.8 14.3 20m-9-2.9 4.5 1.4m-4.6-1.4-1-10.6M14.4 20l-4.5-1.5m4.5 1.5 7.7-7.4-5.6 1.2m-6.6 4.7 2.6-3.4M4.3 6.5l5.8 6.9M4.3 6.5 2 9.1l2.5-.2m8.4 2.3L11 5l-2.2 6.7\"/></g>"]
   },
   "countries": {
     "india": "in", "afghanistan": "af", "australia": "au", "england": "gb-eng", "scotland": "gb-sct", "wales": "gb-wls", "south africa": "za", "sri lanka": "lk",
@@ -49,7 +58,7 @@
     "ukraine": "ua", "egypt": "eg", "nigeria": "ng", "senegal": "sn", "saudi arabia": "sa", "qatar": "qa", "team europe": "european-union"
   },
   "people": {
-    "$comment": "Sportspeople, shown with the flag they compete under. Nationalities rarely change; a new name simply has no flag until added.",
+    "$comment": "Sportspeople: shown with their face (ESPN headshot, found by name when `npm run logos` runs), else with the flag they compete under. Nationalities rarely change; a new name simply has no mark until added.",
     "max verstappen": "nl", "lando norris": "gb", "oscar piastri": "au", "george russell": "gb", "kimi antonelli": "it", "andrea kimi antonelli": "it",
     "lewis hamilton": "gb", "charles leclerc": "mc", "fernando alonso": "es", "carlos sainz": "es", "lance stroll": "ca", "pierre gasly": "fr", "esteban ocon": "fr",
     "alex albon": "th", "alexander albon": "th", "nico hulkenberg": "de", "yuki tsunoda": "jp", "isack hadjar": "fr", "oliver bearman": "gb", "gabriel bortoleto": "br",
