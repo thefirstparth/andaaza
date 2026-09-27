@@ -40,10 +40,11 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 ## Architecture (tiny on purpose)
 - `public/index.html`: the entire page (HTML+CSS+JS, no framework, no build). Icons are vendored between
   `ICONS:BEGIN/END` by `npm run icons` (Iconify: Material Symbols rounded + Simple Icons).
-- `public/logos.js` + `public/marks/`: logos, flags, club crests (ESPN, ~170 clubs: top 5 leagues, Portugal, Netherlands,
-  Champions League, NBA; a Night version where ESPN has one) and faces (ESPN headshots, found by name), made once by
-  `npm run logos` from `config/logos.json`; loaded after first paint as lazy pictures; never fetched from anyone at run
-  time; without them names simply show bare.
+- `public/logos.js` + `public/marks/`: logos, flags, club crests and faces, copied by `npm run marks` from the shared
+  library **thefirstparth/marks** (public; its README/CLAUDE.md hold the naming, sources, limits and the daily routine).
+  Loaded after first paint as lazy pictures with `?v=hash`; never fetched from anyone at run time; without them names
+  show bare. `/marks/version.json` is checked with each reading; a new version reloads only the name list and repaints
+  marks (Parth: "refresh the logos… UI, not data").
 - `api/consensus.js`: the only API. Serves the newest reading at once (instance memory, else Blob), and when it is
   over **15 min** old reads the markets again **in the background** (`waitUntil`). readings keep to the clock: one per quarter
   hour (:00/:15/:30/:45 IST), taken by the first visit after it begins; `next_at` = the next quarter hour; if overdue it
@@ -133,6 +134,16 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   clear face and ≥14% of the photo (a first run picked spectators' faces for Alcaraz, Zverev, Fonseca, Albon). 96px
   JPEG centred on the face. No such photo: the flag (Indian cricketers have none on Commons since 2025).
   Credits on /credits (public/credits.html), linked from the footer.
+  **The library** (Parth, 27 Sep 2026: "understandable and accessible by my other repos… names others can reference…
+  not an unlimited file"): everything moved to thefirstparth/marks (public, served by jsDelivr, but every site copies
+  it). Coverage is decided in advance, not by today's page: people mined from Polymarket (since Jun 2024) and Kalshi
+  history + F1 grid + ATP/WTA top 150, checked on Wikidata; every country; ~30 football leagues + NBA; IPL and small F1
+  teams. **Limits** (config/sources.json there): clubs ≤900, people ≤1,200, faces ≤300 (key people first; others show
+  flags), library ≤40 MB, daily run ≤30 new + ≤30 rechecks; rechecks: crests 180 d, logos/faces 1 yr.
+  **Daily routine**: Claude (Sonnet) at 07:50 IST, fresh session: `npm run missing` (names Andaaza shows without a
+  mark) → `npm run build` → looks at new faces (wrong → `no_face`) → commits marks → `npm run marks` here → pushes only
+  public/logos.js, public/marks/**, public/credits.html to main (anything else → PR). Optional upkeep: if it stops,
+  nothing breaks. House of 1400 gets only a guide in the library (guides/house-of-1400.md); never edited from here.
 - Area titles carry Hindi seals: खेल, टेक, पैसा, दुनिया, परदा, फुटकर.
 - A glass top bar (logo + area filters) appears **once the header's buttons have scrolled out of view** (was: after the
   tide board; changed 26 Sep 2026 because on the board no Notes button was reachable). Poster and the look
