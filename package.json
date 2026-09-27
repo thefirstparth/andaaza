@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "check": "node scripts/check.mjs",
-    "icons": "node scripts/icons.mjs"
+    "icons": "node scripts/icons.mjs",
+    "logos": "node scripts/logos.mjs"
   },
   "dependencies": {
     "@vercel/blob": "^2.8.0",

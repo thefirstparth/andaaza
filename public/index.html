@@ -10,6 +10,9 @@
 <meta name="theme-color" content="#0d1114" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CclipPath id='c'%3E%3Cpath d='M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z'/%3E%3C/clipPath%3E%3C/defs%3E%3Cpath d='M0 35q8-5 16 0t16 0 16 0 16 0V64H0z' fill='%233f46a8' clip-path='url%28%23c%29'/%3E%3Cpath d='M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z' fill='none' stroke='%233f46a8' stroke-width='4.5' stroke-linejoin='round'/%3E%3C/svg%3E">
 <script>var P0=fetch("/api/consensus").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()});P0.catch(function(){});try{var t=localStorage.getItem("cons-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<!-- Logos, flags and monograms beside names (public/logos.js, made by `npm run logos` from config/logos.json): loaded
+     on the side, so the markets never wait for them; without the file the page shows no marks. -->
+<script src="/logos.js" async></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Instrument Sans for everything that is read (its width axis keeps the gauges' big numbers compact), Instrument
@@ -303,6 +306,17 @@ button{font:inherit;color:inherit}
 .chips.on{transform:none}
 .chips.on .brand{max-width:180px;opacity:1;margin-right:16px}
 @media (max-width:600px){.brand span{display:none}.chips.on .brand{max-width:32px;margin-right:10px}}
+/* Marks beside names: brands take the text's colour (so they suit Day, Night and Retro), flags are round, monograms are
+   small badges in the subject's colour. Retro inks the flags like an old print. */
+.lg{display:inline-block;width:1.08em;height:1.08em;vertical-align:-.17em;margin-right:.34em;flex:none}
+.mk{white-space:nowrap}
+.lg-b{fill:currentColor}.lg-b [stroke]{stroke-width:3.4}.lbl .lg{margin-right:0}
+.lg-f{border-radius:50%;box-shadow:0 0 0 1px color-mix(in oklab,var(--ink) 14%,transparent)}
+.lg-t{display:inline-block!important;width:auto!important;height:auto;padding:.22em .42em;border-radius:99px;font:800 .62em/1 var(--sans);letter-spacing:.03em;vertical-align:.12em;
+  color:var(--a,var(--ink2));background:color-mix(in oklab,var(--a,var(--ink)) 14%,transparent);box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--a,var(--ink)) 30%,transparent)}
+.gauge .lg-t,.staff .lg-t{color:inherit;background:color-mix(in oklab,currentColor 14%,transparent);box-shadow:inset 0 0 0 1px color-mix(in oklab,currentColor 35%,transparent)}
+[data-theme=retro] .lg-f{filter:grayscale(.55) sepia(.35)}
+[data-theme=retro] .lg-t{border-radius:3px;font-family:var(--num,var(--sans))}
 .chip{flex:none;border:0;background:var(--ac,var(--card));border-radius:999px;padding:8px 15px;font:650 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 .chip .ic{width:17px;height:17px;color:var(--a,var(--sea))}
 .chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink));color:var(--card)}
@@ -350,6 +364,7 @@ main>.panel:last-of-type{margin-bottom:0}
 .gauge b{font:700 46px/.88 var(--sans);font-variation-settings:"wdth" 75;letter-spacing:-.015em}
 .gauge b small{font-size:.44em;font-weight:700;margin-left:1px;letter-spacing:0}
 .gauge span{font:600 13px/1.22 var(--sans);overflow-wrap:break-word;hyphens:auto;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.gauge span>.lg{display:table!important;margin:0 0 .3em}.gauge span:has(>.lg){-webkit-line-clamp:4}
 /* The name never crosses the waterline, only the number does: from 50% it sits at the foot under water, below 50%
    at the head, dry (three lines at most, so it clears the water either way). */
 .gauge.lo .g{justify-content:space-between}
@@ -541,6 +556,30 @@ const $ = s => document.querySelector(s);
 const icon = k => { const i = ICONS[k]; return i ? `<svg class="ic" viewBox="${i[0]}" aria-hidden="true">${i[1]}</svg>` : ""; };
 document.querySelectorAll(".ico[data-i]").forEach(el => { el.outerHTML = icon(el.dataset.i); });
 document.querySelectorAll(".js-poster").forEach(b => { b.innerHTML = `${icon("u:poster")}<span class="t">Poster</span>`; b.title = "Poster: the board and the day on one screen"; });
+// ---- marks beside names (public/logos.js): a brand in the text's own colour, a round flag, or a club monogram.
+// A name matches exactly, or starts with a longer known name ("Mercedes AMG Motorsport" is Mercedes, "Harrison
+// Ford" is not Ford). Nothing is shown for a name with no mark, or before the file has arrived.
+const fold = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+const MARKS = new Map();
+function mark(name) {
+  const L = window.ANDAAZA_LOGOS, n = fold(name); if (!L || !n) return "";
+  if (!MARKS.has(n)) { let v = L.names[n]; if (!v) { let best = ""; for (const k in L.names) if (k.length > best.length && n.startsWith(k + " ")) best = k; v = best ? L.names[best] : ""; } MARKS.set(n, v); }
+  const v = MARKS.get(n); if (!v) return "";
+  if (v[0] === "t") return `<span class="lg lg-t" aria-hidden="true">${esc(v.slice(2))}</span>`;
+  const ic = L.icons[v.slice(2)]; return ic ? `<svg class="lg ${v[0] === "f" ? "lg-f" : "lg-b"}" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
+}
+// A name with its mark, the mark kept on the same line as the first word (it never sits on a line of its own).
+function named(name) {
+  const m = mark(name); if (!m) return esc(name);
+  const i = String(name).indexOf(" "), first = i < 0 ? name : name.slice(0, i), rest = i < 0 ? "" : name.slice(i);
+  return `<span class="mk">${m}${esc(first)}</span>${esc(rest)}`;
+}
+// A competition's own mark for a gauge's label (F1, Premier League, Champions League, NBA), found in the market's title.
+function compMark(title) {
+  const L = window.ANDAAZA_LOGOS, t = ` ${fold(title)} `; if (!L) return "";
+  let best = ""; for (const k in L.comps) if (k.length > best.length && t.includes(` ${k} `)) best = k;
+  const ic = best && L.icons[L.comps[best]]; return ic ? `<svg class="ic lg lg-b" viewBox="${ic[0]}" aria-hidden="true">${ic[1]}</svg>` : "";
+}
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const pc = v => `${Math.round(v)}%`;
 const pts = d => { const n = Math.abs(Math.round(d)); return `${n} pt${n === 1 ? "" : "s"}`; };
@@ -622,9 +661,9 @@ function post(c, a) {
   const q = binary(c) ? "" : c.slot === "ai" || c.st || !head ? tidy(c.st ? ask : c.t) : ask;
   const fo = c.focus ? c.o.find(o => o.name === c.focus) : null, chip = fo && fo !== c.o[0] ? `<span class="focus">${esc(fo.name)} <b>${pc(fo.prob)}</b></span>` : "";
   const n = `<b>${Math.round(p)}<small>%</small></b><span class="sc" style="bottom:25%">25</span><span class="sc" style="bottom:50%">50</span><span class="sc" style="bottom:75%">75</span>`;
-  return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${icon("t:" + c.k) || icon("a:" + (a?.id || "misc"))}<span>${esc(lb)}</span></span>
+  return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${compMark(c.t) || icon("t:" + c.k) || icon("a:" + (a?.id || "misc"))}<span>${esc(lb)}</span></span>
 <div class="staff" ${seaAttr(c)} style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}"><div class="l">${n}${wasMark(cc, true)}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${n}${wasMark(cc, true)}</div></div></div>
-<div class="hd"><div class="who${binary(c) ? " ask" : ""}">${esc(who)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}</div>${why(cc) || `<span class="nowhy"></span>`}</a>`;
+<div class="hd"><div class="who${binary(c) ? " ask" : ""}">${binary(c) ? esc(who) : named(who)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}</div>${why(cc) || `<span class="nowhy"></span>`}</a>`;
 }
 // The tide board: the server's five slots in Parth's order (best AI model, Real Madrid, football, world, most
 // traded); an older reading without them falls back to the busiest question in each area.
@@ -635,7 +674,7 @@ const board = () => (D.board?.length ? D.board.map(c => post(c, (D.areas || []).
 function card(c, big) {
   const f = c.o[0], p = Math.max(0, Math.min(100, f.prob));
   // A yes/no question's gauge is its number alone: the question stands beside it.
-  const g = `<b>${Math.round(p)}<small>%</small></b>${binary(c) ? "" : `<span>${esc(favName(c))}</span>`}`;
+  const g = `<b>${Math.round(p)}<small>%</small></b>${binary(c) ? "" : `<span>${c.L ? "" : mark(favName(c))}${esc(favName(c))}</span>`}`;
   let seg, key = "";
   if (c.L && c.o.length > 1) {
     seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
@@ -643,7 +682,7 @@ function card(c, big) {
   } else if (c.o.length > 1 && f.name !== "Yes") {
     const top = c.o.slice(0, 3), rest = Math.max(0, 100 - top.reduce((a, o) => a + o.prob, 0));
     seg = `<div class="seg">${top.map((o, i) => `<i class="s${i}" style="flex:${Math.max(0.5, o.prob)}"></i>`).join("")}${rest >= 1 ? `<i class="s9" style="flex:${rest}"></i>` : ""}</div>`;
-    key = `<ul class="key">${top.slice(1).map((o, i) => `<li><i class="s${i + 1}"></i>${esc(o.name)}<b>${pc(o.prob)}</b></li>`).join("")}${rest >= 1 ? `<li><i class="s9"></i>Others<b>${pc(rest)}</b></li>` : ""}</ul>`;
+    key = `<ul class="key">${top.slice(1).map((o, i) => `<li><i class="s${i + 1}"></i>${named(o.name)}<b>${pc(o.prob)}</b></li>`).join("")}${rest >= 1 ? `<li><i class="s9"></i>Others<b>${pc(rest)}</b></li>` : ""}</ul>`;
   } else seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
   const ft = [moved(c), also(c)].filter(Boolean).join("");
   return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 && !binary(c) ? " lo" : ""}" ${seaAttr(c)} href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="wbox" aria-hidden="true"><i class="gw wfull"><div class="g">${g}</div>${wasMark(c)}</i></i></a>
@@ -666,7 +705,7 @@ function fixture(n, k) {
   const [a, b] = n.t.split(" v "), by = x => n.o.find(o => o.name === x) || { name: x, prob: 0 };
   const draw = n.o.find(o => /^draw/i.test(o.name)), row = [by(a), ...(draw ? [draw] : []), by(b)];
   return `<a class="fx" data-k="${k}" href="${esc(n.u)}" target="_blank" rel="noopener"><div class="when"><b>${n.f ? "★ " : ""}${esc(n.c || LABEL[k])}</b><span>${kick(n.st)}</span></div>
-<div class="vs">${esc(a)}<em>v</em>${esc(b)}</div><div class="three">${row.map((o, i) => `<i class="${i === 0 ? "h" : i === row.length - 1 ? "w" : "x"}" style="flex:${Math.max(1, o.prob)}"></i>`).join("")}</div>
+<div class="vs">${named(a)}<em>v</em>${named(b)}</div><div class="three">${row.map((o, i) => `<i class="${i === 0 ? "h" : i === row.length - 1 ? "w" : "x"}" style="flex:${Math.max(1, o.prob)}"></i>`).join("")}</div>
 <div class="odds">${row.map(o => `<span>${esc(/^draw/i.test(o.name) ? "Draw" : k === "tennis" ? o.name.split(" ").pop() : o.name)} <b>${pc(o.prob)}</b></span>`).join("")}</div>${why(n)}</a>`;
 }
 
@@ -738,6 +777,8 @@ function flow(old) {
   els.forEach((e, i) => { e.style.transition = ""; e.style.setProperty("--pv", to[i]); });
 }
 let firstPaint = true;
+// The marks may arrive after the first paint: then draw the board and sections again, once.
+window.onAndaazaLogos = () => { MARKS.clear(); if (D) { $("#board").innerHTML = board(); paint(); if (posterOn) showPoster(true); } };
 function render(d) {
   const old = D ? levels() : null;
   D = d;
@@ -877,6 +918,8 @@ function fitPoster() {
   let z = 1;
   // Text reflows as the scale changes, so this settles in a few steps; it always ends inside the screen.
   for (let i = 0; i < 8; i++) { const f = room / c.getBoundingClientRect().height; if (f >= 1 && f < 1.015) break; const n = Math.max(0.45, Math.min(top, z * (f < 1 ? f * 0.995 : f))); if (Math.abs(n - z) < 0.002) break; z = n; c.style.zoom = z.toFixed(3); }
+  // Still a little too tall after the steps (text reflowed at the last one): shrink until it fits.
+  for (let i = 0; i < 4 && c.getBoundingClientRect().height > room + 1 && z > 0.45; i++) { z = Math.max(0.45, z * room / c.getBoundingClientRect().height * 0.995); c.style.zoom = z.toFixed(3); }
 }
 let posterOn = /\/poster$/.test(location.pathname) || new URLSearchParams(location.search).has("poster");
 function showPoster(on) {

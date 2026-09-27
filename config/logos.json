@@ -1,0 +1,65 @@
+{
+  "$comment": "Logos, flags and monograms shown beside names on the page (next to a gauge's leader, a card's contenders and each side of a match). Fetched once by `npm run logos` from Iconify's free sets and saved in public/logos.js, so the page never calls anyone for them. Names are matched without case or accents; a longer name wins over a shorter one it contains. To add one: put the name here and run `npm run logos`. A name with no entry simply shows no mark.",
+  "sources": {
+    "simple-icons": "Simple Icons, CC0: single-colour brand marks. Trademarks belong to their owners.",
+    "arcticons": "Arcticons, CC BY-SA 4.0: line-art marks, used where Simple Icons has none.",
+    "circle-flags": "Circle Flags (HatScripts), MIT: round flags.",
+    "bxl": "BoxIcons, MIT", "mingcute": "MingCute, Apache 2.0"
+  },
+  "brands": {
+    "claude": "simple-icons:claude", "anthropic": "simple-icons:anthropic",
+    "openai": "simple-icons:openai", "chatgpt": "simple-icons:openai",
+    "gemini": "simple-icons:googlegemini", "google": "simple-icons:google", "alphabet": "simple-icons:google", "google deepmind": "simple-icons:googlegemini",
+    "xai": "bxl:xai", "grok": "mingcute:grok-fill", "meta": "simple-icons:meta", "deepseek": "simple-icons:deepseek", "mistral": "simple-icons:mistralai",
+    "qwen": "simple-icons:qwen", "alibaba": "simple-icons:alibabacloud", "xiaomi": "simple-icons:xiaomi", "moonshot": "simple-icons:moonshotai",
+    "perplexity": "simple-icons:perplexity", "baidu": "simple-icons:baidu", "bytedance": "simple-icons:bytedance", "tiktok": "simple-icons:tiktok",
+    "nvidia": "simple-icons:nvidia", "apple": "simple-icons:apple", "microsoft": "simple-icons:microsoft", "amazon": "simple-icons:amazon", "tesla": "simple-icons:tesla",
+    "spacex": "simple-icons:spacex", "paypal": "simple-icons:paypal", "stripe": "simple-icons:stripe", "samsung": "simple-icons:samsung", "huawei": "simple-icons:huawei",
+    "amd": "simple-icons:amd", "intel": "simple-icons:intel", "oracle": "simple-icons:oracle", "hugging face": "simple-icons:huggingface",
+    "netflix": "simple-icons:netflix", "spotify": "simple-icons:spotify", "youtube": "simple-icons:youtube", "prime video": "simple-icons:primevideo", "hbo": "simple-icons:hbo",
+    "apple tv": "simple-icons:appletv", "disney": "arcticons:disney", "jiohotstar": "arcticons:jiohotstar",
+    "paytm": "simple-icons:paytm", "phonepe": "simple-icons:phonepe", "flipkart": "simple-icons:flipkart", "zomato": "simple-icons:zomato", "tata": "simple-icons:tata", "infosys": "simple-icons:infosys", "uber": "simple-icons:uber",
+    "ferrari": "simple-icons:ferrari", "mclaren": "simple-icons:mclaren", "mercedes": "simple-icons:mercedes", "red bull": "simple-icons:redbull", "aston martin": "simple-icons:astonmartin",
+    "audi": "simple-icons:audi", "cadillac": "simple-icons:cadillac", "honda": "simple-icons:honda", "renault": "simple-icons:renault", "toyota": "simple-icons:toyota", "ford": "simple-icons:ford", "porsche": "simple-icons:porsche"
+  },
+  "competitions": {
+    "$comment": "Shown in place of the subject's icon beside a gauge's label when the market is about this competition (matched in the market's title).",
+    "premier league": "simple-icons:premierleague", "epl": "simple-icons:premierleague",
+    "champions league": "arcticons:uefa", "uefa": "arcticons:uefa",
+    "formula 1": "simple-icons:f1", "f1": "simple-icons:f1", "grand prix": "simple-icons:f1",
+    "nba": "simple-icons:nba", "fifa": "simple-icons:fifa", "world cup": "simple-icons:fifa", "olympic": "arcticons:olympics"
+  },
+  "monograms": {
+    "$comment": "Clubs with no free logo (club crests are trademarks no free set carries): a round badge with its initials, in the subject's colour.",
+    "real madrid": "RM", "barcelona": "FCB", "atletico madrid": "ATM", "betis": "BET", "sevilla": "SEV", "villarreal": "VIL", "real sociedad": "RSO", "athletic club": "ATH",
+    "manchester city": "MCI", "manchester united": "MUN", "arsenal": "ARS", "liverpool": "LIV", "chelsea": "CHE", "tottenham": "TOT", "newcastle": "NEW", "aston villa": "AVL",
+    "bayern munich": "FCB", "borussia dortmund": "BVB", "paris saint-germain": "PSG", "psg": "PSG", "juventus": "JUV", "inter": "INT", "ac milan": "MIL", "napoli": "NAP",
+    "golden state warriors": "GSW", "warriors": "GSW", "los angeles lakers": "LAL", "los angeles l": "LAL", "boston celtics": "BOS", "oklahoma city": "OKC", "new york": "NYK",
+    "minnesota": "MIN", "denver": "DEN", "philadelphia": "PHI", "phoenix suns": "PHX", "san antonio": "SAS", "utah jazz": "UTA", "orlando magic": "ORL", "milwaukee": "MIL",
+    "cleveland": "CLE", "houston": "HOU", "dallas": "DAL", "miami": "MIA", "indiana": "IND",
+    "west indies": "WI", "team world": "TW",
+    "williams": "WIL", "alpine": "ALP", "haas": "HAA", "racing bulls": "RB", "sauber": "SAU"
+  },
+  "countries": {
+    "india": "in", "afghanistan": "af", "australia": "au", "england": "gb-eng", "scotland": "gb-sct", "wales": "gb-wls", "south africa": "za", "sri lanka": "lk",
+    "new zealand": "nz", "pakistan": "pk", "bangladesh": "bd", "ireland": "ie", "zimbabwe": "zw", "nepal": "np", "netherlands": "nl", "belgium": "be", "france": "fr",
+    "germany": "de", "greece": "gr", "norway": "no", "portugal": "pt", "serbia": "rs", "spain": "es", "italy": "it", "brazil": "br", "argentina": "ar",
+    "united states": "us", "usa": "us", "canada": "ca", "mexico": "mx", "japan": "jp", "south korea": "kr", "china": "cn", "croatia": "hr", "denmark": "dk",
+    "sweden": "se", "switzerland": "ch", "poland": "pl", "uruguay": "uy", "colombia": "co", "morocco": "ma", "turkey": "tr", "austria": "at", "czechia": "cz",
+    "ukraine": "ua", "egypt": "eg", "nigeria": "ng", "senegal": "sn", "saudi arabia": "sa", "qatar": "qa", "team europe": "european-union"
+  },
+  "people": {
+    "$comment": "Sportspeople, shown with the flag they compete under. Nationalities rarely change; a new name simply has no flag until added.",
+    "max verstappen": "nl", "lando norris": "gb", "oscar piastri": "au", "george russell": "gb", "kimi antonelli": "it", "andrea kimi antonelli": "it",
+    "lewis hamilton": "gb", "charles leclerc": "mc", "fernando alonso": "es", "carlos sainz": "es", "lance stroll": "ca", "pierre gasly": "fr", "esteban ocon": "fr",
+    "alex albon": "th", "alexander albon": "th", "nico hulkenberg": "de", "yuki tsunoda": "jp", "isack hadjar": "fr", "oliver bearman": "gb", "gabriel bortoleto": "br",
+    "liam lawson": "nz", "franco colapinto": "ar", "sergio perez": "mx", "valtteri bottas": "fi", "arvid lindblad": "gb",
+    "carlos alcaraz": "es", "novak djokovic": "rs", "jannik sinner": "it", "alexander zverev": "de", "taylor fritz": "us", "coleman wong": "hk",
+    "alex de minaur": "au", "ben shelton": "us", "jack draper": "gb", "holger rune": "dk", "casper ruud": "no", "stefanos tsitsipas": "gr", "lorenzo musetti": "it",
+    "joao fonseca": "br", "iga swiatek": "pl", "coco gauff": "us", "leylah annie fernandez": "ca", "leylah fernandez": "ca", "talia gibson": "au", "jessica pegula": "us",
+    "elena rybakina": "kz", "jasmine paolini": "it", "mirra andreeva": "ru", "amanda anisimova": "us", "madison keys": "us", "emma raducanu": "gb",
+    "harry kane": "gb-eng", "kylian mbappe": "fr", "lamine yamal": "es", "lionel messi": "ar", "rodri": "es", "vinicius junior": "br", "jude bellingham": "gb-eng",
+    "erling haaland": "no", "mohamed salah": "eg", "ousmane dembele": "fr", "raphinha": "br", "pedri": "es", "cristiano ronaldo": "pt", "florian wirtz": "de",
+    "virat kohli": "in", "rohit sharma": "in", "shubman gill": "in", "jasprit bumrah": "in"
+  }
+}
