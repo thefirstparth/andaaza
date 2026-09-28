@@ -63,7 +63,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 ## Selection logic (config/consensus.json)
 - Floors: a market needs $2,000 traded in 24 h ($500 for F1 and NBA; $300 for must-haves). Settled markets
   (>98.5% / <1.5%), side bets (pole, podium, fastest lap, handicaps, O/U), price ladders go.
-- **Exclusions:** US domestic politics (incl. Trump approval/RCP), the Fed, American sports, weather, esports,
+- **Exclusions:** US domestic politics (incl. Trump approval/RCP; Polymarket markets tagged Politics/Trump without a
+  World/Geopolitics/foreign-election tag, `exclude.us_politics`, added 28 Sep 2026 after an ActBlue market got through;
+  Kalshi files foreign politics under Politics too, so Kalshi relies on words like "actblue"), the Fed, American sports, weather, esports,
   post/tweet counts, **crypto entirely** (Parth asked to remove Bitcoin).
 - **Follows:** Real Madrid, Verstappen, Alcaraz, Djokovic, India, Warriors. **Barcelona is followed as a rival
   (a hatewatch), not a team he supports.**
