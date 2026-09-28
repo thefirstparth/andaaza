@@ -64,6 +64,11 @@ Notes are saved inside the reading, so every visitor sees the same one and nobod
 - To judge the notes: `/api/consensus` ends with `why` (every note, every miss and why, searches spent today and this
   month). Preview deployments save under `preview/` in Blob and also record the search and news behind each note.
 
+## "New" and "Added … ago"
+Each market remembers when Andaaza first showed it (inside the saved reading, `ad` on each card). The page labels
+markets added in the last 48 hours "New" and shows "Added 3 days ago" for a week. Change the hours and days in
+`config/consensus.json` → `added`. Nothing depends on it: a reading without dates simply shows no labels.
+
 ## Fixing things by hand
 - A subject shows the wrong things: edit its `words`, `must` or `prefer` in `config/consensus.json`.
 - A source changed its API: its reader is one function in `lib/consensus.js` (`polymarket`, `kalshiScan` and

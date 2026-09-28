@@ -897,5 +897,11 @@
   "decided": {
     "share": 95,
     "rule": "A question counts as decided, and gives way (a race winner hands the F1 slot to the next race), when its leader is above 98.5%, or at least share percent once the question is past the date it was due to be settled. Kalshi keeps finished races open a week for the official result; this stops a finished race sitting on the board. A question still ahead of its date stays, however sure."
+  },
+  "added": {
+    "$comment": "When a market was first shown on Andaaza. A card shows \"Added 5 h ago\" for markets added in the last show_days days (older ones show nothing, to keep the page calm), and a small \"New\" label for those added in the last new_hours hours. A market that leaves the page is remembered for remember_days, so one dipping under a floor and coming back is not new again.",
+    "new_hours": 48,
+    "show_days": 7,
+    "remember_days": 7
   }
 }
