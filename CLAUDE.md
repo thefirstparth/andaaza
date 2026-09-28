@@ -250,7 +250,12 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   only (fact first, the actual cause, names and numbers, no hedging), not newspaper strictness. Code rejects em dashes,
   hedges, analysis -ing tails and notes that name no contender.
 - A note belongs to a story: moved notes are rewritten only when the price moves 10 more points, turns, or the
-  favourite changes; misses retried only after 5 more points; lead notes weekly. Caps: 3 per reading, 25/day, 750/month.
+  favourite changes; misses retried only after 5 more points; lead notes weekly. Caps: 5 per reading, 750/month; a day may use what is left of the month over the days
+  left (25 to 60, `per_day`/`per_day_max`) (Parth, 28 Sep 2026: "only 1 note is super bad… ask Gemini better" without
+  spoiling accuracy). A note failing a check gets one second Gemini try on the same news, told what failed (no new
+  search; only if the first took under 20 s). Gemini sees each item's age and uses numbers only from items ≤4 days old.
+  12 news items per search (same cost). A service hiccup pauses notes 15 min (`pause_minutes`), not at all if another
+  note in that reading worked; a used-up allowance pauses 6 h.
   Order: the tide board first (moves, then leaders and matches), favourites (followed matches, ★, follows), other
   moves, other leaders. (First live fill put notes on deep
   rows while the board waited behind minor moves; Parth saw none. The board is what everyone sees.)
