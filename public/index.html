@@ -323,7 +323,7 @@ button{font:inherit;color:inherit}
 .added{color:var(--muted);font-weight:500;white-space:nowrap}.added .nw{display:inline-block;margin-right:.45em;padding:.08em .5em .1em;border-radius:99px;font:700 .78em/1.35 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:oklch(.42 .12 70);background:color-mix(in oklab,var(--marigold,oklch(.8 .15 80)) 26%,transparent);vertical-align:.08em}
 [data-theme=dark] .added .nw{color:oklch(.88 .12 85)}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="retro"]) .added .nw{color:oklch(.88 .12 85)}}
 .nlt{display:inline-block;margin:0 .45em;padding:.08em .5em .1em;border-radius:99px;font:700 .72em/1.35 var(--sans);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:var(--a);background:var(--ac);vertical-align:.18em}
-.tk .ft .nlt,.mini .nlt,.wr .nlt{margin-left:0}.wr .nlt{margin-right:.45em;padding-left:0;background:none}
+.tk .ft .nlt,.mini .nlt,.wr .nlt{margin-left:0}.post .nlr{line-height:1}.post .nlr .nlt{margin:0}.wr .nlt{margin-right:.45em;padding-left:0;background:none}
 [data-theme=retro] .nlt{border-radius:2px;background:none;box-shadow:inset 0 0 0 1px currentColor}
 [data-theme=retro] .added .nw{border-radius:2px;background:none;box-shadow:inset 0 0 0 1px currentColor;color:var(--ink)}
 .tk .ft .added{margin-left:auto}.cur .cad{font-size:12px;margin:-2px 0 4px}
@@ -676,7 +676,7 @@ const newLead = c => { if (c.L || binary(c) || c.o.length < 2 || c.o[0].p == nul
   const was = c.o.filter(o => o.p != null).reduce((a, o) => (o.p > a.p ? o : a));
   return was !== c.o[0] && was.p > c.o[0].p && c.o[0].prob - was.prob >= 1 ? was : null; };
 const nlTag = c => (newLead(c) ? `<span class="nlt">New leader</span>` : "");
-const moved = c => { const nl = newLead(c); if (nl) return `<span class="d up">▲ Overtook ${esc(nl.name)} (${pc(nl.p)} a day ago)</span>`;
+const moved = c => { const nl = newLead(c); if (nl) return `<span class="d up">▲ Overtook ${esc(nl.name)} (was ${pc(nl.p)})</span>`;
   const { d, was, w } = shift(c); return Math.abs(d) >= 1 ? `<span class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)} ${w} · was ${pc(was)}</span>` : ""; };
 // The server's one-line note (c.why): why it moved, or why it leads. Marked with Gemini's logo; nothing at all when
 // there is none.
@@ -717,7 +717,7 @@ function post(c, a) {
   const n = `<b>${Math.round(p)}<small>%</small></b><span class="sc" style="bottom:25%">25</span><span class="sc" style="bottom:50%">50</span><span class="sc" style="bottom:75%">75</span>`;
   return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${compMark(c.t) || icon("t:" + c.k) || icon("a:" + (a?.id || "misc"))}<span>${esc(lb)}</span></span>
 <div class="staff" ${seaAttr(c)} style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}"><div class="l">${n}${wasMark(cc, true)}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${n}${wasMark(cc, true)}</div></div></div>
-<div class="hd"><div class="who${binary(c) ? " ask" : ""}">${binary(c) ? esc(who) : named(who)}${c.st ? "" : nlTag(cc)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}${added(c) ? `<div class="dl">${added(c)}</div>` : ""}</div>${why(cc) || `<span class="nowhy"></span>`}</a>`;
+<div class="hd"><div class="who${binary(c) ? " ask" : ""}">${binary(c) ? esc(who) : named(who)}</div>${c.st || !newLead(cc) ? "" : `<div class="nlr">${nlTag(cc)}</div>`}${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}${added(c) ? `<div class="dl">${added(c)}</div>` : ""}</div>${why(cc) || `<span class="nowhy"></span>`}</a>`;
 }
 // The tide board: the server's five slots in Parth's order (best AI model, Real Madrid, football, world, most
 // traded); an older reading without them falls back to the busiest question in each area.
