@@ -902,5 +902,9 @@
     "$comment": "When a market was first shown on Andaaza. Every card shows \"Added 5 h ago\" (markets that arrived since 28 Sep 2026) or \"Listed 3 months ago\" (markets already here then, from their exchange listing date), and a small \"New\" label for those added in the last new_hours hours. A market that leaves the page is remembered for remember_days, so one dipping under a floor and coming back is not new again.",
     "new_hours": 48,
     "remember_days": 7
+  },
+  "marks": {
+    "$comment": "Logos, flags and faces beside names come from the shared library (github.com/thefirstparth/marks), copied by `npm run marks`. faces: false shows no photos of people at all; each person shows the flag they play under instead (Parth, 28 Sep 2026: \"remove all human faces for now; only flags and logos\"). Set true and run `npm run marks` to bring faces back.",
+    "faces": false
   }
 }

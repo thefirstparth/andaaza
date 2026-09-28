@@ -143,6 +143,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   clear face and ≥14% of the photo (a first run picked spectators' faces for Alcaraz, Zverev, Fonseca, Albon). 96px
   JPEG centred on the face. No such photo: the flag (Indian cricketers have none on Commons since 2025).
   Credits on /credits (public/credits.html), linked from the footer.
+  **Faces off for now** (Parth, 28 Sep 2026: "remove all personalities/human faces from the live website; only flags and
+  logos"): config `marks.faces: false`; `npm run marks` then maps every person to the flag they play under and copies
+  no photos (the library keeps them). Set true and rerun to bring faces back. Footer link now reads "Credits".
   **The library** (Parth, 27 Sep 2026: "understandable and accessible by my other repos… names others can reference…
   not an unlimited file"): everything moved to thefirstparth/marks (public, served by jsDelivr, but every site copies
   it). Coverage is decided in advance, not by today's page: people mined from Polymarket (since Jun 2024) and Kalshi
