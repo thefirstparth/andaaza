@@ -225,6 +225,14 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   written then still said "Yamal has overtaken Kane"; the news was hours old). Gemini is told who leads right now and
   never to say otherwise; `wrongLeader()` rejects any note saying someone else leads, is the favourite or overtook, on
   new notes and on saved ones each reading (a saved one failing it is hidden and rewritten).
+- **Only verifiable notes** (Parth, 28 Sep 2026: "Antonelli 242 points" when he had 302, from an Instagram post; live
+  also had an Arsenal "title" from Facebook, the Ballon d'Or overtake from X, "Opus 4.7" from a stale blog; "remove
+  notes where unsure"). `why.sources`: social sites (Instagram, Facebook, X, TikTok, YouTube, Reddit…) are excluded from
+  the search and can never be cited; undated items are skipped; news goes to Gemini newest first ("take standings and
+  totals only from the newest item"); `sourceProblem()` rejects a note with any number not in the cited item's text, or
+  numbers from news older than `numbers_days` (4); a saved note with numbers is rewritten after 4 days (`sa` = source
+  date). Notes carry `ck` (checks version, `CHECKS` in lib/why.js): notes made before the current checks are hidden and
+  rewritten, board first, within the daily cap. When a note can't pass, there is no note.
 - Numbers as digits: the voice asks for them, and `digits()` turns any spelled-out two to ninety-nine (and "plus 24")
   into digits, also on notes already saved (Parth caught "seven wins… plus twenty-four").
 - News backup: if Tavily fails and `NEWSDATA_API_KEY` is set, NewsData.io's free plan (200/day, commercial use OK, no
