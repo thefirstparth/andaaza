@@ -320,6 +320,10 @@ button{font:inherit;color:inherit}
 @supports not ((mask-image:none) or (-webkit-mask-image:none)){.lg-m{display:none}}
 .lg-p{width:1.36em;height:1.36em;vertical-align:-.34em;border-radius:50%;object-fit:cover;object-position:50% 20%;background:color-mix(in oklab,currentColor 13%,transparent)}
 [data-theme=retro] .lg-f,[data-theme=retro] .lg-c,[data-theme=retro] .lg-cc{filter:grayscale(.55) sepia(.35)}[data-theme=retro] .lg-p{filter:grayscale(1) sepia(.3) contrast(1.05)}
+.added{color:var(--muted);font-weight:500;white-space:nowrap}.added .nw{display:inline-block;margin-right:.45em;padding:.08em .5em .1em;border-radius:99px;font:700 .78em/1.35 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:oklch(.42 .12 70);background:color-mix(in oklab,var(--marigold,oklch(.8 .15 80)) 26%,transparent);vertical-align:.08em}
+[data-theme=dark] .added .nw{color:oklch(.88 .12 85)}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="retro"]) .added .nw{color:oklch(.88 .12 85)}}
+[data-theme=retro] .added .nw{border-radius:2px;background:none;box-shadow:inset 0 0 0 1px currentColor;color:var(--ink)}
+.tk .ft .added{margin-left:auto}.cur .cad{font-size:12px;margin:-2px 0 4px}
 .chip{flex:none;border:0;background:var(--ac,var(--card));border-radius:999px;padding:8px 15px;font:650 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 .chip .ic{width:17px;height:17px;color:var(--a,var(--sea))}
 .chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink));color:var(--card)}
@@ -666,6 +670,13 @@ const moved = c => { const { d, was, w } = shift(c); return Math.abs(d) >= 1 ? `
 // How old a note is, small and grey after it: "40 min ago", "3 h ago", then the date ("24 Sep").
 const noteAge = a => { const t = Date.parse(a || ""); if (!t) return ""; const m = Math.max(1, Math.round((Date.now() - t) / 6e4));
   return m < 60 ? `${m} min ago` : m < 24 * 60 ? `${Math.round(m / 60)} h ago` : new Date(t).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short" }); };
+// When a market was first shown on Andaaza (the server stamps it, lib/added.js): a small "New" for the first
+// new_hours (48), then just "Added 3 days ago" until show_days (7); older markets show nothing, to keep the page calm.
+const addedText = a => { const t = Date.parse(a || ""), h = (Date.now() - t) / 36e5; if (!t || h < 0 || h > (D?.show_days ?? 7) * 24) return "";
+  return h < 1 ? `Added ${Math.max(1, Math.round(h * 60))} min ago` : h < 24 ? `Added ${Math.round(h)} h ago` : `Added ${Math.round(h / 24)} day${Math.round(h / 24) === 1 ? "" : "s"} ago`; };
+const added = c => { const x = addedText(c.ad); if (!x) return "";
+  const fresh = (Date.now() - Date.parse(c.ad)) / 36e5 < (D?.new_hours ?? 48);
+  return `<span class="added${fresh ? " fresh" : ""}">${fresh ? `<span class="nw">New</span>` : ""}<time datetime="${esc(c.ad)}">${x}</time></span>`; };
 const why = c => { if (!c.why?.x) return ""; const k = c.why.k === "leads" ? "Why it leads" : c.why.k === "match" ? "Why they are favoured" : "Why it moved", age = noteAge(c.why.a);
   return `<span class="why"${c.why.u ? ` data-src="${esc(c.why.u)}"` : ""} title="${k}. Written by Gemini from ${esc(c.why.t ? `the news: ${c.why.t}` : "the news")}">${icon("s:gemini")}<span class="vh">${k}, written by Gemini: </span><span>${esc(c.why.x)}${age ? ` <time datetime="${esc(c.why.a)}">${age}</time>` : ""}</span></span>`; };
 
@@ -687,7 +698,7 @@ function post(c, a) {
   const n = `<b>${Math.round(p)}<small>%</small></b><span class="sc" style="bottom:25%">25</span><span class="sc" style="bottom:50%">50</span><span class="sc" style="bottom:75%">75</span>`;
   return `<a class="post" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="lbl">${compMark(c.t) || icon("t:" + c.k) || icon("a:" + (a?.id || "misc"))}<span>${esc(lb)}</span></span>
 <div class="staff" ${seaAttr(c)} style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}"><div class="l">${n}${wasMark(cc, true)}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${n}${wasMark(cc, true)}</div></div></div>
-<div class="hd"><div class="who${binary(c) ? " ask" : ""}">${binary(c) ? esc(who) : named(who)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}</div>${why(cc) || `<span class="nowhy"></span>`}</a>`;
+<div class="hd"><div class="who${binary(c) ? " ask" : ""}">${binary(c) ? esc(who) : named(who)}</div>${chip}${q || c.st ? `<div class="q">${esc(q)}${c.st ? ` · ${esc(kick(c.st))}` : ""}</div>` : ""}${moved(cc) ? `<div class="dl">${moved(cc)}</div>` : ""}${added(c) ? `<div class="dl">${added(c)}</div>` : ""}</div>${why(cc) || `<span class="nowhy"></span>`}</a>`;
 }
 // The tide board: the server's five slots in Parth's order (best AI model, Real Madrid, football, world, most
 // traded); an older reading without them falls back to the busiest question in each area.
@@ -708,7 +719,7 @@ function card(c, big) {
     seg = `<div class="seg">${top.map((o, i) => `<i class="s${i}" style="flex:${Math.max(0.5, o.prob)}"></i>`).join("")}${rest >= 1 ? `<i class="s9" style="flex:${rest}"></i>` : ""}</div>`;
     key = `<ul class="key">${top.slice(1).map((o, i) => `<li><i class="s${i + 1}"></i>${named(o.name)}<b>${pc(o.prob)}</b></li>`).join("")}${rest >= 1 ? `<li><i class="s9"></i>Others<b>${pc(rest)}</b></li>` : ""}</ul>`;
   } else seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
-  const ft = [moved(c), also(c)].filter(Boolean).join("");
+  const ft = [moved(c), also(c), added(c)].filter(Boolean).join("");
   return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 && !binary(c) ? " lo" : ""}" ${seaAttr(c)} href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="wbox" aria-hidden="true"><i class="gw wfull"><div class="g">${g}</div>${wasMark(c)}</i></i></a>
 <div class="bd"><div class="meta"><span>${c.m ? `<span title="One of your must-haves">★</span> ` : ""}${esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
 <h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${titleMark(c)}${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}${why(c)}</div></article>`;
@@ -717,7 +728,7 @@ function card(c, big) {
 // ---- a subject's further markets, one line each, the row filled like water to the favourite's chance
 function mini(c) {
   const p = c.o[0].prob, { d, w } = shift(c);
-  return `<a class="mini" data-k="${esc(c.k)}" style="--pv:${lvl(p)}" href="${esc(c.u)}" target="_blank" rel="noopener"><b>${pc(p)}</b><span class="q">${c.m ? "★ " : ""}${esc(tidy(c.t))}<small>${esc(favName(c))} · ${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}${Math.abs(d) >= 1 ? ` · <em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)}${w === "in a day" ? "" : ` ${w}`}</em>` : ""}</small>${why(c)}</span></a>`;
+  return `<a class="mini" data-k="${esc(c.k)}" style="--pv:${lvl(p)}" href="${esc(c.u)}" target="_blank" rel="noopener"><b>${pc(p)}</b><span class="q">${c.m ? "★ " : ""}${esc(tidy(c.t))}<small>${added(c) ? `${added(c)} · ` : ""}${esc(favName(c))} · ${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}${Math.abs(d) >= 1 ? ` · <em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)}${w === "in a day" ? "" : ` ${w}`}</em>` : ""}</small>${why(c)}</span></a>`;
 }
 
 // ---- coming up: a match with its kick-off in India time and the split in playing order
@@ -736,7 +747,7 @@ function fixture(n, k) {
 // ---- currents: a strip from yesterday's level (dashed) to today's
 function current(c) {
   const f = c.o[0].prob, d = f - c.p;
-  return `<a class="cur" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><div class="tg"><span>${esc(LABEL[c.k] || "")}</span><span>${esc(c.s)}</span></div>
+  return `<a class="cur" data-k="${esc(c.k)}" href="${esc(c.u)}" target="_blank" rel="noopener"><div class="tg"><span>${esc(LABEL[c.k] || "")}</span><span>${esc(c.s)}</span></div>${added(c) ? `<div class="cad">${added(c)}</div>` : ""}
 <div class="t">${esc(tidy(c.t))}</div>${binary(c) ? "" : `<div class="who">${esc(favName(c))}</div>`}
 <div class="fr"><s>${pc(c.p)}</s><span class="ar">→</span><b>${pc(f)}</b><em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)}</em></div>
 <div class="strip"><i style="width:${Math.max(2, f)}%"></i><u style="left:${Math.max(1, Math.min(99, c.p))}%"></u></div></a>`;
@@ -816,14 +827,15 @@ function render(d) {
   if (!pages.includes(filter)) filter = "all";
   const chipOf = id => id === "all" ? "Everything" : id === "fav" ? `<span aria-hidden="true">★</span>Favourites` : id === "moves" ? `${icon("a:moves")}Currents` : id === "flow" ? `${icon("a:globe")}Where the money is` : `${icon("a:" + id)}${esc(present.find(a => a.id === id).label)}`;
   $("#chips").innerHTML = pages.map(id => `<button class="chip" data-a="${id}" aria-pressed="false">${chipOf(id)}</button>`).join("");
-  $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" data-k="${esc(c.k)}" style="--pv:${lvl(c.o[0].prob)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}${c.mv ? ` · <em class="d ${c.mv.d > 0 ? "up" : "dn"}">${c.mv.d > 0 ? "▲" : "▼"} ${pts(c.mv.d)} ${shift(c).w}</em>` : ""}</small>${why(c)}</span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
+  $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" data-k="${esc(c.k)}" style="--pv:${lvl(c.o[0].prob)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${added(c) ? `${added(c)} · ` : ""}${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}${c.mv ? ` · <em class="d ${c.mv.d > 0 ? "up" : "dn"}">${c.mv.d > 0 ? "▲" : "▼"} ${pts(c.mv.d)} ${shift(c).w}</em>` : ""}</small>${why(c)}</span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
   paint();
   if (old) requestAnimationFrame(() => flow(old));
   if (posterOn) showPoster(true);
 }
 // Every half minute: the clock, and each note's age ("5 min ago" counts from now, the time shown on the clock).
 setInterval(() => { if (D) { $("#reading").innerHTML = readingHTML(D); const c = $("#pv .reading"); if (c) c.innerHTML = readingHTML(D);
-  document.querySelectorAll(".why time[datetime]").forEach(t => { t.textContent = noteAge(t.getAttribute("datetime")); }); } }, 30 * 1000);
+  document.querySelectorAll(".why time[datetime]").forEach(t => { t.textContent = noteAge(t.getAttribute("datetime")); });
+  document.querySelectorAll(".added time[datetime]").forEach(t => { t.textContent = addedText(t.getAttribute("datetime")); }); } }, 30 * 1000);
 // Notes: a button that takes you through every note on the page in turn (board first), highlighting each; it counts
 // them, and opens everything first if the page shown has none.
 let noteAt = -1;

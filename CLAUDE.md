@@ -84,6 +84,14 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 - **Currents:** moves of 4+ points in a day where the favourite's **spread ≤ 4 points** (traders agree on the price)
   and the usual floor is met; weekly/monthly rankings excluded. Parth: the amount is only a proxy for accuracy.
 - **Where the money is:** the 10 busiest markets overall.
+- **Added / New** (Parth, 28 Sep 2026: "how long ago that prediction was added… a subtle label for new ones"):
+  `lib/added.js` stamps each card with when Andaaza first showed it (`ad`), copied forward reading to reading by the
+  market's address (no extra writes); a market that leaves is remembered 7 days (`gone`), so dipping under a floor
+  doesn't make it new again. The page shows a small marigold "New" pill for the first 48 h, "Added 3 days ago" up to
+  7 days, nothing after (calm). On cards (foot row), rows and Where the money is (front of the small line, where it
+  can't be cut off), the board (under the move line), Currents. Not on Coming-up matches (they arrive a week ahead by
+  design). The first reading after launch counted markets listed by their exchange in the last week from their listing
+  date (`cr`), older ones as always here. Settings in config `added`.
 - **Section order** (Parth, 27 Sep 2026, from the data: World trades as much as Sport and holds the war/oil must-haves,
   Tech had 5 of 10 Currents, Sport is the longest and already fills 4 of 7 board gauges): top gauges → Currents →
   Where the money is → World → Tech → Sport → Money → Screen → Misc. Area order lives in config `areas`.

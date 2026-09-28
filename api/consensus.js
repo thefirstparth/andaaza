@@ -2,6 +2,7 @@ import { waitUntil } from "@vercel/functions";
 import { consensus } from "../lib/consensus.js";
 import { blobConfigured, putJSON, readPath, PRE } from "../lib/blob.js";
 import { addNotes } from "../lib/why.js";
+import { stampAdded } from "../lib/added.js";
 
 // GET /api/consensus: Andaaza's data (see lib/consensus.js).
 // A visitor never waits for the markets to be read (a full Kalshi read takes about thirty seconds). The last reading is
@@ -43,7 +44,9 @@ function rebuild(prev) {
       let last = prev || mem, skip = out.took_ms > 20000;
       const saved = blobConfigured() ? await readBlob(PATH) : null;
       if (saved?.generated_at && (!last || Date.parse(saved.generated_at) > Date.parse(last.generated_at))) { skip ||= !stale(saved); last = saved; }
-      return addNotes(out, last, { skip, debug: !!PRE }).catch(() => out);
+      // When each market was first shown here ("Added 5 h ago", "New"): copied forward from the last reading.
+      const noted = await addNotes(out, last, { skip, debug: !!PRE }).catch(() => out);
+      try { return stampAdded(noted, last); } catch { return noted; }
     })
     .then(async out => {
       if (!out.sources.some(s => s.ok)) return null;
