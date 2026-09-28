@@ -92,8 +92,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   show lifetime volume, which is why its $40M+ markets can look missing). Single matches, crypto and excluded subjects
   never enter, however busy.
 - **New leader** (Parth, 28 Sep 2026: "Harry Kane instead of Yamal… no idea that it changed"; chose a reworded line
-  plus a tag): when whoever led a day ago no longer leads, the move line reads "▲ Overtook Harry Kane (56% a day ago)"
-  and a small "New leader" tag (subject colour) sits by the name on the board, Currents, cards, rows and Where the
+  plus a tag): when whoever led a day ago no longer leads, the move line reads "▲ Overtook Harry Kane (was 56%)"
+  and a small "New leader" tag (subject colour) sits on its own line under the name on the board (like the followed
+  side's chip; Parth: wrapped beside the name it "looked random"), beside the name in Currents, cards, rows and Where the
   money is. Only when both day-ago prices are known (exchanges sometimes omit one, which would fake a change), the new
   leader is ≥1 point ahead now, contenders are names (not ranges or dates), and chances add to ≤105% (not
   pick-several questions like festival headliners).
