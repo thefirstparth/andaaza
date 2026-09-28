@@ -870,7 +870,7 @@
     "models_rule": "Tried in order. On the free key the Flash models allow 20 calls a day each and Flash-Lite 500 (AI Studio → Rate limits); a model whose day is used up is skipped until midnight Pacific (12:30 pm IST), one that is busy or retired hands over to the next. To change model, edit this list.",
     "sources": {
       "$comment": "Where a note may come from (Parth, 28 Sep 2026: Antonelli '242 points' came from an Instagram post when he had 302; an Arsenal 'title' from Facebook; a Ballon d'Or overtake from X). Only dated news sites: social sites in 'blocked' are never searched or used, and an undated item is skipped. Every number in a note must appear in the item it came from. A note with a number must come from news at most numbers_days old, and a saved one with a number is rewritten after numbers_days (standings, points and totals change every weekend).",
-      "blocked": ["instagram.com", "facebook.com", "fb.com", "x.com", "twitter.com", "threads.net", "tiktok.com", "youtube.com", "youtu.be", "reddit.com", "linkedin.com", "pinterest.com", "quora.com", "medium.com", "substack.com", "tumblr.com", "snapchat.com", "t.me", "discord.com"],
+      "blocked": ["instagram.com", "facebook.com", "fb.com", "x.com", "twitter.com", "threads.net", "threads.com", "bsky.app", "mastodon.social", "whatsapp.com", "telegram.org", "tiktok.com", "youtube.com", "youtu.be", "reddit.com", "linkedin.com", "pinterest.com", "quora.com", "medium.com", "substack.com", "tumblr.com", "snapchat.com", "t.me", "discord.com"],
       "numbers_days": 4
     },
     "max_chars": 140,
