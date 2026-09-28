@@ -325,6 +325,12 @@
       "label": "Money & markets",
       "words": [
         "oil",
+        "fed",
+        "diesel",
+        "federal reserve",
+        "fomc",
+        "interest rate",
+        "rate hike",
         "brent",
         "crude",
         "gold",
@@ -591,6 +597,15 @@
     }
   ],
   "exclude": {
+    "world_us": {
+      "$comment": "US markets that move the whole world are kept, whatever the exclusions below say (Parth, 28 Sep 2026: 'U.S. politics that impacts the world should be added'). Each pattern is matched on the title. Kept: who wins the US presidential election (not primaries, nominees, states or parties), Federal Reserve rate decisions, US tariffs, and US oil and fuel exports. Still out: Congress, governors, mayors, approval ratings, what Trump says or does, fundraising, Fed chair picks.",
+      "patterns": [
+        "^(?!.*(nominee|primary|primaries|\\bparty\\b|parties|district|electoral vote|popular vote|margin|turnout|swing state|win .{0,20}\\bstates?\\b)).*(presidential election winner|win the (20\\d\\d )?(us |u\\.s\\. )?presidential election|(us|u\\.s\\.) presidential election|presidential election 20\\d\\d|20\\d\\d presidential election)",
+        "\\b(fed|fomc|federal reserve)\\b.*\\b(decision|rates?|cuts?|hikes?|meeting)\\b|\\b(rate cuts?|rate hikes?)\\b.*\\b(fed|20\\d\\d)\\b|\\bfed rate",
+        "\\btariffs?\\b",
+        "\\b(oil|crude|diesel|gasoline|fuel|lng)\\b.*\\bexports?\\b|\\bexports?\\b.*\\b(oil|crude|diesel|gasoline|fuel|lng)\\b|strategic petroleum reserve"
+      ]
+    },
     "us_politics": {
       "$comment": "Polymarket markets tagged with any of 'tags' are US domestic politics and stay off, unless they also carry one of 'unless' (world affairs, foreign elections; 'culture' and 'science' keep curiosities like aliens). Added 28 Sep 2026 after an ActBlue market got through (Parth: 'keep away').",
       "tags": ["politics", "trump", "trump presidency", "us politics", "u.s. politics", "us elections", "congress", "us election"],

@@ -65,7 +65,10 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   (>98.5% / <1.5%), side bets (pole, podium, fastest lap, handicaps, O/U), price ladders go.
 - **Exclusions:** US domestic politics (incl. Trump approval/RCP; Polymarket markets tagged Politics/Trump without a
   World/Geopolitics/foreign-election tag, `exclude.us_politics`, added 28 Sep 2026 after an ActBlue market got through;
-  Kalshi files foreign politics under Politics too, so Kalshi relies on words like "actblue"), the Fed, American sports, weather, esports,
+  Kalshi files foreign politics under Politics too, so Kalshi relies on words like "actblue"). **US markets that move
+  the world are kept** (Parth, 28 Sep 2026): `exclude.world_us` patterns skip every exclusion: who wins the presidential
+  election (not nominees, primaries, states, parties), Fed rate decisions and cuts (they sit in Money), tariffs, oil and
+  fuel exports. Congress, governors, approval, what Trump says or does, Fed chair picks stay out. Also out: Fed politics other than rate decisions, American sports, weather, esports,
   post/tweet counts, **crypto entirely** (Parth asked to remove Bitcoin).
 - **Follows:** Real Madrid, Verstappen, Alcaraz, Djokovic, India, Warriors. **Barcelona is followed as a rival
   (a hatewatch), not a team he supports.**
@@ -85,7 +88,16 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Yes/no questions are headlined by the question itself, never "Yes".
 - **Currents:** moves of 4+ points in a day where the favourite's **spread ≤ 4 points** (traders agree on the price)
   and the usual floor is met; weekly/monthly rankings excluded. Parth: the amount is only a proxy for accuracy.
-- **Where the money is:** the 10 busiest markets overall.
+- **Where the money is:** the 10 busiest markets overall **by money traded today** (not lifetime; Polymarket's own pages
+  show lifetime volume, which is why its $40M+ markets can look missing). Single matches, crypto and excluded subjects
+  never enter, however busy.
+- **New leader** (Parth, 28 Sep 2026: "Harry Kane instead of Yamal… no idea that it changed"; chose a reworded line
+  plus a tag): when whoever led a day ago no longer leads, the move line reads "▲ Overtook Harry Kane (56% a day ago)"
+  and a small "New leader" tag (subject colour) sits by the name on the board, Currents, cards, rows and Where the
+  money is. Only when both day-ago prices are known (exchanges sometimes omit one, which would fake a change), the new
+  leader is ≥1 point ahead now, contenders are names (not ranges or dates), and chances add to ≤105% (not
+  pick-several questions like festival headliners).
+- Cross-site merging ignores dots ("J.D. Vance" is "JD Vance"; "U.S." is "US").
 - **Added / New** (Parth, 28 Sep 2026: "how long ago that prediction was added… a subtle label for new ones"; then
   "can't see it": ages were hidden past 7 days and on every market older than the feature, so almost nothing showed):
   `lib/added.js` stamps each card with when Andaaza first showed it (`ad`), copied forward reading to reading (no extra
@@ -209,6 +221,10 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   had been left out not for budget but because fixtures carry no price history and need a different question.
 - Each note ends with its age in small grey text ("3 h ago", then the date), counted from now and updated every 30 s
   with the clock.
+- **A note must be true now** (Parth, 28 Sep 2026: Yamal overtook Kane, Kane took it back within hours, and a note
+  written then still said "Yamal has overtaken Kane"; the news was hours old). Gemini is told who leads right now and
+  never to say otherwise; `wrongLeader()` rejects any note saying someone else leads, is the favourite or overtook, on
+  new notes and on saved ones each reading (a saved one failing it is hidden and rewritten).
 - Numbers as digits: the voice asks for them, and `digits()` turns any spelled-out two to ninety-nine (and "plus 24")
   into digits, also on notes already saved (Parth caught "seven wins… plus twenty-four").
 - News backup: if Tavily fails and `NEWSDATA_API_KEY` is set, NewsData.io's free plan (200/day, commercial use OK, no
