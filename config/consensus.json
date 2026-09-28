@@ -591,9 +591,20 @@
     }
   ],
   "exclude": {
+    "us_politics": {
+      "$comment": "Polymarket markets tagged with any of 'tags' are US domestic politics and stay off, unless they also carry one of 'unless' (world affairs, foreign elections; 'culture' and 'science' keep curiosities like aliens). Added 28 Sep 2026 after an ActBlue market got through (Parth: 'keep away').",
+      "tags": ["politics", "trump", "trump presidency", "us politics", "u.s. politics", "us elections", "congress", "us election"],
+      "unless": ["world", "geopolitics", "global elections", "world elections", "international", "middle east", "foreign policy", "culture", "science"]
+    },
     "$comment": "Parth's standing exclusions: US domestic politics, US economic policy including the Fed, American football, baseball, hockey and college sport, esports, crypto price ladders, weather, post and view counts. NBA, film, TV and celebrities are in (26 Sep 2026). Crypto out entirely (26 Sep 2026).",
     "words": [
       "senate",
+      "actblue",
+      "fundraiser",
+      "fundraising",
+      "trump be photographed",
+      "executive order",
+      "pardon",
       "house of representatives",
       "congress",
       "midterm",
