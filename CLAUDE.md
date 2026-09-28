@@ -93,9 +93,12 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   never enter, however busy.
 - **New leader** (Parth, 28 Sep 2026: "Harry Kane instead of Yamal… no idea that it changed"; chose a reworded line
   plus a tag): when whoever led a day ago no longer leads, the move line reads "▲ Overtook Harry Kane (was 56%)"
-  and a small "New leader" tag (subject colour) sits on its own line under the name on the board (like the followed
+  and a small "New leader" tag sits on its own line under the name on the board (like the followed
   side's chip; Parth: wrapped beside the name it "looked random"), beside the name in Currents, cards, rows and Where the
-  money is. Only when both day-ago prices are known (exchanges sometimes omit one, which would fake a change), the new
+  money is. Its colour (Parth: the subject-coloured tag looked exactly like the "Real Madrid 17%" chip): a neutral
+  outline in the text colour, no fill, because colours already mean things here: filled subject colour = a number
+  about another contender, marigold = "New" on Andaaza, green/red = a move; a status label is none of those.
+  Only when both day-ago prices are known (exchanges sometimes omit one, which would fake a change), the new
   leader is ≥1 point ahead now, contenders are names (not ranges or dates), and chances add to ≤105% (not
   pick-several questions like festival headliners).
 - Cross-site merging ignores dots ("J.D. Vance" is "JD Vance"; "U.S." is "US").
