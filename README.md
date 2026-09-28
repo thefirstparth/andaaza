@@ -67,7 +67,7 @@ Notes are saved inside the reading, so every visitor sees the same one and nobod
 ## "New" and "Added … ago"
 Each market remembers when Andaaza first showed it (inside the saved reading, `ad` on each card). Every card shows
 "Added 3 days ago", with a small "New" for the first 48 hours; markets already on the page before dates were kept
-(28 Sep 2026) show "Listed 11 months ago" from their exchange's listing date. Change the hours in
+say "Added before 28 Sep". Hovering shows when the exchange listed the market. Change the hours in
 `config/consensus.json` → `added`. Nothing depends on it: a reading without dates simply shows no labels.
 
 ## Fixing things by hand

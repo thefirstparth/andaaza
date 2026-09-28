@@ -87,11 +87,12 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 - **Added / New** (Parth, 28 Sep 2026: "how long ago that prediction was added… a subtle label for new ones"; then
   "can't see it": ages were hidden past 7 days and on every market older than the feature, so almost nothing showed):
   `lib/added.js` stamps each card with when Andaaza first showed it (`ad`), copied forward reading to reading by the
-  market's address (no extra writes); a market that leaves is remembered 7 days (`gone`). **Every card shows an age**:
-  "Added 5 h ago" (first shown here since 28 Sep 2026; a small marigold "New" pill for the first 48 h) or, for markets
-  already here then, "Listed 11 months ago" from the exchange's listing date (`cr`, tooltip says so). On cards (foot
-  row), rows and Where the money is (front of the small line, never cut off), the board (under the move line),
-  Currents; not on Coming-up matches. Settings in config `added`.
+  market's address (no extra writes); a market that leaves is remembered 7 days (`gone`). **Every card shows when it
+  was added to Andaaza** (Parth chose "Added as the label, Listed on hover" over showing both or listing only):
+  "Added 7 h ago" / "3 days ago" / "10 days ago" / "3 months ago", a small marigold "New" pill for the first 48 h;
+  markets already here before dates were kept say "Added before 28 Sep". Hover: when first shown here, and "Listed on
+  Polymarket 11 months ago (14 Oct 2025)" from the exchange's listing date (`cr`). On cards (foot row), rows and Where
+  the money is (front of the small line, never cut off), the board (under the move line), Currents; not on Coming-up matches. Settings in config `added`.
 - **Section order** (Parth, 27 Sep 2026, from the data: World trades as much as Sport and holds the war/oil must-haves,
   Tech had 5 of 10 Currents, Sport is the longest and already fills 4 of 7 board gauges): top gauges → Currents →
   Where the money is → World → Tech → Sport → Money → Screen → Misc. Area order lives in config `areas`.

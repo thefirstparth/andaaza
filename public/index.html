@@ -670,17 +670,22 @@ const moved = c => { const { d, was, w } = shift(c); return Math.abs(d) >= 1 ? `
 // How old a note is, small and grey after it: "40 min ago", "3 h ago", then the date ("24 Sep").
 const noteAge = a => { const t = Date.parse(a || ""); if (!t) return ""; const m = Math.max(1, Math.round((Date.now() - t) / 6e4));
   return m < 60 ? `${m} min ago` : m < 24 * 60 ? `${Math.round(m / 60)} h ago` : new Date(t).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short" }); };
-// How long ago each prediction arrived, on every card: "Added 5 h ago" counted from when Andaaza first showed it (the
-// server stamps it, lib/added.js), with a small "New" for the first new_hours (48). Markets already here before
-// Andaaza kept that date (28 Sep 2026) say "Listed 3 months ago" instead, from their exchange's own listing date.
+// How long ago each prediction arrived on Andaaza, on every card: "Added 7 h ago", "Added 3 days ago", "Added 3 months
+// ago", counted from when Andaaza first showed it (the server stamps it, lib/added.js), with a small "New" for the first
+// new_hours (48). Markets already here before Andaaza kept that date say "Added before 28 Sep". Hovering shows when the
+// exchange listed the market ("Listed on Polymarket 3 months ago, 12 Jun 2026").
+const START = "2026-09-28";
 const ago = t => { const m = Math.max(1, Math.round((Date.now() - t) / 6e4)), d = Math.round(m / 1440), mo = Math.round(d / 30.4), y = Math.round(d / 365);
-  return m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : d < 45 ? `${d} day${d === 1 ? "" : "s"} ago` : d < 548 ? `${mo} months ago` : `${y} year${y === 1 ? "" : "s"} ago`; };
-const arrival = c => { const a = Date.parse(c.ad || ""), known = a && !String(c.ad).startsWith("2000"), l = Date.parse(c.cr || "");
-  return known ? { verb: "Added", t: a, title: `First shown on Andaaza ${new Date(a).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} IST` }
-    : l ? { verb: "Listed", t: l, title: `Listed on ${c.s} on ${new Date(l).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", year: "numeric" })}; shown on Andaaza since before it started keeping dates (28 Sep 2026)` } : null; };
-const added = c => { const x = arrival(c); if (!x || x.t > Date.now() + 6e4) return "";
-  const fresh = x.verb === "Added" && (Date.now() - x.t) / 36e5 < (D?.new_hours ?? 48);
-  return `<span class="added${fresh ? " fresh" : ""}" title="${esc(x.title)}">${fresh ? `<span class="nw">New</span>` : ""}<time datetime="${new Date(x.t).toISOString()}" data-v="${x.verb}">${x.verb} ${ago(x.t)}</time></span>`; };
+  return m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : d < 45 ? `${d} day${d === 1 ? "" : "s"} ago` : d < 548 ? `${mo} month${mo === 1 ? "" : "s"} ago` : `${y} year${y === 1 ? "" : "s"} ago`; };
+const day = (t, year) => new Date(t).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", ...(year ? { year: "numeric" } : {}) });
+const added = c => {
+  const a = Date.parse(c.ad || ""), known = a && !String(c.ad).startsWith("2000"), l = Date.parse(c.cr || "");
+  if (!known && !l && !c.ad) return "";
+  const fresh = known && (Date.now() - a) / 36e5 < (D?.new_hours ?? 48);
+  const listed = l ? `Listed on ${c.s} ${ago(l)} (${day(l, true)})` : "";
+  const title = [known ? `First shown on Andaaza ${new Date(a).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} IST` : `On Andaaza since before ${day(START)}, when it started keeping dates`, listed].filter(Boolean).join(". ");
+  const text = known ? `<time datetime="${new Date(a).toISOString()}">Added ${ago(a)}</time>` : `Added before ${day(START)}`;
+  return `<span class="added${fresh ? " fresh" : ""}" title="${esc(title)}">${fresh ? `<span class="nw">New</span>` : ""}${text}</span>`; };
 const why = c => { if (!c.why?.x) return ""; const k = c.why.k === "leads" ? "Why it leads" : c.why.k === "match" ? "Why they are favoured" : "Why it moved", age = noteAge(c.why.a);
   return `<span class="why"${c.why.u ? ` data-src="${esc(c.why.u)}"` : ""} title="${k}. Written by Gemini from ${esc(c.why.t ? `the news: ${c.why.t}` : "the news")}">${icon("s:gemini")}<span class="vh">${k}, written by Gemini: </span><span>${esc(c.why.x)}${age ? ` <time datetime="${esc(c.why.a)}">${age}</time>` : ""}</span></span>`; };
 
@@ -839,7 +844,7 @@ function render(d) {
 // Every half minute: the clock, and each note's age ("5 min ago" counts from now, the time shown on the clock).
 setInterval(() => { if (D) { $("#reading").innerHTML = readingHTML(D); const c = $("#pv .reading"); if (c) c.innerHTML = readingHTML(D);
   document.querySelectorAll(".why time[datetime]").forEach(t => { t.textContent = noteAge(t.getAttribute("datetime")); });
-  document.querySelectorAll(".added time[datetime]").forEach(t => { t.textContent = `${t.dataset.v} ${ago(Date.parse(t.getAttribute("datetime")))}`; }); } }, 30 * 1000);
+  document.querySelectorAll(".added time[datetime]").forEach(t => { t.textContent = `Added ${ago(Date.parse(t.getAttribute("datetime")))}`; }); } }, 30 * 1000);
 // Notes: a button that takes you through every note on the page in turn (board first), highlighting each; it counts
 // them, and opens everything first if the page shown has none.
 let noteAt = -1;
