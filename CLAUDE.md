@@ -86,11 +86,14 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 - **Where the money is:** the 10 busiest markets overall.
 - **Added / New** (Parth, 28 Sep 2026: "how long ago that prediction was added… a subtle label for new ones"; then
   "can't see it": ages were hidden past 7 days and on every market older than the feature, so almost nothing showed):
-  `lib/added.js` stamps each card with when Andaaza first showed it (`ad`), copied forward reading to reading by the
-  market's address (no extra writes); a market that leaves is remembered 7 days (`gone`). **Every card shows when it
-  was added to Andaaza** (Parth chose "Added as the label, Listed on hover" over showing both or listing only):
-  "Added 7 h ago" / "3 days ago" / "10 days ago" / "3 months ago", a small marigold "New" pill for the first 48 h;
-  markets already here before dates were kept say "Added before 28 Sep". Hover: when first shown here, and "Listed on
+  `lib/added.js` stamps each card with when Andaaza first showed it (`ad`), copied forward reading to reading (no extra
+  writes). A card is recognised by **every** address it carries (its own and its "also" markets'), so a change of the
+  leading exchange never makes it new; a market that leaves is remembered 30 days (`gone`, `remember_days`). The
+  record began 28 Sep 2026 (`since`); for its first 7 days (`warm_days`) only markets the exchange listed after that
+  can be dated, older ones may have been here before. **No date beats a wrong one:** an unknown date shows nothing
+  (Parth: "Added before 28 Sep" gave zero context), and the listing date is never used as a guess. Parth chose "Added
+  as the label, Listed on hover": "Added 7 h ago" / "3 days ago" / "10 days ago" / "3 months ago", a small marigold
+  "New" pill for the first 48 h. Hover: when first shown here, and "Listed on
   Polymarket 11 months ago (14 Oct 2025)" from the exchange's listing date (`cr`). On cards (foot row), rows and Where
   the money is (front of the small line, never cut off), the board (under the move line), Currents; not on Coming-up matches. Settings in config `added`.
 - **Section order** (Parth, 27 Sep 2026, from the data: World trades as much as Sport and holds the war/oil must-haves,
@@ -233,6 +236,9 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Cloud credit but needs billing, and a billing project with $0 prepaid refuses even free calls (402).
 
 ## Mistakes already made (don't repeat)
+- F1 Drivers' Champion showed "New · Added 3 h ago" for days: Kalshi out-traded Polymarket, the card's lead (and its
+  address) switched, and a card known only by its lead address looked new; markets rotating in (Currents, near a
+  floor) looked new too because the record was hours old. Now: every address counts, 7-day warm-up, 30-day memory.
 - A finished race stayed on the board: Kalshi keeps race markets open a week (Russell 98%, under the 98.5% cut).
   Now `decided` (config): a leader ≥95% on a question past its due date gives way (Parth: only past, not upcoming).
 - The page was capped at 1280px, zoomed only from 2100px: every laptop and 1080p screen between had wide empty margins.

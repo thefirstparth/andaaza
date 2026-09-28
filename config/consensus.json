@@ -899,9 +899,10 @@
     "rule": "A question counts as decided, and gives way (a race winner hands the F1 slot to the next race), when its leader is above 98.5%, or at least share percent once the question is past the date it was due to be settled. Kalshi keeps finished races open a week for the official result; this stops a finished race sitting on the board. A question still ahead of its date stays, however sure."
   },
   "added": {
-    "$comment": "When a market was first shown on Andaaza. Every card shows \"Added 5 h ago\" (markets that arrived since 28 Sep 2026) or \"Listed 3 months ago\" (markets already here then, from their exchange listing date), and a small \"New\" label for those added in the last new_hours hours. A market that leaves the page is remembered for remember_days, so one dipping under a floor and coming back is not new again.",
+    "$comment": "When a market was first shown on Andaaza. A card shows \"Added 5 h ago\" and, for the first new_hours, a small \"New\" label; hovering shows when its exchange listed it. A card is recognised by all its exchange addresses (so a change of the leading exchange never makes it new). The record began on 28 Sep 2026: for its first warm_days only markets listed after that can be dated (older ones may have been here before; they show nothing). A market that leaves the page is remembered for remember_days, so rotating in and out never makes it new again.",
     "new_hours": 48,
-    "remember_days": 7
+    "warm_days": 7,
+    "remember_days": 30
   },
   "marks": {
     "$comment": "Logos, flags and faces beside names come from the shared library (github.com/thefirstparth/marks), copied by `npm run marks`. faces: false shows no photos of people at all; each person shows the flag they play under instead (Parth, 28 Sep 2026: \"remove all human faces for now; only flags and logos\"). Set true and run `npm run marks` to bring faces back.",
