@@ -670,22 +670,19 @@ const moved = c => { const { d, was, w } = shift(c); return Math.abs(d) >= 1 ? `
 // How old a note is, small and grey after it: "40 min ago", "3 h ago", then the date ("24 Sep").
 const noteAge = a => { const t = Date.parse(a || ""); if (!t) return ""; const m = Math.max(1, Math.round((Date.now() - t) / 6e4));
   return m < 60 ? `${m} min ago` : m < 24 * 60 ? `${Math.round(m / 60)} h ago` : new Date(t).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short" }); };
-// How long ago each prediction arrived on Andaaza, on every card: "Added 7 h ago", "Added 3 days ago", "Added 3 months
-// ago", counted from when Andaaza first showed it (the server stamps it, lib/added.js), with a small "New" for the first
-// new_hours (48). Markets already here before Andaaza kept that date say "Added before 28 Sep". Hovering shows when the
-// exchange listed the market ("Listed on Polymarket 3 months ago, 12 Jun 2026").
-const START = "2026-09-28";
+// How long ago each prediction arrived on Andaaza: "Added 7 h ago", "Added 3 days ago", "Added 3 months ago", counted
+// from when Andaaza first showed it (the server stamps it, lib/added.js, recognising a market across exchanges), with a
+// small "New" for the first new_hours (48). Where that date isn't known (markets here before the record began), nothing
+// is shown. Hovering shows when the exchange listed it ("Listed on Polymarket 3 months ago, 12 Jun 2026").
 const ago = t => { const m = Math.max(1, Math.round((Date.now() - t) / 6e4)), d = Math.round(m / 1440), mo = Math.round(d / 30.4), y = Math.round(d / 365);
   return m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : d < 45 ? `${d} day${d === 1 ? "" : "s"} ago` : d < 548 ? `${mo} month${mo === 1 ? "" : "s"} ago` : `${y} year${y === 1 ? "" : "s"} ago`; };
 const day = (t, year) => new Date(t).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", ...(year ? { year: "numeric" } : {}) });
 const added = c => {
-  const a = Date.parse(c.ad || ""), known = a && !String(c.ad).startsWith("2000"), l = Date.parse(c.cr || "");
-  if (!known && !l && !c.ad) return "";
-  const fresh = known && (Date.now() - a) / 36e5 < (D?.new_hours ?? 48);
-  const listed = l ? `Listed on ${c.s} ${ago(l)} (${day(l, true)})` : "";
-  const title = [known ? `First shown on Andaaza ${new Date(a).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} IST` : `On Andaaza since before ${day(START)}, when it started keeping dates`, listed].filter(Boolean).join(". ");
-  const text = known ? `<time datetime="${new Date(a).toISOString()}">Added ${ago(a)}</time>` : `Added before ${day(START)}`;
-  return `<span class="added${fresh ? " fresh" : ""}" title="${esc(title)}">${fresh ? `<span class="nw">New</span>` : ""}${text}</span>`; };
+  const a = Date.parse(c.ad || ""), l = Date.parse(c.cr || "");
+  if (!a || String(c.ad).startsWith("2000") || a > Date.now() + 6e4) return "";
+  const fresh = (Date.now() - a) / 36e5 < (D?.new_hours ?? 48);
+  const title = [`First shown on Andaaza ${new Date(a).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} IST`, l ? `Listed on ${c.s} ${ago(l)} (${day(l, true)})` : ""].filter(Boolean).join(". ");
+  return `<span class="added${fresh ? " fresh" : ""}" title="${esc(title)}">${fresh ? `<span class="nw">New</span>` : ""}<time datetime="${new Date(a).toISOString()}">Added ${ago(a)}</time></span>`; };
 const why = c => { if (!c.why?.x) return ""; const k = c.why.k === "leads" ? "Why it leads" : c.why.k === "match" ? "Why they are favoured" : "Why it moved", age = noteAge(c.why.a);
   return `<span class="why"${c.why.u ? ` data-src="${esc(c.why.u)}"` : ""} title="${k}. Written by Gemini from ${esc(c.why.t ? `the news: ${c.why.t}` : "the news")}">${icon("s:gemini")}<span class="vh">${k}, written by Gemini: </span><span>${esc(c.why.x)}${age ? ` <time datetime="${esc(c.why.a)}">${age}</time>` : ""}</span></span>`; };
 

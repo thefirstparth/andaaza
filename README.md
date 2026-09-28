@@ -66,8 +66,10 @@ Notes are saved inside the reading, so every visitor sees the same one and nobod
 
 ## "New" and "Added … ago"
 Each market remembers when Andaaza first showed it (inside the saved reading, `ad` on each card). Every card shows
-"Added 3 days ago", with a small "New" for the first 48 hours; markets already on the page before dates were kept
-say "Added before 28 Sep". Hovering shows when the exchange listed the market. Change the hours in
+"Added 3 days ago", with a small "New" for the first 48 hours. When the date isn't known for certain (markets that
+were on the page before 28 Sep 2026, when dates started being kept), it shows nothing rather than a guess. A market
+is recognised by all its exchange addresses, and remembered for 30 days after it leaves, so it is never "new" twice.
+Hovering shows when the exchange listed the market. Change the hours in
 `config/consensus.json` → `added`. Nothing depends on it: a reading without dates simply shows no labels.
 
 ## Fixing things by hand
