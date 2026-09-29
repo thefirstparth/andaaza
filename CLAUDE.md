@@ -138,7 +138,10 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
 - **Three looks** (button cycles, names the next): **Day, Night, Retro** (old printed tide almanac: aged paper,
   printer's inks, halftone water, double rules, Libre Caslon Text + IBM Plex Mono; Retro fonts load only when chosen;
   Retro ignores the OS dark setting).
-- **Type:** Instrument Sans (reading; narrow width only for big numbers) + Instrument Serif italic (name, titles).
+- **Type:** Instrument Sans (reading) + Instrument Serif italic (name, titles). **Big numbers** (board and card gauges,
+  Currents, rows, Where the money is, poster lists, the clock) are **Bricolage Grotesque**, narrowed (`wdth` 75), via
+  `--fig` (Parth chose it 29 Sep 2026 from six shown on his real board: Anek Latin, Big Shoulders, Bricolage, Fraunces,
+  Martian Mono, Unbounded; "relevant, slightly unique"). Falls back to Instrument Sans; Retro keeps IBM Plex Mono.
   Parth rejected Roboto Flex/Bodoni as not modern enough. Tiro Devanagari Hindi and Noto Nastaliq Urdu are loaded for
   their few letters only.
 - **Header:** the gauge-drop logo inside the name (sized in the name's ems, centred on it, measured 0.000em) ·
