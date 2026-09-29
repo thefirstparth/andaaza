@@ -172,15 +172,11 @@
       "words": [
         "tennis",
         "atp",
-        "wta",
         "alcaraz",
         "djokovic",
         "sinner",
         "medvedev",
         "zverev",
-        "sabalenka",
-        "swiatek",
-        "gauff",
         "wimbledon",
         "roland garros",
         "us open tennis",
@@ -597,6 +593,11 @@
     }
   ],
   "exclude": {
+    "women": {
+      "$comment": "No women's sport anywhere (Parth, 29 Sep 2026: a Women's Champions League match showed as 'AS Roma v FC Barcelona' with nothing saying it was the women's game). The title often doesn't say so: Polymarket puts it in a tag, the series and the description, Kalshi in the market's address (KXWTA...). So a sport market is dropped when its title, tags, address or description match 'pattern'.",
+      "pattern": "\\bwom[ae]n'?s?\\b|\\bladies\\b|\\bfemen[ií]|\\bf[ée]minin|\\bfrauen|\\bwnba\\b|\\bnwsl\\b|\\buwcl\\b|\\bwsl\\b|\\bwta\\b|\\blpga\\b|\\bwpl\\b|\\bwbbl\\b|\\bw(t20|odi)|\\(w\\)|\\bgirls\\b|/kx[a-z0-9]*(women|wta|wnba|nwsl|ewsl|uwcl)|/uwcl-|/wta-|/wnba-|/nwsl-",
+      "sport": "\\b(sports?|soccer|football|tennis|cricket|basketball|golf|rugby|hockey|volleyball|athletics|olympics|games|motorsport|cycling)\\b"
+    },
     "world_us": {
       "$comment": "US markets that move the whole world are kept, whatever the exclusions below say (Parth, 28 Sep 2026: 'U.S. politics that impacts the world should be added'). Each pattern is matched on the title. Kept: who wins the US presidential election (not primaries, nominees, states or parties), Federal Reserve rate decisions, US tariffs, and US oil and fuel exports. Still out: Congress, governors, mayors, approval ratings, what Trump says or does, fundraising, Fed chair picks.",
       "patterns": [
