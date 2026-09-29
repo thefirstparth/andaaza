@@ -15,9 +15,11 @@
 <script src="/logos.js" async></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Instrument Sans for everything that is read (its width axis keeps the gauges' big numbers compact), Instrument
-     Serif italic for the name and the section titles: one family, drawn together. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&display=swap" media="print" onload="this.media='all'">
+<!-- Instrument Sans for everything that is read, Instrument Serif italic for the name and the section titles.
+     The big numbers (gauges, Currents, rows, the clock) are Bricolage Grotesque, narrowed (Parth chose it, 29 Sep 2026,
+     over Anek Latin, Big Shoulders, Fraunces, Martian Mono and Unbounded); without it they fall back to Instrument Sans.
+     Retro keeps its own printed numbers. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,700&display=swap" media="print" onload="this.media='all'">
 <!-- Tiro Devanagari Hindi, only for the Devanagari on the page (the name and the area seals); Noto Nastaliq Urdu only
      for اندازہ in the definition. Both loaded as those letters alone. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&text=%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%81&display=swap" media="print" onload="this.media='all'">
@@ -38,6 +40,7 @@
   --glass:color-mix(in oklab,var(--card) 62%,transparent);--glass-edge:color-mix(in oklab,#fff 70%,transparent);
   --shadow:0 1px 1px oklch(.2 .02 245 / .04),0 12px 32px -18px oklch(.2 .02 245 / .3);
   --sans:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--fig:"Bricolage Grotesque","Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --display:"Instrument Serif","Iowan Old Style","Palatino",Georgia,serif;
   --deva:"Tiro Devanagari Hindi","Noto Serif Devanagari","Kohinoor Devanagari",serif;
 }
@@ -61,7 +64,7 @@
   --sea:#2e3a86;--tide:#6c74ab;--foam:#e4dcc5;--marigold:#b35d17;--up:#2e6a39;--down:#a13a29;--ai:#4b3a86;--ai2:#2e3a86;
   --La:.45;--Ca:.1;--Lc:.905;--Cc:.03;--L2:.62;--L3:.78;--C2:.07;--C3:.045;--on:#f8f0dd;
   --glass:#efe5cf;--glass-edge:#2a1f16;--shadow:none;
-  --sans:"Libre Caslon Text","Iowan Old Style",Georgia,serif;--num:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+  --sans:"Libre Caslon Text","Iowan Old Style",Georgia,serif;--num:"IBM Plex Mono",ui-monospace,Menlo,monospace;--fig:var(--sans)}
 
 /* The hue wheel: areas, then subjects. Yellows cannot hold much chroma, so money and India carry less. */
 [data-a=sport]{--h:150}[data-a=tech]{--h:215}[data-a=money]{--h:85;--k:.75}[data-a=world]{--h:262}[data-a=screen]{--h:320}[data-a=misc]{--h:240;--k:.15}
@@ -178,7 +181,7 @@ button{font:inherit;color:inherit}
 .dict .def{color:var(--ink)}
 .mast .hero{margin:16px 0 0;font:400 clamp(21px,2.4vw,30px)/1.2 var(--sans);letter-spacing:-.01em;color:var(--ink);max-width:36ch}
 .reading{display:grid;gap:8px;justify-items:end;text-align:right;font:500 13px/1.35 var(--sans);color:var(--muted);min-width:230px}
-.reading .clock{font:700 clamp(34px,4vw,48px)/.9 var(--sans);font-variation-settings:"wdth" 75;color:var(--ink);letter-spacing:-.01em}
+.reading .clock{font:700 clamp(34px,4vw,48px)/.9 var(--fig);font-variation-settings:"wdth" 75;color:var(--ink);letter-spacing:-.01em}
 .reading .clock small{font:600 13px var(--sans);color:var(--muted);letter-spacing:0;margin-left:6px}
 .reading .src{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
 .reading .src span{display:inline-flex;align-items:center;gap:6px}
@@ -234,7 +237,7 @@ button{font:inherit;color:inherit}
 .staff .l::after{content:"";position:absolute;right:0;top:0;bottom:0;width:14px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 10%);opacity:.5;-webkit-mask:linear-gradient(to left,#000 0 7px,transparent 7px);mask:linear-gradient(to left,#000 0 7px,transparent 7px)}
 .staff .sc{position:absolute;right:11px;transform:translateY(50%);font:700 9.5px/1 var(--sans);opacity:.6}
 .post .who.ask{font-size:14.5px;line-height:1.28;font-weight:700}
-.staff b{position:absolute;left:12px;bottom:14px;font:700 clamp(40px,4.3vw,66px)/.8 var(--sans);font-variation-settings:"wdth" 75;letter-spacing:-.02em}
+.staff b{position:absolute;left:12px;bottom:14px;font:700 clamp(40px,4.3vw,66px)/.8 var(--fig);font-variation-settings:"wdth" 75;letter-spacing:-.02em}
 .staff b small{font-size:.38em;font-weight:700;margin-left:2px;letter-spacing:0}
 .staff .wl{position:absolute;right:26px;bottom:calc(var(--pp) * 1%);transform:translateY(-3px);font:700 10.5px var(--sans);white-space:nowrap}
 .staff .wl.dn{transform:translateY(calc(100% + 4px))}
@@ -285,7 +288,7 @@ button{font:inherit;color:inherit}
 .cur .fr{display:flex;align-items:baseline;gap:8px;margin-top:auto}
 .cur .fr s{text-decoration:none;font:700 17px var(--sans);color:var(--muted)}
 .cur .fr .ar{font:600 16px var(--sans);color:var(--muted)}
-.cur .fr b{font:700 40px/.9 var(--sans);font-variation-settings:"wdth" 75;color:var(--a)}
+.cur .fr b{font:700 40px/.9 var(--fig);font-variation-settings:"wdth" 75;color:var(--a)}
 .cur .fr em{margin-left:auto;font:700 12.5px var(--sans);font-style:normal}
 .strip{position:relative;height:12px;border-radius:99px;background:var(--ac);overflow:hidden}
 .strip i{position:absolute;inset:0 auto 0 0;border-radius:99px;background:var(--a)}
@@ -371,7 +374,7 @@ main>.panel:last-of-type{margin-bottom:0}
 .gauge .g{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;padding:12px 14px}
 
 .gauge .g::after{content:"";position:absolute;right:0;top:0;bottom:0;width:6px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 25%);opacity:.45}
-.gauge b{font:700 46px/.88 var(--sans);font-variation-settings:"wdth" 75;letter-spacing:-.015em}
+.gauge b{font:700 46px/.88 var(--fig);font-variation-settings:"wdth" 75;letter-spacing:-.015em}
 .gauge b small{font-size:.44em;font-weight:700;margin-left:1px;letter-spacing:0}
 .gauge span{font:600 13px/1.22 var(--sans);overflow-wrap:break-word;hyphens:auto;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .gauge span>.lg{display:table!important;margin:0 0 .3em}.gauge span:has(>.lg){-webkit-line-clamp:4}
@@ -417,7 +420,7 @@ main>.panel:last-of-type{margin-bottom:0}
 .minis{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:8px 14px;margin-top:12px}
 .mini{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:center;padding:11px 16px;border-radius:20px;text-decoration:none;border:1px solid color-mix(in oklab,var(--a) 18%,var(--line));background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%))}
 .mini:hover{border-color:var(--a)}
-.mini b{font:700 22px/1 var(--sans);font-variation-settings:"wdth" 75;color:var(--a)}
+.mini b{font:700 22px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--a)}
 .mini .q{font:600 14px/1.3 var(--sans);min-width:0}
 .mini .q small{display:block;font:500 12px var(--sans);color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
@@ -442,7 +445,7 @@ main>.panel:last-of-type{margin-bottom:0}
 .wr .n{font:italic 400 32px/1 var(--display);color:var(--a)}
 .wr .q{font:600 15px/1.3 var(--sans)}
 .wr .q small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:3px}
-.wr .p{text-align:right;font:700 26px/1 var(--sans);font-variation-settings:"wdth" 75;color:var(--a)}
+.wr .p{text-align:right;font:700 26px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--a)}
 .wr .p small{display:block;font:600 12px var(--sans);color:var(--muted);max-width:18ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
 
 /* ---- how it picks ---- */
@@ -496,7 +499,7 @@ details.how li{margin:0 0 8px}
 .pv .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 14px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
 .pv .it span{font:600 14.5px/1.3 var(--sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pv .it small{grid-column:1;font:500 12px var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pv .it b{grid-row:span 2;grid-column:2;text-align:right;font:700 26px/1 var(--sans);font-variation-settings:"wdth" 75;color:var(--a,var(--ink))}
+.pv .it b{grid-row:span 2;grid-column:2;text-align:right;font:700 26px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--a,var(--ink))}
 .pv .it b em{display:block;font:700 11.5px var(--sans);font-style:normal;margin-top:3px}
 .pv .x{position:fixed;top:12px;right:12px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font:600 13px var(--sans);cursor:pointer}
 @media (max-width:900px){.pv{place-items:start center;overflow:auto}.pv .sheet{grid-template-columns:minmax(0,1fr);min-width:0}.pv .ph{flex-wrap:wrap;padding-right:64px}.pv .ph h1{font-size:52px}.pv .ph .reading{margin-left:0;justify-items:start;text-align:left}.pv .ph .reading .src{justify-content:flex-start}}
