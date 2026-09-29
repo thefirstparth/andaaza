@@ -142,7 +142,10 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Currents, rows, Where the money is, poster lists, the clock) are **Bricolage Grotesque**, narrowed (`wdth` 75), via
   `--fig` (Parth chose it 29 Sep 2026 from six shown on his real board: Anek Latin, Big Shoulders, Bricolage, Fraunces,
   Martian Mono, Unbounded; "relevant, slightly unique"). Falls back to Instrument Sans; Retro keeps IBM Plex Mono.
-  Parth rejected Roboto Flex/Bodoni as not modern enough. Tiro Devanagari Hindi and Noto Nastaliq Urdu are loaded for
+  Parth rejected Roboto Flex/Bodoni as not modern enough. Same day he saw 22 more on his board and kept Bricolage
+  ("keep as it is"): Google Sans Flex (rounded, sharp, narrow), Google Sans, Google Sans Code, Roboto Serif, Noto
+  Sans/Serif Display, Mona Sans, Science Gothic, Funnel Display, Special Gothic, Tektur, Mozilla Headline, TikTok
+  Sans, Pathway Extreme, Kripa, Phudu, Asap Sharp, Stack Sans Notch, Zalando Sans. Don't re-offer these unasked. Tiro Devanagari Hindi and Noto Nastaliq Urdu are loaded for
   their few letters only.
 - **Header:** the gauge-drop logo inside the name (sized in the name's ems, centred on it, measured 0.000em) ·
   **Andaaza** · marigold seal **अंदाज़ा** (centred on the x-height middle, measured) · one dictionary line (🔊 speaks
