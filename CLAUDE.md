@@ -276,6 +276,10 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Cloud credit but needs billing, and a billing project with $0 prepaid refuses even free calls (402).
 
 ## Mistakes already made (don't repeat)
+- Kalshi markets vanished at random (Parth, 29 Sep 2026: the Bahrain GP winner, a must-have, was shown, then gone for an
+  hour): Kalshi turns away 1–4 of the ~44 re-price requests each reading (429), and a turned-away request counted as
+  "no markets". Now each request is retried (0.5/1/2 s), an event's markets always share one request (never half an
+  event, which would show a wrong leader), and a full read cut short keeps the last index's other events.
 - F1 Drivers' Champion showed "New · Added 3 h ago" for days: Kalshi out-traded Polymarket, the card's lead (and its
   address) switched, and a card known only by its lead address looked new; markets rotating in (Currents, near a
   floor) looked new too because the record was hours old. Now: every address counts, 7-day warm-up, 30-day memory.
