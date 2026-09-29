@@ -69,7 +69,12 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   the world are kept** (Parth, 28 Sep 2026): `exclude.world_us` patterns skip every exclusion: who wins the presidential
   election (not nominees, primaries, states, parties), Fed rate decisions and cuts (they sit in Money), tariffs, oil and
   fuel exports. Congress, governors, approval, what Trump says or does, Fed chair picks stay out. Also out: Fed politics other than rate decisions, American sports, weather, esports,
-  post/tweet counts, **crypto entirely** (Parth asked to remove Bitcoin).
+  post/tweet counts, **crypto entirely** (Parth asked to remove Bitcoin), **women's sport entirely** (Parth, 29 Sep
+  2026: "I don't want women sports anywhere, especially if you don't mention that it's women sports"; a Women's
+  Champions League match showed as "AS Roma v FC Barcelona"). `exclude.women` reads the title, tags, address and
+  description, since titles often don't say it (Polymarket puts it in a tag/series/description; WTA matches are just two
+  names, caught by their `/wta-` address; Kalshi by its code, e.g. KXWTA…, KXNWSL…, KX…WOMEN…; careful: KXWOMHOCKEY is
+  Winter Olympics *Men's* hockey and is kept). WTA, Sabalenka, Swiatek and Gauff left the tennis words.
 - **Follows:** Real Madrid, Verstappen, Alcaraz, Djokovic, India, Warriors. **Barcelona is followed as a rival
   (a hatewatch), not a team he supports.**
 - Subjects (areas): Sport (F1, football, cricket, tennis, NBA) · Tech (AI & tech) · Money (India first; no crypto) ·
