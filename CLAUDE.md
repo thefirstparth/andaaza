@@ -228,6 +228,13 @@ Gemini's own Google Search (not free; terms forbid storing or showing its answer
 GDELT, The Guardian, Grok, Brave, Linkup.
 
 ## Mistakes already made (don't repeat)
+- Kalshi cards linked to the series page (kalshi.com/markets/kxatp: every ATP tournament at one address) until 1 Oct
+  2026; each now links to its event (`/markets/{series}/{slug}/{event}`; Kalshi reads only the event code). `lib/added.js`
+  carried each card's date over from its old address for the one change-over reading.
+- Twins missed: "Fed Decision in October?" (Polymarket) and "Fed decision in Oct 2026?" (Kalshi) showed as #1 and #2 in
+  Where the money is. Months are now read in full ("Oct" = "October"), and outcomes named differently ("No change",
+  "Fed maintains rate") count as the same leader when both settle within 2 days and the leader is priced within 5 pts.
+- Text under a big number inherits its tight spacing and narrow width (Retro showed "Nochange"): reset both on it.
 - Kalshi markets vanished at random (Parth, 29 Sep 2026: the Bahrain GP winner, a must-have, was shown, then gone for an
   hour): Kalshi turns away 1–4 of the ~44 re-price requests each reading (429), and a turned-away request counted as
   "no markets". Now each request is retried (0.5/1/2 s), an event's markets always share one request (never half an
