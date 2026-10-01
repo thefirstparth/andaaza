@@ -406,6 +406,9 @@ main>.panel:last-of-type{margin-bottom:0}
 .wr .q small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:3px}
 .wr .p{text-align:right;font:700 26px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--a)}
 .wr .p small{display:block;font:600 12px var(--sans);color:var(--muted);max-width:18ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+/* Words under a big number (the leader's name, a move) are reading text: none of the number's tight spacing or
+   narrow width, in any look (Retro squeezed "No change" into "Nochange"). */
+:is(.wr .p small,.pv .it b em){letter-spacing:0;font-variation-settings:normal}
 
 /* ---- how it picks ---- */
 details.how{margin-top:60px;border-top:1.5px solid var(--ink);padding-top:18px}
