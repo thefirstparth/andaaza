@@ -87,7 +87,7 @@ button{font:inherit;color:inherit}
 :root{--gut:clamp(16px,3vw,64px)}
 .wrap{margin:0 auto;padding-inline:var(--gut)}
 .ic{fill:currentColor;display:inline-block;vertical-align:-.15em}
-.eyebrow{font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.eyebrow{font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
 /* ---- the water: a box from the floor to the level (--pv, a plain number) plus half a crest, masked by one shape
    (a crest on a tall column) pinned to its top, so no seam can show. Inside it, a full-height copy of the dry layer
@@ -130,7 +130,7 @@ button{font:inherit;color:inherit}
 .ctl{display:flex;gap:4px;align-items:center;padding:4px;border-radius:999px;background:var(--glass);border:1px solid var(--glass-edge);
   -webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);box-shadow:var(--shadow)}
 .mast .ctl{position:absolute;top:clamp(14px,2.2vw,26px);right:0;z-index:2}
-.ctl button{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;border:0;background:transparent;border-radius:999px;padding:7px 14px;font:700 13px var(--sans);cursor:pointer;color:var(--ink)}
+.ctl button{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;border:0;background:transparent;border-radius:999px;padding:7px 14px;font:700 13.5px var(--sans);cursor:pointer;color:var(--ink)}
 .ctl button:hover{background:color-mix(in oklab,var(--ink) 7%,transparent)}
 .ctl .ic{width:16px;height:16px}
 .ctl .js-theme{background:var(--ink);color:var(--bg)}
@@ -180,9 +180,9 @@ button{font:inherit;color:inherit}
 .dict .ur{display:inline-block;line-height:1;font-size:18px;font-family:"Noto Nastaliq Urdu","Noto Naskh Arabic","Geeza Pro",serif;color:var(--marigold)}
 .dict .def{color:var(--ink)}
 .mast .hero{margin:16px 0 0;font:400 clamp(21px,2.4vw,30px)/1.2 var(--sans);letter-spacing:-.01em;color:var(--ink);max-width:36ch}
-.reading{display:grid;gap:8px;justify-items:end;text-align:right;font:500 13px/1.35 var(--sans);color:var(--muted);min-width:230px}
+.reading{display:grid;gap:8px;justify-items:end;text-align:right;font:500 13.5px/1.35 var(--sans);color:var(--muted);min-width:230px}
 .reading .clock{font:700 clamp(34px,4vw,48px)/.9 var(--fig);font-variation-settings:"wdth" 75;color:var(--ink);letter-spacing:-.01em}
-.reading .clock small{font:600 13px var(--sans);color:var(--muted);letter-spacing:0;margin-left:6px}
+.reading .clock small{font:600 13.5px var(--sans);color:var(--muted);letter-spacing:0;margin-left:6px}
 .reading .src{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
 .reading .src span{display:inline-flex;align-items:center;gap:6px}
 .reading .src i{width:7px;height:7px;border-radius:50%;background:var(--up)}
@@ -199,7 +199,7 @@ button{font:inherit;color:inherit}
 /* Retro details (the tokens above do the colour). */
 [data-theme=retro] body{background-image:radial-gradient(rgba(70,45,20,.07) .8px,transparent 1px);background-size:3px 3px}
 [data-theme=retro] .wbox{background-image:radial-gradient(color-mix(in oklab,var(--on) 30%,transparent) .9px,transparent 1.2px);background-size:5px 5px}
-[data-theme=retro] :is(.staff b,.gauge b,.cur .fr b,.mini b,.wr .p,.reading .clock,.pv .it b,.steps b,.key b){font-family:var(--num);font-weight:600;letter-spacing:-.05em;font-variation-settings:normal}
+[data-theme=retro] :is(.staff b,.gauge b,.cur .fr b,.mini b,.wr .p,.reading .clock,.pv .it b,.key b){font-family:var(--num);font-weight:600;letter-spacing:-.05em;font-variation-settings:normal}
 [data-theme=retro] :is(.tk,.staff,.cur,.fx,.mini,.wr){border-radius:6px;border:1.5px solid color-mix(in oklab,var(--ink) 45%,transparent)}
 [data-theme=retro] :is(.chip,.focus,.social a,.ctl,.ctl button,.say){border-radius:4px}
 [data-theme=retro] .chips{background:var(--bg);-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:3px double var(--ink)}
@@ -212,7 +212,7 @@ button{font:inherit;color:inherit}
 
 /* ---- the tide board: the biggest question in each area, each on its own tall staff gauge ---- */
 .board{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(8px,1vw,14px);margin-top:clamp(22px,3vw,34px)}
-.post .focus{align-self:flex-start;font:650 12px var(--sans);color:var(--a);background:var(--ac);padding:3px 9px;border-radius:99px}
+.post .focus{align-self:flex-start;font:650 12.5px var(--sans);color:var(--a);background:var(--ac);padding:3px 9px;border-radius:99px}
 .post .focus b{font-weight:700}
 .post{display:flex;flex-direction:column;gap:10px;text-decoration:none;min-width:0}
 .post .hd{display:flex;flex-direction:column;gap:6px;align-items:flex-start;min-width:0}.post .hd .dl{margin-top:2px}.post .hd>*{max-width:100%}
@@ -224,10 +224,10 @@ button{font:inherit;color:inherit}
   .board{row-gap:0}
   .post{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:10px;padding-bottom:clamp(16px,2vw,24px)}
 }
-.post .lbl{display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden;min-width:0;font:700 11px/1 var(--sans);letter-spacing:.09em;text-transform:uppercase;color:var(--a)}
+.post .lbl{display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden;min-width:0;font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
 .post .lbl .ic{width:15px;height:15px;flex:none}
 .post .lbl span{overflow:hidden;text-overflow:ellipsis}
-.staff{position:relative;height:clamp(210px,19vw,280px);border-radius:26px;background:var(--ac);overflow:hidden;border:1px solid color-mix(in oklab,var(--a) 22%,transparent);transition:border-color .2s}
+.staff{position:relative;height:clamp(210px,19vw,280px);border-radius:24px;background:var(--ac);overflow:hidden;border:1px solid color-mix(in oklab,var(--a) 22%,transparent);transition:border-color .2s}
 .post:hover .staff{border-color:var(--a)}
 .staff .l{position:absolute;inset:0;padding:14px 16px;color:var(--a)}
 /* The scale: a tick every 10, a long one at 50, numbered at 25, 50 and 75, down the right-hand edge. */
@@ -236,11 +236,11 @@ button{font:inherit;color:inherit}
 .post .who.ask{font-size:14.5px;line-height:1.28;font-weight:700}
 .staff b{position:absolute;left:12px;bottom:14px;font:700 clamp(40px,4.3vw,66px)/.8 var(--fig);font-variation-settings:"wdth" 75;letter-spacing:-.02em}
 .staff b small{font-size:.38em;font-weight:700;margin-left:2px;letter-spacing:0}
-.staff .wl{position:absolute;right:26px;bottom:calc(var(--pp) * 1%);transform:translateY(-3px);font:700 10.5px var(--sans);white-space:nowrap}
+.staff .wl{position:absolute;right:26px;bottom:calc(var(--pp) * 1%);transform:translateY(-3px);font:700 11px var(--sans);white-space:nowrap}
 .staff .wl.dn{transform:translateY(calc(100% + 4px))}
 .post .who{font:700 16px/1.15 var(--sans);color:var(--ink)}
 .post .q{font:500 12.5px/1.35 var(--sans);color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.post .dl{font:700 12px var(--sans)}
+.post .dl{font:700 12.5px var(--sans)}
 /* Narrower screens: no sideways scrolling; four across on a tablet, two on a phone (the last one full width). */
 @media (max-width:1000px){.board{grid-template-columns:repeat(4,minmax(0,1fr))}.staff{height:210px}.staff b{font-size:54px}}
 @media (max-width:600px){.board{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.board .post:last-child:nth-child(odd){grid-column:1/-1}.staff{height:170px}.staff b{font-size:48px}.staff .wl{display:none}}
@@ -252,17 +252,17 @@ button{font:inherit;color:inherit}
 .sh h2 .dev{--lift:.371em;font-size:.36em;margin:0 0 0 .1em;color:var(--marigold)}
 .sh p{margin:0;font:500 13.5px var(--sans);color:var(--muted)}
 .sh .fstar{font:400 .62em var(--sans);color:var(--a);align-self:center}
-.sub{display:flex;align-items:center;gap:9px;margin:26px 0 12px;font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
+.sub{display:flex;align-items:center;gap:9px;margin:26px 0 12px;font:700 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--a,var(--sea))}
 .sub .ic{width:16px;height:16px}
 .sub span{color:var(--muted);font-weight:550;letter-spacing:.02em;text-transform:none}
 
 /* ---- currents: what moved in a day, a strip from yesterday's level to today's ---- */
 .currents{display:grid;grid-auto-flow:column;grid-auto-columns:min(78vw,290px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gut);scrollbar-width:none;padding-bottom:6px;margin-inline:calc(-1 * var(--gut));padding-inline:var(--gut)}
 .currents::-webkit-scrollbar{display:none}
-.cur{scroll-snap-align:start;display:flex;flex-direction:column;gap:9px;padding:16px 18px 18px;border-radius:26px;background:var(--ac);border:0;text-decoration:none;transition:border-color .2s}
+.cur{scroll-snap-align:start;display:flex;flex-direction:column;gap:9px;padding:16px 18px 18px;border-radius:24px;background:var(--ac);border:0;text-decoration:none;transition:border-color .2s}
 .cur:hover{border-color:var(--a)}
-.cur .tg{display:flex;justify-content:space-between;gap:8px;font:700 10.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--a)}
-.cur .tg span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:11.5px}
+.cur .tg{display:flex;justify-content:space-between;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
+.cur .tg span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:12.5px}
 .cur .t{font:600 14.5px/1.3 var(--sans);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
 .cur .who{font:650 12.5px var(--sans);color:var(--ink2)}
 .cur .fr{display:flex;align-items:baseline;gap:8px;margin-top:auto}
@@ -309,7 +309,7 @@ button{font:inherit;color:inherit}
 .tk .ft .nlt,.mini .nlt,.wr .nlt{margin-left:0}.post .nlr{line-height:1}.post .nlr .nlt{margin:0}.wr .nlt{margin-right:.45em;padding-left:0;background:none}
 [data-theme=retro] .nlt{border-radius:2px;background:none;box-shadow:inset 0 0 0 1px currentColor}
 [data-theme=retro] .added .nw{border-radius:2px;background:none;box-shadow:inset 0 0 0 1px currentColor;color:var(--ink)}
-.tk .ft .added{margin-left:auto}.cur .cad{font-size:12px;margin:-2px 0 4px}
+.tk .ft .added{margin-left:auto}.cur .cad{font-size:12.5px;margin:-2px 0 4px}
 .chip{flex:none;border:0;background:var(--ac,var(--card));border-radius:999px;padding:8px 15px;font:650 13.5px var(--sans);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 .chip .ic{width:17px;height:17px;color:var(--a,var(--sea))}
 .chip[aria-pressed="true"]{background:var(--a,var(--ink));border-color:var(--a,var(--ink));color:var(--card)}
@@ -325,8 +325,8 @@ button{font:inherit;color:inherit}
 main>.panel:last-of-type{margin-bottom:0}
 [data-theme=retro] .panel{background:var(--bg);border-top:3px double var(--ink)}
 .chip.here{box-shadow:inset 0 0 0 1.5px var(--a,var(--ink));color:var(--ink)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px}
-.tk{display:grid;grid-template-columns:120px minmax(0,1fr);background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 20%,transparent);border-radius:28px;overflow:hidden;min-width:0;transition:border-color .2s,box-shadow .2s}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px}.grid+.grid{margin-top:14px}
+.tk{display:grid;grid-template-columns:120px minmax(0,1fr);background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 20%,transparent);border-radius:24px;overflow:hidden;min-width:0;transition:border-color .2s,box-shadow .2s}
 .tk:hover{border-color:color-mix(in oklab,var(--a) 60%,transparent);box-shadow:var(--shadow)}
 .gauge{position:relative;display:block;text-decoration:none;background:color-mix(in oklab,var(--a) 15%,var(--card));border-right:2px dashed color-mix(in oklab,var(--a) 35%,transparent);min-height:132px;overflow:hidden}
 .gauge .g{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;padding:12px 14px}
@@ -334,7 +334,7 @@ main>.panel:last-of-type{margin-bottom:0}
 .gauge .g::after{content:"";position:absolute;right:0;top:0;bottom:0;width:6px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 25%);opacity:.45}
 .gauge b{font:700 46px/.88 var(--fig);font-variation-settings:"wdth" 75;letter-spacing:-.015em}
 .gauge b small{font-size:.44em;font-weight:700;margin-left:1px;letter-spacing:0}
-.gauge span{font:600 13px/1.22 var(--sans);overflow-wrap:break-word;hyphens:auto;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.gauge span{font:600 13.5px/1.22 var(--sans);overflow-wrap:break-word;hyphens:auto;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .gauge span>.lg{display:table!important;margin:0 0 .3em}.gauge span:has(>.lg){-webkit-line-clamp:4}
 /* The name never crosses the waterline, only the number does: from 50% it sits at the foot under water, below 50%
    at the head, dry (three lines at most, so it clears the water either way). */
@@ -345,24 +345,23 @@ main>.panel:last-of-type{margin-bottom:0}
 /* On the small gauge yesterday's level is a notch on the scale edge, so it never crosses the name. */
 .gauge .was{left:auto;width:18px;border-top-width:2px;border-top-style:solid;opacity:.9}
 .tk .bd{padding:14px 18px 15px;min-width:0;display:flex;flex-direction:column;gap:10px}
-.tk .meta{display:flex;justify-content:space-between;gap:10px;font:700 10.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--a)}
+.tk .meta{display:flex;justify-content:space-between;gap:10px;font:700 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
 .tk .meta>span:first-child{white-space:nowrap;flex:none}
-.tk h3 .star{font:400 .8em var(--sans);margin-right:.35em;vertical-align:.08em;color:var(--a)}
-.tk .meta>span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.tk h3 .star{font:400 .8em var(--sans);margin-right:.35em;vertical-align:.08em;color:var(--a)}.tk.big h3 .star{font-size:.5em;vertical-align:.4em}
+.tk .meta>span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .tk h3{margin:0;font:700 18px/1.24 var(--sans);text-wrap:balance}
 .tk h3 a{text-decoration:none}.tk h3 a:hover{text-decoration:underline;text-decoration-color:var(--a);text-underline-offset:3px}
 .seg{display:flex;gap:3px;height:11px;border-radius:99px;overflow:hidden}
 .seg i{display:block;height:100%;border-radius:99px;min-width:3px}
 .seg .s0{background:var(--a)}.seg .s1{background:var(--a2)}.seg .s2{background:var(--a3)}.seg .s9{background:color-mix(in oklab,var(--muted) 28%,var(--card))}
-.key{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:3px 14px;font:500 13px/1.35 var(--sans);color:var(--ink2)}
+.key{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:3px 14px;font:500 13.5px/1.35 var(--sans);color:var(--ink2)}
 .key i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
 .key b{font-weight:700;color:var(--ink);margin-left:4px}
 .key .s1{background:var(--a2)}.key .s2{background:var(--a3)}.key .s9{background:color-mix(in oklab,var(--muted) 28%,var(--card))}
-.steps{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
-.steps div{border-top:3px solid var(--a3);padding-top:5px;font:500 12px/1.25 var(--sans);color:var(--muted)}
-.steps b{display:block;font:700 16px var(--sans);color:var(--ink)}
 .tk .ft{margin-top:auto;display:flex;flex-wrap:wrap;gap:4px 12px;font:700 12.5px/1.35 var(--sans);color:var(--muted)}
-.d.up{color:var(--up)}.d.dn{color:var(--down)}
+.d{font-style:normal;font-weight:700}
+.ex{display:none}.ex .lg{margin:0;vertical-align:-.15em}
+@media (max-width:600px){.ex{display:inline}.ex+.sn{display:none}.mini .q small{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}}.d.up{color:var(--up)}.d.dn{color:var(--down)}
 .also a{text-decoration:none;color:inherit;border-bottom:1px dotted currentColor;font-weight:600}
 .pl{font:700 9.5px/1 var(--sans);letter-spacing:.1em;padding:3px 6px;border:2px double var(--a);border-radius:5px;transform:rotate(-3deg);display:inline-block;color:var(--a)}
 @media (min-width:900px){
@@ -376,19 +375,19 @@ main>.panel:last-of-type{margin-bottom:0}
 @media (max-width:600px){.tk{grid-template-columns:100px minmax(0,1fr)}.gauge .g{padding:10px 11px}.gauge b{font-size:38px}.tk h3{font-size:16px}.tk .bd{padding:12px 14px}}
 
 /* ---- a subject's further markets: one line each, filled like water to the favourite's chance ---- */
-.minis{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:8px 14px;margin-top:12px}
-.mini{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:center;padding:11px 16px;border-radius:20px;text-decoration:none;border:1px solid color-mix(in oklab,var(--a) 18%,var(--line));background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%))}
+.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:8px 14px;margin-top:12px}
+.mini{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:center;padding:11px 16px;border-radius:14px;text-decoration:none;border:1px solid color-mix(in oklab,var(--a) 18%,var(--line));background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%))}
 .mini:hover{border-color:var(--a)}
 .mini b{font:700 22px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--a)}
-.mini .q{font:600 14px/1.3 var(--sans);min-width:0}
-.mini .q small{display:block;font:500 12px var(--sans);color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini .q{font:600 13.5px/1.3 var(--sans);min-width:0}
+.mini .q small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ---- coming up: each sport's next matches ---- */
 .next{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px;margin-bottom:14px}
 .fx{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:24px;background:var(--card);border:1px solid color-mix(in oklab,var(--a) 22%,var(--line));text-decoration:none;transition:border-color .2s}
 .fx:hover{border-color:var(--a)}
-.fx .when{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;font:700 11.5px var(--sans);color:var(--muted)}
-.fx .when b{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--a);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:10.5px}
+.fx .when{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;font:700 12.5px var(--sans);color:var(--muted)}
+.fx .when b{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--a);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:11px}
 .fx .vs{font:700 17px/1.2 var(--sans);}
 .fx .vs .star{font:400 .8em var(--sans);margin-right:.35em;color:var(--a)}
 .fx .vs em{font:italic 400 17px var(--display);color:var(--muted);margin:0 6px}
@@ -400,13 +399,13 @@ main>.panel:last-of-type{margin-bottom:0}
 
 /* ---- the world: each row filled like water to its chance ---- */
 .world{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:8px 18px}
-.wr{position:relative;display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 18px;border-radius:22px;text-decoration:none;background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%));border:1px solid var(--line);overflow:hidden}
+.wr{position:relative;display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 18px;border-radius:14px;text-decoration:none;background:linear-gradient(to right,var(--ac) calc(var(--pv) * 1%),var(--card) calc(var(--pv) * 1%));border:1px solid var(--line);overflow:hidden}
 .wr:hover{border-color:var(--a)}
 .wr .n{font:italic 400 32px/1 var(--display);color:var(--a)}
 .wr .q{font:600 15px/1.3 var(--sans)}
 .wr .q small{display:block;font:500 12.5px var(--sans);color:var(--muted);margin-top:3px}
 .wr .p{text-align:right;font:700 26px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--a)}
-.wr .p small{display:block;font:600 12px var(--sans);color:var(--muted);max-width:18ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+.wr .p small{display:block;font:600 12.5px var(--sans);color:var(--muted);max-width:18ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
 /* Words under a big number (the leader's name, a move) are reading text: none of the number's tight spacing or
    narrow width, in any look (Retro squeezed "No change" into "Nochange"). */
 :is(.wr .p small,.pv .it b em){letter-spacing:0;font-variation-settings:normal}
@@ -419,7 +418,7 @@ details.how summary::before{content:"+";width:24px;height:24px;border-radius:50%
 details.how[open] summary::before{content:"–"}
 details.how ol{margin:14px 0 0;padding-left:20px;max-width:76ch;color:var(--ink2);font:400 14.5px/1.6 var(--sans)}
 details.how li{margin:0 0 8px}
-.note{margin:28px auto calc(40px + env(safe-area-inset-bottom,0px));font:400 13px/1.55 var(--sans);color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 30px}
+.note{margin:28px auto calc(40px + env(safe-area-inset-bottom,0px));font:400 13.5px/1.55 var(--sans);color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 30px}
 .note p{margin:0;max-width:72ch}
 /* ---- colophon: who made it, where from, and where to find him ---- */
 .colophon{margin-top:10px;padding-block:44px calc(44px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:linear-gradient(var(--bg2),var(--bg2))}
@@ -443,7 +442,7 @@ details.how li{margin:0 0 8px}
 .social .ig small{font:500 12.5px var(--sans);opacity:.85}
 .social .li{padding:10px 18px 10px 15px;color:var(--ink);background:var(--card);border:1px solid var(--line)}
 .social .li .ic{color:#0a66c2}
-.sk{height:120px;border-radius:18px;background:linear-gradient(100deg,var(--card) 40%,var(--line2) 50%,var(--card) 60%) 0 0/300% 100%;animation:sh 1.3s linear infinite}
+.sk{height:120px;border-radius:24px;background:linear-gradient(100deg,var(--card) 40%,var(--line2) 50%,var(--card) 60%) 0 0/300% 100%;animation:sh 1.3s linear infinite}
 @keyframes sh{to{background-position:-150% 0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
@@ -457,14 +456,14 @@ details.how li{margin:0 0 8px}
 .pv .board{grid-column:1/-1;margin-top:4px}
 .pv .staff{height:250px}
 .pv .col{display:flex;flex-direction:column;gap:2px;min-width:0}
-.pv h3{margin:0 0 6px;display:flex;align-items:center;gap:8px;font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
+.pv h3{margin:0 0 6px;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--a,var(--sea))}
 .pv h3 .ic{width:17px;height:17px}
 .pv .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 14px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
 .pv .it span{font:600 14.5px/1.3 var(--sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pv .it small{grid-column:1;font:500 12px var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pv .it small{grid-column:1;font:500 12.5px var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pv .it b{grid-row:span 2;grid-column:2;text-align:right;font:700 26px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--a,var(--ink))}
-.pv .it b em{display:block;font:700 11.5px var(--sans);font-style:normal;margin-top:3px}
-.pv .x{position:fixed;top:12px;right:12px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font:600 13px var(--sans);cursor:pointer}
+.pv .it b em{display:block;font:700 12.5px var(--sans);font-style:normal;margin-top:3px}
+.pv .x{position:fixed;top:12px;right:12px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font:600 13.5px var(--sans);cursor:pointer}
 @media (max-width:900px){.pv{place-items:start center;overflow:auto}.pv .sheet{grid-template-columns:minmax(0,1fr);min-width:0}.pv .ph{flex-wrap:wrap;padding-right:64px}.pv .ph h1{font-size:52px}.pv .ph .reading{margin-left:0;justify-items:start;text-align:left}.pv .ph .reading .src{justify-content:flex-start}}
 /* A monitor on its side: the poster's three lists stack under the board, filling the tall screen. */
 @media (min-width:901px) and (orientation:portrait){.pv .sheet{grid-template-columns:minmax(0,1fr)}.pv .staff{height:320px}}
@@ -615,6 +614,9 @@ function split(t) {
   h = NAMES[k] || (h === h.toUpperCase() && h.length > 4 ? h.charAt(0) + h.slice(1).toLowerCase() : h);
   return [h, tidy(t.slice(i + 2))];
 }
+// The exchange a market is on, by name; on a phone, by its mark instead, so the line keeps its money and move (the name
+// stays when the marks haven't arrived).
+const exch = c => { const m = mark(c.s); return m ? `<span class="ex" role="img" aria-label="${esc(c.s)}" title="${esc(c.s)}">${m}</span><span class="sn">${esc(c.s)}</span>` : esc(c.s); };
 const also = c => c.a?.length ? `<span class="also">${c.a.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.name)}${x.play ? " (play money)" : ""}">${mark(x.source)}${esc(x.source)} ${pc(x.prob)}</a>`).join(" · ")}</span>` : "";
 const lvl = p => Math.max(3, Math.min(100, p)).toFixed(1);
 // The water's mood, read from the market itself: calm under 2 points of movement in a day, choppy from 8.
@@ -639,6 +641,9 @@ const newLead = c => { if (c.L || binary(c) || c.o.length < 2 || c.o[0].p == nul
   const was = c.o.filter(o => o.p != null).reduce((a, o) => (o.p > a.p ? o : a));
   return was !== c.o[0] && was.p > c.o[0].p && c.o[0].prob - was.prob >= 1 ? was : null; };
 const nlTag = c => (newLead(c) ? `<span class="nlt">New leader</span>` : "");
+// The short form, for rows, Where the money is and the poster: "▲ 3 pts", naming the window only when it isn't a day
+// ("▲ 18 pts this week"). Cards and the board use the long form (moved) with the level it was at.
+const moveShort = c => { const { d, w } = shift(c); return Math.abs(d) >= 1 ? `<em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)}${w === "in a day" ? "" : ` ${w}`}</em>` : ""; };
 const moved = c => { const nl = newLead(c); if (nl) return `<span class="d up">▲ Overtook ${esc(nl.name)} (was ${pc(nl.p)})</span>`;
   const { d, was, w } = shift(c); return Math.abs(d) >= 1 ? `<span class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)} ${w} · was ${pc(was)}</span>` : ""; };
 // How long ago each prediction arrived on Andaaza: "Added 7 h ago", "Added 3 days ago", "Added 3 months ago", counted
@@ -680,7 +685,7 @@ function post(c, a) {
 const board = () => (D.board?.length ? D.board.map(c => post(c, (D.areas || []).find(a => a.id === AREA[c.k]))) : (D.areas || []).filter(a => a.id !== "misc").map(a => ({ a, c: leadOf(a) })).filter(x => x.c).slice(0, 5).map(x => post(x.c, x.a))).join("");
 
 // ---- a ticket: the gauge on the left is filled to the favourite's chance and names it; the right never repeats it.
-// A "by ... ?" question shows its nearer deadlines as steps; a yes/no question shows only its gauge and bar.
+// A "by ... ?" question lists its nearer deadlines under the bar; a yes/no question shows only its gauge and bar.
 // Inside its own subject (`inSub`) a card doesn't repeat the subject's name: the heading above already says it.
 function card(c, big, inSub) {
   const f = c.o[0], p = Math.max(0, Math.min(100, f.prob));
@@ -689,7 +694,8 @@ function card(c, big, inSub) {
   let seg, key = "";
   if (c.L && c.o.length > 1) {
     seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
-    key = `<div class="steps">${c.o.slice(1).map(o => `<div><b>${pc(o.prob)}</b>${esc(o.name)}</div>`).join("")}</div>`;
+    // Its nearer deadlines, listed like any other card's contenders (a lighter dot: they aren't part of the bar).
+    key = `<ul class="key">${c.o.slice(1).map(o => `<li><i class="s2"></i>${esc(o.name)}<b>${pc(o.prob)}</b></li>`).join("")}</ul>`;
   } else if (c.o.length > 1 && f.name !== "Yes") {
     const top = c.o.slice(0, 3), rest = Math.max(0, 100 - top.reduce((a, o) => a + o.prob, 0));
     seg = `<div class="seg">${top.map((o, i) => `<i class="s${i}" style="flex:${Math.max(0.5, o.prob)}"></i>`).join("")}${rest >= 1 ? `<i class="s9" style="flex:${rest}"></i>` : ""}</div>`;
@@ -697,14 +703,14 @@ function card(c, big, inSub) {
   } else seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
   const ft = [nlTag(c) + moved(c), also(c), added(c)].filter(Boolean).join("");
   return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 && !binary(c) ? " lo" : ""}" ${seaAttr(c)} href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="wbox" aria-hidden="true"><i class="gw wfull"><div class="g">${g}</div>${wasMark(c)}</i></i></a>
-<div class="bd"><div class="meta"><span>${inSub ? "" : esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
+<div class="bd"><div class="meta"><span>${inSub ? "" : esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${exch(c)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
 <h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${c.m ? `<span class="star" title="One of your must-haves">★</span>` : ""}${titleMark(c)}${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}</div></article>`;
 }
 
 // ---- a subject's further markets, one line each, the row filled like water to the favourite's chance
 function mini(c) {
-  const p = c.o[0].prob, { d, w } = shift(c);
-  return `<a class="mini" data-k="${esc(c.k)}" style="--pv:${lvl(p)}" href="${esc(c.u)}" target="_blank" rel="noopener"><b>${pc(p)}</b><span class="q">${c.m ? "★ " : ""}${esc(tidy(c.t))}<small>${added(c) ? `${added(c)} · ` : ""}${nlTag(c)}${esc(favName(c))} · ${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}${Math.abs(d) >= 1 ? ` · <em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)}${w === "in a day" ? "" : ` ${w}`}</em>` : ""}</small></span></a>`;
+  const p = c.o[0].prob;
+  return `<a class="mini" data-k="${esc(c.k)}" style="--pv:${lvl(p)}" href="${esc(c.u)}" target="_blank" rel="noopener"><b>${pc(p)}</b><span class="q">${c.m ? "★ " : ""}${esc(tidy(c.t))}<small>${added(c) ? `${added(c)} · ` : ""}${nlTag(c)}${esc(favName(c))} · ${exch(c)}${c.v ? ` · ${money(c.v)} today` : ""}${moveShort(c) ? ` · ${moveShort(c)}` : ""}</small></span></a>`;
 }
 
 // ---- coming up: a match with its kick-off in India time and the split in playing order
@@ -729,6 +735,10 @@ function current(c) {
 <div class="strip"><i style="width:${Math.max(2, f)}%"></i><u style="left:${Math.max(1, Math.min(99, c.p))}%"></u></div></a>`;
 }
 
+// A subject's first three markets: the wide card on its own row, then the others sharing the next row equally, so no
+// row is left with an empty column. A card alone in its row is the wide card: a full-width card always looks like one.
+const cards3 = (list, wide) => { const w = list.filter(wide), rest = list.filter(c => !wide(c));
+  return [w, rest].filter(x => x.length).map(x => `<div class="grid">${x.map(c => card(c, x === w || x.length === 1, true)).join("")}</div>`).join(""); };
 function paint() {
   // Showing Everything, a market or match already on the tide board isn't repeated in its subject below (each
   // subject's own page still shows all of its markets).
@@ -741,7 +751,7 @@ function paint() {
     const all = tops.flatMap(t => t.items), lead = all.reduce((m, c) => (!m || (c.v || 0) > (m.v || 0) ? c : m), null), heads = tops.length > 1;
     return `<section class="wrap area panel" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}">${icon("a:" + a.id)}${esc(a.label)}${AREA_HI[a.id] ? `<span class="dev" lang="hi"><i>${AREA_HI[a.id]}</i></span>` : ""}</h2></div>${tops.map(t => {
       const items = t.items.includes(lead) ? [lead, ...t.items.filter(c => c !== lead)] : t.items;
-      return `${heads ? `<div class="sub" data-k="${t.id}">${icon("t:" + t.id)}${esc(t.label)}<span>${[t.items.length ? `${t.items.length} market${t.items.length > 1 ? "s" : ""}` : "", t.next.length ? `${t.next.length} coming up` : ""].filter(Boolean).join(" · ")}</span></div>` : ""}${t.next.length ? `<div class="next">${t.next.map(n => fixture(n, t.id)).join("")}</div>` : ""}${items.length ? `<div class="grid">${items.slice(0, 3).map(c => card(c, c === lead && all.length > 2, true)).join("")}</div>` : ""}${items.length > 3 ? `<div class="minis">${items.slice(3).map(mini).join("")}</div>` : ""}`;
+      return `${heads ? `<div class="sub" data-k="${t.id}">${icon("t:" + t.id)}${esc(t.label)}<span>${[t.items.length ? `${t.items.length} market${t.items.length > 1 ? "s" : ""}` : "", t.next.length ? `${t.next.length} coming up` : ""].filter(Boolean).join(" · ")}</span></div>` : ""}${t.next.length ? `<div class="next">${t.next.map(n => fixture(n, t.id)).join("")}</div>` : ""}${cards3(items.slice(0, 3), c => c === lead && all.length > 2)}${items.length > 3 ? `<div class="minis">${items.slice(3).map(mini).join("")}</div>` : ""}`;
     }).join("")}</section>`;
   }).join("");
   const on = id => filter === "all" || filter === id;
@@ -808,7 +818,7 @@ function render(d) {
   if (!pages.includes(filter)) filter = "all";
   const chipOf = id => id === "all" ? "Everything" : id === "fav" ? `<span aria-hidden="true">★</span>Favourites` : id === "moves" ? `${icon("a:moves")}Currents` : id === "flow" ? `${icon("a:globe")}Where the money is` : `${icon("a:" + id)}${esc(present.find(a => a.id === id).label)}`;
   $("#chips").innerHTML = pages.map(id => `<button class="chip" data-a="${id}" aria-pressed="false">${chipOf(id)}</button>`).join("");
-  $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" data-k="${esc(c.k)}" style="--pv:${lvl(c.o[0].prob)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${added(c) ? `${added(c)} · ` : ""}${nlTag(c)}${esc(c.s)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}${c.mv ? ` · <em class="d ${c.mv.d > 0 ? "up" : "dn"}">${c.mv.d > 0 ? "▲" : "▼"} ${pts(c.mv.d)} ${shift(c).w}</em>` : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
+  $("#world").innerHTML = (d.world || []).map((c, i) => `<a class="wr" data-k="${esc(c.k)}" style="--pv:${lvl(c.o[0].prob)}" href="${esc(c.u)}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="q">${esc(tidy(c.t))}<small>${added(c) ? `${added(c)} · ` : ""}${nlTag(c)}${exch(c)} · ${money(c.v)} today${c.a?.length ? " · " + c.a.map(x => `${x.source} ${pc(x.prob)}`).join(", ") : ""}${moveShort(c) ? ` · ${moveShort(c)}` : ""}</small></span><span class="p">${pc(c.o[0].prob)}<small>${esc(favName(c))}</small></span></a>`).join("");
   paint();
   if (old) requestAnimationFrame(() => flow(old));
   if (posterOn) showPoster(true);
@@ -882,7 +892,7 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden && D 
 
 // ---- poster: the tide board and the day on one screen (/andaaza/poster, or the Poster button). Zooms to fit.
 function posterHTML() {
-  const it = (c, sub) => { const f = c.o[0], d = c.p != null ? f.prob - c.p : 0; return `<div class="it" data-k="${esc(c.k)}"><span>${esc(tidy(c.t))}</span><small>${esc(sub)}</small><b>${pc(f.prob)}${Math.abs(d) >= 1 ? `<em class="d ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"} ${pts(d)}</em>` : ""}</b></div>`; };
+  const it = (c, sub) => `<div class="it" data-k="${esc(c.k)}"><span>${esc(tidy(c.t))}</span><small>${esc(sub)}</small><b>${pc(c.o[0].prob)}${moveShort(c)}</b></div>`;
   const nx = D.topics.filter(t => t.area === "sport").flatMap(t => (t.next || []).map(n => ({ n, k: t.id }))).sort((x, y) => (y.n.f || 0) - (x.n.f || 0) || Date.parse(x.n.st) - Date.parse(y.n.st)).slice(0, 6);
   const fx = nx.map(({ n, k }) => { const f = [...n.o].sort((x, y) => y.prob - x.prob)[0]; return `<div class="it" data-k="${k}"><span>${n.f ? "★ " : ""}${esc(n.t)}</span><small>${esc(kick(n.st))} · ${esc(LABEL[k])} · ${esc(/^draw/i.test(f.name) ? "Draw" : f.name)} favoured</small><b>${pc(f.prob)}</b></div>`; }).join("");
   return `<button class="x" id="pvx" type="button">Close</button><div class="sheet">

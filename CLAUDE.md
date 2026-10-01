@@ -217,6 +217,14 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   elsewhere, Favourites and Currents, keep it); matches show their competition when the exchange gives one. ★ sits before
   the title everywhere (cards, rows, matches). On Everything, subject sections skip markets and matches already on the
   tide board; each subject's own page shows all of them.
+- **One system** (same audit): small text in four sizes only: labels 11px (uppercase, letter-spacing .12em),
+  details 12.5, body 13.5, small titles 14.5. Corners: 24px for cards, gauges, Currents and matches; 14px for one-line
+  rows; pills round. Moves in two forms: long on cards and the board ("▲ 3 pts in a day · was 59%"), short on rows,
+  Where the money is and the poster ("▲ 3 pts", the window only when not a day: "▲ 18 pts this week"); never italic.
+  A subject's wide card has its own row and the rest share the next row equally (no empty column); a card alone in its
+  row is drawn wide. "By …?" questions list their nearer dates like other contenders (lighter dot). On a phone the
+  exchange's mark replaces its name in card and row details (the name stays if marks haven't loaded); row details wrap
+  to two lines rather than cut off. Instrument Serif italic stays on the 1–10 ranks (Parth kept it, item 10).
 - **Board aligned** (Parth, 27 Sep 2026): each gauge's parts (label, gauge, text) sit on shared rows (CSS subgrid), so
   every gauge's text starts on the same line as the others. Without subgrid: the stacked layout.
   The move line ("▲ 1 pt in a day") stays in the text block right under the subtitle (8px): putting it on a shared
