@@ -246,12 +246,11 @@ button{font:inherit;color:inherit}
 @media (max-width:600px){.board{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.board .post:last-child:nth-child(odd){grid-column:1/-1}.staff{height:170px}.staff b{font-size:48px}.staff .wl{display:none}}
 
 /* ---- headings ---- */
-.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;margin:clamp(44px,6vw,76px) 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.sh{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin:clamp(44px,6vw,76px) 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .sh h2{margin:0;display:flex;align-items:baseline;gap:14px;font:italic 400 clamp(38px,4.6vw,60px)/.9 var(--display);letter-spacing:-.015em;color:var(--ink)}
 .sh h2 .ic{width:26px;height:26px;color:var(--a,var(--sea));align-self:center}
 .sh h2 .dev{--lift:.371em;font-size:.36em;margin:0 0 0 .1em;color:var(--marigold)}
 .sh p{margin:0;font:500 13.5px var(--sans);color:var(--muted)}
-.sh .n{font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
 .sh .fstar{font:400 .62em var(--sans);color:var(--a);align-self:center}
 .sub{display:flex;align-items:center;gap:9px;margin:26px 0 12px;font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--a,var(--sea))}
 .sub .ic{width:16px;height:16px}
@@ -348,6 +347,7 @@ main>.panel:last-of-type{margin-bottom:0}
 .tk .bd{padding:14px 18px 15px;min-width:0;display:flex;flex-direction:column;gap:10px}
 .tk .meta{display:flex;justify-content:space-between;gap:10px;font:700 10.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--a)}
 .tk .meta>span:first-child{white-space:nowrap;flex:none}
+.tk h3 .star{font:400 .8em var(--sans);margin-right:.35em;vertical-align:.08em;color:var(--a)}
 .tk .meta>span:last-child{color:var(--muted);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .tk h3{margin:0;font:700 18px/1.24 var(--sans);text-wrap:balance}
 .tk h3 a{text-decoration:none}.tk h3 a:hover{text-decoration:underline;text-decoration-color:var(--a);text-underline-offset:3px}
@@ -390,6 +390,7 @@ main>.panel:last-of-type{margin-bottom:0}
 .fx .when{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;font:700 11.5px var(--sans);color:var(--muted)}
 .fx .when b{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--a);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:10.5px}
 .fx .vs{font:700 17px/1.2 var(--sans);}
+.fx .vs .star{font:400 .8em var(--sans);margin-right:.35em;color:var(--a)}
 .fx .vs em{font:italic 400 17px var(--display);color:var(--muted);margin:0 6px}
 .fx .three{display:flex;gap:3px;height:9px}
 .fx .three i{border-radius:99px;min-width:3px;display:block}
@@ -680,7 +681,8 @@ const board = () => (D.board?.length ? D.board.map(c => post(c, (D.areas || []).
 
 // ---- a ticket: the gauge on the left is filled to the favourite's chance and names it; the right never repeats it.
 // A "by ... ?" question shows its nearer deadlines as steps; a yes/no question shows only its gauge and bar.
-function card(c, big) {
+// Inside its own subject (`inSub`) a card doesn't repeat the subject's name: the heading above already says it.
+function card(c, big, inSub) {
   const f = c.o[0], p = Math.max(0, Math.min(100, f.prob));
   // A yes/no question's gauge is its number alone: the question stands beside it.
   const g = `<b>${Math.round(p)}<small>%</small></b>${binary(c) ? "" : `<span>${c.L ? "" : mark(favName(c))}${esc(favName(c))}</span>`}`;
@@ -695,8 +697,8 @@ function card(c, big) {
   } else seg = `<div class="seg"><i class="s0" style="flex:${p}"></i><i class="s9" style="flex:${100 - p}"></i></div>`;
   const ft = [nlTag(c) + moved(c), also(c), added(c)].filter(Boolean).join("");
   return `<article class="tk${big ? " big" : ""}" data-k="${esc(c.k)}"><a class="gauge${p < 50 && !binary(c) ? " lo" : ""}" ${seaAttr(c)} href="${esc(c.u)}" target="_blank" rel="noopener" style="--pv:${lvl(p)};--ph:${phase(c.u).toFixed(2)}" aria-label="${Math.round(p)}% ${esc(favName(c))}"><i class="gw"><div class="g">${g}</div>${wasMark(c)}</i><i class="wbox" aria-hidden="true"><i class="gw wfull"><div class="g">${g}</div>${wasMark(c)}</i></i></a>
-<div class="bd"><div class="meta"><span>${c.m ? `<span title="One of your must-haves">★</span> ` : ""}${esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
-<h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${titleMark(c)}${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}</div></article>`;
+<div class="bd"><div class="meta"><span>${inSub ? "" : esc(LABEL[c.k] || "Trending")}</span><span>${c.pl ? `<em class="pl">PLAY MONEY</em> ` : ""}${esc(c.s)}${c.v ? ` · ${money(c.v)} today` : ""}</span></div>
+<h3><a href="${esc(c.u)}" target="_blank" rel="noopener">${c.m ? `<span class="star" title="One of your must-haves">★</span>` : ""}${titleMark(c)}${esc(tidy(c.t))}</a></h3>${seg}${key}${ft ? `<div class="ft">${ft}</div>` : ""}</div></article>`;
 }
 
 // ---- a subject's further markets, one line each, the row filled like water to the favourite's chance
@@ -713,8 +715,8 @@ const kick = st => { const t = new Date(st), now = new Date(), day = x => x.toLo
 function fixture(n, k) {
   const [a, b] = n.t.split(" v "), by = x => n.o.find(o => o.name === x) || { name: x, prob: 0 };
   const draw = n.o.find(o => /^draw/i.test(o.name)), row = [by(a), ...(draw ? [draw] : []), by(b)];
-  return `<a class="fx" data-k="${k}" href="${esc(n.u)}" target="_blank" rel="noopener"><div class="when"><b>${n.f ? "★ " : ""}${esc(n.c || LABEL[k])}</b><span>${kick(n.st)}</span></div>
-<div class="vs">${named(a)}<em>v</em>${named(b)}</div><div class="three">${row.map((o, i) => `<i class="${i === 0 ? "h" : i === row.length - 1 ? "w" : "x"}" style="flex:${Math.max(1, o.prob)}"></i>`).join("")}</div>
+  return `<a class="fx" data-k="${k}" href="${esc(n.u)}" target="_blank" rel="noopener"><div class="when"><b>${esc(n.c || "")}</b><span>${kick(n.st)}</span></div>
+<div class="vs">${n.f ? `<span class="star" title="Someone you follow">★</span>` : ""}${named(a)}<em>v</em>${named(b)}</div><div class="three">${row.map((o, i) => `<i class="${i === 0 ? "h" : i === row.length - 1 ? "w" : "x"}" style="flex:${Math.max(1, o.prob)}"></i>`).join("")}</div>
 <div class="odds">${row.map(o => `<span>${esc(/^draw/i.test(o.name) ? "Draw" : k === "tennis" ? o.name.split(" ").pop() : o.name)} <b>${pc(o.prob)}</b></span>`).join("")}</div></a>`;
 }
 
@@ -728,13 +730,18 @@ function current(c) {
 }
 
 function paint() {
+  // Showing Everything, a market or match already on the tide board isn't repeated in its subject below (each
+  // subject's own page still shows all of its markets).
+  const onBoard = new Set(filter === "all" ? (D.board || []).map(c => c.u) : []), fresh = list => (list || []).filter(c => !onBoard.has(c.u));
   $("#areas").innerHTML = (D.areas || []).map(a => {
-    const tops = a.id === "misc" ? (D.misc?.length ? [{ id: "misc", label: "Trending anyway", items: D.misc }] : []) : D.topics.filter(t => t.area === a.id);
+    const tops = (a.id === "misc" ? (D.misc?.length ? [{ id: "misc", label: "Trending anyway", items: D.misc }] : []) : D.topics.filter(t => t.area === a.id))
+      .map(t => ({ ...t, items: fresh(t.items), next: fresh(t.next) })).filter(t => t.items.length || t.next.length);
     if (!tops.length || (filter !== "all" && filter !== a.id)) return "";
-    const all = tops.flatMap(t => t.items), lead = leadOf(a), nm = all.length, nx = tops.reduce((s, t) => s + (t.next?.length || 0), 0);
-    return `<section class="wrap area panel" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}">${icon("a:" + a.id)}${esc(a.label)}${AREA_HI[a.id] ? `<span class="dev" lang="hi"><i>${AREA_HI[a.id]}</i></span>` : ""}</h2><p><span class="n">${nm} market${nm === 1 ? "" : "s"}${nx ? ` · ${nx} coming up` : ""}</span></p></div>${tops.map(t => {
+    // The area's busiest market leads as the one wide card; a subject heading only where the area has several subjects.
+    const all = tops.flatMap(t => t.items), lead = all.reduce((m, c) => (!m || (c.v || 0) > (m.v || 0) ? c : m), null), heads = tops.length > 1;
+    return `<section class="wrap area panel" id="a-${a.id}" data-a="${a.id}" aria-labelledby="h-${a.id}"><div class="sh"><h2 id="h-${a.id}">${icon("a:" + a.id)}${esc(a.label)}${AREA_HI[a.id] ? `<span class="dev" lang="hi"><i>${AREA_HI[a.id]}</i></span>` : ""}</h2></div>${tops.map(t => {
       const items = t.items.includes(lead) ? [lead, ...t.items.filter(c => c !== lead)] : t.items;
-      return `${a.id === "misc" ? "" : `<div class="sub" data-k="${t.id}">${icon("t:" + t.id)}${esc(t.label)}<span>${t.items.length ? `${t.items.length} market${t.items.length > 1 ? "s" : ""}` : ""}${t.next?.length ? `${t.items.length ? " · " : ""}${t.next.length} coming up` : ""}</span></div>`}${t.next?.length ? `<div class="next">${t.next.map(n => fixture(n, t.id)).join("")}</div>` : ""}${items.length ? `<div class="grid">${items.slice(0, 3).map(c => card(c, c === lead && all.length > 2)).join("")}</div>` : ""}${items.length > 3 ? `<div class="minis">${items.slice(3).map(mini).join("")}</div>` : ""}`;
+      return `${heads ? `<div class="sub" data-k="${t.id}">${icon("t:" + t.id)}${esc(t.label)}<span>${[t.items.length ? `${t.items.length} market${t.items.length > 1 ? "s" : ""}` : "", t.next.length ? `${t.next.length} coming up` : ""].filter(Boolean).join(" · ")}</span></div>` : ""}${t.next.length ? `<div class="next">${t.next.map(n => fixture(n, t.id)).join("")}</div>` : ""}${items.length ? `<div class="grid">${items.slice(0, 3).map(c => card(c, c === lead && all.length > 2, true)).join("")}</div>` : ""}${items.length > 3 ? `<div class="minis">${items.slice(3).map(mini).join("")}</div>` : ""}`;
     }).join("")}</section>`;
   }).join("");
   const on = id => filter === "all" || filter === id;

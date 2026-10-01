@@ -211,6 +211,12 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   Where the money is; each has an address (#sport, #favourites, #currents, #where-the-money-is), back works. Showing
   Everything, the top bar outlines the section being read (scroll spy) and scrolls the chip into view; the row fades at
   its edges when it scrolls. **Favourites** = every must-have (★) plus every market about someone followed (`f` flag).
+- **Say each thing once** (Parth's design audit, 1 Oct 2026: "redundancies… consistent"): a section heading is the
+  title + Hindi seal, with any description as a grey line under it (no counts). A subject heading ("Formula 1 · 3
+  markets") only where an area has several subjects. Cards and matches inside their subject don't repeat its name (cards
+  elsewhere, Favourites and Currents, keep it); matches show their competition when the exchange gives one. ★ sits before
+  the title everywhere (cards, rows, matches). On Everything, subject sections skip markets and matches already on the
+  tide board; each subject's own page shows all of them.
 - **Board aligned** (Parth, 27 Sep 2026): each gauge's parts (label, gauge, text) sit on shared rows (CSS subgrid), so
   every gauge's text starts on the same line as the others. Without subgrid: the stacked layout.
   The move line ("▲ 1 pt in a day") stays in the text block right under the subtitle (8px): putting it on a shared
