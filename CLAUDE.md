@@ -57,7 +57,7 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   index keeps being re-priced; retry after 1 h.
 - `lib/blob.js`: Blob read/write. `config/consensus.json`: every editorial choice in words.
 - Fallbacks: a source down → carry on (red dot); all down → last good reading with a "last good reading from …" note
-  after 3 h; API down → each browser shows the last reading it kept (localStorage), within 1.5 s.
+  once it is over 3 h old and a new one fails to come (unreachable, or six asks without one); API down → each browser shows the last reading it kept (localStorage), within 1.5 s.
 - Local: `npm install`, `npm run dev` (http://localhost:3000), `npm run check` (reads markets once, prints counts).
 
 ## Selection logic (config/consensus.json)
@@ -242,6 +242,11 @@ Gemini's own Google Search (not free; terms forbid storing or showing its answer
 GDELT, The Guardian, Grok, Brave, Linkup.
 
 ## Mistakes already made (don't repeat)
+- "This is the last good reading… the markets are not answering" showed every time Parth came back after a quiet spell
+  (1 Oct 2026): it was shown for any reading over 3 h old, but readings are taken only while someone looks, so after a
+  night the first visit always gets an old one for the few seconds a new one takes. Now it shows only when something
+  failed: the server can't be reached, or six asks in a row (two minutes) still found the new reading on its way (asks
+  are counted, not minutes, so a background tab or sleeping laptop never counts). The first re-ask comes after 10 s.
 - Kalshi cards linked to the series page (kalshi.com/markets/kxatp: every ATP tournament at one address) until 1 Oct
   2026; each now links to its event (`/markets/{series}/{slug}/{event}`; Kalshi reads only the event code). `lib/added.js`
   carried each card's date over from its old address for the one change-over reading.

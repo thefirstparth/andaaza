@@ -785,11 +785,18 @@ function spy() {
 { let q = 0; addEventListener("scroll", () => { if (!q) q = requestAnimationFrame(() => { q = 0; spy(); }); }, { passive: true }); }
 
 // The next automatic update comes from the server (next_at); the page picks it up by itself.
+// An old reading is normal after a quiet spell (readings are taken only while someone is looking): the first visit
+// gets the last one at once while a new one is read, a few seconds. So "last good reading" shows only when something
+// really is wrong: the server couldn't be reached, or six asks in a row (two minutes of asking) still found the new
+// reading on its way. Asks are counted, not minutes, so a tab left in the background or a sleeping laptop never counts.
+let askFailed = false, waits = 0;
+const stuck = () => askFailed || waits >= 6;
+const track = d => { askFailed = false; waits = d.updating ? waits + 1 : 0; };
 function readingHTML(d) {
   const next = Date.parse(d.next_at || 0) || Date.parse(d.generated_at) + 15 * 60 * 1000, late = d.updating || next <= Date.now();
   return `<div class="clock">${ist(Date.now())}<small>IST</small></div>
 <div class="upd">Markets read at <b>${ist(d.generated_at)}</b> · ${late ? `<span class="now"><i></i>updating now</span>` : `next update <b>${ist(next)}</b>`}</div>
-${Date.now() - Date.parse(d.generated_at) > 3 * 36e5 ? `<div class="stale">This is the last good reading, from ${esc(new Date(d.generated_at).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }))} IST. The markets are not answering just now; the page keeps trying.</div>` : ""}
+${Date.now() - Date.parse(d.generated_at) > 3 * 36e5 && stuck() ? `<div class="stale">This is the last good reading, from ${esc(new Date(d.generated_at).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }))} IST. A new one hasn't come through yet; the page keeps trying.</div>` : ""}
 <div class="src">${d.sources.map(s => `<span class="${s.ok ? "" : s.pending ? "wait" : "off"}" title="${s.ok ? s.count + " markets read" : s.pending ? "Being read now; it will appear at the next update" : "Unavailable just now"}"><i></i>${mark(s.name)}${esc(s.name)}${s.pending ? " · coming" : ""}</span>`).join("")}</div>`;
 }
 
@@ -876,18 +883,20 @@ const checkMarks = () => fetch("/marks/version.json", { cache: "no-store" }).the
   const s = document.createElement("script"); s.src = `/logos.js?v=${m.v}`; s.async = true; document.head.appendChild(s);
 }).catch(() => {});
 const load = () => (checkMarks(), fetch("/api/consensus")).then(r => r.json()).then(good).then(d => {
+  track(d);
   if (!D || Date.parse(d.generated_at) > Date.parse(D.generated_at) || (d.sources || []).some((s, i) => s.ok !== D.sources[i]?.ok)) { render(d); keep(d); }
   else { D.next_at = d.next_at; D.updating = d.updating; $("#reading").innerHTML = readingHTML(D); }
   plan();
-}).catch(() => plan(60 * 1000));
+}).catch(() => { askFailed = true; if (D) $("#reading").innerHTML = readingHTML(D); plan(60 * 1000); });
 function plan(ms) {
   clearTimeout(nextT);
-  const due = !D ? 60 * 1000 : D.updating || Date.parse(D.next_at || 0) <= Date.now() ? 20 * 1000 : Date.parse(D.next_at) - Date.now() + 20 * 1000;
-  nextT = setTimeout(() => (document.hidden ? plan(60 * 1000) : load()), Math.max(20 * 1000, Math.min(ms ?? due, 15 * 60 * 1000)));
+  // While a new reading is on its way: ask again after 10 s the first time (most readings take about 5), then every 20.
+  const due = !D ? 60 * 1000 : D.updating || Date.parse(D.next_at || 0) <= Date.now() ? (waits <= 1 ? 10 : 20) * 1000 : Date.parse(D.next_at) - Date.now() + 20 * 1000;
+  nextT = setTimeout(() => (document.hidden ? plan(60 * 1000) : load()), Math.max(10 * 1000, Math.min(ms ?? due, 15 * 60 * 1000)));
 }
 const early = kept ? setTimeout(() => { if (!D) render(kept); }, 1500) : 0;
-(window.P0 || fetch("/api/consensus").then(r => r.json())).then(good).then(d => { clearTimeout(early); if (!D || Date.parse(d.generated_at) >= Date.parse(D.generated_at)) { render(d); keep(d); } plan(); })
-  .catch(() => { clearTimeout(early); if (!D && kept) render(kept); if (!D) $("#reading").innerHTML = "<span>The markets could not be reached just now. The page will try again shortly.</span>"; plan(60 * 1000); });
+(window.P0 || fetch("/api/consensus").then(r => r.json())).then(good).then(d => { clearTimeout(early); track(d); if (!D || Date.parse(d.generated_at) >= Date.parse(D.generated_at)) { render(d); keep(d); } plan(); })
+  .catch(() => { clearTimeout(early); askFailed = true; if (!D && kept) render(kept); if (!D) $("#reading").innerHTML = "<span>The markets could not be reached just now. The page will try again shortly.</span>"; plan(60 * 1000); });
 document.addEventListener("visibilitychange", () => { if (!document.hidden && D && Date.now() > Date.parse(D.next_at || 0)) load(); });
 
 // ---- poster: the tide board and the day on one screen (/andaaza/poster, or the Poster button). Zooms to fit.
