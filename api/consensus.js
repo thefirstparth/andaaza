@@ -1,7 +1,6 @@
 import { waitUntil } from "@vercel/functions";
 import { consensus } from "../lib/consensus.js";
 import { blobConfigured, putJSON, readPath, PRE } from "../lib/blob.js";
-import { addNotes } from "../lib/why.js";
 import { stampAdded } from "../lib/added.js";
 
 // GET /api/consensus: Andaaza's data (see lib/consensus.js).
@@ -30,23 +29,18 @@ const newer = (a, b) => (age(a) <= age(b) ? a : b);
 const dueOf = d => (Math.floor(Date.parse(d.generated_at) / SLOT) + 1) * SLOT;
 const stale = d => !d?.generated_at || Date.now() >= dueOf(d);
 // One background reading at a time per instance. A reading with no source at all never replaces a good one.
-// prev: the reading being replaced, whose notes carry over (lib/why.js). Notes are skipped when the markets took long
-// to read (a full Kalshi scan), so the reading always finishes well inside the time limit. Previews keep what each note
-// was made from (the search and the news), to judge the notes in this API's answer.
+// prev: the reading being replaced; when each market was first shown here carries over from it (lib/added.js).
 function rebuild(prev) {
   let ix = null;
   building ||= (blobConfigured() ? readBlob(KPATH) : Promise.resolve(null))
     .then(kalshiIndex => consensus({ kalshiIndex, onKalshiIndex: x => { ix = x; } }))
     .then(async out => {
-      // Vercel may run several copies of this function. If another copy saved a reading while this one was reading the
-      // markets, its notes (and its count of searches spent) are the latest: carry those over and write none this time,
-      // so two copies never spend the budget twice.
-      let last = prev || mem, skip = out.took_ms > 20000;
+      // Vercel may run several copies of this function: carry forward from whichever reading was saved last.
+      let last = prev || mem;
       const saved = blobConfigured() ? await readBlob(PATH) : null;
-      if (saved?.generated_at && (!last || Date.parse(saved.generated_at) > Date.parse(last.generated_at))) { skip ||= !stale(saved); last = saved; }
+      if (saved?.generated_at && (!last || Date.parse(saved.generated_at) > Date.parse(last.generated_at))) last = saved;
       // When each market was first shown here ("Added 5 h ago", "New"): copied forward from the last reading.
-      const noted = await addNotes(out, last, { skip, debug: !!PRE }).catch(() => out);
-      try { return stampAdded(noted, last); } catch { return noted; }
+      try { return stampAdded(out, last); } catch { return out; }
     })
     .then(async out => {
       if (!out.sources.some(s => s.ok)) return null;
