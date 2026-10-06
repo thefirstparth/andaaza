@@ -193,10 +193,11 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   tide board; changed 26 Sep 2026 so the buttons are reachable on the board). Poster and the look
   button (Day/Night/Retro) sit **top right of the header, above the clock**, and again at the right end of the top bar
   (icons only on a phone). Parth moved them from the floating bottom-right capsule (26 Sep 2026): it hid market data.
-- **Footer:** "Made with ♥ in India" (madewithloveinindia.org) "by Parth Bhatia" · aside **"Ideas by Parth. Typing by
+- **Footer:** "Made with ♥ in India" (madewithloveinindia.org) · aside **"Ideas by Parth. Typing by
   Claude. Complaints to Parth."** (Claude mark, muted, orange on hover; Parth's tone: stark, sarcastic, funny, but
   the ideas are his; never imply Claude did everything) · "Prices from Polymarket, Kalshi and Manifold. Andaaza reads
-  them; it takes no bets." · Instagram button first (filled, gradient), LinkedIn quieter.
+  them; it takes no bets." · "Built by Parth Bhatia" (name links to bhatia.page/projects/andaaza; Parth, 6 Oct 2026,
+  moved his name here from the "Made with ♥" line so it appears once) · Instagram button first (filled, gradient), LinkedIn quieter.
 - **Poster** (`/poster` or the button): tide board + Currents + Coming up + Where the money is on one screen; always
   spans the full width and is scaled so its height fills the screen (laptop, 2560×1440 BenQ GW2790Q, ultra-wide);
   on a monitor on its side the three lists stack; stacks and scrolls on phone and tablet.

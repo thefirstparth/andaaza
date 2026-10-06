@@ -2,6 +2,8 @@
 
 Watch the world change its mind.
 
+Built by Parth Bhatia (https://bhatia.page).
+
 ## For whoever looks after it next
 
 Andaaza, at https://getandaaza.vercel.app, shows what Polymarket, Kalshi and Manifold think about the things Parth
