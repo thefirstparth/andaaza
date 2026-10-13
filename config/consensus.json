@@ -35,6 +35,8 @@
     {
       "id": "football",
       "label": "Football",
+      "not": "basketball|euroleague|eurocup|\\bacb\\b|liga endesa|\\bbasket\\b",
+      "$comment_not": "Not football, though the names match: Real Madrid, Barcelona, Bayern and others have basketball teams too (Parth, 13 Oct 2026: a EuroLeague game showed as Football on the board). Matched on the title, tags and address; a market caught here goes to no subject and so stays off.",
       "words": [
         "real madrid",
         "la liga",
