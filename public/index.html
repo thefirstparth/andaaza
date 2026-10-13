@@ -224,9 +224,11 @@ button{font:inherit;color:inherit}
   .board{row-gap:0}
   .post{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:10px;padding-bottom:clamp(16px,2vw,24px)}
 }
-.post .lbl{display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden;min-width:0;font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
+/* A long label (United States Grand Prix) wraps to a second line rather than being cut off; it sits at the foot of its
+   row, so one-line labels stay right above their gauges when a neighbour's label takes two. */
+.post .lbl{display:flex;align-items:center;align-self:end;gap:7px;min-width:0;font:700 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
 .post .lbl .ic{width:15px;height:15px;flex:none}
-.post .lbl span{overflow:hidden;text-overflow:ellipsis}
+.post .lbl span{min-width:0;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow-wrap:break-word}
 .staff{position:relative;height:clamp(210px,19vw,280px);border-radius:24px;background:var(--ac);overflow:hidden;border:1px solid color-mix(in oklab,var(--a) 22%,transparent);transition:border-color .2s}
 .post:hover .staff{border-color:var(--a)}
 .staff .l{position:absolute;inset:0;padding:14px 16px;color:var(--a)}

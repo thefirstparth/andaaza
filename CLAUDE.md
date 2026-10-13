@@ -254,6 +254,11 @@ GDELT, The Guardian, Grok, Brave, Linkup.
 - Twins missed: "Fed Decision in October?" (Polymarket) and "Fed decision in Oct 2026?" (Kalshi) showed as #1 and #2 in
   Where the money is. Months are now read in full ("Oct" = "October"), and outcomes named differently ("No change",
   "Fed maintains rate") count as the same leader when both settle within 2 days and the leader is priced within 5 pts.
+- A EuroLeague basketball game ("Olimpia Milano v Real Madrid") took the Real Madrid gauge under "Football" (13 Oct
+  2026): club names are shared across sports. A subject's `not` pattern (config; Football's names basketball, EuroLeague,
+  ACB…) is read on the title, tags and address, and a sports market left with no subject stays off.
+- Board labels were cut to one line ("UNITED STATES GRAND…", 13 Oct 2026): they now wrap to two lines, sitting at the
+  foot of their shared row so gauges stay level.
 - Text under a big number inherits its tight spacing and narrow width (Retro showed "Nochange"): reset both on it.
 - Kalshi markets vanished at random (Parth, 29 Sep 2026: the Bahrain GP winner, a must-have, was shown, then gone for an
   hour): Kalshi turns away 1–4 of the ~44 re-price requests each reading (429), and a turned-away request counted as
