@@ -58,3 +58,25 @@ Three modern versions of today's Andaaza:
 - **F · Andaaza Next** (`f-next.html`): today's design, refined for 2027.
 - **G · Andaaza Glass** (`g-glass.html`): today's design with a legible take on Liquid Glass.
 - **H · Andaaza Lehar** (`h-lehar.html`): brand-forward. Neel, marigold and lehariya lead.
+
+## Round 2 (Parth, 21 Oct 2026): density on the phone
+Parth liked **F · Andaaza Next** and **G · Andaaza Glass** (but G's ground made everything unreadable). His problem:
+on the installed app (iPhone 17, Nothing Phone (3)) too little is seen per scroll; design is hampering UX and
+navigation. A plain dense list (a reference he showed: big % + title + grey bar + "Others 2%") is "fucking bland".
+Information first, design in service of it, but still Andaaza.
+
+Measured on iPhone 17 as an app (402 × 874, ~778 px usable): the live site shows 2 of the 7 tide gauges on the
+first screen and is ~16 screens long; F shows 2 (5 more behind a sideways swipe); G shows 1.
+
+Five new variants, all of F's family (light haze ground, Instrument Serif italic name, Instrument Sans, Bricolage
+Grotesque narrowed numbers, the OKLCH subject palette, water that reads the data, the masked number, the seal):
+- **I · Tide Rows** (`i-tide-rows.html`): every market a slim row whose background fills left → right like water.
+- **J · Tide Grid** (`j-tide-grid.html`): today's vertical gauges, small, three or four to a row.
+- **K · Glass, clear** (`k-glass-clear.html`): G's glass on a calm ground; glass only for floating controls.
+- **L · Pages** (`l-pages.html`): each section is a page you swipe to; each page fits its screen.
+- **M · Race Bars** (`m-race-bars.html`): each market shows its whole field in one water channel.
+
+Every round-2 page shows: compact header, tide board (7), Currents (6), Where the money is (`AZ.money`, 10), Sport
+(football 4 + Coming up 3, F1, tennis). On the phone the dictionary line and hero may shrink to one quiet line
+(the full dictionary line can live in an "About" sheet). Measure with `density.mjs` (scratchpad) at 402 × 874 and
+412 × 915: markets fully on the first screen, and screens to the end.
