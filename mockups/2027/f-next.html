@@ -84,7 +84,7 @@ img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02
 .wbox{position:absolute;left:0;right:0;bottom:0;height:calc((var(--pv) + var(--bob)) * 1% + 5px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/var(--ww) 3000px repeat-x;mask:var(--wave) 0 0/var(--ww) 3000px repeat-x}
 /* the meniscus: a pale band riding the crest, so the water reads as a surface, not a fill */
 .wbox::before{content:"";position:absolute;inset:0 0 auto;height:16px;background:linear-gradient(#fff6 0 30%,#fff0);pointer-events:none;z-index:1}
-.wbox>.wfull{top:auto;bottom:0;height:calc((100% - 5px) * 100 / (var(--pv) + var(--bob)))}
+.wbox>.l.wfull{top:auto;bottom:0;height:calc((100% - 5px) * 100 / (var(--pv) + var(--bob)));color:var(--on)}
 :root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 3000'%3E%3Cpath d='M0 5C12 1 24 1 36 5S60 9 72 5V3000H0z'/%3E%3C/svg%3E");--ww:72px;--wt:11s;--amp:1}
 [data-sea=calm]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 3000'%3E%3Cpath d='M0 5C20 2.6 40 2.6 60 5S100 7.4 120 5V3000H0z'/%3E%3C/svg%3E");--ww:120px;--wt:18s;--amp:.5}
 [data-sea=choppy]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 3000'%3E%3Cpath d='M0 5C7.3 -.4 14.7 -.4 22 5S36.7 10.4 44 5V3000H0z'/%3E%3C/svg%3E");--ww:44px;--wt:5s;--amp:2}
@@ -142,7 +142,7 @@ img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02
 
 /* ---- Currents: a ribbon of small gauges ---- */
 .ribbon{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(10px,1.2vw,18px);margin-top:20px}
-.cur{display:grid;grid-template-rows:auto auto;gap:10px;min-width:0}
+.cur{display:grid;grid-template-rows:auto auto;align-content:start;gap:10px;min-width:0}
 .cur .staff{height:clamp(130px,11vw,160px);border-radius:20px}
 .cur .big{font-size:clamp(34px,3.1vw,46px);left:12px;bottom:12px}
 .cur .ctx{display:flex;flex-direction:column;gap:3px;min-width:0}
@@ -199,7 +199,7 @@ img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02
 footer{padding-block:28px calc(36px + env(safe-area-inset-bottom,0px));border-top:1.5px solid var(--ink);font:400 13.5px/1.5 var(--sans);color:var(--ink2);display:flex;justify-content:space-between;gap:10px 30px;flex-wrap:wrap}
 footer .aside{display:inline-flex;align-items:center;gap:8px}
 footer .aside .mk{width:15px;height:15px;color:var(--muted)}
-.tabbar{display:none}
+.tabbar,.appbar{display:none}
 
 /* ---- tablet ---- */
 @media (max-width:1100px){
@@ -211,15 +211,23 @@ footer .aside .mk{width:15px;height:15px;color:var(--muted)}
 /* ---- phone: the installed app. A compact bar, the board as a snap carousel, a bottom tab bar ---- */
 @media (max-width:600px){
   body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
-  .mast{padding-block:14px 14px}
-  .mrow{flex-wrap:nowrap;align-items:center}
-  .mast h1{font-size:44px}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+  .appbar{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:25;padding-block:8px;background:color-mix(in oklab,var(--surface) 94%,transparent);border-bottom:1px solid var(--line)}
+  @supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){.appbar{background:color-mix(in oklab,var(--surface) 70%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}}
+  .appbar .nm{display:flex;align-items:baseline;gap:7px;font:italic 400 30px/1 var(--display);letter-spacing:-.01em}
+  .appbar .nm .drop{width:20px;height:20px;top:.02em}
+  .appbar .nm .seal{font-size:12px;top:-.25em}
+  .appbar .clk{display:flex;align-items:center;gap:6px;font:700 17px/1 var(--fig);font-variation-settings:"wdth" 75;padding:7px 11px;border-radius:999px;background:var(--bg);border:1px solid var(--line2)}
+  .appbar .clk small{font:700 10px var(--sans);letter-spacing:.08em;color:var(--muted)}
+  .mast{padding-block:16px 14px}
+  .mrow{display:none}
   .ctl{display:none}
-  .sub{margin-top:12px}
+  .sub{margin-top:0}
   .hero{font-size:21px}
   .quiet{font-size:12.5px;gap:6px 10px}
   .reading{width:100%;border-radius:20px;padding:10px 12px;justify-content:space-between}
   .reading .rt{flex:1 1 auto}
+  .reading .clock{display:none}
   .board{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px));scroll-padding-inline:max(16px,env(safe-area-inset-left,0px));scrollbar-width:none;border-top:0;padding-top:6px}
   .board::-webkit-scrollbar{display:none}
   .post{flex:0 0 40%;scroll-snap-align:start;grid-template-rows:auto auto 1fr}
@@ -245,6 +253,7 @@ footer .aside .mk{width:15px;height:15px;color:var(--muted)}
 </style>
 </head>
 <body>
+<div class="appbar wrap"><span class="nm"><svg class="drop" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dc2"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dc2)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="seal" lang="hi">अंदाज़ा</span></span><span class="clk"><i class="dot"></i><span id="clk2"></span><small>IST</small></span></div>
 <header class="mast wrap">
   <div class="mrow">
     <h1><svg class="drop" viewBox="0 0 64 64" role="img" aria-label="Andaaza: a drop of water, filled to its level"><defs><clipPath id="dc"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dc)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="seal" lang="hi">अंदाज़ा</span></h1>
@@ -290,7 +299,7 @@ footer .aside .mk{width:15px;height:15px;color:var(--muted)}
 const A = window.AZ;
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const mk = m => !m ? "" : m.t === "svg" ? `<span class="mk">${m.svg}</span>` : `<img class="mk${m.flag ? " flag" : ""}" src="${esc(m.src)}" alt="" loading="lazy">`;
+const mk = m => !m ? "" : m.t === "svg" ? `<span class="mk">${m.svg}</span>` : `<img class="mk${m.flag ? " flag" : ""}" src="${esc(m.src)}" alt="">`;
 const usd = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1).replace(/\.0$/, "")}M` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
 const pts = d => `${Math.abs(d)} pt${Math.abs(d) === 1 ? "" : "s"}`;
 const WIN = { day: "in a day", week: "this week", month: "in 30 days" };
@@ -311,7 +320,7 @@ function staff(c, opts = {}) {
   const day = c.lead.was;
   if (day != null && Math.abs(p - day) >= 3) marks.push(`<i class="was" style="--pp:${day}"></i>${opts.label && day >= 35 ? `<span class="wl${day > 66 ? " dn" : ""}" style="--pp:${day}">was ${day}%</span>` : ""}`);
   // The month of tide marks: where the leader stood 30 days and 7 days ago, when known and apart from today.
-  if (opts.hist) for (const [k, t] of [["month", "30d"], ["week", "7d"]]) if (h[k] != null && Math.abs(h[k] - p) >= 4) marks.push(`<span class="hm" style="--pp:${Math.max(4, Math.min(96, h[k]))}"><i></i><span>${t}</span></span>`);
+  if (opts.hist) for (const [k, t] of [["month", "30d"], ["week", "7d"]]) if (h[k] != null && Math.abs(h[k] - p) >= 4 && (day == null || Math.abs(h[k] - day) >= 8)) marks.push(`<span class="hm" style="--pp:${Math.max(4, Math.min(96, h[k]))}"><i></i><span>${t}</span></span>`);
   const inner = `<b class="big">${Math.round(p)}<small>%</small></b>${marks.join("")}`;
   return `<div class="staff" data-sea="${sea(c)}" style="--pv:${lvl(p)};--ph:${phase(c.url + (opts.k || "")).toFixed(2)}"><div class="l">${inner}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${inner}</div></div></div>`;
 }
@@ -326,7 +335,7 @@ $("#board").innerHTML = A.board.map(c => `<a class="post" data-k="${esc(c.subjec
 
 $("#currents").innerHTML = A.currents.map(c => `<a class="cur" data-k="${esc(c.subject)}" href="${esc(c.url)}" target="_blank" rel="noopener">
   <div style="position:relative">${staff(c, { k: "c" })}<span class="delta">${moveShort(c)}</span></div>
-  <div class="ctx"><span class="lead">${mk(c.lead.mark)} ${esc(c.lead.name)}</span><span class="mq">${esc(c.title)}</span><span class="lbl11 sj">${esc(c.subjectLabel)}</span>${added(c) ? `<span>${added(c)}</span>` : ""}</div></a>`).join("");
+  <div class="ctx"><span class="lead">${c.yesno ? esc(c.title) : `${mk(c.lead.mark)} ${esc(c.lead.name)}`}</span>${c.yesno ? "" : `<span class="mq">${esc(c.title)}</span>`}<span class="lbl11 sj">${esc(c.subjectLabel)}</span>${added(c) ? `<span>${added(c)}</span>` : ""}</div></a>`).join("");
 
 // A card: the gauge on the left names nothing; the field on the right lists the contenders.
 const onBoard = new Set(A.board.map(b => b.url));
@@ -354,10 +363,11 @@ function subject(id, k, markKey) {
   const [first, ...rest] = items;
   const next = (t.next || []).filter(m => !A.board.some(b => b.title === m.title)).slice(0, 3);
   return `<div class="subj" data-k="${k}"><h3 class="lbl11">${mk(A.marks[markKey])}${esc(t.label)} <em>· ${items.length} market${items.length === 1 ? "" : "s"}</em></h3>
-  <div class="cards" style="--n:${Math.max(1, rest.length)}">${first ? card(first, true) : ""}${rest.map(c => card(c)).join("")}</div>
+  <div class="cards" style="--n:${Math.max(1, rest.length)}">${first ? card(first, true) : ""}${rest.map(c => card(c, rest.length === 1)).join("")}</div>
   ${next.length ? `<h3 class="lbl11" style="margin:22px 0 12px;color:var(--ink2)">Coming up</h3><div class="matches">${next.map(match).join("")}</div>` : ""}</div>`;
 }
 $("#sport").innerHTML = subject("football", "football", "uefa") + subject("f1", "f1", "f1") + subject("tennis", "tennis", "atp");
+$("#clk2").textContent = A.readIST;
 $("#aside").insertAdjacentHTML("afterbegin", mk(A.marks.claude));
 </script>
 </body>

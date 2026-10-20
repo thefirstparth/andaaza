@@ -108,7 +108,7 @@ header.top { padding-block: 28px 32px; display: grid; grid-template-columns: min
 .pot { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .plabel { font: 600 var(--t-label)/1.3 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--madder); display: flex; align-items: center; gap: 6px; min-height: 2.6em; align-items: flex-end; }
 .plabel .mk { width: 14px; height: 14px; color: var(--madder); flex: none; margin-bottom: 1px; }
-.vessel { width: 100%; max-width: 210px; aspect-ratio: 200 / 232; display: block; }
+.vessel { width: 100%; max-width: 200px; aspect-ratio: 200 / 250; display: block; }
 .vessel svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .stamp { font: 800 clamp(40px, 3.6vw, 58px)/.95 var(--display); color: var(--indigo); font-variant-numeric: tabular-nums lining-nums; letter-spacing: -.02em; margin-top: 4px; }
 .stamp span { font-size: .42em; font-weight: 700; margin-left: 2px; letter-spacing: 0; }
@@ -223,8 +223,8 @@ footer .made .mk { width: 14px; height: 14px; display: inline-block; vertical-al
   .row .l { display: none; }
 }
 /* the first pot, drawn wide: pot left, words right */
-.pot.wide { flex-direction: row; gap: 18px; align-items: flex-end; }
-.pot.wide .vessel { flex: 0 0 46%; }
+.pot.wide { display: grid; grid-template-columns: 44% minmax(0, 1fr); gap: 8px 18px; align-items: end; }
+.pot.wide .plabel { grid-column: 1 / -1; }
 .pot.wide .txt { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .txt { display: contents; }
 .pot.wide .txt { display: flex; }
@@ -252,9 +252,8 @@ footer .made .mk { width: 14px; height: 14px; display: inline-block; vertical-al
   .row .t { grid-column: 2 / 4; }
   .row .ft { grid-column: 2; font-size: 19px; }
   .row .dl { grid-column: 3; font-size: 15px; padding: 7px 10px 5px; }
-  body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .tabbar {
-    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: sticky; bottom: 0; z-index: 20;
     background: var(--indigo); color: var(--kora-3);
     padding: 0 max(8px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(8px, env(safe-area-inset-left, 0px));
     border-top: 12px solid transparent;
@@ -352,7 +351,7 @@ footer .made .mk { width: 14px; height: 14px; display: inline-block; vertical-al
   function mark(m) {
     if (!m) return '';
     if (m.t === 'svg') return '<span class="mk">' + m.svg + '</span>';
-    return '<img class="mk' + (m.flag ? ' flag' : '') + '" src="' + esc(m.src) + '" alt="" loading="lazy">';
+    return '<img class="mk' + (m.flag ? ' flag' : '') + '" src="' + esc(m.src) + '" alt="">';
   }
   var WIN = { day: 'in a day', week: 'this week', month: 'in 30 days' };
   function pts(n) { return n + (n === 1 ? ' pt' : ' pts'); }
@@ -398,9 +397,9 @@ footer .made .mk { width: 14px; height: 14px; display: inline-block; vertical-al
   });
 
   /* ---- pots ---- */
-  // Pot silhouette in a 200 x 232 box: rim, neck, a round belly, a narrow foot.
-  var POT = 'M70,16 H130 Q137,16 137,23 Q137,30 128,32 L124,50 C170,60 195,98 193,140 C191,186 160,216 128,224 Q100,230 72,224 C40,216 9,186 7,140 C5,98 30,60 76,50 L72,32 Q63,30 63,23 Q63,16 70,16 Z';
-  var TOP = 16, BOT = 228, H = BOT - TOP;
+  // Pot silhouette in a 200 x 250 box: rim, neck, a round belly, a narrow foot.
+  var POT = 'M72,12 H128 Q137,12 137,20 Q137,28 127,30 L122,56 C167,66 188,108 186,156 C184,204 157,236 124,244 Q100,249 76,244 C43,236 16,204 14,156 C12,108 33,66 78,56 L73,30 Q63,28 63,20 Q63,12 72,12 Z';
+  var TOP = 12, BOT = 247, H = BOT - TOP;
   // A different printed motif for each subject, carved as a 14px block.
   var MOTIF = {
     ai: '<circle cx="7" cy="7" r="1.9"/><circle cx="0" cy="0" r="1.2"/><circle cx="14" cy="0" r="1.2"/><circle cx="0" cy="14" r="1.2"/><circle cx="14" cy="14" r="1.2"/>',
@@ -421,35 +420,35 @@ footer .made .mk { width: 14px; height: 14px; display: inline-block; vertical-al
     for (var x = -wl * 3; x < 220 + wl * 2; x += wl) {
       d += ' q' + (wl / 4) + ',' + (-amp) + ' ' + (wl / 2) + ',0 t' + (wl / 2) + ',0';
     }
-    return d + ' V240 H' + (-wl * 3) + ' Z';
+    return d + ' V260 H' + (-wl * 3) + ' Z';
   }
   function potSVG(c, i) {
     var p = c.lead.prob, y = BOT - p / 100 * H, s = sea(c), id = 'p' + i;
     var motif = MOTIF[c.subject] || MOTIF.ai;
     var yd = c.hist && c.hist.day != null && c.hist.day !== p ? BOT - c.hist.day / 100 * H : null;
-    var bandY = 60, bandH = 20;
-    var out = '<svg viewBox="0 0 200 232" role="img" aria-label="' + esc(c.label + ': ' + (c.yesno ? c.sub : c.lead.name) + ', ' + p + ' per cent') + '">';
+    var bandY = 68, bandH = 20;
+    var out = '<svg viewBox="0 0 200 250" role="img" aria-label="' + esc(c.label + ': ' + (c.yesno ? c.sub : c.lead.name) + ', ' + p + ' per cent') + '">';
     out += '<defs>' +
       '<clipPath id="' + id + 'c"><path d="' + POT + '"/></clipPath>' +
-      '<clipPath id="' + id + 'w"><rect x="0" y="' + y + '" width="200" height="' + (240 - y) + '"/></clipPath>' +
+      '<clipPath id="' + id + 'w"><rect x="0" y="' + y + '" width="200" height="' + (260 - y) + '"/></clipPath>' +
       '<radialGradient id="' + id + 'g" cx="34%" cy="38%" r="75%"><stop offset="0" stop-color="#d79a74"/><stop offset=".55" stop-color="#c27a52"/><stop offset="1" stop-color="#9c5634"/></radialGradient>' +
       '<linearGradient id="' + id + 'i" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d3d86"/><stop offset="1" stop-color="#17204b"/></linearGradient>' +
       '<pattern id="' + id + 'd" width="14" height="14" patternUnits="userSpaceOnUse" style="color:#f0e2c6"><g fill="currentColor">' + motif + '</g></pattern>' +
       '<pattern id="' + id + 'e" width="14" height="14" patternUnits="userSpaceOnUse" style="color:#d9a21b"><g fill="currentColor">' + motif + '</g></pattern>' +
       '</defs>';
     out += '<g clip-path="url(#' + id + 'c)">';
-    out += '<rect width="200" height="232" fill="url(#' + id + 'g)"/>';
+    out += '<rect width="200" height="250" fill="url(#' + id + 'g)"/>';
     out += '<rect x="0" y="' + bandY + '" width="200" height="' + bandH + '" fill="#8f4a2a"/><rect x="0" y="' + bandY + '" width="200" height="' + bandH + '" fill="url(#' + id + 'd)"/>';
     out += '<g class="water" style="--from:' + (BOT - y + 10) + 'px"><g class="bob" style="--amp:' + s.bob + 'px;--bobdur:' + s.bobdur + 's"><g class="wave" style="--wl:' + (-s.wl) + 'px;--dur:' + s.dur + 's">' +
       '<path d="' + wavePath(y, s.amp, s.wl) + '" fill="url(#' + id + 'i)"/>' +
-      '<path d="' + wavePath(y, s.amp, s.wl).replace(/ V240.*$/, '') + '" fill="none" stroke="#6d80cf" stroke-width="2"/>' +
+      '<path d="' + wavePath(y, s.amp, s.wl).replace(/ V260.*$/, '') + '" fill="none" stroke="#6d80cf" stroke-width="2"/>' +
       '</g></g></g>';
     out += '<g clip-path="url(#' + id + 'w)"><rect x="0" y="' + bandY + '" width="200" height="' + bandH + '" fill="#121a40"/><rect x="0" y="' + bandY + '" width="200" height="' + bandH + '" fill="url(#' + id + 'e)"/></g>';
     out += '<rect x="0" y="' + (bandY - 1.5) + '" width="200" height="1.5" fill="#5e2e18" opacity=".7"/><rect x="0" y="' + (bandY + bandH) + '" width="200" height="1.5" fill="#5e2e18" opacity=".7"/>';
     if (yd != null) out += '<line x1="0" x2="200" y1="' + yd + '" y2="' + yd + '" stroke="#e8c9b8" stroke-width="2" stroke-dasharray="6 5"/><line x1="0" x2="200" y1="' + yd + '" y2="' + yd + '" stroke="#9e2f28" stroke-width="2" stroke-dasharray="6 5" stroke-dashoffset="5.5" opacity=".9"/>';
     out += '</g>';
     out += '<path d="' + POT + '" fill="none" stroke="#6b3519" stroke-width="2.6"/>';
-    out += '<path d="M66,23 Q100,29 134,23" fill="none" stroke="#efc9a9" stroke-width="2" opacity=".7"/>';
+    out += '<path d="M66,20 Q100,26 134,20" fill="none" stroke="#efc9a9" stroke-width="2" opacity=".7"/>';
     out += '</svg>';
     return out;
   }
@@ -471,7 +470,7 @@ footer .made .mk { width: 14px; height: 14px; display: inline-block; vertical-al
 
   /* ---- currents ledger ---- */
   $('ledger').innerHTML = A.currents.map(function (c, i) {
-    var up = c.move > 0, leader = c.yesno ? 'Yes' : c.lead.name;
+    var up = c.move > 0, leader = c.yesno ? '' : c.lead.name;
     return '<div class="row">' +
       '<div class="no">' + (i + 1) + '</div>' +
       '<div class="t"><small>' + esc(c.subjectLabel) + '</small><a href="' + esc(c.url) + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">' + esc(c.title) + '</a></div>' +

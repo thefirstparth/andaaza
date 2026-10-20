@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andaaza · Forecast</title>
+<meta name="theme-color" content="#e6eef6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Mono:wght@200..800&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&text=%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%81&display=swap">
+<script src="data.js"></script>
+<style>
+/* C · Forecast. Everyone already reads "70% chance of rain", so Andaaza reads the world like a weather forecast:
+   today's outlook, a strip of seven like the hourly forecast, Currents as the ten-day list (was → now on a range
+   bar), matches as the days ahead. One water colour (rain) everywhere; a subject's colour only names it.
+   Layout: an app bar, the outlook as one wide panel (the only tinted band), then flat sky cards. */
+:root{
+  color-scheme:light;
+  --bg:oklch(.952 .016 236);          /* early-morning sky, flat */
+  --panel:oklch(.905 .032 238);       /* the outlook band, one step deeper */
+  --surface:oklch(.983 .007 236);
+  --ink:oklch(.24 .04 248);--ink2:oklch(.4 .035 248);--muted:oklch(.46 .03 248);
+  --line:oklch(.87 .02 240);
+  --rain:oklch(.56 .14 242);--rain-d:oklch(.45 .14 250);--rain-l:oklch(.86 .06 236);--mist:oklch(.93 .03 236);
+  --sun:oklch(.74 .15 70);--sun-ink:oklch(.5 .13 62);
+  --up:oklch(.5 .14 152);--down:oklch(.52 .18 28);
+  --gut:clamp(16px,3vw,64px);
+  --sans:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Atkinson Hyperlegible Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --deva:"Tiro Devanagari Hindi","Noto Serif Devanagari","Kohinoor Devanagari",serif;
+  --r:24px;
+}
+/* a subject's colour names it, nothing more */
+[data-k]{--a:oklch(.5 .15 var(--h))}
+[data-k=f1]{--h:27}[data-k=tennis]{--h:50}[data-k=india]{--h:62}[data-k=money]{--h:80;--a:oklch(.48 .1 80)}[data-k=football]{--h:150}[data-k=cricket]{--h:180}
+[data-k=ai]{--h:235}[data-k=world]{--h:265}[data-k=nba]{--h:290}[data-k=film]{--h:310}[data-k=celebs]{--h:345}[data-k=ott]{--h:5}[data-k=other]{--h:240;--a:var(--ink2)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2.5px solid var(--rain-d);outline-offset:3px;border-radius:10px}
+.wrap{padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.mk{display:inline-flex;width:1.05em;height:1.05em;flex:none;vertical-align:-.16em}
+.mk svg{width:100%;height:100%}
+img.mk{object-fit:contain}
+img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .03 248 / .14)}
+.cap{font:700 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.up{color:var(--up)}.dn{color:var(--down)}
+
+/* ---- app bar: the name, the word, when the forecast was read ---- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in oklab,var(--bg) 94%,transparent);border-bottom:1px solid transparent}
+@supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){.bar{background:color-mix(in oklab,var(--bg) 72%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3)}}
+.bar .in{display:flex;align-items:center;justify-content:space-between;gap:12px 28px;padding-block:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .nm{font:700 26px/1 var(--sans);letter-spacing:-.02em}
+.brand .drop{width:26px;height:26px}
+.seal{font:400 15px/1 var(--deva);color:var(--sun-ink);border:1.5px solid color-mix(in oklab,var(--sun) 75%,transparent);border-radius:8px;padding:5px 7px 2px;background:color-mix(in oklab,var(--sun) 10%,transparent)}
+.dict{display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px;font:400 13.5px/1.4 var(--sans);color:var(--ink2)}
+.say{display:inline-grid;place-items:center;width:28px;height:28px;border:0;border-radius:50%;background:var(--rain-d);color:#fff}
+.say svg{width:15px;height:15px}
+.pos{font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ur{font:16px/1 "Noto Nastaliq Urdu","Noto Naskh Arabic","Geeza Pro",serif;color:var(--sun-ink)}
+.upd{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;font:400 13.5px/1.3 var(--sans);color:var(--ink2)}
+.upd b{font:600 13.5px var(--mono);color:var(--ink)}
+.srcs{display:flex;gap:10px}
+.src{display:inline-flex;align-items:center;gap:5px;font-size:12.5px}
+.src .mk{width:13px;height:13px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--up)}
+
+/* ---- the outlook: today's lead question, read out like the forecast ---- */
+.outlook{background:var(--panel);position:relative;overflow:hidden;isolation:isolate}
+/* rain: a few thin diagonal streaks in one corner, nothing more */
+.outlook::before{content:"";position:absolute;inset:0 0 0 55%;z-index:-1;background:repeating-linear-gradient(105deg,transparent 0 22px,oklch(.6 .08 240 / .16) 22px 23.5px);-webkit-mask:linear-gradient(to left,#000,transparent 85%);mask:linear-gradient(to left,#000,transparent 85%)}
+.outlook .in{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);align-items:center;gap:24px clamp(24px,4vw,72px);padding-block:clamp(26px,3.6vw,52px)}
+.tag{margin:0 0 18px;font:400 clamp(18px,1.6vw,22px)/1.3 var(--sans);color:var(--ink2)}
+.ol-eye{display:flex;align-items:center;gap:8px;color:var(--rain-d)}
+.ol-big{display:flex;align-items:flex-start;gap:4px;margin:6px 0 0;font:200 clamp(110px,13vw,200px)/.82 var(--sans);letter-spacing:-.05em;color:var(--ink)}
+.ol-big small{font-size:.36em;font-weight:300;letter-spacing:-.02em;margin-top:.12em}
+.ol-chance{display:block;font:400 clamp(22px,2.2vw,30px)/1.2 var(--sans);letter-spacing:-.01em;margin-top:2px;color:var(--ink2)}
+.ol-line{margin:6px 0 0;font:600 clamp(24px,2.5vw,36px)/1.15 var(--sans);letter-spacing:-.02em;max-width:22ch;text-wrap:balance}
+.ol-line .mk{width:.85em;height:.85em;vertical-align:-.06em;margin-right:.18em}
+.ol-meta{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:16px;font:400 14.5px/1.4 var(--sans);color:var(--ink2)}
+.ol-meta strong{font-weight:700}
+.ol-field{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chipc{display:inline-flex;align-items:center;gap:7px;padding:7px 12px 7px 10px;border-radius:999px;background:color-mix(in oklab,var(--surface) 70%,transparent);font:500 13.5px/1 var(--sans)}
+.chipc b{font:600 13.5px var(--mono)}
+.ol-side{display:grid;grid-template-columns:auto auto;justify-content:center;align-items:end;gap:18px clamp(24px,3vw,48px)}
+.bigdrop{width:clamp(200px,21vw,320px);height:auto;display:block;filter:drop-shadow(0 18px 24px oklch(.45 .1 245 / .22))}
+.trend{display:flex;flex-direction:column;gap:8px;min-width:0}
+.bars{display:flex;align-items:flex-end;gap:12px;height:clamp(110px,11vw,160px)}
+.bars .b{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%;width:clamp(34px,3.2vw,46px)}
+.bars .b i{display:block;width:100%;border-radius:8px 8px 3px 3px;background:var(--rain-l);height:calc(var(--v) * 1%);min-height:3px}
+.bars .b:last-child i{background:var(--rain)}
+.bars .b span{font:600 12.5px/1 var(--mono)}
+.bars .b em{font:700 11px/1 var(--sans);font-style:normal;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+
+/* ---- the strip: seven like the hourly forecast ---- */
+.strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;margin-block:clamp(-34px,-2.2vw,-22px) 0;position:relative;z-index:2;background:var(--surface);border-radius:var(--r);box-shadow:0 1px 1px oklch(.3 .05 245 / .05),0 20px 40px -28px oklch(.3 .08 245 / .5)}
+.cell{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:18px 12px 18px;min-width:0;border-radius:var(--r);transition:background .2s}
+.cell+.cell::before{content:"";position:absolute;left:0;top:18px;bottom:18px;border-left:1px solid var(--line)}
+.cell:hover{background:var(--mist)}
+.cell .cap{color:var(--a);min-height:2.6em;display:flex;align-items:flex-end;justify-content:center}
+.cell .drop{width:46px;height:46px}
+.cell .p{font:300 40px/1 var(--sans);letter-spacing:-.04em}
+.cell .p small{font-size:.45em;font-weight:400;letter-spacing:0}
+.cell .who{display:flex;align-items:center;justify-content:center;gap:6px;font:700 14.5px/1.2 var(--sans);max-width:100%}
+.cell .who .t{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.cell .mv{font:600 12.5px/1.2 var(--mono)}
+.cell .mv.flat{color:var(--muted);font-family:var(--sans);font-weight:400}
+
+/* ---- sections ---- */
+section.sec{padding-block:clamp(30px,3.6vw,52px) 0}
+.sh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sh h2{margin:0;font:700 clamp(28px,2.6vw,38px)/1.05 var(--sans);letter-spacing:-.025em}
+.sh .hs{font:400 clamp(17px,1.4vw,21px)/1 var(--deva);color:var(--sun-ink)}
+.desc{margin:6px 0 0;font:400 14.5px/1.45 var(--sans);color:var(--muted);max-width:62ch}
+
+/* Currents as the ten-day list: each row a range bar from where it was to where it is */
+.ten{margin-top:18px;background:var(--surface);border-radius:var(--r);padding:6px clamp(14px,1.6vw,24px)}
+.row{display:grid;grid-template-columns:minmax(0,1.6fr) 74px minmax(140px,1.4fr) 58px;align-items:center;gap:14px 20px;padding:14px 0;min-width:0}
+.row+.row{border-top:1px solid var(--line)}
+.row .q{display:flex;flex-direction:column;gap:2px;min-width:0}
+.row .q b{font:700 14.5px/1.25 var(--sans);display:flex;align-items:center;gap:7px;min-width:0}
+.row .q b span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .q small{font:400 12.5px/1.35 var(--sans);color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .q .sj{color:var(--a)}
+.row .mv{font:600 14.5px/1 var(--mono);text-align:right}
+.row .was,.row .now{font:400 14.5px/1 var(--mono);color:var(--muted);text-align:right}
+.row .now{color:var(--ink);font-weight:600;text-align:left}
+.range{display:flex;align-items:center;gap:12px}
+.track{position:relative;flex:1;height:8px;border-radius:8px;background:var(--mist)}
+.track i{position:absolute;top:0;bottom:0;left:calc(var(--lo) * 1%);width:calc((var(--hi) - var(--lo)) * 1%);border-radius:8px;background:linear-gradient(90deg,var(--rain-l),var(--rain))}
+.track.fall i{background:linear-gradient(90deg,var(--rain),var(--rain-l))}
+.track b{position:absolute;top:50%;left:calc(var(--now) * 1%);width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--surface);border:3px solid var(--rain-d)}
+.newp{flex:none;display:inline-block;font:700 11px/1 var(--sans);letter-spacing:.06em;padding:3px 7px;border-radius:999px;background:var(--sun);color:oklch(.24 .06 60);vertical-align:1px}
+
+/* Sport: forecast tiles and the days ahead */
+.subj{margin-top:26px}
+.subj>h3{display:flex;align-items:center;gap:8px;margin:0 0 12px;color:var(--a)}
+.subj>h3 .mk{width:15px;height:15px}
+.tiles{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:14px}
+.tile{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 18px;padding:18px 20px;border-radius:var(--r);background:var(--surface);min-width:0;border:1px solid transparent;transition:border-color .2s}
+.tile:hover{border-color:var(--rain-l)}
+.tile .drop{width:64px;height:64px}
+.tile .top{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tile h4{margin:0;font:600 14.5px/1.3 var(--sans);color:var(--ink2);text-wrap:balance}
+.star{color:var(--sun-ink);margin-right:4px}
+.tile .lead{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 10px;margin-top:4px}
+.tile .lead .p{font:300 38px/1 var(--sans);letter-spacing:-.04em}
+.tile .lead .p small{font-size:.45em;font-weight:400}
+.tile .lead .w{display:flex;align-items:center;gap:6px;font:700 16px/1.2 var(--sans)}
+.tile .more{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px}
+.tile .more .chipc{background:var(--mist);padding:6px 10px 6px 8px;font-size:12.5px}
+.tile .more .chipc b{font-size:12.5px}
+.tile .foot{grid-column:1/-1;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tile .meta{display:flex;flex-wrap:wrap;gap:4px 12px;font:400 12.5px/1.35 var(--sans);color:var(--muted)}
+.tile .meta .ex{display:inline-flex;align-items:center;gap:5px;color:var(--ink2)}
+.tile .meta .ex .mk{width:13px;height:13px}
+.tile .mvl{font:600 12.5px/1.3 var(--mono)}
+.mini{display:flex;align-items:flex-end;gap:5px;height:40px}
+.mini .b{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%;width:22px}
+.mini .b i{display:block;width:100%;border-radius:5px 5px 2px 2px;background:var(--rain-l);height:calc(var(--v) * .3px + 2px)}
+.mini .b:last-child i{background:var(--rain)}
+.mini .b em{font:700 9.5px/1 var(--sans);font-style:normal;color:var(--muted);letter-spacing:.04em}
+.fol{display:inline-block;margin-left:6px;font:700 11px/1 var(--sans);letter-spacing:.06em;color:var(--rain-d);border:1px solid var(--rain-l);border-radius:999px;padding:3px 7px;vertical-align:1px}
+.tile.wide{grid-column:1/-1;grid-template-columns:auto minmax(0,1fr) auto;align-items:center}
+.tile.wide .drop{width:96px;height:96px}
+.tile.wide .lead .p{font-size:56px}
+.tile.wide .more{grid-column:2/3}
+.tile.wide .foot{grid-column:1/-1}
+.days{margin-top:14px;background:var(--surface);border-radius:var(--r);padding:4px clamp(14px,1.6vw,24px)}
+.day{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1.3fr);align-items:center;gap:10px 20px;padding:14px 0}
+.day+.day{border-top:1px solid var(--line)}
+.day .when b{display:block;font:700 14.5px/1.2 var(--sans)}
+.day .when small{font:400 12.5px/1.3 var(--mono);color:var(--muted)}
+.day .sides{display:flex;align-items:center;gap:8px;font:600 14.5px/1.25 var(--sans);min-width:0;flex-wrap:wrap}
+.day .sides .mk{width:20px;height:20px}
+.day .sides .v{color:var(--muted);font-weight:400}
+.split{display:flex;gap:3px;height:30px;font:600 12.5px/30px var(--mono)}
+.split span{border-radius:8px;padding:0 9px;white-space:nowrap;overflow:hidden;min-width:0}
+.split .a{background:var(--rain);color:#fff}.split .x{background:var(--mist);color:var(--ink2);text-align:center}.split .b{background:var(--rain-l);color:var(--ink);text-align:right}
+footer{margin-top:clamp(36px,4vw,60px);padding-block:22px calc(30px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:8px 30px;flex-wrap:wrap;font:400 13.5px/1.5 var(--sans);color:var(--ink2)}
+footer .aside{display:inline-flex;align-items:center;gap:8px}
+footer .aside .mk{width:15px;height:15px;color:var(--muted)}
+.tabs{display:none}
+
+/* the drop: filled to its chance, the surface moving with the day's change */
+.drop .shell{fill:var(--surface);stroke:var(--rain-d);stroke-width:2.4}
+.drop .water{fill:var(--rain)}
+.drop .crest{fill:color-mix(in oklab,var(--rain) 55%,#fff)}
+@media (prefers-reduced-motion:no-preference){
+  .drop .sw{animation:swell var(--wt,9s) linear infinite;animation-delay:calc(var(--ph,0) * -1s)}
+  .drop .bob{animation:bob calc(var(--wt,9s) * .6) ease-in-out infinite alternate;animation-delay:calc(var(--ph,0) * -.6s)}
+}
+@keyframes swell{to{transform:translateX(-32px)}}
+@keyframes bob{from{transform:translateY(calc(var(--amp,1) * -.5px))}to{transform:translateY(calc(var(--amp,1) * .5px))}}
+
+@media (max-width:1100px){
+  .strip{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .cell:nth-child(4n+1)::before{display:none}
+  .tiles{--n:2!important}
+  .row{grid-template-columns:minmax(0,1fr) 60px minmax(110px,1fr) 50px}
+}
+/* ---- phone: a weather app on the home screen ---- */
+@media (max-width:600px){
+  body{padding-bottom:calc(74px + env(safe-area-inset-bottom,0px))}
+  .bar .in{padding-block:10px;flex-wrap:nowrap}
+  .bar .dict,.bar .srcs,.bar .upd .full{display:none}
+  .brand .nm{font-size:22px}.brand .drop{width:22px;height:22px}.seal{font-size:13px;padding:4px 6px 1px}
+  .outlook .in{grid-template-columns:minmax(0,1fr);padding-block:20px 56px}
+  .ol-big{font-size:132px}
+  .ol-line{font-size:24px}
+  .ol-side{grid-template-columns:auto minmax(0,1fr);align-items:center}
+  .bigdrop{width:120px}
+  .bars{height:80px;gap:8px}.bars .b{width:30px}
+  .phdict{display:flex!important}
+  .strip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:0;border-radius:var(--r);scrollbar-width:none}
+  .strip::-webkit-scrollbar{display:none}
+  .cell{flex:0 0 31%;scroll-snap-align:start;padding:14px 8px}
+  .cell .p{font-size:32px}.cell .drop{width:38px;height:38px}
+  .row{grid-template-columns:minmax(0,1fr) auto auto;gap:8px 12px}
+  .row .q{grid-column:1/-1}
+  .row .range{grid-column:1/2;grid-row:2}
+  .row .was{display:none}
+  .tiles{--n:1!important}
+  .tile.wide{grid-template-columns:auto minmax(0,1fr)}
+  .tile.wide .drop{width:64px;height:64px}.tile.wide .lead .p{font-size:38px}
+  .tile.wide .more{grid-column:1/-1}
+  .day{grid-template-columns:minmax(0,1fr) auto}
+  .day .split{grid-column:1/-1}
+  .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:20;padding:6px max(10px,env(safe-area-inset-left,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-right,0px));background:color-mix(in oklab,var(--surface) 95%,transparent);border-top:1px solid var(--line)}
+  @supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){.tabs{background:color-mix(in oklab,var(--surface) 74%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3)}}
+  .tabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:52px;font:600 11px/1 var(--sans);color:var(--ink2)}
+  .tabs a svg{width:22px;height:22px}
+  .tabs a[aria-current]{color:var(--rain-d)}
+}
+.phdict{display:none;align-items:center;flex-wrap:wrap;gap:4px 10px;margin:0 0 14px;font:400 12.5px/1.4 var(--sans);color:var(--ink2)}
+</style>
+</head>
+<body>
+<header class="bar"><div class="in wrap">
+  <div class="brand"><svg class="drop" viewBox="0 0 64 64" role="img" aria-label="Andaaza: a drop of water, filled to its level"><defs><clipPath id="lg"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><path class="shell" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/><g clip-path="url(#lg)"><path class="water" d="M0 36q8-5 16 0t16 0 16 0 16 0V64H0z"/></g></svg><span class="nm">Andaaza</span><span class="seal" lang="hi">अंदाज़ा</span></div>
+  <div class="dict"><button class="say" type="button" aria-label="Hear how Andaaza is said"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><span>/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur">اندازہ</span><span>an estimate, a guess, a rough calculation.</span></div>
+  <div class="upd" id="upd"></div>
+</div></header>
+
+<main>
+  <section class="outlook" aria-labelledby="ol"><div class="in wrap" id="outlook"></div></section>
+  <div class="wrap"><div class="strip" id="strip" aria-label="The tide board: seven questions, like the hourly forecast"></div></div>
+
+  <section class="sec wrap" aria-labelledby="ch">
+    <div class="sh"><h2 id="ch">Currents</h2><span class="hs" lang="hi">धारा</span></div>
+    <p class="desc">Fronts moving through: the sharpest changes of the last 24 hours, on prices traders agree on. Each bar runs from where it was to where it is now.</p>
+    <div class="ten" id="currents"></div>
+  </section>
+
+  <section class="sec wrap" aria-labelledby="sp">
+    <div class="sh"><h2 id="sp">Sport</h2><span class="hs" lang="hi">खेल</span></div>
+    <p class="desc">The season's outlook for Formula 1, football and tennis, and the chances for the matches ahead. Questions already in the strip above are left out.</p>
+    <div id="sport"></div>
+  </section>
+</main>
+<footer class="wrap"><span class="aside" id="aside">Ideas by Parth. Typing by Claude. Complaints to Parth.</span><span>Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</span></footer>
+<nav class="tabs" aria-label="Pages">
+  <a href="#" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3C10 6.5 5.5 11 5.5 15a6.5 6.5 0 0 0 13 0C18.5 11 14 6.5 12 3z"/></svg>Today</a>
+  <a href="#favourites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>Favourites</a>
+  <a href="#currents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 9q4.5-4 9 0t9 0M3 15q4.5-4 9 0t9 0"/></svg>Currents</a>
+  <a href="#subjects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="3.5"/><rect x="4" y="13" width="7" height="7" rx="3.5"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Subjects</a>
+</nav>
+
+<script>
+const A = window.AZ;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mk = m => !m ? "" : m.t === "svg" ? `<span class="mk">${m.svg}</span>` : `<img class="mk${m.flag ? " flag" : ""}" src="${esc(m.src)}" alt="">`;
+const usd = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1).replace(/\.0$/, "")}M` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
+const pts = d => `${Math.abs(d)} pt${Math.abs(d) === 1 ? "" : "s"}`;
+const WIN = { day: "in a day", week: "this week", month: "in 30 days" };
+const moveLong = c => c.was != null && Math.abs(c.move) >= 1 ? `<span class="${c.move > 0 ? "up" : "dn"}">${c.move > 0 ? "▲" : "▼"} ${pts(c.move)} ${WIN[c.window]} · was ${c.was}%</span>` : "";
+const moveShort = c => c.was != null && Math.abs(c.move) >= 1 ? `<span class="${c.move > 0 ? "up" : "dn"}">${c.move > 0 ? "▲" : "▼"} ${pts(c.move)}${c.window === "day" ? "" : " " + WIN[c.window]}</span>` : "";
+const sea = c => { const d = c.lead.was == null ? 0 : Math.abs(c.lead.prob - c.lead.was); return d >= 8 ? "choppy" : d < 2 ? "calm" : "normal"; };
+const SEA = { calm: [1.6, 16], normal: [3, 10], choppy: [5.5, 5] }; // wave height (of 64) and seconds per swell
+const phase = s => { let h = 0; for (const ch of String(s)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return (h % 97) / 9; };
+let uid = 0;
+// A drop filled to p: the shell, then water clipped to the drop, its surface a swell whose height and speed come
+// from how far the market moved in a day.
+function drop(p, state, seed, cls = "drop") {
+  const id = "d" + uid++, [amp, wt] = SEA[state];
+  const top = 6, bot = 58, y = bot - Math.max(3, Math.min(100, p)) / 100 * (bot - top);
+  const w = `M-32 ${y}` + Array.from({ length: 10 }, (_, i) => ` q8 ${i % 2 ? amp : -amp} 16 0`).join("") + ` V64 H-32z`;
+  return `<svg class="${cls}" viewBox="0 0 64 64" aria-hidden="true" style="--wt:${wt}s;--amp:${amp};--ph:${phase(seed).toFixed(2)}"><defs><clipPath id="${id}"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs>
+    <path class="shell" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/>
+    <g clip-path="url(#${id})"><g class="bob"><path class="water sw" d="${w}"/></g></g></svg>`;
+}
+// Month → week → day → now, only the points the exchange gave.
+function bars(c, cls = "bars") {
+  const h = c.hist || {}, pts = [["30d", h.month], ["7d", h.week], ["1d", h.day], ["now", c.lead.prob]].filter(x => x[1] != null);
+  if (pts.length < 2) return "";
+  return `<div class="${cls}" role="img" aria-label="${esc(pts.map(([k, v]) => `${k} ${v}%`).join(", "))}">${pts.map(([k, v]) => `<span class="b" style="--v:${v}">${cls === "bars" ? `<span>${v}</span>` : ""}<i></i><em>${k}</em></span>`).join("")}</div>`;
+}
+// A forecast sentence, read by rule from the question's own words (no names are written in).
+function sentence(c) {
+  const lead = `${mk(c.lead.mark)}${esc(c.lead.name)}`;
+  let m = c.title.match(/^Which company has (.+?) (?:at the )?end of (\w+)\?$/i);
+  if (m) return `${lead} has ${esc(m[1])} at the end of ${esc(m[2])}.`;
+  if (c.yesno) return esc(c.title);
+  return `${lead} leads: ${esc(c.title.replace(/\?$/, ""))}.`;
+}
+
+$("#upd").innerHTML = `<span><span class="full">Updated </span><b>${A.readIST}</b> IST<span class="full"> · next <b>${A.nextIST}</b></span></span><span class="srcs">${A.sources.map(s => `<span class="src" title="${esc(s.name)}, ${esc(s.kind)}"><i class="dot"></i>${mk(s.mark)}${esc(s.name)}</span>`).join("")}</span>`;
+
+const O = A.board[0];
+$("#outlook").innerHTML = `<div>
+  <div class="phdict"><span>/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur">اندازہ</span><span>an estimate, a guess, a rough calculation.</span></div>
+  <p class="tag">Watch the world change its mind.</p>
+  <div class="ol-eye cap" id="ol">Today's outlook · ${esc(O.label)}</div>
+  <div class="ol-big num" aria-hidden="true">${O.lead.prob}<small>%</small></div>
+  <p class="ol-line"><span class="ol-chance">chance</span>${sentence(O)}</p>
+  <div class="ol-meta"><span>${moveLong(O) ? `<strong>${moveLong(O)}</strong>` : "Steady today"}</span><span>${esc(O.source)} · ${usd(O.today)} traded today</span></div>
+  <div class="ol-field">${O.outcomes.slice(1).map(o => `<span class="chipc">${mk(o.mark)}${esc(o.name)} <b>${o.prob}%</b></span>`).join("")}</div>
+</div>
+<div class="ol-side">${drop(O.lead.prob, sea(O), O.url, "drop bigdrop")}<div class="trend"><span class="cap" style="color:var(--muted)">The last month</span>${bars(O)}</div></div>`;
+
+$("#strip").innerHTML = A.board.map(c => `<a class="cell" data-k="${esc(c.subject)}" href="${esc(c.url)}" target="_blank" rel="noopener">
+  <span class="cap">${esc(c.label)}</span>${drop(c.lead.prob, sea(c), c.url + "s")}
+  <span class="p num">${c.lead.prob}<small>%</small></span>
+  <span class="who">${c.yesno ? `<span class="t">${esc(c.sub)}</span>` : `${mk(c.lead.mark)}<span class="t">${esc(c.lead.name)}</span>`}</span>
+  <span class="mv num ${moveShort(c) ? "" : "flat"}">${moveShort(c) || "steady"}</span></a>`).join("");
+
+$("#currents").innerHTML = A.currents.map(c => {
+  const lo = Math.min(c.was, c.lead.prob), hi = Math.max(c.was, c.lead.prob);
+  return `<a class="row" data-k="${esc(c.subject)}" href="${esc(c.url)}" target="_blank" rel="noopener">
+  <span class="q"><b>${c.yesno ? `<span>${esc(c.title)}</span>` : `${mk(c.lead.mark)}<span>${esc(c.lead.name)}</span>`}${c.added?.isNew ? `<span class="newp">New</span>` : ""}</b><small><span class="sj">${esc(c.subjectLabel)}</span>${c.yesno ? "" : ` · ${esc(c.title)}`}</small></span>
+  <span class="mv">${moveShort(c)}</span>
+  <span class="range"><span class="was">${c.was}%</span><span class="track${c.move < 0 ? " fall" : ""}" style="--lo:${lo};--hi:${hi};--now:${c.lead.prob}" role="img" aria-label="from ${c.was}% to ${c.lead.prob}%"><i></i><b></b></span></span>
+  <span class="now">${c.lead.prob}%</span></a>`;
+}).join("");
+
+const onBoard = new Set(A.board.map(b => b.url));
+function tile(c, wide) {
+  const src = A.sources.find(s => s.name === c.source);
+  const also = c.also.length ? `<span>also: ${c.also.map(a => `${esc(a.source)} ${a.prob}%`).join(" · ")}</span>` : "";
+  const added = c.added ? `<span>${c.added.isNew ? `<span class="newp">New</span> ` : ""}${esc(c.added.label)}</span>` : "";
+  return `<a class="tile${wide ? " wide" : ""}" data-k="${esc(c.subject)}" href="${esc(c.url)}" target="_blank" rel="noopener">${drop(c.lead.prob, sea(c), c.url + "t")}
+  <div class="top"><h4>${c.star ? `<span class="star" aria-label="Must-have">★</span>` : ""}${esc(c.title)}${c.followed ? `<span class="fol">Following</span>` : ""}</h4>
+  <div class="lead"><span class="p num">${c.lead.prob}<small>%</small></span><span class="w">${mk(c.lead.mark)}${esc(c.lead.name)}</span></div>${moveLong(c) ? `<span class="mvl">${moveLong(c)}</span>` : ""}</div>
+  ${wide ? bars(c, "mini") : ""}
+  <div class="more">${c.outcomes.slice(1, 4).map(o => `<span class="chipc">${mk(o.mark)}${esc(o.name)} <b>${o.prob}%</b></span>`).join("")}</div>
+  <div class="foot"><span class="meta">${added}<span class="ex">${mk(src?.mark)}${esc(c.source)}</span>${c.today ? `<span>${usd(c.today)} today</span>` : ""}${also}</span>${wide ? "" : bars(c, "mini")}</div></a>`;
+}
+const istDay = iso => new Date(iso).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", weekday: "long" });
+const istDate = iso => new Date(iso).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", day: "numeric", month: "short" });
+const short = n => n.replace(/ (CF|FC)$/, "").replace(/^FC /, "");
+function dayRow(m) {
+  const [home, away] = m.title.split(/ v /);
+  const side = n => m.outcomes.find(o => o.name === n) || m.outcomes.find(o => o.name !== "Draw" && (n.includes(o.name) || o.name.includes(n)));
+  const H = side(home), W = side(away), X = m.outcomes.find(o => o.name === "Draw");
+  return `<div class="day"><span class="when"><b>${esc(istDay(m.kickoff))}</b><small>${esc(istDate(m.kickoff))} · ${esc(m.kickoffIST)} IST</small></span>
+  <span class="sides">${mk(H?.mark)}${esc(short(home))} <span class="v">v</span> ${esc(short(away))}${mk(W?.mark)}${m.followed ? `<span class="fol">Following</span>` : ""}</span>
+  <span class="split" role="img" aria-label="${esc(short(home))} ${H?.prob}%, draw ${X?.prob ?? 0}%, ${esc(short(away))} ${W?.prob}%"><span class="a" style="flex:${H?.prob}">${H?.prob}%</span>${X ? `<span class="x" style="flex:${X.prob}">${X.prob}</span>` : ""}<span class="b" style="flex:${W?.prob}">${W?.prob}%</span></span></div>`;
+}
+function subject(id, k, markKey) {
+  const t = A.topics[id], items = t.items.filter(c => !onBoard.has(c.url)).slice(0, 4);
+  const [first, ...rest] = items;
+  const next = (t.next || []).filter(m => !A.board.some(b => b.title === m.title)).slice(0, 3);
+  return `<div class="subj" data-k="${k}"><h3 class="cap">${mk(A.marks[markKey])}${esc(t.label)}</h3>
+  <div class="tiles" style="--n:${Math.max(1, rest.length)}">${first ? tile(first, true) : ""}${rest.map(c => tile(c, rest.length === 1)).join("")}</div>
+  ${next.length ? `<h3 class="cap" style="margin:24px 0 0;color:var(--ink2)">Coming up</h3><p class="desc" style="margin-top:4px">The days ahead, and each side's chance.</p><div class="days">${next.map(dayRow).join("")}</div>` : ""}</div>`;
+}
+$("#sport").innerHTML = subject("football", "football", "uefa") + subject("f1", "f1", "f1") + subject("tennis", "tennis", "atp");
+$("#aside").insertAdjacentHTML("afterbegin", mk(A.marks.claude));
+</script>
+</body>
+</html>

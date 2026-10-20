@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andaaza · Lehar</title>
+<meta name="theme-color" content="#2a2f7a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wdth,wght@75..100,400..700&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@500&text=%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%81&display=swap">
+<script src="data.js"></script>
+<style>
+/* Layout: today's Andaaza, led by its brand. Neel and marigold carry the page; the lehariya's diagonal waves
+   become the dye inside every gauge; the Devanagari word is the header's graphic. Laptop: a seven-column board on
+   shared rows. Phone: the board turns into horizontal dyed bands that fill left to right. */
+@property --lv { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --bob { syntax: "<number>"; inherits: true; initial-value: 0; }
+:root {
+  color-scheme: light;
+  --mist: oklch(94.6% 0.02 272);
+  --mist-2: oklch(91.6% 0.03 272);
+  --paper: oklch(98.2% 0.008 272);
+  --ink: oklch(22% 0.07 272);
+  --ink-2: oklch(42% 0.06 272);
+  --rule: oklch(39% 0.17 272 / .16);
+  --neel: oklch(38% 0.17 272);
+  --neel-2: oklch(52% 0.15 272);
+  --marigold: oklch(77% 0.165 70);
+  --marigold-ink: oklch(48% 0.13 58);
+  --up: oklch(48% 0.14 152);
+  --down: oklch(50% 0.19 25);
+  --ai: oklch(53% 0.16 252);
+  --football: oklch(50% 0.13 155);
+  --f1: oklch(52% 0.19 27);
+  --cricket: oklch(51% 0.1 192);
+  --world: oklch(41% 0.13 266);
+  --india: oklch(62% 0.16 55);
+  --money: oklch(58% 0.12 85);
+  --tennis: oklch(54% 0.14 45);
+  --nba: oklch(47% 0.17 302);
+  --celebs: oklch(54% 0.18 352);
+  --film: oklch(46% 0.15 318);
+  --other: oklch(48% 0.06 272);
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fig: "Bricolage Grotesque", "Instrument Sans", system-ui, sans-serif;
+  --deva: "Tiro Devanagari Hindi", "Noto Serif Devanagari", serif;
+  --urdu: "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
+  --gut: clamp(16px, 3vw, 64px);
+  --t-label: 11px; --t-detail: 12.5px; --t-body: 13.5px; --t-title: 14.5px;
+}
+* { box-sizing: border-box; }
+html { background: var(--mist); }
+body { margin: 0; background: var(--mist); color: var(--ink); font: 400 var(--t-body)/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2.5px solid var(--marigold-ink); outline-offset: 3px; border-radius: 10px; }
+.wrap { padding-left: max(var(--gut), env(safe-area-inset-left, 0px)); padding-right: max(var(--gut), env(safe-area-inset-right, 0px)); }
+.label { font-size: var(--t-label); text-transform: uppercase; letter-spacing: .12em; font-weight: 600; }
+.fig { font-family: var(--fig); font-stretch: 75%; font-variant-numeric: tabular-nums; font-weight: 700; letter-spacing: -0.02em; }
+.mk { display: inline-grid; place-items: center; width: 1.1em; height: 1.1em; flex: none; vertical-align: -0.16em; }
+.mk svg { width: 100%; height: 100%; }
+img.mk { object-fit: contain; }
+img.mk.flag { border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px oklch(0% 0 0 / .1); }
+
+/* lehariya: the dye. One tile of two waves (white + marigold), laid diagonally inside a larger rotated layer */
+.dye { position: absolute; inset: -60%; transform: rotate(-32deg); background-image: var(--lehar); background-size: 64px 26px; opacity: var(--dye-o, 1);
+  animation: flow 14s linear infinite; pointer-events: none; }
+@keyframes flow { to { background-position: 64px 0; } }
+
+/* ---------- header ---------- */
+header.top { position: relative; overflow: hidden; padding-block: 26px 30px; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px 48px; align-items: end; }
+header.top::before { content: ""; position: absolute; inset: 0; background-image: var(--lehar-faint); background-size: 120px 48px; transform-origin: center; opacity: .9;
+  -webkit-mask: radial-gradient(120% 90% at 30% 0%, #000 20%, transparent 75%); mask: radial-gradient(120% 90% at 30% 0%, #000 20%, transparent 75%); pointer-events: none; }
+header.top > :not(.actions) { position: relative; }
+.brand { display: flex; align-items: center; gap: .14em; font-size: clamp(64px, 8vw, 132px); }
+.logo { width: .62em; height: .78em; flex: none; margin-right: .06em; }
+.name { margin: 0; font: italic 400 1em/.95 var(--serif); letter-spacing: -0.015em; color: var(--neel); }
+.dict { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 10px; color: var(--ink-2); }
+.say { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--neel); color: var(--paper); display: grid; place-items: center; cursor: pointer; }
+.say svg { width: 20px; height: 20px; }
+.ipa { font-size: var(--t-title); color: var(--ink); }
+.pos { font-size: var(--t-label); text-transform: uppercase; letter-spacing: .12em; font-weight: 600; }
+.urdu { font-family: var(--urdu); font-size: 18px; line-height: 1; color: var(--marigold-ink); }
+.hero { margin: 22px 0 0; font: 500 clamp(26px, 2.6vw, 38px)/1.15 var(--sans); letter-spacing: -0.015em; text-wrap: balance; }
+.hero i { font-family: var(--serif); font-weight: 400; color: var(--neel); font-size: 1.12em; }
+.right { display: grid; justify-items: end; gap: 14px; }
+.big-deva { font: 400 clamp(110px, 15vw, 250px)/.82 var(--deva); margin: 0 -0.02em -0.06em 0; color: var(--marigold); padding-top: .18em; }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .big-deva { background: var(--lehar-seal) 0 0 / 96px 38px, var(--marigold); -webkit-background-clip: text; background-clip: text; color: transparent; animation: flow2 22s linear infinite; }
+}
+@keyframes flow2 { to { background-position: 96px 0, 0 0; } }
+.reading { display: grid; justify-items: end; gap: 4px; text-align: right; }
+.clock { font-size: 46px; line-height: 1; }
+.clock small { font: 600 var(--t-detail) var(--sans); color: var(--ink-2); margin-left: 4px; letter-spacing: .02em; }
+.meta { color: var(--ink-2); font-size: var(--t-detail); }
+.meta b { color: var(--ink); font-weight: 600; }
+.sources { display: flex; gap: 14px; flex-wrap: wrap; justify-content: flex-end; color: var(--ink-2); font-size: var(--t-detail); }
+.src { display: inline-flex; align-items: center; gap: 6px; }
+.src .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--up); }
+.actions { position: absolute; top: 22px; right: max(var(--gut), env(safe-area-inset-right, 0px)); display: flex; gap: 6px; z-index: 2; }
+.btn { height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); font: 600 var(--t-detail) var(--sans); display: inline-flex; gap: 8px; align-items: center; cursor: pointer; }
+.btn svg { width: 17px; height: 17px; }
+.btn.solid { background: var(--neel); color: var(--paper); border-color: var(--neel); }
+
+/* bandhani: rows of resist-dye dots, the divider between bands */
+.bandhani { height: 18px; background-image: var(--bandhani); background-size: 30px 18px; background-repeat: repeat-x; background-position: center; opacity: .9; }
+
+/* ---------- board ---------- */
+.board { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0 clamp(12px, 1.3vw, 22px); padding-block: 26px 34px; }
+.g { --c: var(--other); display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 10px; }
+@supports not (grid-template-rows: subgrid) { .g { display: flex; flex-direction: column; gap: 10px; } }
+.g .lab { display: flex; align-items: flex-end; gap: 7px; color: color-mix(in oklab, var(--c) 82%, var(--ink)); line-height: 1.25; }
+.g .lab .mk { width: 15px; height: 15px; }
+.g .lab .sw { width: 9px; height: 9px; border-radius: 3px; background: var(--c); flex: none; margin-bottom: 2px; }
+.gauge { position: relative; height: clamp(230px, 20vw, 300px); border-radius: 24px; background: var(--paper); overflow: hidden; box-shadow: inset 0 0 0 1px var(--rule); isolation: isolate; }
+.gauge .ticks { position: absolute; right: 8px; top: 0; bottom: 0; width: 22px; font: 500 9.5px/1 var(--fig); color: color-mix(in oklab, var(--c) 55%, var(--paper)); z-index: 3; }
+.gauge .ticks i { position: absolute; right: 0; font-style: normal; transform: translateY(50%); display: flex; gap: 3px; align-items: center; }
+.gauge .ticks i::after { content: ""; width: 6px; height: 1px; background: currentColor; }
+.water { position: absolute; left: 0; right: 0; bottom: 0; height: calc((var(--lv) + var(--bob)) * 1%); background: var(--c); overflow: hidden; transition: --lv 1.8s cubic-bezier(.2, .8, .2, 1); z-index: 1; }
+.water .dye { --dye-o: .8; }
+.water::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 12px; transform: translateY(-50%); background: var(--c); z-index: 2;
+  -webkit-mask: var(--wave) repeat-x 0 0 / var(--wl, 72px) 100%; mask: var(--wave) repeat-x 0 0 / var(--wl, 72px) 100%; animation: drift var(--wt, 6s) linear infinite; animation-delay: var(--ph, 0s); }
+.gauge .crest { position: absolute; left: 0; right: 0; height: 12px; bottom: calc((var(--lv) + var(--bob)) * 1%); transform: translateY(50%); background: var(--c); z-index: 1;
+  -webkit-mask: var(--wave) repeat-x 0 0 / var(--wl, 72px) 100%; mask: var(--wave) repeat-x 0 0 / var(--wl, 72px) 100%; animation: drift var(--wt, 6s) linear infinite; animation-delay: var(--ph, 0s); transition: --lv 1.8s cubic-bezier(.2, .8, .2, 1); }
+@keyframes drift { to { -webkit-mask-position: var(--wl, 72px) 0; mask-position: var(--wl, 72px) 0; } }
+@keyframes bob { 0%, 100% { --bob: calc(var(--amp) * -1); } 50% { --bob: var(--amp); } }
+.gauge { animation: bob var(--bt, 5s) ease-in-out infinite; animation-delay: var(--ph, 0s); --amp: 1; }
+.calm { --amp: .5; --wt: 10s; --wl: 96px; --bt: 6.5s; } .choppy { --amp: 2; --wt: 3.2s; --wl: 44px; --bt: 3s; }
+.gauge .was { position: absolute; left: 0; right: 0; bottom: calc(var(--was) * 1%); border-top: 1.5px dashed color-mix(in oklab, var(--c) 60%, var(--ink)); z-index: 2; }
+.gauge .was span { position: absolute; left: 12px; bottom: 3px; font: 600 10.5px var(--sans); color: var(--ink); background: color-mix(in oklab, var(--paper) 80%, transparent); padding: 0 4px; border-radius: 4px; }
+.gauge .num { position: absolute; left: 14px; bottom: 10px; font-size: clamp(54px, 5.2vw, 82px); line-height: .9; z-index: 4; color: color-mix(in oklab, var(--c) 80%, var(--ink)); pointer-events: none; }
+.gauge .num small { font-size: .36em; margin-left: .04em; font-stretch: 100%; letter-spacing: 0; }
+.gauge .num.wet { color: var(--paper); clip-path: inset(max(0px, calc(100% - ((var(--lv) + var(--bob)) * var(--gh, 0px) / 100 - var(--nb, 0px)))) 0 0 0); }
+.gauge .num.wet.h { clip-path: inset(0 max(0px, calc(100% - ((var(--lv) + var(--bob)) * var(--gw, 0px) / 100 - var(--nl, 0px)))) 0 0); }
+.g .txt { display: grid; gap: 3px; align-content: start; }
+.g .who { display: flex; align-items: center; gap: 7px; font: 600 var(--t-title)/1.25 var(--sans); font-size: 16px; }
+.g .who .mk { width: 18px; height: 18px; }
+.g .sub { color: var(--ink-2); font-size: var(--t-detail); line-height: 1.4; }
+.mv { font: 600 var(--t-detail)/1.35 var(--sans); }
+.mv.up { color: var(--up); } .mv.down { color: var(--down); } .mv.flat { color: var(--ink-2); }
+.added { font-size: var(--t-detail); color: var(--ink-2); display: inline-flex; align-items: center; gap: 6px; }
+.new { font: 700 10px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; background: var(--marigold); color: var(--ink); padding: 4px 7px; border-radius: 999px; }
+
+/* ---------- sections ---------- */
+section.band { padding-block: 40px 44px; }
+section.tint { background: var(--mist-2); }
+.sec-h { display: flex; align-items: center; gap: 16px; margin: 0 0 6px; flex-wrap: wrap; }
+.sec-h h2 { margin: 0; font: italic 400 clamp(44px, 4.4vw, 64px)/1 var(--serif); color: var(--neel); letter-spacing: -0.01em; }
+.seal { position: relative; overflow: hidden; display: inline-grid; place-items: center; font: 400 38px/1 var(--deva); color: var(--neel); background: var(--marigold); padding: .32em .38em .12em; border-radius: 12px; }
+.seal .dye { --dye-o: .5; inset: -100%; }
+.seal span { position: relative; }
+.sec-d { margin: 0 0 24px; color: var(--ink-2); max-width: 72ch; }
+
+/* currents: rows with a dyed band showing was → now */
+.currents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; }
+.cur { display: grid; grid-template-columns: 92px minmax(0, 1fr) 150px; gap: 18px; align-items: center; padding: 16px 0; border-top: 1px solid var(--rule); }
+.cur .d { font-size: 40px; line-height: .9; }
+.cur .d.up { color: var(--up); } .cur .d.down { color: var(--down); }
+.cur .d small { font: 600 var(--t-detail) var(--sans); letter-spacing: 0; margin-left: 2px; }
+.cur .t { font: 600 var(--t-title)/1.3 var(--sans); }
+.cur .l { color: var(--ink-2); font-size: var(--t-detail); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 2px; }
+.tag { display: inline-flex; align-items: center; gap: 5px; font-size: var(--t-label); letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: color-mix(in oklab, var(--c) 82%, var(--ink)); }
+.tag::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--c); }
+.mini { position: relative; height: 34px; border-radius: 12px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--rule); overflow: hidden; }
+.mini .fill { position: absolute; inset: 0 auto 0 0; width: calc(var(--p) * 1%); background: var(--c); overflow: hidden; }
+.mini .fill .dye { --dye-o: .85; }
+.mini .notch { position: absolute; top: 4px; bottom: 4px; left: calc(var(--w) * 1%); border-left: 2px dashed var(--ink); opacity: .55; }
+.mini b { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 17px; color: var(--ink); }
+
+/* sport */
+.subj { margin-top: 30px; }
+.subj-h { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font: italic 400 30px/1 var(--serif); color: var(--ink); }
+.subj-h .mk { width: 20px; height: 20px; color: var(--ink-2); }
+.subj-h span { font: 500 var(--t-detail) var(--sans); color: var(--ink-2); }
+.cards { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 16px; }
+.card { --c: var(--other); background: var(--paper); border-radius: 24px; box-shadow: inset 0 0 0 1px var(--rule); padding: 18px; display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 18px; }
+.card.wide { grid-column: 1 / -1; grid-template-columns: 150px minmax(0, 1fr); }
+.card .gauge { height: 100%; min-height: 150px; border-radius: 18px; }
+.card .gauge .num { font-size: 38px; left: 10px; bottom: 8px; }
+.card.wide .gauge .num { font-size: 58px; }
+.card .ct { font: 600 16px/1.3 var(--sans); display: flex; gap: 6px; text-wrap: balance; }
+.star { color: var(--marigold-ink); }
+.outs { display: grid; gap: 8px; margin: 12px 0; }
+.card.wide .outs { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; }
+.o { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; }
+.o .nm { display: flex; gap: 7px; align-items: center; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.o b { font-size: 18px; }
+.o .bar { grid-column: 1 / -1; height: 6px; border-radius: 6px; background: var(--mist); overflow: hidden; position: relative; }
+.o .bar i { position: absolute; inset: 0 auto 0 0; width: calc(var(--p) * 1%); background: color-mix(in oklab, var(--c) 45%, var(--paper)); border-radius: 6px; }
+.o:first-child .bar i { background: var(--c); }
+.foot { display: flex; flex-wrap: wrap; gap: 4px 12px; color: var(--ink-2); font-size: var(--t-detail); align-items: center; }
+.foot .s { display: inline-flex; gap: 5px; align-items: center; }
+.foot .s .mk { width: 13px; height: 13px; }
+.fol { color: var(--neel); font-weight: 600; }
+
+.matches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.match { background: var(--paper); border-radius: 24px; box-shadow: inset 0 0 0 1px var(--rule); padding: 16px 18px; display: grid; gap: 10px; }
+.match .when { display: flex; justify-content: space-between; gap: 8px; color: var(--ink-2); font-size: var(--t-detail); }
+.match .sd { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 10px; align-items: center; font-weight: 600; font-size: var(--t-title); }
+.match .sd .n { display: flex; gap: 8px; align-items: center; min-width: 0; }
+.match .sd .n .mk { width: 20px; height: 20px; }
+.match .sd b { font-size: 22px; }
+.match .sd .dr { color: var(--ink-2); font-weight: 500; }
+
+footer { padding-block: 26px calc(40px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 6px; color: var(--ink-2); font-size: var(--t-detail); }
+footer b { color: var(--ink); font-weight: 600; }
+footer .mk { width: 14px; height: 14px; color: var(--ink-2); }
+.tabbar { display: none; }
+
+/* ---------- narrower ---------- */
+@media (max-width: 1180px) {
+  .board { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 28px; }
+  .currents { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 860px) {
+  header.top { grid-template-columns: minmax(0, 1fr); }
+  .right { justify-items: start; }
+  .reading { justify-items: start; text-align: left; }
+  .sources { justify-content: flex-start; }
+  .cards { --cols: 1 !important; }
+  .matches { grid-template-columns: minmax(0, 1fr); }
+}
+/* ---------- phone: the installed app; the board becomes dyed bands ---------- */
+@media (max-width: 600px) {
+  header.top { padding-top: calc(70px + env(safe-area-inset-top, 0px)); padding-bottom: 18px; gap: 14px; }
+  .actions { top: calc(14px + env(safe-area-inset-top, 0px)); }
+  .actions .btn span { display: none; }
+  .actions .btn { width: 40px; padding: 0; justify-content: center; }
+  .brand { font-size: 66px; }
+  header.top > .right { position: absolute; top: calc(4px + env(safe-area-inset-top, 0px)); left: max(var(--gut), env(safe-area-inset-left, 0px)); }
+  .big-deva { font-size: 62px; }
+  .reading { display: none; }
+  .phone-reading { display: grid !important; }
+  .hero { margin-top: 12px; font-size: 25px; }
+  .board { grid-template-columns: minmax(0, 1fr); gap: 14px; padding-block: 18px 26px; }
+  .g { grid-row: auto; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; row-gap: 6px; }
+  .g .lab { order: 0; }
+  .board .gauge { order: 1; height: 62px; border-radius: 18px; }
+  .board .gauge .ticks { display: none; }
+  .board .gauge .water { top: 0; bottom: 0; right: auto; height: auto; width: calc((var(--lv) + var(--bob)) * 1%); }
+  .board .gauge .water::before { display: none; }
+  .board .gauge .crest { top: 0; bottom: 0; left: calc((var(--lv) + var(--bob)) * 1%); right: auto; width: 10px; height: auto; transform: translateX(-50%);
+    -webkit-mask: var(--wave-v) repeat-y 0 0 / 100% 40px; mask: var(--wave-v) repeat-y 0 0 / 100% 40px; animation: driftv var(--wt, 6s) linear infinite; }
+  @keyframes driftv { to { -webkit-mask-position: 0 40px; mask-position: 0 40px; } }
+  .board .gauge .was { top: 8px; bottom: 8px; left: calc(var(--was) * 1%); border-top: 0; border-left: 1.5px dashed color-mix(in oklab, var(--c) 60%, var(--ink)); }
+  .board .gauge .was span { display: none; }
+  .board .gauge .num { left: 12px; bottom: auto; top: 50%; transform: translateY(-50%); font-size: 42px; }
+  .g .txt { order: 2; grid-template-columns: minmax(0, 1fr); }
+  .g .sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .g .who { font-size: 15px; }
+  .currents { gap: 0; }
+  .cur { grid-template-columns: 58px minmax(0, 1fr); gap: 12px; align-items: start; }
+  .cur .d { font-size: 32px; }
+  .cur .d small { display: block; margin: 2px 0 0; }
+  .cur .mini { grid-column: 2; height: 26px; }
+  .card, .card.wide { grid-template-columns: 74px minmax(0, 1fr); padding: 14px; gap: 14px; }
+  .card.wide .outs { grid-template-columns: minmax(0, 1fr); }
+  .card .gauge, .card.wide .gauge { height: 100%; min-height: 120px; }
+  .card .gauge .num, .card.wide .gauge .num { font-size: 30px; }
+  .sec-h h2 { font-size: 42px; }
+  .seal { font-size: 30px; }
+  footer { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+  .tabbar { display: grid; grid-template-columns: repeat(4, 1fr); position: fixed; z-index: 20; left: 0; right: 0; bottom: 0; background: var(--neel); color: oklch(88% 0.04 272);
+    padding: 0 max(8px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(8px, env(safe-area-inset-left, 0px)); box-shadow: 0 -10px 30px -16px oklch(20% 0.1 272 / .6); }
+  .tabbar a { display: grid; justify-items: center; gap: 3px; padding: 10px 4px 9px; font: 600 10.5px/1 var(--sans); border-top: 3px solid transparent; }
+  .tabbar a svg { width: 22px; height: 22px; }
+  .tabbar a[aria-current] { color: var(--paper); border-top-color: var(--marigold); }
+}
+.phone-reading { display: none; gap: 4px; margin-top: 14px; padding: 12px 14px; border-radius: 18px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--rule); }
+.phone-reading .r1 { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.phone-reading .clock { font-size: 34px; }
+@media (prefers-reduced-motion: reduce) {
+  .dye, .water::before, .gauge .crest, .gauge, .big-deva { animation: none !important; }
+  .water, .gauge .num.wet, .gauge .crest { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <div class="actions">
+    <button class="btn" type="button" aria-label="Poster"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm1 2v12h12V6H6Zm2 2h8v5H8V8Z"/></svg><span>Poster</span></button>
+    <button class="btn solid" type="button" aria-label="Install the app"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11 4h2v8.2l3.1-3.1 1.4 1.4L12 16l-5.5-5.5 1.4-1.4 3.1 3.1V4ZM5 18h14v2H5v-2Z"/></svg><span>Install</span></button>
+  </div>
+  <div>
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 62 78" aria-hidden="true">
+        <defs><clipPath id="drop"><path d="M31 2C45 22 60 36 60 50a29 27 0 0 1-58 0C2 36 17 22 31 2Z"/></clipPath></defs>
+        <path d="M31 2C45 22 60 36 60 50a29 27 0 0 1-58 0C2 36 17 22 31 2Z" fill="oklch(98.2% 0.008 272)" stroke="oklch(38% 0.17 272)" stroke-width="3"/>
+        <g clip-path="url(#drop)"><path d="M0 44 Q15 38 31 44 T62 44 V78 H0Z" fill="oklch(38% 0.17 272)"/><path d="M0 44 Q15 38 31 44 T62 44" fill="none" stroke="oklch(77% 0.165 70)" stroke-width="3"/></g>
+      </svg>
+      <h1 class="name">Andaaza</h1>
+    </div>
+    <div class="dict">
+      <button class="say" type="button" aria-label="Hear it said"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 5V4L8 9H4Zm11.5 3A4.5 4.5 0 0 0 13 8v8a4.5 4.5 0 0 0 2.5-4ZM13 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6Z"/></svg></button>
+      <span class="ipa">/ən·daː·zaː/</span>
+      <span class="pos">noun · Hindi, Urdu</span>
+      <span class="urdu" lang="ur" dir="rtl">اندازہ</span>
+      <span>an estimate, a guess, a rough calculation.</span>
+    </div>
+    <p class="hero">Watch the world <i>change</i> its mind.</p>
+    <div class="phone-reading" id="preading"></div>
+  </div>
+  <div class="right">
+    <p class="big-deva" lang="hi" aria-label="Andaaza in Devanagari">अंदाज़ा</p>
+    <div class="reading" id="reading"></div>
+  </div>
+</header>
+<div class="bandhani" aria-hidden="true"></div>
+
+<main>
+  <div class="wrap"><div class="board" id="board" aria-label="Tide board"></div></div>
+
+  <section class="band tint wrap" id="currents" aria-labelledby="cur-h">
+    <div class="sec-h"><h2 id="cur-h">Currents</h2></div>
+    <p class="sec-d">Moves of 4 points or more in a day, where traders agree on the price. The band shows the chance now; the dashed notch is a day ago.</p>
+    <div class="currents" id="curlist"></div>
+  </section>
+  <div class="bandhani" aria-hidden="true"></div>
+
+  <section class="band wrap" id="sport" aria-labelledby="sport-h">
+    <div class="sec-h"><h2 id="sport-h">Sport</h2><span class="seal" lang="hi"><i class="dye" aria-hidden="true"></i><span>खेल</span></span></div>
+    <p class="sec-d">Formula 1, football, cricket, tennis and the NBA. Following Real Madrid, Verstappen, Alcaraz, Djokovic, India and the Warriors.</p>
+    <div id="sportbody"></div>
+  </section>
+</main>
+<div class="bandhani" aria-hidden="true"></div>
+<footer class="wrap">
+  <span><b>Ideas by Parth. Typing by Claude.</b> <span id="clm"></span> Complaints to Parth.</span>
+  <span>Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</span>
+</footer>
+
+<nav class="tabbar" aria-label="Sections">
+  <a href="#" aria-current="page"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3c3 4 6 7.3 6 10.6A6 6 0 0 1 6 13.6C6 10.3 9 7 12 3Z"/></svg>Everything</a>
+  <a href="#sport"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6-4.5-4.2 6.1-.8L12 3Z"/></svg>Favourites</a>
+  <a href="#currents"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 15c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 3 2v2c-2.5 0-2.5-2-5-2s-2.5 2-5 2-2.5-2-5-2-2.5 2-3 2v-2Zm0-6c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 3 2v2c-2.5 0-2.5-2-5-2s-2.5 2-5 2-2.5-2-5-2-2.5 2-3 2V9Z"/></svg>Currents</a>
+  <a href="#sport"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 5h7v7H4V5Zm9 0h7v7h-7V5ZM4 14h7v5H4v-5Zm9 0h7v5h-7v-5Z"/></svg>Subjects</a>
+</nav>
+
+<script>
+(function () {
+  var A = window.AZ, $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var svgURL = function (s) { return 'url("data:image/svg+xml,' + encodeURIComponent(s) + '")'; };
+  var root = document.documentElement.style;
+  // Lehariya tile: two waves, a white one and a marigold one, seamless across 64px.
+  root.setProperty('--lehar', svgURL('<svg xmlns="http://www.w3.org/2000/svg" width="64" height="26" viewBox="0 0 64 26"><path d="M0 6 Q16 0 32 6 T64 6" fill="none" stroke="white" stroke-opacity=".26" stroke-width="4"/><path d="M0 18 Q16 12 32 18 T64 18" fill="none" stroke="#f3a72a" stroke-opacity=".38" stroke-width="2.4"/></svg>'));
+  root.setProperty('--lehar-seal', svgURL('<svg xmlns="http://www.w3.org/2000/svg" width="96" height="38" viewBox="0 0 96 38"><path d="M0 10 Q24 2 48 10 T96 10" fill="none" stroke="#2c2f86" stroke-opacity=".9" stroke-width="5"/><path d="M0 27 Q24 19 48 27 T96 27" fill="none" stroke="#c9541c" stroke-opacity=".55" stroke-width="3"/></svg>'));
+  root.setProperty('--lehar-faint', svgURL('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="48" viewBox="0 0 120 48"><g transform="skewY(-14)"><path d="M0 14 Q30 4 60 14 T120 14" fill="none" stroke="#3b3f9e" stroke-opacity=".09" stroke-width="5"/><path d="M0 34 Q30 24 60 34 T120 34" fill="none" stroke="#f0a020" stroke-opacity=".16" stroke-width="3"/></g></svg>'));
+  root.setProperty('--wave', svgURL('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0 10 Q25 0 50 10 T100 10 V20 H0Z"/></svg>'));
+  root.setProperty('--wave-v', svgURL('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 100" preserveAspectRatio="none"><path d="M10 0 Q0 25 10 50 T10 100 H0 V0Z"/></svg>'));
+  root.setProperty('--bandhani', svgURL('<svg xmlns="http://www.w3.org/2000/svg" width="30" height="18" viewBox="0 0 30 18"><g fill="#3a3e9c" fill-opacity=".55"><circle cx="15" cy="4" r="1.7"/><circle cx="15" cy="14" r="1.7"/><circle cx="10" cy="9" r="1.7"/><circle cx="20" cy="9" r="1.7"/></g><circle cx="15" cy="9" r="1.9" fill="#e9a01c"/></svg>'));
+
+  function mk(m) {
+    if (!m) return '';
+    if (m.t === 'svg') return '<span class="mk">' + m.svg + '</span>';
+    return '<img class="mk' + (m.flag ? ' flag' : '') + '" src="' + m.src + '" alt="">';
+  }
+  var WIN = { day: 'in a day', week: 'this week', month: 'in 30 days' };
+  function move(c, long) {
+    if (c.was == null) return '';
+    var d = c.lead.prob - c.was;
+    if (!d) return long ? '<span class="mv flat">No change ' + WIN[c.window] + '</span>' : '';
+    var n = Math.abs(d), s = (d > 0 ? '▲ ' : '▼ ') + n + (n === 1 ? ' pt' : ' pts');
+    s += long ? ' ' + WIN[c.window] + ' · was ' + c.was + '%' : (c.window !== 'day' ? ' ' + WIN[c.window] : '');
+    return '<span class="mv ' + (d > 0 ? 'up' : 'down') + '">' + s + '</span>';
+  }
+  function sea(c) {
+    var d = c.hist && c.hist.day != null ? Math.abs(c.lead.prob - c.hist.day) : 0;
+    return d < 2 ? 'calm' : d >= 8 ? 'choppy' : '';
+  }
+  function money(v) { return v == null ? '' : '$' + (v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? Math.round(v / 1e3) + 'k' : v) + ' today'; }
+  var ph = 0;
+  // A gauge: number drawn twice, the white copy masked by the waterline (bottom-left, as on the live board).
+  function gauge(c, o) {
+    o = o || {};
+    var lv = c.lead.prob, day = c.hist && c.hist.day;
+    ph -= 1.1;
+    var was = day != null && Math.abs(day - lv) >= 1 ? '<i class="was" style="--was:' + day + '">' + (o.wasLabel && day >= 35 ? '<span>was ' + day + '%</span>' : '') + '</i>' : '';
+    var ticks = o.ticks ? '<div class="ticks" aria-hidden="true"><i style="bottom:75%">75</i><i style="bottom:50%">50</i><i style="bottom:25%">25</i></div>' : '';
+    return '<div class="gauge ' + sea(c) + '" data-lv="' + lv + '" style="--c:var(--' + c.subject + ', var(--other));--ph:' + ph.toFixed(1) + 's">' +
+      '<div class="water"><i class="dye"></i></div><i class="crest"></i>' + was + ticks +
+      '<span class="num fig" aria-hidden="true">' + lv + '<small>%</small></span><span class="num fig wet" aria-hidden="true">' + lv + '<small>%</small></span>' +
+      '<span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">' + lv + ' percent</span></div>';
+  }
+
+  /* header */
+  var srcs = A.sources.map(function (s) { return '<span class="src"><i class="dot"></i>' + mk(s.mark) + s.name + (s.kind === 'play money' ? ' (play money)' : '') + '</span>'; }).join('');
+  $('reading').innerHTML = '<div class="clock fig">' + A.readIST + '<small>IST</small></div>' +
+    '<div class="meta">Markets read at <b>' + A.readIST + '</b> · next update <b>' + A.nextIST + '</b></div><div class="sources">' + srcs + '</div>';
+  $('preading').innerHTML = '<div class="r1"><span class="clock fig">' + A.readIST + '<small>IST</small></span><span class="meta">next update <b>' + A.nextIST + '</b></span></div><div class="sources" style="justify-content:flex-start">' + srcs + '</div>';
+  $('clm').innerHTML = mk(A.marks.claude);
+
+  /* board */
+  $('board').innerHTML = A.board.map(function (b) {
+    var head = b.yesno ? '<div class="who">' + esc(b.sub) + '</div>'
+      : '<div class="who">' + mk(b.lead.mark) + '<span>' + esc(b.lead.name) + '</span></div><div class="sub">' + esc(b.sub) + '</div>';
+    return '<a class="g" href="' + b.url + '" style="--c:var(--' + b.subject + ')">' +
+      '<div class="lab label">' + (b.labelMark ? mk(b.labelMark) : '<i class="sw"></i>') + '<span>' + esc(b.label) + '</span></div>' +
+      gauge(b, { ticks: true, wasLabel: true }) +
+      '<div class="txt">' + head + move(b, true) + (b.added ? '<span class="added">' + (b.added.isNew ? '<span class="new">New</span>' : '') + esc(b.added.label) + '</span>' : '') + '</div></a>';
+  }).join('');
+
+  /* currents */
+  $('curlist').innerHTML = A.currents.map(function (c) {
+    var d = c.lead.prob - c.was;
+    return '<a class="cur" href="' + c.url + '" style="--c:var(--' + c.subject + ', var(--other))">' +
+      '<span class="d fig ' + (d > 0 ? 'up' : 'down') + '">' + (d > 0 ? '▲' : '▼') + Math.abs(d) + '<small>pts</small></span>' +
+      '<div style="min-width:0"><div class="t">' + esc(c.title) + '</div><div class="l"><span class="tag">' + esc(c.subjectLabel) + '</span>' + mk(c.lead.mark) + (c.yesno ? 'Yes' : esc(c.lead.name)) + ' · was ' + c.was + '%</div></div>' +
+      '<div class="mini" role="img" aria-label="' + c.lead.prob + '% now, ' + c.was + '% a day ago" style="--p:' + c.lead.prob + ';--w:' + c.was + '"><div class="fill"><i class="dye"></i></div><i class="notch"></i><b class="fig">' + c.lead.prob + '%</b></div></a>';
+  }).join('');
+
+  /* sport */
+  function card(c, wide) {
+    var outs = c.outcomes.slice(0, 4).map(function (o) {
+      return '<div class="o" style="--p:' + o.prob + '"><span class="nm">' + mk(o.mark) + esc(o.name) + '</span><b class="fig">' + o.prob + '%</b><span class="bar"><i></i></span></div>';
+    }).join('');
+    var also = c.also.length ? '<span>also: ' + c.also.map(function (a) { return a.source + ' ' + a.prob + '%'; }).join(', ') + '</span>' : '';
+    return '<a class="card' + (wide ? ' wide' : '') + '" href="' + c.url + '" style="--c:var(--' + c.subject + ')">' + gauge(c) +
+      '<div style="min-width:0"><div class="ct">' + (c.star ? '<span class="star" aria-label="Must-have">★</span>' : '') + '<span>' + esc(c.title) + '</span></div>' +
+      '<div class="outs">' + outs + '</div><div class="foot">' + (c.added ? (c.added.isNew ? '<span class="new">New</span>' : '') + '<span>' + esc(c.added.label) + '</span>' : '') + move(c, false) +
+      '<span class="s">' + c.source + '</span><span>' + money(c.today) + '</span>' + also + (c.followed ? '<span class="fol">Following</span>' : '') + '</div></div></a>';
+  }
+  function match(m) {
+    var d = new Date(new Date(m.kickoff).getTime() + 5.5 * 3600e3);
+    var day = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+    var short = function (n) { return n.replace(/\s(CF|FC)$/, '').replace(/^FC\s/, ''); };
+    var sides = m.outcomes.filter(function (o) { return o.name !== 'Draw'; });
+    var draw = m.outcomes.find(function (o) { return o.name === 'Draw'; });
+    var home = sides.find(function (o) { return m.title.indexOf(o.name) === 0; }) || sides[0], away = sides.find(function (o) { return o !== home; });
+    return '<a class="match" href="#"><div class="when"><span>' + day + ' · ' + m.kickoffIST + ' IST</span>' + (m.followed ? '<span class="fol">Following</span>' : '') + '</div><div class="sd">' +
+      '<span class="n">' + mk(home.mark) + short(home.name) + '</span><b class="fig">' + home.prob + '%</b>' +
+      '<span class="n">' + mk(away.mark) + short(away.name) + '</span><b class="fig">' + away.prob + '%</b>' +
+      (draw ? '<span class="n dr">Draw</span><b class="fig dr">' + draw.prob + '%</b>' : '') + '</div></a>';
+  }
+  var T = A.topics, h = '';
+  h += '<div class="subj"><h3 class="subj-h">' + mk(A.marks.uefa) + 'Football <span>· ' + T.football.items.slice(0, 4).length + ' markets</span></h3><div class="cards" style="--cols:3">' + T.football.items.slice(0, 4).map(function (c, i) { return card(c, i === 0); }).join('') + '</div></div>';
+  h += '<div class="subj"><h3 class="subj-h">Coming up <span>· within 7 days</span></h3><div class="matches">' + T.football.next.slice(0, 3).map(match).join('') + '</div></div>';
+  h += '<div class="subj"><h3 class="subj-h">' + mk(A.marks.f1) + 'Formula 1 <span>· ' + T.f1.items.length + ' markets</span></h3><div class="cards" style="--cols:2">' + T.f1.items.map(function (c) { return card(c); }).join('') + '</div></div>';
+  h += '<div class="subj"><h3 class="subj-h">' + mk(A.marks.atp) + 'Tennis <span>· ' + T.tennis.items.length + ' markets</span></h3><div class="cards" style="--cols:2">' + T.tennis.items.map(function (c) { return card(c); }).join('') + '</div></div>';
+  $('sportbody').innerHTML = h;
+
+  /* The white copy of each number is clipped at the waterline, measured in the gauge's own pixels. */
+  var phone = window.matchMedia('(max-width: 600px)');
+  function clipAll() {
+    Array.prototype.forEach.call(document.querySelectorAll('.gauge'), function (g) {
+      var n = g.querySelector('.num.wet'); if (!n) return;
+      var gr = g.getBoundingClientRect(), nr = n.getBoundingClientRect();
+      n.style.setProperty('--gh', gr.height + 'px'); n.style.setProperty('--gw', gr.width + 'px');
+      n.style.setProperty('--nb', (gr.bottom - nr.bottom) + 'px'); n.style.setProperty('--nl', (nr.left - gr.left) + 'px');
+      n.classList.toggle('h', phone.matches && !!g.closest('.board'));
+    });
+  }
+  clipAll();
+  window.addEventListener('resize', clipAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(clipAll);
+
+  /* water rises once, then breathes */
+  var gs = document.querySelectorAll('.gauge'), reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var set = function () { Array.prototype.forEach.call(gs, function (g) { g.style.setProperty('--lv', g.dataset.lv); }); };
+  if (reduce) set(); else requestAnimationFrame(function () { requestAnimationFrame(set); });
+})();
+</script>
+</body>
+</html>

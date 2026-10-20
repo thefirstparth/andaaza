@@ -65,7 +65,7 @@ a:hover { color: var(--neel); }
 .say svg { width: 16px; height: 16px; }
 .hero { margin: 10px 0 0; font: italic 400 clamp(22px, 2.4vw, 32px)/1.2 var(--serif); letter-spacing: -0.01em; }
 .reading { text-align: right; font-family: var(--sans); }
-.reading .clock { font: 700 clamp(30px, 3vw, 44px)/1 var(--sans); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.reading .clock { font: 700 clamp(30px, 3vw, 44px)/1 var(--sans); letter-spacing: -0.02em; }
 .reading .clock small { font-size: var(--t-detail); font-weight: 600; color: var(--ink-3); letter-spacing: .08em; margin-left: 4px; }
 .reading p { margin: 6px 0 0; font-size: var(--t-detail); color: var(--ink-2); }
 .srcs { margin: 10px 0 0; padding: 0; list-style: none; display: flex; gap: 14px; justify-content: flex-end; flex-wrap: wrap; font-size: var(--t-detail); color: var(--ink-2); }
@@ -99,7 +99,7 @@ section { padding-block: 34px 10px; }
 
 .lead { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 28px 48px; padding-block: 28px 30px; border-bottom: 2px solid var(--ink); align-items: end; }
 .lead h2 { margin: 12px 0 0; font: 800 clamp(34px, 4.6vw, 70px)/.98 var(--sans); letter-spacing: -0.035em; text-wrap: balance; }
-.lead h2 .mark { width: .8em; height: .8em; vertical-align: -0.04em; margin-right: .12em; }
+.lead h2 .mark { width: .72em; height: .72em; vertical-align: -0.02em; margin-right: .16em; }
 .lead .deck { margin: 16px 0 0; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.45; color: var(--ink-2); max-width: 34em; text-wrap: pretty; }
 .meta { margin-top: 10px; font: 500 var(--t-detail)/1.5 var(--sans); color: var(--ink-3); display: flex; gap: 4px 12px; flex-wrap: wrap; align-items: center; }
 .meta .mv { font-weight: 700; }
@@ -110,7 +110,8 @@ section { padding-block: 34px 10px; }
 .story h3 { margin: 10px 0 0; font: 700 clamp(20px, 1.6vw, 24px)/1.15 var(--sans); letter-spacing: -0.02em; text-wrap: balance; }
 .story h3 .mark { margin-right: .2em; }
 .story .deck { margin: 6px 0 0; font-size: 15.5px; line-height: 1.45; color: var(--ink-2); text-wrap: pretty; }
-.story .chart { margin-top: auto; padding-top: 16px; }
+.chart { margin: 0; padding-top: 24px; }
+.story .chart { margin-top: auto; }
 
 /* Chart: area under the leader's line is where the water has been; the column at the right is where it is now */
 .chart { --h: 150px; }
@@ -148,11 +149,11 @@ section { padding-block: 34px 10px; }
 
 /* Currents: a slope list */
 .slopes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 40px; }
-.slope { display: grid; grid-template-columns: minmax(0, 1fr) 132px; gap: 6px 18px; padding-block: 16px; border-top: 1px solid var(--rule); align-items: center; }
+.slope { display: grid; grid-template-columns: minmax(0, 1fr) 140px; gap: 6px 18px; padding-block: 16px; border-top: 1px solid var(--rule); align-items: center; }
 .slope h3 { margin: 6px 0 0; font: 600 var(--t-small)/1.3 var(--sans); letter-spacing: -0.005em; text-wrap: pretty; }
-.slope .who { margin-top: 4px; font-size: var(--t-body); color: var(--ink-2); }
+.slope .who { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: var(--t-body); color: var(--ink-2); }
 .slope .mv { font: 800 18px/1 var(--sans); font-variant-numeric: tabular-nums; margin-top: 8px; }
-.sl { width: 132px; height: 70px; overflow: visible; }
+.sl { width: 140px; height: 70px; overflow: visible; }
 .sl text { font: 600 11.5px var(--sans); fill: var(--ink-2); font-variant-numeric: tabular-nums; }
 .sl text.now { fill: var(--ink); font-weight: 800; font-size: 13px; }
 
@@ -213,6 +214,7 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
   .lead { padding-block: 20px 24px; gap: 18px; }
   .lead h2 { font-size: 38px; }
   .lead .chart { --h: 190px; --gw: 30px; }
+  .chart { --h: 118px; }
   .story h3 { font-size: 21px; }
   section { padding-block: 26px 4px; }
   .slope { grid-template-columns: minmax(0, 1fr) 112px; }
@@ -267,7 +269,7 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
 
   <section class="wrap" id="sport" aria-labelledby="h-sport">
     <div class="sec-head"><h2 id="h-sport">Sport</h2><span class="hi" lang="hi">खेल</span></div>
-    <p class="sec-desc">Football, Formula 1 and tennis. Real Madrid, Verstappen and Alcaraz are followed; Barcelona is watched.</p>
+    <p class="sec-desc">Football, Formula 1 and tennis. Real Madrid, Verstappen and Alcaraz are followed; Barcelona is watched as the rival.</p>
     <div class="sport">
       <div id="sport-main"></div>
       <aside class="coming" id="coming" aria-labelledby="h-coming"></aside>
@@ -286,7 +288,7 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
   function mark(m, cls) {
     if (!m) return '';
     if (m.t === 'svg') return '<span class="mark ' + (cls || '') + '">' + m.svg + '</span>';
-    return '<span class="mark ' + (cls || '') + '"><img src="' + m.src + '" alt="" loading="lazy" class="' + (m.flag ? 'flag' : '') + '"></span>';
+    return '<span class="mark ' + (cls || '') + '"><img src="' + m.src + '" alt="" class="' + (m.flag ? 'flag' : '') + '"></span>';
   }
   function money(v) {
     if (v == null) return '';
@@ -322,7 +324,7 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
     return who + ' slips to ' + p + '%';
   }
   function deck(c) {
-    var s = c.yesno ? 'Traders give it ' + c.lead.prob + '%.' : esc(c.sub || c.title) + '.';
+    var s = c.yesno ? 'Traders give it ' + c.lead.prob + '%.' : sentence(esc(c.sub || c.title));
     if (c.was != null) {
       var n = Math.abs(c.move);
       if (n >= 2) s += ' ' + (c.move > 0 ? 'Up ' : 'Down ') + n + ' points ' + WIN[c.window] + '; it was ' + c.was + '%.';
@@ -331,6 +333,7 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
     if (!c.yesno && c.outcomes[1]) s += ' Next: ' + esc(c.outcomes[1].name) + ' at ' + c.outcomes[1].prob + '%.';
     return s;
   }
+  function sentence(t) { return /[?.!]$/.test(t) ? t : t + '.'; }
   function sea(c) { var n = Math.abs(c.was == null ? 0 : (c.hist.day != null ? c.lead.prob - c.hist.day : c.move)); return n < 2 ? '9s' : n >= 8 ? '2.6s' : '5s'; }
 
   function chart(c, big) {
@@ -370,7 +373,7 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
     var col = '<div class="now-col" style="--p:' + now + '%;--sea:' + sea(c) + '" role="img" aria-label="Now ' + now + '%"><div class="w"></div>' + tick + '</div>';
     var xlab = n === 1 ? '<div class="xax one"><span>Now</span></div>'
       : '<div class="xax">' + pts.map(function (p) { return '<span>' + p[0] + '</span>'; }).join('') + '</div>';
-    return '<figure class="chart" style="margin:0"><div class="plotrow"><div class="plot">' + grid + svg + dots + anns + '</div>' + col + '</div>' + xlab + '</figure>';
+    return '<figure class="chart"><div class="plotrow"><div class="plot">' + grid + svg + dots + anns + '</div>' + col + '</div>' + xlab + '</figure>';
   }
   function eyebrow(c, label) {
     return '<div class="eyebrow label"><span class="sw" style="--c:' + (SUBJ[c.subject] || SUBJ.other) + '"></span>' +
@@ -414,13 +417,13 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
   document.getElementById('slopes').innerHTML = A.currents.map(function (c) {
     var y1 = 62 - c.was * 0.56, y2 = 62 - c.lead.prob * 0.56, up = c.move > 0;
     var col = up ? 'var(--up)' : 'var(--down)';
-    var svg = '<svg class="sl" viewBox="0 0 132 70" role="img" aria-label="From ' + c.was + '% to ' + c.lead.prob + '%">' +
-      '<line x1="26" x2="106" y1="62" y2="62" stroke="var(--grid)" stroke-width="1"/>' +
-      '<line x1="26" x2="106" y1="' + y1 + '" y2="' + y2 + '" stroke="' + col + '" stroke-width="2.5" stroke-linecap="round"/>' +
-      '<circle cx="26" cy="' + y1 + '" r="3.5" fill="var(--sheet)" stroke="' + col + '" stroke-width="2"/>' +
-      '<circle cx="106" cy="' + y2 + '" r="4.5" fill="' + col + '"/>' +
-      '<text x="20" y="' + (y1 + 4) + '" text-anchor="end">' + c.was + '%</text>' +
-      '<text class="now" x="112" y="' + (y2 + 4.5) + '">' + c.lead.prob + '%</text></svg>';
+    var svg = '<svg class="sl" viewBox="0 0 140 70" role="img" aria-label="From ' + c.was + '% to ' + c.lead.prob + '%">' +
+      '<line x1="30" x2="104" y1="62" y2="62" stroke="var(--grid)" stroke-width="1"/>' +
+      '<line x1="30" x2="104" y1="' + y1 + '" y2="' + y2 + '" stroke="' + col + '" stroke-width="2.5" stroke-linecap="round"/>' +
+      '<circle cx="30" cy="' + y1 + '" r="3.5" fill="var(--sheet)" stroke="' + col + '" stroke-width="2"/>' +
+      '<circle cx="104" cy="' + y2 + '" r="4.5" fill="' + col + '"/>' +
+      '<text x="23" y="' + (y1 + 4) + '" text-anchor="end">' + c.was + '%</text>' +
+      '<text class="now" x="111" y="' + (y2 + 4.5) + '">' + c.lead.prob + '%</text></svg>';
     var who = c.yesno ? 'Chance of yes' : mark(c.lead.mark) + esc(c.lead.name);
     return '<article class="slope"><div style="min-width:0">' +
       '<div class="eyebrow label"><span class="sw" style="--c:' + (SUBJ[c.subject] || SUBJ.other) + '"></span><span>' + esc(c.subjectLabel) + '</span></div>' +
@@ -432,7 +435,7 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
   // Sport
   function bars(c) {
     return '<ul class="bars">' + c.outcomes.map(function (o) {
-      return '<li><span class="nm">' + mark(o.mark) + '<span>' + esc(o.name) + '</span></span><span class="pc">' + o.prob + '%</span>' +
+      return '<li><span class="nm">' + (mark(o.mark) || '<span class="mark"></span>') + '<span>' + esc(o.name) + '</span></span><span class="pc">' + o.prob + '%</span>' +
         '<span class="track"><i style="width:' + Math.max(o.prob, 1) + '%"></i></span></li>';
     }).join('') + '</ul>';
   }
@@ -456,7 +459,7 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
     return day + ' · ' + ('0' + k.getUTCHours()).slice(-2) + ':' + ('0' + k.getUTCMinutes()).slice(-2) + ' IST';
   }
   document.getElementById('coming').innerHTML = '<h3 id="h-coming">Coming up</h3>' +
-    '<p class="sec-desc" style="margin:0 0 4px">Matches in the next 7 days with a followed side.</p>' +
+    '<p class="sec-desc" style="margin:0 0 4px">Matches in the next 7 days with a followed side or a big name.</p>' +
     T.football.next.slice(0, 3).map(function (x) {
       var o = x.outcomes, draw = o.filter(function (q) { return q.name === 'Draw'; })[0];
       var sides = o.filter(function (q) { return q.name !== 'Draw'; });
