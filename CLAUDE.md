@@ -55,6 +55,11 @@ he rejected), the mistakes already fixed, and how he likes to work. The README c
   (play money, marked). Kalshi is read in full at most every **6 h** into a saved index of ~450 relevant events;
   between scans those markets are re-priced 100 per request (~4 s total instead of ~40 s). If a scan fails, the old
   index keeps being re-priced; retry after 1 h.
+- **Installable** (Parth asked, 20 Oct 2026, "can be installed as a webapp"): `public/manifest.webmanifest` + icons in
+  `public/icons/` (the gauge drop, white on neel; `icon.svg` is the source) + `public/sw.js`, which keeps only the page
+  and logos.js, network first (4 s, then the saved copy), never the API (the page keeps its own last reading). The
+  status bar follows the chosen look (theme-color as rgb). Delete sw.js to remove it. No push alerts: they'd need a
+  scheduled job.
 - `lib/blob.js`: Blob read/write. `config/consensus.json`: every editorial choice in words.
 - Fallbacks: a source down → carry on (red dot); all down → last good reading with a "last good reading from …" note
   once it is over 3 h old and a new one fails to come (unreachable, or six asks without one); API down → each browser shows the last reading it kept (localStorage), within 1.5 s.

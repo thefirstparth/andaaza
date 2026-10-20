@@ -20,6 +20,16 @@ three sources exist. (It began inside The House of 1400 as "Pulse", then "Consen
 - `config/consensus.json`: every choice in words: subjects and their keywords, must-haves, follows, exclusions,
   minimums, the tide board. Most changes are edits here, not code.
 
+## On a phone, as an app
+Andaaza installs like an app, with its own icon and no browser bar. On an iPhone: open it in Safari, tap Share, then
+**Add to Home Screen**. On Android: Chrome's menu, then **Install app** (or Add to Home screen). It is the same page; it
+updates itself like the website does.
+- `public/manifest.webmanifest`: its name, colours and icons. The icons are in `public/icons/`: `icon.svg` is the
+  drawing and the PNGs are made from it (any image editor, or a browser screenshot, at 192, 512 and 180 px).
+- `public/sw.js`: a small service worker so the installed app opens without a connection, showing the last reading. It
+  saves only the page and `logos.js`, and always asks the network first, so a new version is never held back.
+  To remove it, delete the file: browsers drop it the next time they check.
+
 ## What happens when something breaks
 | What fails | What the page does |
 |---|---|
@@ -29,6 +39,7 @@ three sources exist. (It began inside The House of 1400 as "Pulse", then "Consen
 | Blob storage (gone, full, failing) | Works from memory and the edge cache; first visits after a quiet spell are slower (3 to 5 s). |
 | The whole API | Each browser shows the last reading it saw, straight away, with its age. |
 | Google Fonts | Falls back to system fonts; the layout holds. |
+| No connection (installed app) | Opens from its saved copy and shows the last reading that phone kept. |
 
 ## Free-tier budget (Vercel Hobby)
 - Storage: the Vercel Blob store `andaaza-readings` (Mumbai, private), connected to the `getandaaza` project (Storage tab). Without it the page still works, from memory.

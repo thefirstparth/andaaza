@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Andaaza's app icon: the page's gauge drop (the 64-grid drop of the favicon), white on neel, filled to its
+       level. Full-bleed square so Android can mask it to any shape; the drop stays inside the central safe circle. -->
+  <rect width="512" height="512" fill="#3f46a8"/>
+  <g transform="translate(256 262) scale(5.1) translate(-32 -32)">
+    <clipPath id="c"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath>
+    <path d="M0 35q8-5 16 0t16 0 16 0 16 0V64H0z" fill="#fff" clip-path="url(#c)"/>
+    <path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z" fill="none" stroke="#fff" stroke-width="3.6" stroke-linejoin="round"/>
+  </g>
+</svg>
