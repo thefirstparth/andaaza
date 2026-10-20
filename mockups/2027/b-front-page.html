@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andaaza · Front Page</title>
+<meta name="theme-color" content="#ECF0F5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Tiro+Devanagari+Hindi&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap">
+<script src="data.js"></script>
+<style>
+/* Layout: a data desk. One lead story (headline beside its chart), six stories in a 3/2/1 grid, then a slope list
+   and story blocks. Every story is a sentence written by rules from the numbers, then the chart that proves it. */
+:root {
+  --paper: #ECF0F5;      /* cool grey-blue page */
+  --sheet: #F7F9FB;      /* raised panels */
+  --ink: #111A2E;        /* navy-black text */
+  --ink-2: #3A4458;      /* decks */
+  --ink-3: #4F5A6E;      /* labels, 5.6:1 on paper */
+  --rule: #C6CEDA;
+  --grid: #D7DDE7;
+  --neel: #33389A;       /* brand indigo: lines, links */
+  --water: rgba(51, 56, 154, .14);
+  --water-deep: rgba(51, 56, 154, .62);
+  --marigold: #8F5300;   /* seal text, New */
+  --marigold-fill: #F6B54A;
+  --up: #0A7543;
+  --down: #B3261E;
+  --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --deva: "Tiro Devanagari Hindi", "Noto Serif Devanagari", serif;
+  --gut: clamp(16px, 3vw, 64px);
+  /* Four small sizes only */
+  --t-label: 11px; --t-detail: 12.5px; --t-body: 13.5px; --t-small: 14.5px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 15px/1.5 var(--serif);
+  font-optical-sizing: auto;
+}
+a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 3px; }
+a:hover { color: var(--neel); }
+:focus-visible { outline: 2px solid var(--neel); outline-offset: 3px; border-radius: 3px; }
+.wrap { padding-left: max(var(--gut), env(safe-area-inset-left, 0px)); padding-right: max(var(--gut), env(safe-area-inset-right, 0px)); }
+.label { font: 600 var(--t-label)/1.3 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+.num { font-family: var(--sans); font-variant-numeric: tabular-nums; }
+.up { color: var(--up); } .down { color: var(--down); } .flat { color: var(--ink-3); }
+.mark { display: inline-flex; width: 1.05em; height: 1.05em; vertical-align: -0.16em; flex: none; }
+.mark svg, .mark img { width: 100%; height: 100%; object-fit: contain; }
+.mark img.flag { border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(17,26,46,.12); }
+
+/* Masthead */
+.mast { padding-block: 28px 18px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 40px; align-items: end; }
+.brand { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.brand h1 { margin: 0; font: 800 clamp(44px, 6.4vw, 96px)/.9 var(--sans); letter-spacing: -0.045em; }
+.seal { font: 400 clamp(22px, 2.4vw, 34px)/1 var(--deva); color: var(--marigold); padding: .28em .4em .18em; border: 1.5px solid var(--marigold); border-radius: 6px; transform: rotate(-2deg); }
+.dict { margin: 14px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: var(--t-small); color: var(--ink-2); }
+.dict .ipa { font-family: var(--sans); color: var(--ink-3); }
+.dict .ur { font-family: "Noto Nastaliq Urdu", serif; font-size: 15px; line-height: 1; color: var(--marigold); }
+.say { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--rule); background: var(--sheet); color: var(--neel); cursor: pointer; padding: 0; }
+.say svg { width: 16px; height: 16px; }
+.hero { margin: 10px 0 0; font: italic 400 clamp(22px, 2.4vw, 32px)/1.2 var(--serif); letter-spacing: -0.01em; }
+.reading { text-align: right; font-family: var(--sans); }
+.reading .clock { font: 700 clamp(30px, 3vw, 44px)/1 var(--sans); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.reading .clock small { font-size: var(--t-detail); font-weight: 600; color: var(--ink-3); letter-spacing: .08em; margin-left: 4px; }
+.reading p { margin: 6px 0 0; font-size: var(--t-detail); color: var(--ink-2); }
+.srcs { margin: 10px 0 0; padding: 0; list-style: none; display: flex; gap: 14px; justify-content: flex-end; flex-wrap: wrap; font-size: var(--t-detail); color: var(--ink-2); }
+.srcs li { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--up); flex: none; }
+.srcs .mark { color: var(--ink); }
+.srcs em { font-style: normal; color: var(--ink-3); }
+
+/* Section tabs: a news app's sticky strip */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--paper) 94%, transparent); border-block: 1px solid var(--rule); }
+@supports (backdrop-filter: blur(1px)) { .tabs { backdrop-filter: blur(10px); background: color-mix(in srgb, var(--paper) 82%, transparent); } }
+.tabs nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-block: 6px; }
+.tabs a { flex: none; display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 999px; font: 600 var(--t-body)/1 var(--sans); text-decoration: none; color: var(--ink-2); }
+.tabs a[aria-current] { background: var(--ink); color: var(--sheet); }
+.tabs a:hover:not([aria-current]) { background: var(--grid); color: var(--ink); }
+
+/* Stories */
+section { padding-block: 34px 10px; }
+.sec-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+.sec-head h2 { margin: 0; font: 800 clamp(26px, 2.6vw, 36px)/1.05 var(--sans); letter-spacing: -0.03em; }
+.sec-head .hi { font: 400 22px/1 var(--deva); color: var(--marigold); }
+.sec-desc { margin: 0 0 18px; font-size: var(--t-small); color: var(--ink-3); }
+.eyebrow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.eyebrow .sw { width: 9px; height: 9px; border-radius: 2px; background: var(--c, var(--neel)); flex: none; }
+.eyebrow .mark { color: var(--ink); width: 14px; height: 14px; }
+.pill { display: inline-flex; align-items: center; height: 19px; padding: 0 7px; border-radius: 999px; font: 700 var(--t-label)/1 var(--sans); letter-spacing: .04em; }
+.pill.new { background: var(--marigold-fill); color: #3A2400; }
+.pill.follow { border: 1px solid var(--rule); color: var(--ink-2); font-weight: 600; letter-spacing: .02em; }
+.star { color: var(--marigold); font-family: var(--sans); }
+
+.lead { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 28px 48px; padding-block: 28px 30px; border-bottom: 2px solid var(--ink); align-items: end; }
+.lead h2 { margin: 12px 0 0; font: 800 clamp(34px, 4.6vw, 70px)/.98 var(--sans); letter-spacing: -0.035em; text-wrap: balance; }
+.lead h2 .mark { width: .8em; height: .8em; vertical-align: -0.04em; margin-right: .12em; }
+.lead .deck { margin: 16px 0 0; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.45; color: var(--ink-2); max-width: 34em; text-wrap: pretty; }
+.meta { margin-top: 10px; font: 500 var(--t-detail)/1.5 var(--sans); color: var(--ink-3); display: flex; gap: 4px 12px; flex-wrap: wrap; align-items: center; }
+.meta .mv { font-weight: 700; }
+
+.grid6 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 40px; }
+.story { padding-block: 22px 26px; border-top: 2px solid var(--ink); display: flex; flex-direction: column; min-width: 0; }
+.grid6 .story { border-top-width: 1px; border-top-color: var(--rule); }
+.story h3 { margin: 10px 0 0; font: 700 clamp(20px, 1.6vw, 24px)/1.15 var(--sans); letter-spacing: -0.02em; text-wrap: balance; }
+.story h3 .mark { margin-right: .2em; }
+.story .deck { margin: 6px 0 0; font-size: 15.5px; line-height: 1.45; color: var(--ink-2); text-wrap: pretty; }
+.story .chart { margin-top: auto; padding-top: 16px; }
+
+/* Chart: area under the leader's line is where the water has been; the column at the right is where it is now */
+.chart { --h: 150px; }
+.lead .chart { --h: 300px; }
+.plotrow { display: flex; gap: 12px; align-items: stretch; }
+.plot { position: relative; flex: 1; min-width: 0; height: var(--h); }
+.plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.gl { position: absolute; left: 0; right: 0; border-top: 1px solid var(--grid); }
+.gl.base { border-top: 1.5px solid var(--ink-3); }
+.gl span { position: absolute; left: 0; top: -17px; font: 500 var(--t-label)/1 var(--sans); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.pt { position: absolute; width: 0; height: 0; }
+.pt i { position: absolute; left: -4.5px; top: -4.5px; width: 9px; height: 9px; border-radius: 50%; background: var(--sheet); border: 2px solid var(--neel); }
+.pt.now i { background: var(--neel); width: 11px; height: 11px; left: -5.5px; top: -5.5px; }
+.ann { position: absolute; white-space: nowrap; font: 500 var(--t-detail)/1.2 var(--sans); color: var(--ink-2); background: color-mix(in srgb, var(--paper) 82%, transparent); padding: 2px 4px; border-radius: 3px; }
+.ann b { font-weight: 800; color: var(--ink); font-size: 1.15em; }
+.lead .ann { font-size: var(--t-small); }
+.xax { display: flex; justify-content: space-between; margin-top: 8px; padding-right: calc(var(--gw) + 12px); font: 500 var(--t-label)/1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.xax.one { justify-content: flex-end; }
+.chart { --gw: 22px; }
+.lead .chart { --gw: 44px; }
+.now-col { position: relative; width: var(--gw); height: var(--h); border-radius: 6px 6px 3px 3px; background: var(--sheet); box-shadow: inset 0 0 0 1px var(--rule); overflow: hidden; flex: none; }
+.now-col .w { position: absolute; left: 0; right: 0; bottom: 0; height: var(--p); background: var(--water-deep); transition: height 1.4s cubic-bezier(.2,.7,.2,1); }
+.now-col .w::before { content: ""; position: absolute; left: 0; right: 0; top: -5px; height: 6px;
+  background: radial-gradient(circle at 50% 100%, var(--water-deep) 70%, transparent 72%) 0 0 / 12px 10px repeat-x;
+  animation: drift var(--sea, 6s) linear infinite; }
+.now-col .tick { position: absolute; left: 0; right: 0; border-top: 1.5px dashed var(--ink); opacity: .55; }
+@keyframes drift { to { background-position: 12px 0; } }
+.plot .area { transform-origin: 50% 100%; animation: rise 1.4s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes rise { from { transform: scaleY(.0); } }
+@media (prefers-reduced-motion: reduce) {
+  .now-col .w::before, .plot .area { animation: none; }
+  .now-col .w { transition: none; }
+}
+.nodata { font: italic 400 var(--t-body)/1.3 var(--serif); color: var(--ink-3); }
+
+/* Currents: a slope list */
+.slopes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 40px; }
+.slope { display: grid; grid-template-columns: minmax(0, 1fr) 132px; gap: 6px 18px; padding-block: 16px; border-top: 1px solid var(--rule); align-items: center; }
+.slope h3 { margin: 6px 0 0; font: 600 var(--t-small)/1.3 var(--sans); letter-spacing: -0.005em; text-wrap: pretty; }
+.slope .who { margin-top: 4px; font-size: var(--t-body); color: var(--ink-2); }
+.slope .mv { font: 800 18px/1 var(--sans); font-variant-numeric: tabular-nums; margin-top: 8px; }
+.sl { width: 132px; height: 70px; overflow: visible; }
+.sl text { font: 600 11.5px var(--sans); fill: var(--ink-2); font-variant-numeric: tabular-nums; }
+.sl text.now { fill: var(--ink); font-weight: 800; font-size: 13px; }
+
+/* Sport: story blocks */
+.sport { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 0 48px; align-items: start; }
+.subhead { display: flex; align-items: baseline; gap: 10px; margin: 26px 0 0; padding-top: 12px; border-top: 2px solid var(--ink); }
+.subhead h3 { margin: 0; font: 800 20px/1.1 var(--sans); letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+.subhead h3 .mark { width: 18px; height: 18px; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 36px; }
+.pair .story { border-top: 1px solid var(--rule); }
+.pair .subhead + .story, .pair > .story:nth-child(-n+2) { border-top: 0; }
+.bars { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 7px; }
+.bars li { display: grid; grid-template-columns: minmax(0, 1fr) 44px; gap: 10px; align-items: center; font: 500 var(--t-body)/1.25 var(--sans); }
+.bars .nm { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.bars .nm span { overflow-wrap: anywhere; }
+.bars .track { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: var(--grid); overflow: hidden; margin-top: -3px; }
+.bars .track i { display: block; height: 100%; background: var(--water-deep); opacity: .45; border-radius: 3px; }
+.bars li:first-child .track i { opacity: 1; }
+.bars .pc { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.coming { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 64px); margin-top: 26px; background: var(--sheet); border-radius: 14px; padding: 18px 20px 8px; box-shadow: 0 0 0 1px var(--rule); }
+.coming h3 { margin: 0 0 4px; font: 800 20px/1.1 var(--sans); letter-spacing: -0.02em; }
+.match { padding-block: 14px; border-top: 1px solid var(--rule); }
+.match:first-of-type { border-top: 0; }
+.match .when { font: 700 var(--t-label)/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--neel); }
+.match .teams { margin-top: 6px; font: 600 var(--t-small)/1.3 var(--sans); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.stack { display: flex; height: 22px; margin-top: 10px; border-radius: 4px; overflow: hidden; font: 700 var(--t-label)/22px var(--sans); font-variant-numeric: tabular-nums; }
+.stack span { padding: 0 6px; white-space: nowrap; overflow: hidden; }
+.stack .h { background: var(--neel); color: #fff; }
+.stack .d { background: var(--grid); color: var(--ink-2); }
+.stack .a { background: #8C93C9; color: #10143D; text-align: right; }
+.legend { display: flex; justify-content: space-between; gap: 8px; margin-top: 5px; font: 500 var(--t-label)/1.3 var(--sans); color: var(--ink-3); }
+
+footer { margin-top: 40px; padding-block: 22px calc(28px + env(safe-area-inset-bottom, 0px)); border-top: 2px solid var(--ink); font: 500 var(--t-detail)/1.6 var(--sans); color: var(--ink-2); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 24px; }
+footer .aside { font-weight: 700; color: var(--ink); }
+footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
+
+@media (max-width: 1080px) {
+  .grid6, .slopes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sport { grid-template-columns: minmax(0, 1fr); }
+  .coming { position: static; }
+}
+@media (max-width: 760px) {
+  .lead { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+  .mast { grid-template-columns: minmax(0, 1fr); padding-block: 14px 12px; gap: 14px; }
+  .brand { gap: 12px; }
+  .reading { text-align: left; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; align-items: center; padding: 12px 14px; background: var(--sheet); border-radius: 14px; box-shadow: 0 0 0 1px var(--rule); }
+  .reading .clock { grid-row: span 2; font-size: 30px; }
+  .reading p { margin: 0; }
+  .srcs { justify-content: flex-start; margin: 0; gap: 10px; }
+  .dict { margin-top: 10px; }
+  .hero { font-size: 22px; }
+  .grid6, .slopes, .pair { grid-template-columns: minmax(0, 1fr); }
+  .pair > .story:nth-child(-n+2) { border-top: 1px solid var(--rule); }
+  .pair > .story:first-child { border-top: 0; }
+  .lead { padding-block: 20px 24px; gap: 18px; }
+  .lead h2 { font-size: 38px; }
+  .lead .chart { --h: 190px; --gw: 30px; }
+  .story h3 { font-size: 21px; }
+  section { padding-block: 26px 4px; }
+  .slope { grid-template-columns: minmax(0, 1fr) 112px; }
+  .sl { width: 112px; }
+  .tabs a { min-height: 40px; }
+  footer { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<header class="wrap mast">
+  <div>
+    <div class="brand">
+      <h1>Andaaza</h1>
+      <span class="seal" lang="hi">अंदाज़ा</span>
+    </div>
+    <p class="dict">
+      <button class="say" type="button" id="say" aria-label="Hear how Andaaza is said"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l4.3 3.6A1 1 0 0 0 13 18V6a1 1 0 0 0-1.7-.7L7 9H4a1 1 0 0 0-1 1Zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4ZM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6Z"/></svg></button>
+      <span class="ipa">/ən·daː·zaː/</span>
+      <span class="label" style="letter-spacing:.1em">noun · Hindi, Urdu</span>
+      <span class="ur" lang="ur">اندازہ</span>
+      <span>an estimate, a guess, a rough calculation.</span>
+    </p>
+    <p class="hero">Watch the world change its mind.</p>
+  </div>
+  <div class="reading" id="reading"></div>
+</header>
+
+<div class="tabs wrap">
+  <nav aria-label="Sections">
+    <a href="#top" aria-current="page">Top stories</a>
+    <a href="#currents">Currents</a>
+    <a href="#sport">Sport</a>
+    <a href="#top">World</a>
+    <a href="#top">Tech</a>
+    <a href="#top">Money</a>
+    <a href="#top">Screen</a>
+  </nav>
+</div>
+
+<main>
+  <div class="wrap" id="top">
+    <article class="lead" id="lead"></article>
+    <div class="grid6" id="board"></div>
+  </div>
+
+  <section class="wrap" id="currents" aria-labelledby="h-cur">
+    <div class="sec-head"><h2 id="h-cur">Currents</h2></div>
+    <p class="sec-desc">The biggest moves in a day, where traders agree on the price.</p>
+    <div class="slopes" id="slopes"></div>
+  </section>
+
+  <section class="wrap" id="sport" aria-labelledby="h-sport">
+    <div class="sec-head"><h2 id="h-sport">Sport</h2><span class="hi" lang="hi">खेल</span></div>
+    <p class="sec-desc">Football, Formula 1 and tennis. Real Madrid, Verstappen and Alcaraz are followed; Barcelona is watched.</p>
+    <div class="sport">
+      <div id="sport-main"></div>
+      <aside class="coming" id="coming" aria-labelledby="h-coming"></aside>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(function () {
+  var A = window.AZ;
+  var SUBJ = { ai: '#2F6FB5', football: '#1E8A4C', f1: '#C8352B', cricket: '#11847A', tennis: '#B8622F', nba: '#7A4BC2',
+    world: '#2D3E8C', india: '#D9741C', money: '#A27A12', celebs: '#C4407E', film: '#7E3FA6', ott: '#B02C5A', other: '#5C6678' };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function mark(m, cls) {
+    if (!m) return '';
+    if (m.t === 'svg') return '<span class="mark ' + (cls || '') + '">' + m.svg + '</span>';
+    return '<span class="mark ' + (cls || '') + '"><img src="' + m.src + '" alt="" loading="lazy" class="' + (m.flag ? 'flag' : '') + '"></span>';
+  }
+  function money(v) {
+    if (v == null) return '';
+    if (v >= 1e6) return '$' + (v / 1e6).toFixed(v >= 1e7 ? 0 : 1) + 'M today';
+    if (v >= 1e3) return '$' + Math.round(v / 1e3) + 'k today';
+    return '$' + v + ' today';
+  }
+  var WIN = { day: 'in a day', week: 'this week', month: 'in 30 days' };
+  function arrow(d) { return d > 0 ? '▲' : d < 0 ? '▼' : ''; }
+  function cls(d) { return d >= 1 ? 'up' : d <= -1 ? 'down' : 'flat'; }
+  function moveLong(c) {
+    if (c.was == null) return '';
+    var d = c.move, n = Math.abs(d);
+    if (n < 1) return '<span class="mv flat">Unchanged ' + WIN[c.window] + ' · was ' + c.was + '%</span>';
+    return '<span class="mv ' + cls(d) + '">' + arrow(d) + ' ' + n + (n === 1 ? ' pt ' : ' pts ') + WIN[c.window] + ' · was ' + c.was + '%</span>';
+  }
+  function cleanTeams(t) { return t.replace(/\b(FC|CF)\b/g, '').replace(/\s{2,}/g, ' ').replace(/\s+v\s+/g, ' v ').trim(); }
+  function quoteIfThing(c) {
+    var n = c.lead.name;
+    return (!c.lead.mark && !/^[A-Z][a-z]+ [A-Z]/.test(n)) ? '“' + n + '”' : n;
+  }
+
+  // Headlines by plain rules: the verb comes from the size of the move, never from a writer.
+  function headline(c) {
+    if (c.yesno) return esc(c.sub || c.title);
+    var p = c.lead.prob, d = c.was == null ? null : c.move, who = mark(c.lead.mark) + esc(quoteIfThing(c));
+    if (c.match) return who + ' ' + p + '% to win';
+    if (d == null) return who + ' leads at ' + p + '%';
+    if (Math.abs(d) < 2) return who + ' holds at ' + p + '%';
+    if (d >= 15) return who + ' surges to ' + p + '%';
+    if (d > 0) return who + ' rises to ' + p + '%';
+    if (d <= -15) return who + ' falls to ' + p + '%';
+    return who + ' slips to ' + p + '%';
+  }
+  function deck(c) {
+    var s = c.yesno ? 'Traders give it ' + c.lead.prob + '%.' : esc(c.sub || c.title) + '.';
+    if (c.was != null) {
+      var n = Math.abs(c.move);
+      if (n >= 2) s += ' ' + (c.move > 0 ? 'Up ' : 'Down ') + n + ' points ' + WIN[c.window] + '; it was ' + c.was + '%.';
+      else s += ' Little changed ' + WIN[c.window] + '; it was ' + c.was + '%.';
+    }
+    if (!c.yesno && c.outcomes[1]) s += ' Next: ' + esc(c.outcomes[1].name) + ' at ' + c.outcomes[1].prob + '%.';
+    return s;
+  }
+  function sea(c) { var n = Math.abs(c.was == null ? 0 : (c.hist.day != null ? c.lead.prob - c.hist.day : c.move)); return n < 2 ? '9s' : n >= 8 ? '2.6s' : '5s'; }
+
+  function chart(c, big) {
+    var H = c.hist || {}, now = c.lead.prob;
+    var pts = [['30 days ago', H.month, 'a month ago'], ['7 days ago', H.week, 'a week ago'], ['Yesterday', H.day, 'yesterday']]
+      .filter(function (p) { return p[1] != null; });
+    pts.push(['Now', now, 'now']);
+    var n = pts.length, xs = pts.map(function (_, i) { return n === 1 ? 100 : (i / (n - 1)) * 100; });
+    var grid = [0, 50, 100].map(function (g) {
+      return '<div class="gl' + (g === 0 ? ' base' : '') + '" style="top:' + (100 - g) + '%">' + (g ? '<span>' + g + '%</span>' : '') + '</div>';
+    }).join('');
+    var svg = '';
+    if (n === 1) {
+      svg = '<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">' +
+        '<rect class="area" x="0" y="' + (100 - now) + '" width="100" height="' + now + '" fill="var(--water)"/>' +
+        '<line x1="0" x2="100" y1="' + (100 - now) + '" y2="' + (100 - now) + '" stroke="var(--neel)" stroke-width="2" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/></svg>';
+    } else {
+      var line = pts.map(function (p, i) { return xs[i] + ',' + (100 - p[1]); }).join(' ');
+      svg = '<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">' +
+        '<polygon class="area" points="0,100 ' + line + ' 100,100" fill="var(--water)"/>' +
+        '<polyline points="' + line + '" fill="none" stroke="var(--neel)" stroke-width="' + (big ? 3 : 2.25) + '" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>';
+    }
+    var dots = pts.map(function (p, i) {
+      return '<span class="pt' + (i === n - 1 ? ' now' : '') + '" style="left:' + xs[i] + '%;top:' + (100 - p[1]) + '%"><i></i></span>';
+    }).join('');
+    // Annotate the start and the end, placed above the line unless it is near the top.
+    function ann(p, x, end) {
+      var y = 100 - p[1], above = p[1] < 80;
+      var pos = 'top:calc(' + y + '% ' + (above ? '- 30px' : '+ 10px') + ');' + (end ? 'right:calc(' + (100 - x) + '% - 2px)' : 'left:calc(' + x + '% - 2px)');
+      var txt = end ? '<b>' + p[1] + '%</b> now' : '<b>' + p[1] + '%</b> ' + p[2];
+      return '<span class="ann" style="' + pos + '">' + txt + '</span>';
+    }
+    var anns = n === 1
+      ? '<span class="ann" style="top:calc(' + (100 - now) + '% ' + (now < 80 ? '- 30px' : '+ 10px') + ');right:0"><b>' + now + '%</b> now · no earlier price</span>'
+      : ann(pts[0], xs[0], false) + ann(pts[n - 1], xs[n - 1], true);
+    var tick = H.day != null ? '<span class="tick" style="bottom:' + H.day + '%" title="Yesterday ' + H.day + '%"></span>' : '';
+    var col = '<div class="now-col" style="--p:' + now + '%;--sea:' + sea(c) + '" role="img" aria-label="Now ' + now + '%"><div class="w"></div>' + tick + '</div>';
+    var xlab = n === 1 ? '<div class="xax one"><span>Now</span></div>'
+      : '<div class="xax">' + pts.map(function (p) { return '<span>' + p[0] + '</span>'; }).join('') + '</div>';
+    return '<figure class="chart" style="margin:0"><div class="plotrow"><div class="plot">' + grid + svg + dots + anns + '</div>' + col + '</div>' + xlab + '</figure>';
+  }
+  function eyebrow(c, label) {
+    return '<div class="eyebrow label"><span class="sw" style="--c:' + (SUBJ[c.subject] || SUBJ.other) + '"></span>' +
+      (c.star ? '<span class="star" aria-label="Must-have">★</span>' : '') +
+      '<span>' + esc(label) + '</span>' + mark(c.labelMark) +
+      (c.followed ? '<span class="pill follow">Following</span>' : '') +
+      (c.added && c.added.isNew ? '<span class="pill new">New</span>' : '') + '</div>';
+  }
+  function metaLine(c, extra) {
+    var bits = [moveLong(c), money(c.today), esc(c.source)];
+    (c.also || []).forEach(function (a) { bits.push('also: ' + esc(a.source) + ' ' + a.prob + '%'); });
+    if (c.added && !c.added.isNew) bits.push(esc(c.added.label));
+    if (c.added && c.added.isNew) bits.push(esc(c.added.label));
+    if (extra) bits.push(extra);
+    return '<div class="meta">' + bits.filter(Boolean).map(function (b) { return '<span>' + b + '</span>'; }).join('<span aria-hidden="true">·</span>') + '</div>';
+  }
+
+  // Masthead reading
+  var d = new Date(A.readAt), days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function ist(iso) { return new Date(new Date(iso).getTime() + 5.5 * 3600e3); }
+  var r = ist(A.readAt);
+  document.getElementById('reading').innerHTML =
+    '<div class="clock">' + A.readIST + '<small>IST</small></div>' +
+    '<p>Markets read ' + days[r.getUTCDay()] + ' ' + r.getUTCDate() + ' ' + months[r.getUTCMonth()] + ' · next update <b>' + A.nextIST + '</b></p>' +
+    '<ul class="srcs">' + A.sources.map(function (s) {
+      return '<li><span class="dot" style="background:' + (s.ok ? 'var(--up)' : 'var(--down)') + '" aria-label="' + (s.ok ? 'answering' : 'not answering') + '"></span>' + mark(s.mark) + esc(s.name) + (s.kind === 'play money' ? ' <em>(play money)</em>' : '') + '</li>';
+    }).join('') + '</ul>';
+
+  // Lead story and the six
+  var B = A.board, L = B[0];
+  document.getElementById('lead').innerHTML =
+    '<div>' + eyebrow(L, L.label) + '<h2><a href="' + L.url + '" style="text-decoration:none">' + headline(L) + '</a></h2>' +
+    '<p class="deck">' + deck(L) + '</p>' + metaLine(L) + '</div>' + chart(L, true);
+  document.getElementById('board').innerHTML = B.slice(1).map(function (c) {
+    return '<article class="story">' + eyebrow(c, c.label) +
+      '<h3><a href="' + c.url + '" style="text-decoration:none">' + headline(c) + '</a></h3>' +
+      '<p class="deck">' + deck(c) + '</p>' + metaLine(c) + chart(c, false) + '</article>';
+  }).join('');
+
+  // Currents as slopes: yesterday on the left, now on the right, same 0 to 100 scale for all
+  document.getElementById('slopes').innerHTML = A.currents.map(function (c) {
+    var y1 = 62 - c.was * 0.56, y2 = 62 - c.lead.prob * 0.56, up = c.move > 0;
+    var col = up ? 'var(--up)' : 'var(--down)';
+    var svg = '<svg class="sl" viewBox="0 0 132 70" role="img" aria-label="From ' + c.was + '% to ' + c.lead.prob + '%">' +
+      '<line x1="26" x2="106" y1="62" y2="62" stroke="var(--grid)" stroke-width="1"/>' +
+      '<line x1="26" x2="106" y1="' + y1 + '" y2="' + y2 + '" stroke="' + col + '" stroke-width="2.5" stroke-linecap="round"/>' +
+      '<circle cx="26" cy="' + y1 + '" r="3.5" fill="var(--sheet)" stroke="' + col + '" stroke-width="2"/>' +
+      '<circle cx="106" cy="' + y2 + '" r="4.5" fill="' + col + '"/>' +
+      '<text x="20" y="' + (y1 + 4) + '" text-anchor="end">' + c.was + '%</text>' +
+      '<text class="now" x="112" y="' + (y2 + 4.5) + '">' + c.lead.prob + '%</text></svg>';
+    var who = c.yesno ? 'Chance of yes' : mark(c.lead.mark) + esc(c.lead.name);
+    return '<article class="slope"><div style="min-width:0">' +
+      '<div class="eyebrow label"><span class="sw" style="--c:' + (SUBJ[c.subject] || SUBJ.other) + '"></span><span>' + esc(c.subjectLabel) + '</span></div>' +
+      '<h3><a href="' + c.url + '" style="text-decoration:none">' + esc(c.title) + '</a></h3>' +
+      '<div class="who">' + who + '</div>' +
+      '<div class="mv ' + cls(c.move) + '">' + arrow(c.move) + ' ' + Math.abs(c.move) + ' pts</div></div>' + svg + '</article>';
+  }).join('');
+
+  // Sport
+  function bars(c) {
+    return '<ul class="bars">' + c.outcomes.map(function (o) {
+      return '<li><span class="nm">' + mark(o.mark) + '<span>' + esc(o.name) + '</span></span><span class="pc">' + o.prob + '%</span>' +
+        '<span class="track"><i style="width:' + Math.max(o.prob, 1) + '%"></i></span></li>';
+    }).join('') + '</ul>';
+  }
+  function sportStory(c) {
+    return '<article class="story">' + eyebrow(c, c.subjectLabel) +
+      '<h3><a href="' + c.url + '" style="text-decoration:none">' + headline(c) + '</a></h3>' +
+      '<p class="deck">' + esc(c.title) + '</p>' + bars(c) + metaLine(c) + '</article>';
+  }
+  var T = A.topics;
+  function block(title, m, items) {
+    return '<div class="subhead"><h3>' + mark(m) + esc(title) + '</h3></div><div class="pair">' + items.map(sportStory).join('') + '</div>';
+  }
+  document.getElementById('sport-main').innerHTML =
+    block('Football', null, T.football.items.slice(0, 4)) +
+    block('Formula 1', A.marks.f1, T.f1.items) +
+    block('Tennis', A.marks.atp, T.tennis.items);
+
+  function when(iso) {
+    var k = ist(iso), dd = Math.round((Date.UTC(k.getUTCFullYear(), k.getUTCMonth(), k.getUTCDate()) - Date.UTC(r.getUTCFullYear(), r.getUTCMonth(), r.getUTCDate())) / 864e5);
+    var day = dd === 0 ? 'Today' : dd === 1 ? 'Tomorrow' : days[k.getUTCDay()] + ' ' + k.getUTCDate() + ' ' + months[k.getUTCMonth()];
+    return day + ' · ' + ('0' + k.getUTCHours()).slice(-2) + ':' + ('0' + k.getUTCMinutes()).slice(-2) + ' IST';
+  }
+  document.getElementById('coming').innerHTML = '<h3 id="h-coming">Coming up</h3>' +
+    '<p class="sec-desc" style="margin:0 0 4px">Matches in the next 7 days with a followed side.</p>' +
+    T.football.next.slice(0, 3).map(function (x) {
+      var o = x.outcomes, draw = o.filter(function (q) { return q.name === 'Draw'; })[0];
+      var sides = o.filter(function (q) { return q.name !== 'Draw'; });
+      var title = cleanTeams(x.title).split(' v ');
+      var home = sides.filter(function (q) { return cleanTeams(q.name) === title[0]; })[0] || sides[0];
+      var away = sides.filter(function (q) { return q !== home; })[0];
+      var tot = home.prob + (draw ? draw.prob : 0) + away.prob;
+      function w(p) { return (p / tot * 100).toFixed(1) + '%'; }
+      return '<div class="match"><div class="when">' + when(x.kickoff) + (x.followed ? ' · <span class="star">★</span>' : '') + '</div>' +
+        '<div class="teams">' + mark(home.mark) + esc(cleanTeams(home.name)) + ' <span style="color:var(--ink-3)">v</span> ' + mark(away.mark) + esc(cleanTeams(away.name)) + '</div>' +
+        '<div class="stack" role="img" aria-label="' + esc(cleanTeams(home.name)) + ' ' + home.prob + '%, draw ' + (draw ? draw.prob : 0) + '%, ' + esc(cleanTeams(away.name)) + ' ' + away.prob + '%">' +
+        '<span class="h" style="width:' + w(home.prob) + '">' + home.prob + '%</span>' +
+        (draw ? '<span class="d" style="width:' + w(draw.prob) + '">' + draw.prob + '%</span>' : '') +
+        '<span class="a" style="width:' + w(away.prob) + '">' + away.prob + '%</span></div>' +
+        '<div class="legend"><span>' + esc(cleanTeams(home.name)) + '</span><span>Draw</span><span>' + esc(cleanTeams(away.name)) + '</span></div></div>';
+    }).join('');
+
+  document.getElementById('foot').innerHTML =
+    '<span class="aside">Ideas by Parth. Typing by Claude ' + mark(A.marks.claude) + '. Complaints to Parth.</span>' +
+    '<span>Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</span>';
+
+  document.getElementById('say').addEventListener('click', function () {
+    try { var u = new SpeechSynthesisUtterance('अंदाज़ा'); u.lang = 'hi-IN'; speechSynthesis.speak(u); } catch (e) {}
+  });
+})();
+</script>
+</body>
+</html>

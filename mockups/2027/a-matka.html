@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andaaza · Matka</title>
+<meta name="theme-color" content="#24306b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Eczar:wght@500;600;700;800&family=Mukta:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&text=%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%81&display=swap">
+<script src="data.js"></script>
+<style>
+/* Layout: a printed cloth. Sections are panels of kora separated by block-printed border bands;
+   the board is a row of seven clay pots, each filled with indigo to the market's chance. */
+:root {
+  color-scheme: light;
+  --kora: #e6e5d8;        /* unbleached cotton, grey-green */
+  --kora-2: #dcdccb;      /* the same cloth, one shade deeper (tracks, panels) */
+  --kora-3: #f0efe5;      /* card face */
+  --indigo: #24306b;      /* dabu indigo: brand, water, headings */
+  --indigo-deep: #18224f;
+  --indigo-soft: #4a5ca8;
+  --madder: #9e2f28;      /* madder red: second print ink, the falling moves */
+  --turmeric: #d9a21b;    /* turmeric: print accents, never text on kora */
+  --turmeric-ink: #7d5800;/* turmeric deep enough to read */
+  --rise: #2f6a3c;        /* the rising moves */
+  --clay: #c27a52;        /* terracotta, only in the pots */
+  --clay-dark: #7a3f22;
+  --ink: #1d2030;
+  --ink-2: #4a4d5c;
+  --gut: clamp(16px, 3vw, 64px);
+  --display: "Eczar", "Tiro Devanagari Hindi", Georgia, serif;
+  --body: "Mukta", "Noto Sans Devanagari", "Segoe UI", system-ui, sans-serif;
+  --urdu: "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
+  --t-label: 11px; --t-detail: 12.5px; --t-body: 13.5px; --t-title: 14.5px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background-color: var(--kora);
+  /* slub of handloom cotton: faint noise, never a pattern you notice */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9 .35' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .22 0 0 0 0 .18 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  color: var(--ink);
+  font: 400 var(--t-body)/1.5 var(--body);
+}
+a { color: var(--indigo); text-underline-offset: 3px; }
+a:hover { color: var(--madder); }
+:focus-visible { outline: 3px solid var(--turmeric); outline-offset: 2px; border-radius: 4px; }
+button { font: inherit; }
+.wrap { padding-left: max(var(--gut), env(safe-area-inset-left, 0px)); padding-right: max(var(--gut), env(safe-area-inset-right, 0px)); }
+
+/* ---------- block-printed bands ---------- */
+.band { height: 26px; border-block: 2px solid var(--indigo); background-repeat: repeat-x; background-position: center; }
+.band.buti {
+  background-color: var(--indigo);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='22'%3E%3Cg fill='%23e6e5d8'%3E%3Ccircle cx='15' cy='7.2' r='2.7'/%3E%3Ccircle cx='15' cy='14.8' r='2.7'/%3E%3Ccircle cx='11.2' cy='11' r='2.6'/%3E%3Ccircle cx='18.8' cy='11' r='2.6'/%3E%3C/g%3E%3Ccircle cx='15' cy='11' r='1.7' fill='%23d9a21b'/%3E%3Ccircle cx='0' cy='11' r='1.3' fill='%23c9574e'/%3E%3Ccircle cx='30' cy='11' r='1.3' fill='%23c9574e'/%3E%3C/svg%3E");
+}
+.band.chevron {
+  background-color: var(--kora-2);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='22'%3E%3Cpath d='M0 15 L6 7 L12 15 L18 7 L24 15' fill='none' stroke='%2324306b' stroke-width='2.4' stroke-linejoin='round'/%3E%3Ccircle cx='6' cy='16' r='1.4' fill='%239e2f28'/%3E%3Ccircle cx='18' cy='16' r='1.4' fill='%239e2f28'/%3E%3C/svg%3E");
+}
+.band.jaali {
+  background-color: var(--indigo);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Cpath d='M11 2 L20 11 L11 20 L2 11 Z' fill='none' stroke='%23e6e5d8' stroke-width='1.6'/%3E%3Ccircle cx='11' cy='11' r='2' fill='%23d9a21b'/%3E%3C/svg%3E");
+}
+.band.thin { height: 12px; }
+
+/* ---------- header ---------- */
+header.top { padding-block: 28px 32px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48px; align-items: end; }
+.brand { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.name { font: 700 clamp(56px, 7.4vw, 112px)/.9 var(--display); color: var(--indigo); letter-spacing: -.015em; margin: 0; }
+.seal {
+  display: inline-block; font: 700 clamp(26px, 3vw, 42px)/1 var(--display); color: var(--kora-3);
+  background: var(--madder); padding: .28em .42em .14em; transform: rotate(-3deg); border-radius: 3px;
+  filter: url(#rough); box-shadow: inset 0 0 0 3px var(--madder), inset 0 0 0 5px rgba(240,239,229,.55);
+}
+.dict { margin: 14px 0 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--ink-2); font-size: var(--t-body); }
+.say { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--indigo); background: transparent; color: var(--indigo); display: grid; place-items: center; cursor: pointer; flex: none; }
+.say:hover { background: var(--indigo); color: var(--kora); }
+.say svg { width: 20px; height: 20px; }
+.ipa { font-family: var(--body); letter-spacing: .02em; color: var(--ink); }
+.pos { font-size: var(--t-label); letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--ink-2); }
+.urdu { font: 400 18px/1 var(--urdu); color: var(--madder); position: relative; top: 2px; }
+.gloss { color: var(--ink); }
+.hero { margin: 18px 0 0; font: 600 clamp(24px, 2.7vw, 38px)/1.15 var(--display); color: var(--ink); text-wrap: balance; }
+
+/* the reading, as a cloth-shop price tag */
+.tag {
+  position: relative; background: var(--kora-3); padding: 18px 22px 16px 34px; min-width: 260px;
+  border: 1.5px dashed var(--indigo); border-radius: 4px 14px 14px 4px;
+  box-shadow: 0 0 0 5px var(--kora-3), 0 0 0 6.5px var(--indigo);
+}
+.tag::before { content: ""; position: absolute; left: 12px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: var(--kora); box-shadow: inset 0 0 0 1.5px var(--indigo); }
+.clock { font: 700 44px/1 var(--display); color: var(--indigo); font-variant-numeric: tabular-nums lining-nums; }
+.clock small { font: 600 var(--t-label)/1 var(--body); letter-spacing: .12em; color: var(--ink-2); margin-left: 6px; }
+.when { margin-top: 6px; font-size: var(--t-detail); color: var(--ink-2); }
+.when b { color: var(--ink); font-weight: 600; }
+.srcs { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; font-size: var(--t-detail); color: var(--ink); }
+.src { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rise); }
+.src .mk { width: 13px; height: 13px; color: var(--ink-2); }
+.src em { font-style: normal; color: var(--ink-2); }
+
+/* ---------- board of pots ---------- */
+.board { padding-block: 34px 18px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 30px 20px; }
+.pot { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.plabel { font: 600 var(--t-label)/1.3 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--madder); display: flex; align-items: center; gap: 6px; min-height: 2.6em; align-items: flex-end; }
+.plabel .mk { width: 14px; height: 14px; color: var(--madder); flex: none; margin-bottom: 1px; }
+.vessel { width: 100%; max-width: 210px; aspect-ratio: 200 / 232; display: block; }
+.vessel svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.stamp { font: 800 clamp(40px, 3.6vw, 58px)/.95 var(--display); color: var(--indigo); font-variant-numeric: tabular-nums lining-nums; letter-spacing: -.02em; margin-top: 4px; }
+.stamp span { font-size: .42em; font-weight: 700; margin-left: 2px; letter-spacing: 0; }
+.who { font: 600 var(--t-title)/1.3 var(--body); color: var(--ink); display: flex; align-items: center; gap: 7px; min-width: 0; }
+.who .mk { width: 18px; height: 18px; flex: none; color: var(--ink); object-fit: contain; }
+.mk.flag { border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(29,32,48,.2); }
+.mk svg { width: 100%; height: 100%; display: block; }
+.q { font: 600 var(--t-title)/1.3 var(--body); color: var(--ink); text-wrap: balance; }
+.sub { font-size: var(--t-detail); color: var(--ink-2); line-height: 1.4; }
+.mv { font: 600 var(--t-detail)/1.35 var(--body); }
+.mv.up { color: var(--rise); } .mv.down { color: var(--madder); }
+.chip { align-self: flex-start; font: 600 var(--t-label)/1 var(--body); letter-spacing: .04em; padding: 5px 8px; border-radius: 99px; background: var(--indigo); color: var(--kora-3); }
+.added { font-size: var(--t-detail); color: var(--ink-2); display: inline-flex; gap: 6px; align-items: center; }
+.new { font: 700 var(--t-label)/1 var(--body); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px; border-radius: 99px; background: var(--turmeric); color: var(--ink); }
+.legend { font-size: var(--t-detail); color: var(--ink-2); padding-block: 0 30px; display: flex; gap: 18px; flex-wrap: wrap; }
+.legend i { display: inline-block; width: 22px; border-top: 2px dashed var(--madder); vertical-align: middle; margin-right: 6px; }
+
+/* pot drawing */
+.wave { animation: drift var(--dur, 6s) linear infinite; }
+.water { animation: fill 1.6s cubic-bezier(.2,.7,.2,1) both; }
+.bob { animation: bob var(--bobdur, 5s) ease-in-out infinite alternate; }
+@keyframes drift { to { transform: translateX(var(--wl, -80px)); } }
+@keyframes fill { from { transform: translateY(var(--from, 200px)); } }
+@keyframes bob { from { transform: translateY(calc(var(--amp, 2px) * -1)); } to { transform: translateY(var(--amp, 2px)); } }
+
+/* ---------- section heads ---------- */
+.sec { padding-block: 40px 44px; }
+.sechead { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin: 0 0 6px; }
+.sechead h2 { margin: 0; font: 700 clamp(30px, 3.2vw, 46px)/1 var(--display); color: var(--indigo); display: flex; align-items: baseline; gap: 14px; }
+.sechead h2 .hi { font-weight: 800; }
+.sechead h2 .en { font-weight: 600; color: var(--ink); font-size: .62em; }
+.secnote { margin: 0 0 22px; color: var(--ink-2); font-size: var(--t-body); max-width: 62ch; }
+.subhead { font: 700 22px/1.2 var(--display); color: var(--ink); margin: 26px 0 12px; display: flex; align-items: center; gap: 10px; }
+.subhead .mk { width: 20px; height: 20px; color: var(--ink); }
+.subhead small { font: 500 var(--t-detail)/1 var(--body); color: var(--ink-2); }
+
+/* ---------- currents: a bahi-khata page ---------- */
+.ledger {
+  background: var(--kora-3); border-radius: 4px; position: relative; padding: 8px 0 8px 0;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 55px, rgba(36,48,107,.14) 55px 56px);
+  border: 1.5px solid var(--indigo);
+}
+.ledger::before, .ledger::after { content: ""; position: absolute; top: 0; bottom: 0; width: 1.5px; background: var(--madder); }
+.ledger::before { left: 54px; } .ledger::after { left: 59px; }
+.row { display: grid; grid-template-columns: 70px minmax(0, 2.2fr) minmax(0, 1.2fr) 150px 110px; gap: 16px; align-items: center; min-height: 56px; padding-right: 22px; }
+.row .no { font: 700 18px/1 var(--display); color: var(--madder); text-align: center; padding-left: 2px; width: 54px; font-variant-numeric: tabular-nums; }
+.row .t { font: 600 var(--t-title)/1.3 var(--body); color: var(--ink); min-width: 0; }
+.row .t small { display: block; font: 600 var(--t-label)/1.4 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 1px; }
+.row .l { font-size: var(--t-body); color: var(--ink); display: flex; gap: 6px; align-items: center; min-width: 0; }
+.row .l .mk { width: 16px; height: 16px; }
+.ft { font: 700 22px/1 var(--display); color: var(--ink); font-variant-numeric: tabular-nums lining-nums; display: flex; align-items: baseline; gap: 8px; white-space: nowrap; }
+.ft s { text-decoration: none; color: var(--ink-2); font-weight: 600; font-size: 16px; }
+.ft .ar { font-size: 15px; color: var(--ink-2); }
+.dl { justify-self: end; font: 800 17px/1 var(--display); padding: 9px 12px 7px; border-radius: 99px; border: 2px solid currentColor; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.dl.up { color: var(--rise); } .dl.down { color: var(--madder); }
+
+/* ---------- sport ---------- */
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; }
+.pair > div { min-width: 0; }
+.pair .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card {
+  background: var(--kora-3); border-radius: 6px; padding: 18px 18px 16px; position: relative; min-width: 0;
+  display: flex; flex-direction: column; gap: 12px;
+}
+/* kantha running stitch, inset from the edge */
+.card::after { content: ""; position: absolute; inset: 6px; border: 1.5px dashed rgba(36,48,107,.45); border-radius: 3px; pointer-events: none; }
+.card h4 { margin: 0; font: 600 var(--t-title)/1.3 var(--body); color: var(--ink); text-wrap: balance; }
+.card h4 a { color: inherit; text-decoration: none; }
+.card h4 a:hover { text-decoration: underline; }
+.star { color: var(--turmeric-ink); margin-right: 4px; }
+.opts { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.opt { display: grid; grid-template-columns: minmax(0, 1fr) 42px; gap: 4px 10px; align-items: center; }
+.opt .on { font-size: var(--t-body); display: flex; gap: 6px; align-items: center; min-width: 0; color: var(--ink); }
+.opt .on span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.opt .on .mk { width: 16px; height: 16px; flex: none; object-fit: contain; }
+.opt .pc { text-align: right; font: 700 17px/1 var(--display); color: var(--ink); font-variant-numeric: tabular-nums lining-nums; }
+.opt.lead .on { font-weight: 600; }
+.opt.lead .pc { color: var(--indigo); font-size: 20px; }
+.bar { grid-column: 1 / -1; height: 7px; background: var(--kora-2); border-radius: 99px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--indigo-soft); border-radius: 99px; }
+.opt.lead .bar i { background: var(--indigo); }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: var(--t-detail); color: var(--ink-2); margin-top: auto; padding-top: 2px; }
+.meta .fol { color: var(--indigo); font-weight: 600; }
+.cmv { font: 600 var(--t-detail)/1.3 var(--body); }
+.cmv.up { color: var(--rise); } .cmv.down { color: var(--madder); }
+.matches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 18px; }
+.match { border: 1.5px solid var(--indigo); border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0; background: transparent; }
+.match .k { font: 600 var(--t-label)/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--madder); }
+.match .vs { font: 600 var(--t-title)/1.3 var(--body); display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.match .vs .mk { width: 18px; height: 18px; object-fit: contain; }
+.split { display: flex; height: 26px; border-radius: 4px; overflow: hidden; font: 700 var(--t-detail)/26px var(--body); font-variant-numeric: tabular-nums; }
+.split span { padding: 0 8px; white-space: nowrap; overflow: hidden; min-width: 0; }
+.split .s0 { background: var(--indigo); color: var(--kora-3); }
+.split .s1 { background: var(--kora-2); color: var(--ink); }
+.split .s2 { background: var(--madder); color: var(--kora-3); }
+.match .who3 { display: flex; justify-content: space-between; font-size: var(--t-detail); color: var(--ink-2); gap: 8px; }
+
+footer { padding-block: 26px 40px; color: var(--ink-2); font-size: var(--t-detail); display: flex; justify-content: space-between; gap: 10px 30px; flex-wrap: wrap; }
+footer .made { font: 600 var(--t-title)/1.3 var(--display); color: var(--ink); }
+footer .made .mk { width: 14px; height: 14px; display: inline-block; vertical-align: -1px; color: var(--ink-2); }
+
+/* ---------- phone bar ---------- */
+.tabbar { display: none; }
+
+@media (max-width: 1100px) {
+  .board { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .board .pot:first-child { grid-column: span 2; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pair { grid-template-columns: minmax(0, 1fr); }
+  .row { grid-template-columns: 70px minmax(0, 1fr) 140px 96px; }
+  .row .l { display: none; }
+}
+/* the first pot, drawn wide: pot left, words right */
+.pot.wide { flex-direction: row; gap: 18px; align-items: flex-end; }
+.pot.wide .vessel { flex: 0 0 46%; }
+.pot.wide .txt { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.txt { display: contents; }
+.pot.wide .txt { display: flex; }
+
+@media (max-width: 600px) {
+  header.top { grid-template-columns: minmax(0, 1fr); padding-block: 18px 22px; gap: 18px; }
+  .brand { gap: 12px; }
+  .name { font-size: 54px; }
+  .seal { font-size: 24px; }
+  .dict { gap: 6px 8px; margin-top: 12px; }
+  .hero { font-size: 23px; margin-top: 12px; }
+  .tag { min-width: 0; padding: 14px 16px 12px 30px; }
+  .clock { font-size: 34px; }
+  .board { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; padding-block: 24px 14px; }
+  .board .pot:first-child { grid-column: span 2; }
+  .stamp { font-size: 40px; }
+  .pot .plabel { min-height: 0; }
+  .sec { padding-block: 30px 34px; }
+  .cards, .pair .cards, .matches { grid-template-columns: minmax(0, 1fr); }
+  .ledger::before { left: 34px; } .ledger::after { left: 38px; }
+  .row { grid-template-columns: 44px minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 4px 10px; padding: 12px 14px 12px 0; min-height: 0; }
+  .ledger { background-image: none; }
+  .row + .row { border-top: 1px solid rgba(36,48,107,.14); }
+  .row .no { width: 34px; font-size: 15px; grid-row: 1 / 3; align-self: start; padding-top: 3px; }
+  .row .t { grid-column: 2 / 4; }
+  .row .ft { grid-column: 2; font-size: 19px; }
+  .row .dl { grid-column: 3; font-size: 15px; padding: 7px 10px 5px; }
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  .tabbar {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    background: var(--indigo); color: var(--kora-3);
+    padding: 0 max(8px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(8px, env(safe-area-inset-left, 0px));
+    border-top: 12px solid transparent;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12'%3E%3Crect width='24' height='12' fill='%2324306b'/%3E%3Cpath d='M0 9 L6 3 L12 9 L18 3 L24 9' fill='none' stroke='%23d9a21b' stroke-width='2'/%3E%3C/svg%3E") 0 0 100% 0 / 12px 0 0 0 round;
+  }
+  .tabbar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 58px; color: inherit; text-decoration: none; font: 600 var(--t-label)/1 var(--body); letter-spacing: .04em; opacity: .82; }
+  .tabbar a[aria-current] { opacity: 1; color: var(--turmeric); }
+  .tabbar svg { width: 22px; height: 22px; }
+  .tabbar .hi { font: 700 13px/1 var(--display); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wave, .water, .bob { animation: none !important; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+</svg>
+
+<div class="band buti" aria-hidden="true"></div>
+<header class="top wrap">
+  <div>
+    <div class="brand">
+      <h1 class="name">Andaaza</h1>
+      <span class="seal" lang="hi">अंदाज़ा</span>
+    </div>
+    <p class="dict">
+      <button class="say" type="button" aria-label="Hear Andaaza said aloud" id="say">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+      </button>
+      <span class="ipa">/ən·daː·zaː/</span>
+      <span class="pos">noun · Hindi, Urdu</span>
+      <span class="urdu" lang="ur">اندازہ</span>
+      <span class="gloss">an estimate, a guess, a rough calculation.</span>
+    </p>
+    <p class="hero">Watch the world change its mind.</p>
+  </div>
+  <aside class="tag" aria-label="This reading">
+    <div class="clock" id="clock"></div>
+    <div class="when" id="when"></div>
+    <div class="srcs" id="srcs"></div>
+  </aside>
+</header>
+<div class="band chevron" aria-hidden="true"></div>
+
+<main>
+  <section class="wrap" aria-label="The seven biggest questions">
+    <div class="board" id="board"></div>
+    <p class="legend"><span><i></i>Dashed thread: where the water stood a day ago.</span><span>Each pot is filled to the chance the markets give.</span></p>
+  </section>
+
+  <div class="band jaali" aria-hidden="true"></div>
+
+  <section class="sec wrap" id="currents" aria-labelledby="h-cur">
+    <div class="sechead"><h2 id="h-cur"><span class="hi" lang="hi">धारा</span><span class="en">Currents</span></h2></div>
+    <p class="secnote">The biggest moves in a day, on markets where traders agree on the price.</p>
+    <div class="ledger" id="ledger"></div>
+  </section>
+
+  <div class="band buti" aria-hidden="true"></div>
+
+  <section class="sec wrap" id="sport" aria-labelledby="h-sport">
+    <div class="sechead"><h2 id="h-sport"><span class="hi" lang="hi">खेल</span><span class="en">Sport</span></h2></div>
+    <p class="secnote">Football, Formula 1 and tennis. ★ marks a market Andaaza always shows.</p>
+    <h3 class="subhead" id="fb-h">Football</h3>
+    <div class="cards" id="fb"></div>
+    <h3 class="subhead">Coming up <small>kick-off in IST</small></h3>
+    <div class="matches" id="next"></div>
+    <div class="pair">
+      <div><h3 class="subhead" id="f1-h">Formula 1</h3><div class="cards" id="f1"></div></div>
+      <div><h3 class="subhead" id="tn-h">Tennis</h3><div class="cards" id="tn"></div></div>
+    </div>
+  </section>
+</main>
+
+<div class="band chevron thin" aria-hidden="true"></div>
+<footer class="wrap">
+  <div class="made" id="made">Ideas by Parth. Typing by Claude. Complaints to Parth.</div>
+  <div>Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</div>
+</footer>
+
+<nav class="tabbar" aria-label="Sections">
+  <a href="#board" aria-current="page"><span class="hi" lang="hi">सब</span>Everything</a>
+  <a href="#sport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>Favourites</a>
+  <a href="#currents"><span class="hi" lang="hi">धारा</span>Currents</a>
+  <a href="#sport"><span class="hi" lang="hi">खेल</span>Sport</a>
+</nav>
+
+<script>
+(function () {
+  var A = window.AZ;
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function mark(m) {
+    if (!m) return '';
+    if (m.t === 'svg') return '<span class="mk">' + m.svg + '</span>';
+    return '<img class="mk' + (m.flag ? ' flag' : '') + '" src="' + esc(m.src) + '" alt="" loading="lazy">';
+  }
+  var WIN = { day: 'in a day', week: 'this week', month: 'in 30 days' };
+  function pts(n) { return n + (n === 1 ? ' pt' : ' pts'); }
+  function moveLong(c) {
+    if (c.was == null || !c.move) return '';
+    var up = c.move > 0;
+    return '<div class="mv ' + (up ? 'up' : 'down') + '">' + (up ? '▲ ' : '▼ ') + pts(Math.abs(c.move)) + ' ' + (WIN[c.window] || 'in a day') + ' · was ' + c.was + '%</div>';
+  }
+  function moveShort(c) {
+    if (c.was == null || !c.move) return '';
+    var up = c.move > 0, w = c.window === 'day' ? '' : ' ' + (WIN[c.window] || '');
+    return '<span class="cmv ' + (up ? 'up' : 'down') + '">' + (up ? '▲ ' : '▼ ') + pts(Math.abs(c.move)) + w + '</span>';
+  }
+  function money(v) {
+    if (v == null) return '';
+    if (v >= 1e6) return '$' + (v / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (v >= 1e3) return '$' + Math.round(v / 1e3) + 'k';
+    return '$' + v;
+  }
+  function istDate(iso) { return new Date(new Date(iso).getTime() + 5.5 * 3600e3); }
+  function dayWord(iso) {
+    var a = istDate(A.readAt), b = istDate(iso);
+    var da = Date.UTC(a.getUTCFullYear(), a.getUTCMonth(), a.getUTCDate());
+    var db = Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), b.getUTCDate());
+    var n = Math.round((db - da) / 864e5);
+    if (n === 0) return 'Today';
+    if (n === 1) return 'Tomorrow';
+    return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][b.getUTCDay()] + ' ' + b.getUTCDate() + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][b.getUTCMonth()];
+  }
+  function dayMove(c) {
+    if (c.hist && c.hist.day != null) return c.lead.prob - c.hist.day;
+    return c.window === 'day' ? (c.move || 0) : 0;
+  }
+
+  /* ---- header ---- */
+  $('clock').innerHTML = esc(A.readIST) + '<small>IST</small>';
+  $('when').innerHTML = 'Markets read at <b>' + esc(A.readIST) + '</b> · next update <b>' + esc(A.nextIST) + '</b>';
+  $('srcs').innerHTML = A.sources.map(function (s) {
+    return '<span class="src"><i class="dot" style="background:' + (s.ok ? 'var(--rise)' : 'var(--madder)') + '"></i>' + mark(s.mark) + esc(s.name) + (s.kind === 'play money' ? ' <em>(play money)</em>' : '') + '</span>';
+  }).join('');
+  $('say').addEventListener('click', function () {
+    try { var u = new SpeechSynthesisUtterance('अंदाज़ा'); u.lang = 'hi-IN'; u.rate = .85; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
+  });
+
+  /* ---- pots ---- */
+  // Pot silhouette in a 200 x 232 box: rim, neck, a round belly, a narrow foot.
+  var POT = 'M70,16 H130 Q137,16 137,23 Q137,30 128,32 L124,50 C170,60 195,98 193,140 C191,186 160,216 128,224 Q100,230 72,224 C40,216 9,186 7,140 C5,98 30,60 76,50 L72,32 Q63,30 63,23 Q63,16 70,16 Z';
+  var TOP = 16, BOT = 228, H = BOT - TOP;
+  // A different printed motif for each subject, carved as a 14px block.
+  var MOTIF = {
+    ai: '<circle cx="7" cy="7" r="1.9"/><circle cx="0" cy="0" r="1.2"/><circle cx="14" cy="0" r="1.2"/><circle cx="0" cy="14" r="1.2"/><circle cx="14" cy="14" r="1.2"/>',
+    football: '<path d="M0 10 L3.5 4 L7 10 L10.5 4 L14 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+    f1: '<rect x="0" y="0" width="7" height="7"/><rect x="7" y="7" width="7" height="7"/>',
+    cricket: '<path d="M7 2 C10 5 10 9 7 12 C4 9 4 5 7 2 Z"/>',
+    world: '<path d="M7 1 L13 7 L7 13 L1 7 Z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="7" cy="7" r="1.4"/>',
+    money: '<circle cx="7" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="7" r="1.2"/>'
+  };
+  function sea(c) {
+    var d = Math.abs(dayMove(c));
+    if (d < 2) return { amp: 2, wl: 100, dur: 11, bob: 1, bobdur: 6 };
+    if (d >= 8) return { amp: 6, wl: 44, dur: 3.4, bob: 3.5, bobdur: 2.2 };
+    return { amp: 3.6, wl: 72, dur: 6.5, bob: 2, bobdur: 4 };
+  }
+  function wavePath(y, amp, wl) {
+    var d = 'M' + (-wl * 3) + ',' + y;
+    for (var x = -wl * 3; x < 220 + wl * 2; x += wl) {
+      d += ' q' + (wl / 4) + ',' + (-amp) + ' ' + (wl / 2) + ',0 t' + (wl / 2) + ',0';
+    }
+    return d + ' V240 H' + (-wl * 3) + ' Z';
+  }
+  function potSVG(c, i) {
+    var p = c.lead.prob, y = BOT - p / 100 * H, s = sea(c), id = 'p' + i;
+    var motif = MOTIF[c.subject] || MOTIF.ai;
+    var yd = c.hist && c.hist.day != null && c.hist.day !== p ? BOT - c.hist.day / 100 * H : null;
+    var bandY = 60, bandH = 20;
+    var out = '<svg viewBox="0 0 200 232" role="img" aria-label="' + esc(c.label + ': ' + (c.yesno ? c.sub : c.lead.name) + ', ' + p + ' per cent') + '">';
+    out += '<defs>' +
+      '<clipPath id="' + id + 'c"><path d="' + POT + '"/></clipPath>' +
+      '<clipPath id="' + id + 'w"><rect x="0" y="' + y + '" width="200" height="' + (240 - y) + '"/></clipPath>' +
+      '<radialGradient id="' + id + 'g" cx="34%" cy="38%" r="75%"><stop offset="0" stop-color="#d79a74"/><stop offset=".55" stop-color="#c27a52"/><stop offset="1" stop-color="#9c5634"/></radialGradient>' +
+      '<linearGradient id="' + id + 'i" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d3d86"/><stop offset="1" stop-color="#17204b"/></linearGradient>' +
+      '<pattern id="' + id + 'd" width="14" height="14" patternUnits="userSpaceOnUse" style="color:#f0e2c6"><g fill="currentColor">' + motif + '</g></pattern>' +
+      '<pattern id="' + id + 'e" width="14" height="14" patternUnits="userSpaceOnUse" style="color:#d9a21b"><g fill="currentColor">' + motif + '</g></pattern>' +
+      '</defs>';
+    out += '<g clip-path="url(#' + id + 'c)">';
+    out += '<rect width="200" height="232" fill="url(#' + id + 'g)"/>';
+    out += '<rect x="0" y="' + bandY + '" width="200" height="' + bandH + '" fill="#8f4a2a"/><rect x="0" y="' + bandY + '" width="200" height="' + bandH + '" fill="url(#' + id + 'd)"/>';
+    out += '<g class="water" style="--from:' + (BOT - y + 10) + 'px"><g class="bob" style="--amp:' + s.bob + 'px;--bobdur:' + s.bobdur + 's"><g class="wave" style="--wl:' + (-s.wl) + 'px;--dur:' + s.dur + 's">' +
+      '<path d="' + wavePath(y, s.amp, s.wl) + '" fill="url(#' + id + 'i)"/>' +
+      '<path d="' + wavePath(y, s.amp, s.wl).replace(/ V240.*$/, '') + '" fill="none" stroke="#6d80cf" stroke-width="2"/>' +
+      '</g></g></g>';
+    out += '<g clip-path="url(#' + id + 'w)"><rect x="0" y="' + bandY + '" width="200" height="' + bandH + '" fill="#121a40"/><rect x="0" y="' + bandY + '" width="200" height="' + bandH + '" fill="url(#' + id + 'e)"/></g>';
+    out += '<rect x="0" y="' + (bandY - 1.5) + '" width="200" height="1.5" fill="#5e2e18" opacity=".7"/><rect x="0" y="' + (bandY + bandH) + '" width="200" height="1.5" fill="#5e2e18" opacity=".7"/>';
+    if (yd != null) out += '<line x1="0" x2="200" y1="' + yd + '" y2="' + yd + '" stroke="#e8c9b8" stroke-width="2" stroke-dasharray="6 5"/><line x1="0" x2="200" y1="' + yd + '" y2="' + yd + '" stroke="#9e2f28" stroke-width="2" stroke-dasharray="6 5" stroke-dashoffset="5.5" opacity=".9"/>';
+    out += '</g>';
+    out += '<path d="' + POT + '" fill="none" stroke="#6b3519" stroke-width="2.6"/>';
+    out += '<path d="M66,23 Q100,29 134,23" fill="none" stroke="#efc9a9" stroke-width="2" opacity=".7"/>';
+    out += '</svg>';
+    return out;
+  }
+  $('board').innerHTML = A.board.map(function (c, i) {
+    var head = c.yesno ? '<div class="q">' + esc(c.sub) + '</div>' :
+      '<div class="who">' + mark(c.lead.mark) + '<span>' + esc(c.lead.name) + '</span></div><div class="sub">' + esc(c.sub) + '</div>';
+    var chip = c.chip && c.chip.prob != null ? '<span class="chip">' + esc(c.chip.name) + ' ' + c.chip.prob + '%</span>' : '';
+    var added = c.added ? '<div class="added">' + (c.added.isNew ? '<span class="new">New</span>' : '') + esc(c.added.label) + '</div>' : '';
+    return '<article class="pot' + (i === 0 ? ' first' : '') + '">' +
+      '<div class="plabel">' + mark(c.labelMark) + esc(c.label) + '</div>' +
+      '<a class="vessel" href="' + esc(c.url) + '" target="_blank" rel="noopener">' + potSVG(c, i) + '</a>' +
+      '<div class="txt"><div class="stamp">' + c.lead.prob + '<span>%</span></div>' + head + chip + moveLong(c) + added + '</div>' +
+      '</article>';
+  }).join('');
+  // On narrow screens the first pot is drawn wide (pot left, words right); fill a two- or four-column grid exactly.
+  var first = document.querySelector('.pot.first'), mq = window.matchMedia('(max-width: 1100px)');
+  function wide() { first.classList.toggle('wide', mq.matches); }
+  wide(); if (mq.addEventListener) mq.addEventListener('change', wide);
+
+  /* ---- currents ledger ---- */
+  $('ledger').innerHTML = A.currents.map(function (c, i) {
+    var up = c.move > 0, leader = c.yesno ? 'Yes' : c.lead.name;
+    return '<div class="row">' +
+      '<div class="no">' + (i + 1) + '</div>' +
+      '<div class="t"><small>' + esc(c.subjectLabel) + '</small><a href="' + esc(c.url) + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">' + esc(c.title) + '</a></div>' +
+      '<div class="l">' + mark(c.lead.mark) + '<span>' + esc(leader) + '</span></div>' +
+      '<div class="ft"><s>' + c.was + '%</s><span class="ar" aria-hidden="true">→</span>' + c.lead.prob + '%</div>' +
+      '<div class="dl ' + (up ? 'up' : 'down') + '">' + (up ? '▲ ' : '▼ ') + pts(Math.abs(c.move)) + '</div>' +
+      '</div>';
+  }).join('');
+
+  /* ---- sport cards ---- */
+  function card(c) {
+    var opts = c.outcomes.slice(0, 3).map(function (o, j) {
+      return '<li class="opt' + (j === 0 ? ' lead' : '') + '"><span class="on">' + mark(o.mark) + '<span>' + esc(o.name) + '</span></span><span class="pc">' + o.prob + '%</span><span class="bar"><i style="width:' + o.prob + '%"></i></span></li>';
+    }).join('');
+    var meta = [];
+    meta.push(esc(c.source));
+    if (c.today != null) meta.push(money(c.today) + ' today');
+    if (c.also && c.also.length) meta.push('also: ' + c.also.map(function (a) { return esc(a.source) + ' ' + a.prob + '%'; }).join(', '));
+    if (c.followed) meta.push('<span class="fol">Following</span>');
+    var added = c.added ? (c.added.isNew ? '<span class="new">New</span> ' : '') + esc(c.added.label) : '';
+    return '<article class="card"><h4>' + (c.star ? '<span class="star" aria-label="Always shown">★</span>' : '') + '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.title) + '</a></h4>' +
+      '<ul class="opts">' + opts + '</ul>' + moveShort(c) +
+      '<div class="meta">' + meta.map(function (m) { return '<span>' + m + '</span>'; }).join('') + (added ? '<span class="added">' + added + '</span>' : '') + '</div></article>';
+  }
+  $('fb').innerHTML = A.topics.football.items.slice(0, 4).map(card).join('');
+  $('f1').innerHTML = A.topics.f1.items.slice(0, 2).map(card).join('');
+  $('tn').innerHTML = A.topics.tennis.items.slice(0, 2).map(card).join('');
+  $('fb-h').insertAdjacentHTML('afterbegin', mark(A.marks.uefa));
+  $('f1-h').insertAdjacentHTML('afterbegin', mark(A.marks.f1));
+  $('tn-h').insertAdjacentHTML('afterbegin', mark(A.marks.atp));
+
+  $('next').innerHTML = A.topics.football.next.slice(0, 3).map(function (m) {
+    var sides = m.outcomes.filter(function (o) { return o.name !== 'Draw'; });
+    var draw = m.outcomes.find(function (o) { return o.name === 'Draw'; });
+    var order = [sides[0], draw, sides[1]].filter(Boolean);
+    var teams = m.title.split(' v ');
+    return '<article class="match">' +
+      '<div class="k">' + esc(dayWord(m.kickoff)) + ' · ' + esc(m.kickoffIST) + ' IST' + (m.comp ? ' · ' + esc(m.comp) : '') + '</div>' +
+      '<div class="vs">' + mark(sides[0] && sides[0].mark) + '<span>' + esc(teams[0]) + '</span><span style="color:var(--ink-2);font-weight:500">v</span>' + mark(sides[1] && sides[1].mark) + '<span>' + esc(teams[1]) + '</span></div>' +
+      '<div class="split" role="img" aria-label="' + esc(order.map(function (o) { return o.name + ' ' + o.prob + '%'; }).join(', ')) + '">' +
+      order.map(function (o, j) { return '<span class="s' + j + '" style="flex:' + o.prob + ' 1 0">' + o.prob + '</span>'; }).join('') + '</div>' +
+      '<div class="who3">' + order.map(function (o) { return '<span>' + esc(o.name === 'Draw' ? 'Draw' : o.name.replace(/ (CF|FC)$/, '').replace(/^FC /, '')) + '</span>'; }).join('') + '</div>' +
+      '</article>';
+  }).join('');
+  $('made').insertAdjacentHTML('beforeend', ' ' + mark(A.marks.claude));
+})();
+</script>
+</body>
+</html>

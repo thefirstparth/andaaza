@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andaaza · Next</title>
+<meta name="theme-color" content="#e9edf3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&text=%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%81&display=swap">
+<script src="data.js"></script>
+<style>
+/* F · Andaaza Next. Today's Andaaza, refined: the same gauges, type and hue wheel on a soft haze ground. The one
+   small risk: every gauge carries its own month of tide marks (30d, 7d, 1d) beside the scale.
+   Layout: a compact masthead, the board on shared rows, Currents as a ribbon of small gauges, Sport as a tinted band. */
+:root{
+  color-scheme:light;
+  --bg:oklch(.948 .011 252);          /* haze: between paper and slate */
+  --bg2:oklch(.925 .014 252);         /* a section band */
+  --surface:oklch(.985 .005 252);     /* cards, a step lighter than the ground */
+  --ink:oklch(.22 .022 252);--ink2:oklch(.4 .02 252);--muted:oklch(.45 .018 252);
+  --line:oklch(.86 .012 252);--line2:oklch(.9 .01 252);
+  --sea:oklch(.42 .15 268);--marigold:oklch(.66 .16 62);--marigold-ink:oklch(.52 .14 58);
+  --up:oklch(.5 .14 150);--down:oklch(.52 .18 27);
+  --La:.55;--Ca:.17;--Lc:.94;--Cc:.04;--on:#fff;
+  --shadow:0 1px 1px oklch(.22 .02 252 / .05),0 14px 30px -20px oklch(.22 .02 252 / .35);
+  --gut:clamp(16px,3vw,64px);
+  --sans:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:"Instrument Serif","Iowan Old Style",Palatino,Georgia,serif;
+  --fig:"Bricolage Grotesque","Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+  --deva:"Tiro Devanagari Hindi","Noto Serif Devanagari","Kohinoor Devanagari",serif;
+}
+[data-k]{--a:oklch(var(--La) calc(var(--Ca) * var(--k,1)) var(--h));--ac:oklch(var(--Lc) calc(var(--Cc) * var(--k,1)) var(--h));--a2:oklch(.7 calc(.12 * var(--k,1)) var(--h))}
+[data-k=f1]{--h:27}[data-k=tennis]{--h:50}[data-k=india]{--h:68;--k:.9}[data-k=money]{--h:88;--k:.72;--La:.5}[data-k=football]{--h:150}[data-k=cricket]{--h:180;--k:.85}
+[data-k=ai]{--h:222;--k:.95}[data-k=world]{--h:262;--k:.9}[data-k=nba]{--h:285}[data-k=film]{--h:308}[data-k=celebs]{--h:340}[data-k=ott]{--h:5}[data-k=other]{--h:240;--k:.2}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--sea);outline-offset:3px;border-radius:8px}
+.wrap{padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.mk{display:inline-flex;width:1.05em;height:1.05em;flex:none;vertical-align:-.16em}
+.mk svg{width:100%;height:100%}
+img.mk{object-fit:contain}
+img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02 252 / .12)}
+.lbl11{font:700 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+
+/* ---- masthead: the name a size smaller, one quiet row for the word and the reading ---- */
+.mast{position:relative;isolation:isolate;padding-block:clamp(22px,3.6vw,46px) clamp(16px,2.2vw,26px)}
+.mast::before{content:"";position:absolute;inset:0;z-index:-1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='44' viewBox='0 0 120 44'%3E%3Cg fill='none' stroke-width='3' stroke-linecap='round'%3E%3Cpath stroke='%233b46a8' stroke-opacity='.10' d='M-10 8q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3Cpath stroke='%23d98a1a' stroke-opacity='.14' d='M-10 19q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3Cpath stroke='%233b46a8' stroke-opacity='.10' d='M-10 30q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3Cpath stroke='%236b74c8' stroke-opacity='.07' d='M-10 41q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3C/g%3E%3C/svg%3E") 0 0/120px 44px;transform-origin:0 0;-webkit-mask:radial-gradient(120% 140% at 30% 0,#000 30%,transparent 72%);mask:radial-gradient(120% 140% at 30% 0,#000 30%,transparent 72%)}
+.mrow{display:flex;align-items:flex-end;justify-content:space-between;gap:20px 32px;flex-wrap:wrap}
+.mast h1{margin:0;display:flex;align-items:baseline;gap:0 .14em;font:italic 400 clamp(54px,8.6vw,118px)/.84 var(--display);letter-spacing:-.02em}
+.drop{width:.6em;height:.6em;flex:none;align-self:baseline;position:relative;top:-.04em}
+.drop .o{fill:none;stroke:var(--sea);stroke-width:3.2}
+.drop .w{fill:var(--sea)}
+.seal{font:400 .3em/1 var(--deva);font-style:normal;color:var(--marigold-ink);border:1.5px solid color-mix(in oklab,var(--marigold) 70%,transparent);border-radius:.32em;padding:.2em .32em .1em;align-self:center;position:relative;top:-.12em;background:color-mix(in oklab,var(--marigold) 8%,transparent)}
+.ctl{display:flex;gap:6px;padding:4px;border-radius:999px;background:color-mix(in oklab,var(--surface) 70%,transparent);border:1px solid var(--line2);box-shadow:var(--shadow)}
+.ctl button{display:inline-flex;align-items:center;gap:6px;border:0;background:none;border-radius:999px;padding:7px 12px;font:600 13.5px/1 var(--sans)}
+.ctl button.on{background:var(--ink);color:var(--surface)}
+.ctl svg{width:16px;height:16px}
+.sub{display:flex;align-items:center;justify-content:space-between;gap:12px 28px;flex-wrap:wrap;margin-top:clamp(14px,1.6vw,22px)}
+.hero{margin:0;font:400 clamp(22px,2.3vw,32px)/1.15 var(--sans);letter-spacing:-.015em;text-wrap:balance}
+.quiet{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;margin-top:10px;font:400 13.5px/1.4 var(--sans);color:var(--ink2)}
+.say{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;border:0;background:var(--sea);color:#fff}
+.say svg{width:15px;height:15px}
+.ipa{color:var(--muted)}
+.pos{font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ur{font:16px/1 "Noto Nastaliq Urdu","Noto Naskh Arabic","Geeza Pro",serif;color:var(--marigold-ink)}
+.def{color:var(--ink)}
+.reading{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;padding:8px 8px 8px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--line2);box-shadow:var(--shadow);font:500 12.5px/1.2 var(--sans);color:var(--ink2)}
+.reading .clock{font:700 22px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--ink);letter-spacing:-.01em}
+.reading .clock small{font:700 11px var(--sans);letter-spacing:.08em;margin-left:3px;color:var(--muted)}
+.reading b{color:var(--ink)}
+.srcs{display:flex;gap:4px}
+.src{display:inline-flex;align-items:center;gap:5px;padding:5px 9px 5px 8px;border-radius:999px;background:var(--bg);font-weight:600}
+.src .mk{width:13px;height:13px;color:var(--ink2)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--up);flex:none}
+
+/* ---- the water: a box from the floor to the level, masked by one wave shape; inside it, a full-height copy of the
+   dry layer in white, so every letter is colour above the line and white below it (percentages only) ---- */
+@property --bob{syntax:"<number>";inherits:true;initial-value:0}
+.wbox{position:absolute;left:0;right:0;bottom:0;height:calc((var(--pv) + var(--bob)) * 1% + 5px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/var(--ww) 3000px repeat-x;mask:var(--wave) 0 0/var(--ww) 3000px repeat-x}
+/* the meniscus: a pale band riding the crest, so the water reads as a surface, not a fill */
+.wbox::before{content:"";position:absolute;inset:0 0 auto;height:16px;background:linear-gradient(#fff6 0 30%,#fff0);pointer-events:none;z-index:1}
+.wbox>.wfull{top:auto;bottom:0;height:calc((100% - 5px) * 100 / (var(--pv) + var(--bob)))}
+:root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 3000'%3E%3Cpath d='M0 5C12 1 24 1 36 5S60 9 72 5V3000H0z'/%3E%3C/svg%3E");--ww:72px;--wt:11s;--amp:1}
+[data-sea=calm]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 3000'%3E%3Cpath d='M0 5C20 2.6 40 2.6 60 5S100 7.4 120 5V3000H0z'/%3E%3C/svg%3E");--ww:120px;--wt:18s;--amp:.5}
+[data-sea=choppy]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 3000'%3E%3Cpath d='M0 5C7.3 -.4 14.7 -.4 22 5S36.7 10.4 44 5V3000H0z'/%3E%3C/svg%3E");--ww:44px;--wt:5s;--amp:2}
+@keyframes tide{to{-webkit-mask-position:var(--ww) 0;mask-position:var(--ww) 0}}
+@keyframes breathe{0%,100%{--bob:calc(var(--amp) * -1)}50%{--bob:var(--amp)}}
+@media (prefers-reduced-motion:no-preference){
+  .wbox{animation:tide var(--wt) linear infinite;animation-delay:calc(var(--ph,0) * -1s)}
+  [data-sea]{animation:breathe calc(var(--wt) * .7) ease-in-out infinite;animation-delay:calc(var(--ph,0) * -.7s)}
+}
+
+/* ---- the tide board: seven gauges on shared rows (label, gauge, text) ---- */
+.board{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0 clamp(12px,1.3vw,22px);padding-block:clamp(18px,2.4vw,30px) clamp(26px,3vw,40px);border-top:1.5px solid var(--ink)}
+.post{display:grid;grid-template-rows:auto auto 1fr;row-gap:10px;min-width:0}
+@supports (grid-template-rows:subgrid){.board{grid-template-rows:auto auto auto}.post{grid-row:span 3;grid-template-rows:subgrid}}
+.post .lab{display:flex;align-items:center;align-self:end;gap:7px;min-width:0;color:var(--a)}
+.post .lab .mk{width:15px;height:15px}
+.post .lab span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.staff{position:relative;height:clamp(220px,19.5vw,300px);border-radius:26px;background:var(--ac);overflow:hidden;border:1px solid color-mix(in oklab,var(--a) 20%,transparent);
+  box-shadow:inset 0 1px 0 #fffb,inset 0 0 0 1px #ffffff40,inset 0 -18px 30px -24px color-mix(in oklab,var(--a) 60%,transparent),0 10px 24px -20px color-mix(in oklab,var(--a) 70%,transparent);transition:border-color .2s,transform .2s}
+.post:hover .staff{border-color:var(--a);transform:translateY(-2px)}
+/* glass edge: a soft vertical sheen on the left, over both layers */
+.staff::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,#ffffff38 0,#fff0 18%);pointer-events:none;z-index:3}
+.l{position:absolute;inset:0;color:var(--a)}
+/* the scale: fine ticks every 5, longer at 25s, numbered at 25, 50, 75 */
+.l::after{content:"";position:absolute;right:0;top:0;bottom:0;width:12px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 5%);opacity:.38;-webkit-mask:linear-gradient(to left,#000 0 5px,transparent 5px);mask:linear-gradient(to left,#000 0 5px,transparent 5px)}
+.l .t25{position:absolute;right:0;width:11px;border-top:1.5px solid currentColor;opacity:.55}
+.sc{position:absolute;right:15px;transform:translateY(50%);font:700 9.5px/1 var(--sans);opacity:.62}
+.big{position:absolute;left:14px;bottom:14px;font:750 clamp(42px,4.4vw,70px)/.8 var(--fig);font-variation-settings:"wdth" 75,"opsz" 96;letter-spacing:-.025em}
+.big small{font-size:.38em;margin-left:2px;letter-spacing:0;font-weight:700}
+.was{position:absolute;left:0;right:0;bottom:calc(var(--pp) * 1%);border-top:1.5px dashed currentColor;opacity:.6}
+.wl{position:absolute;right:30px;bottom:calc(var(--pp) * 1%);transform:translateY(-3px);font:700 11px/1 var(--sans);white-space:nowrap}
+.wl.dn{transform:translateY(calc(100% + 4px))}
+/* the month of tide marks: a short solid notch with its age, beside the scale */
+.hm{position:absolute;right:0;bottom:calc(var(--pp) * 1%);display:flex;align-items:center;gap:3px;transform:translateY(50%);font:700 9px/1 var(--sans);letter-spacing:.02em}
+.hm i{width:16px;border-top:2px solid currentColor;display:block}
+.hm span{order:-1;padding:1px 3px;border-radius:4px;background:color-mix(in oklab,currentColor 14%,transparent)}
+.hd{display:flex;flex-direction:column;gap:3px;min-width:0}
+.who{display:flex;align-items:center;gap:7px;font:700 16px/1.15 var(--sans)}
+.who .mk{width:18px;height:18px}
+.who.ask{display:block;font-size:14.5px;line-height:1.28}
+.q{font:500 12.5px/1.35 var(--sans);color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.d{font:700 12.5px/1.3 var(--sans);font-style:normal}
+.d.up{color:var(--up)}.d.dn{color:var(--down)}
+.dl{margin-top:5px}
+.added{display:inline-flex;align-items:center;gap:6px;font:500 12.5px/1.3 var(--sans);color:var(--muted)}
+.nw{font:700 11px/1 var(--sans);letter-spacing:.06em;padding:3px 7px;border-radius:999px;background:var(--marigold);color:oklch(.22 .05 60)}
+
+/* ---- sections: tinted bands ruled off from the next ---- */
+.band{padding-block:clamp(26px,3.4vw,46px);border-top:1px solid var(--line)}
+.band.tint{background:var(--bg2)}
+.sh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sh h2{margin:0;font:italic 400 clamp(40px,4.4vw,60px)/.95 var(--display);letter-spacing:-.015em}
+.sh .hs{font:400 clamp(18px,1.6vw,24px)/1 var(--deva);color:var(--marigold-ink);position:relative;top:-.2em}
+.desc{margin:6px 0 0;font:400 13.5px/1.45 var(--sans);color:var(--muted);max-width:62ch}
+
+/* ---- Currents: a ribbon of small gauges ---- */
+.ribbon{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(10px,1.2vw,18px);margin-top:20px}
+.cur{display:grid;grid-template-rows:auto auto;gap:10px;min-width:0}
+.cur .staff{height:clamp(130px,11vw,160px);border-radius:20px}
+.cur .big{font-size:clamp(34px,3.1vw,46px);left:12px;bottom:12px}
+.cur .ctx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.cur .lead{font:700 14.5px/1.2 var(--sans)}
+.cur .mq{font:500 12.5px/1.35 var(--sans);color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cur .sj{color:var(--a)}
+.cur .delta{position:absolute;top:10px;left:12px;z-index:4;font:700 12.5px/1 var(--sans);padding:5px 8px;border-radius:999px;background:var(--surface);box-shadow:var(--shadow)}
+
+/* ---- Sport: subject headings, cards (a gauge beside the field), matches ---- */
+.subj{margin-top:clamp(22px,2.4vw,32px)}
+.subj>h3{display:flex;align-items:center;gap:8px;margin:0 0 12px;color:var(--a)}
+.subj>h3 .mk{width:15px;height:15px}
+.subj>h3 em{font-style:normal;color:var(--muted);letter-spacing:.08em}
+.cards{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:clamp(12px,1.3vw,18px)}
+.cards .wide{grid-column:1/-1}
+.cards.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tk{display:grid;grid-template-columns:clamp(96px,8vw,124px) minmax(0,1fr);border-radius:24px;background:var(--surface);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line2);min-width:0}
+.tk:hover{border-color:color-mix(in oklab,var(--a) 50%,transparent)}
+.tk .staff{height:auto;min-height:150px;border-radius:0;border:0;box-shadow:inset -1px 0 0 color-mix(in oklab,var(--a) 18%,transparent)}
+.tk .staff::after{display:none}
+.tk .big{font-size:40px;left:12px;bottom:12px}
+.tk .bd{display:flex;flex-direction:column;gap:10px;padding:14px 18px 14px;min-width:0}
+.tk h4{margin:0;font:700 14.5px/1.3 var(--sans);text-wrap:balance}
+.star{color:var(--marigold-ink);margin-right:4px}
+.fol{display:inline-block;margin-left:6px;font:700 11px/1 var(--sans);letter-spacing:.06em;color:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:3px 7px;vertical-align:2px}
+.field{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.field li{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px;font:500 13.5px/1.2 var(--sans)}
+.field .nm{display:flex;align-items:center;gap:7px;min-width:0}
+.field .nm span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.field .pc{font:700 15px/1 var(--fig);font-variation-settings:"wdth" 75}
+.field .bar{grid-column:1/-1;height:4px;border-radius:4px;background:color-mix(in oklab,var(--a) 12%,transparent);overflow:hidden}
+.field .bar i{display:block;height:100%;border-radius:inherit;background:var(--a);width:calc(var(--w) * 1%)}
+.field li:not(:first-child) .bar i{background:var(--a2)}
+.meta{display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px;margin-top:auto;font:500 12.5px/1.3 var(--sans);color:var(--muted)}
+.meta .ex{display:inline-flex;align-items:center;gap:5px;color:var(--ink2)}
+.meta .ex .mk{width:13px;height:13px}
+.tk.wide{grid-template-columns:clamp(140px,13vw,190px) minmax(0,1fr)}
+.tk.wide .staff{min-height:190px}
+.tk.wide .big{font-size:64px;left:16px;bottom:16px}
+.tk.wide .bd{padding:18px 24px}
+.tk.wide h4{font-size:18px}
+.tk.wide .field{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 28px}
+.matches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.3vw,18px)}
+.mt{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-radius:24px;background:var(--surface);border:1px solid var(--line2);min-width:0}
+.mt .when{display:flex;justify-content:space-between;gap:8px;color:var(--muted)}
+.mt .sides{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;font:700 14.5px/1.2 var(--sans)}
+.mt .sides .r{text-align:right;justify-content:flex-end}
+.mt .side{display:flex;align-items:center;gap:7px;min-width:0}
+.mt .side .mk{width:22px;height:22px}
+.mt .v{font:500 12.5px var(--sans);color:var(--muted)}
+.split{display:flex;height:26px;border-radius:999px;overflow:hidden;gap:2px;font:700 12.5px/26px var(--fig);font-variation-settings:"wdth" 75;color:#fff}
+.split span{padding:0 8px;min-width:0;white-space:nowrap;overflow:hidden}
+.split .a{background:var(--a)}.split .x{background:var(--line);color:var(--ink2);text-align:center}.split .b{background:var(--a2);text-align:right;color:oklch(.2 .03 150)}
+footer{padding-block:28px calc(36px + env(safe-area-inset-bottom,0px));border-top:1.5px solid var(--ink);font:400 13.5px/1.5 var(--sans);color:var(--ink2);display:flex;justify-content:space-between;gap:10px 30px;flex-wrap:wrap}
+footer .aside{display:inline-flex;align-items:center;gap:8px}
+footer .aside .mk{width:15px;height:15px;color:var(--muted)}
+.tabbar{display:none}
+
+/* ---- tablet ---- */
+@media (max-width:1100px){
+  .board{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:22px}
+  .ribbon{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:22px}
+  .cards{--n:2!important}.matches{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cards:has(> :nth-child(2):last-child){--n:1!important}
+}
+/* ---- phone: the installed app. A compact bar, the board as a snap carousel, a bottom tab bar ---- */
+@media (max-width:600px){
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  .mast{padding-block:14px 14px}
+  .mrow{flex-wrap:nowrap;align-items:center}
+  .mast h1{font-size:44px}
+  .ctl{display:none}
+  .sub{margin-top:12px}
+  .hero{font-size:21px}
+  .quiet{font-size:12.5px;gap:6px 10px}
+  .reading{width:100%;border-radius:20px;padding:10px 12px;justify-content:space-between}
+  .reading .rt{flex:1 1 auto}
+  .board{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px));scroll-padding-inline:max(16px,env(safe-area-inset-left,0px));scrollbar-width:none;border-top:0;padding-top:6px}
+  .board::-webkit-scrollbar{display:none}
+  .post{flex:0 0 40%;scroll-snap-align:start;grid-template-rows:auto auto 1fr}
+  .staff{height:188px;border-radius:22px}
+  .big{font-size:46px}
+  .wl,.sc{display:none}
+  .boardhint{display:flex}
+  .ribbon{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px));scrollbar-width:none}
+  .ribbon::-webkit-scrollbar{display:none}
+  .cur{flex:0 0 36%;scroll-snap-align:start}
+  .cards{--n:1!important}.matches{grid-template-columns:minmax(0,1fr)}
+  .tk,.tk.wide{grid-template-columns:96px minmax(0,1fr)}
+  .tk.wide .staff{min-height:150px}.tk.wide .big{font-size:40px;left:12px;bottom:12px}.tk.wide .bd{padding:14px 16px}.tk.wide h4{font-size:14.5px}.tk.wide .field{grid-template-columns:minmax(0,1fr);gap:6px}
+  .tk .bd{padding:12px 14px}
+  .tabbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:20;padding:6px max(10px,env(safe-area-inset-left,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-right,0px));background:color-mix(in oklab,var(--surface) 94%,transparent);border-top:1px solid var(--line)}
+  @supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){.tabbar{background:color-mix(in oklab,var(--surface) 72%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}}
+  .tabbar a{display:flex;flex-direction:column;align-items:center;gap:3px;min-height:52px;justify-content:center;border-radius:14px;font:600 11px/1 var(--sans);color:var(--ink2)}
+  .tabbar a svg{width:22px;height:22px}
+  .tabbar a[aria-current]{color:var(--sea)}
+  .tabbar a[aria-current] svg{background:color-mix(in oklab,var(--sea) 14%,transparent);border-radius:999px;padding:2px 14px;width:52px;box-sizing:content-box;height:22px}
+}
+.boardhint{display:none}
+</style>
+</head>
+<body>
+<header class="mast wrap">
+  <div class="mrow">
+    <h1><svg class="drop" viewBox="0 0 64 64" role="img" aria-label="Andaaza: a drop of water, filled to its level"><defs><clipPath id="dc"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dc)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="seal" lang="hi">अंदाज़ा</span></h1>
+    <div class="ctl" role="group" aria-label="Views">
+      <button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 3v4M16 3v4"/></svg>Poster</button>
+      <button type="button" class="on"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 15.3A8 8 0 0 1 8.7 4 8 8 0 1 0 20 15.3z"/></svg>Night</button>
+    </div>
+  </div>
+  <div class="sub">
+    <div>
+      <p class="hero">Watch the world change its mind.</p>
+      <div class="quiet"><button class="say" type="button" aria-label="Hear how Andaaza is said"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><span class="ipa">/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur">اندازہ</span><span class="def">an estimate, a guess, a rough calculation.</span></div>
+    </div>
+    <div class="reading" id="reading"></div>
+  </div>
+</header>
+
+<main>
+  <section class="wrap" aria-label="The tide board"><div class="board" id="board"></div></section>
+  <section class="band" aria-labelledby="ch"><div class="wrap">
+    <div class="sh"><h2 id="ch">Currents</h2><span class="hs" lang="hi">धारा</span></div>
+    <p class="desc">Where traders changed their minds most in a day, on prices they agree on.</p>
+    <div class="ribbon" id="currents"></div>
+  </div></section>
+  <section class="band tint" aria-labelledby="sp" data-k="football"><div class="wrap">
+    <div class="sh"><h2 id="sp">Sport</h2><span class="hs" lang="hi">खेल</span></div>
+    <p class="desc">Formula 1, football, cricket, tennis and the NBA. Markets already on the board above are not repeated.</p>
+    <div id="sport"></div>
+  </div></section>
+</main>
+<footer class="wrap">
+  <span class="aside" id="aside">Ideas by Parth. Typing by Claude. Complaints to Parth.</span>
+  <span>Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</span>
+</footer>
+<nav class="tabbar" aria-label="Pages">
+  <a href="#" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3C10 6.5 5.5 11 5.5 15a6.5 6.5 0 0 0 13 0C18.5 11 14 6.5 12 3z"/></svg>Everything</a>
+  <a href="#favourites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>Favourites</a>
+  <a href="#currents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 9q4.5-4 9 0t9 0M3 15q4.5-4 9 0t9 0"/></svg>Currents</a>
+  <a href="#subjects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="3.5"/><rect x="4" y="13" width="7" height="7" rx="3.5"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Subjects</a>
+</nav>
+
+<script>
+const A = window.AZ;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mk = m => !m ? "" : m.t === "svg" ? `<span class="mk">${m.svg}</span>` : `<img class="mk${m.flag ? " flag" : ""}" src="${esc(m.src)}" alt="" loading="lazy">`;
+const usd = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1).replace(/\.0$/, "")}M` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
+const pts = d => `${Math.abs(d)} pt${Math.abs(d) === 1 ? "" : "s"}`;
+const WIN = { day: "in a day", week: "this week", month: "in 30 days" };
+const moveLong = c => c.was != null && Math.abs(c.move) >= 1 ? `<span class="d ${c.move > 0 ? "up" : "dn"}">${c.move > 0 ? "▲" : "▼"} ${pts(c.move)} ${WIN[c.window]} · was ${c.was}%</span>` : "";
+const moveShort = c => c.was != null && Math.abs(c.move) >= 1 ? `<span class="d ${c.move > 0 ? "up" : "dn"}">${c.move > 0 ? "▲" : "▼"} ${pts(c.move)}${c.window === "day" ? "" : " " + WIN[c.window]}</span>` : "";
+// The sea state: how far the leader moved in a day. Calm under 2 points, choppy from 8.
+const sea = c => { const d = c.lead.was == null ? 0 : Math.abs(c.lead.prob - c.lead.was); return d >= 8 ? "choppy" : d < 2 ? "calm" : "normal"; };
+const phase = s => { let h = 0; for (const ch of String(s)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return (h % 97) / 9; };
+const lvl = p => Math.max(3, Math.min(100, p));
+const added = c => c.added ? `<span class="added">${c.added.isNew ? `<span class="nw">New</span>` : ""}${esc(c.added.label)}</span>` : "";
+
+// One gauge: the dry layer in the subject's colour, the wet copy in white inside the water.
+function staff(c, opts = {}) {
+  const p = c.lead.prob, h = c.hist || {};
+  const marks = [];
+  if (opts.scale) marks.push(`<i class="t25" style="bottom:25%"></i><i class="t25" style="bottom:50%"></i><i class="t25" style="bottom:75%"></i><span class="sc" style="bottom:25%">25</span><span class="sc" style="bottom:50%">50</span><span class="sc" style="bottom:75%">75</span>`);
+  // Yesterday: a dashed line across, with "was" when it is high enough to read.
+  const day = c.lead.was;
+  if (day != null && Math.abs(p - day) >= 3) marks.push(`<i class="was" style="--pp:${day}"></i>${opts.label && day >= 35 ? `<span class="wl${day > 66 ? " dn" : ""}" style="--pp:${day}">was ${day}%</span>` : ""}`);
+  // The month of tide marks: where the leader stood 30 days and 7 days ago, when known and apart from today.
+  if (opts.hist) for (const [k, t] of [["month", "30d"], ["week", "7d"]]) if (h[k] != null && Math.abs(h[k] - p) >= 4) marks.push(`<span class="hm" style="--pp:${Math.max(4, Math.min(96, h[k]))}"><i></i><span>${t}</span></span>`);
+  const inner = `<b class="big">${Math.round(p)}<small>%</small></b>${marks.join("")}`;
+  return `<div class="staff" data-sea="${sea(c)}" style="--pv:${lvl(p)};--ph:${phase(c.url + (opts.k || "")).toFixed(2)}"><div class="l">${inner}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${inner}</div></div></div>`;
+}
+
+$("#reading").innerHTML = `<span class="clock">${A.readIST}<small>IST</small></span><span class="rt">Markets read at <b>${A.readIST}</b> · next update <b>${A.nextIST}</b></span><span class="srcs">${A.sources.map(s => `<span class="src" title="${esc(s.name)}, ${esc(s.kind)}: ${s.count} questions read"><i class="dot"></i>${mk(s.mark)}${esc(s.name)}</span>`).join("")}</span>`;
+
+$("#board").innerHTML = A.board.map(c => `<a class="post" data-k="${esc(c.subject)}" href="${esc(c.url)}" target="_blank" rel="noopener">
+  <span class="lab lbl11">${mk(c.labelMark)}<span>${esc(c.label)}</span></span>
+  ${staff(c, { scale: true, label: true, hist: true })}
+  <div class="hd">${c.yesno ? `<div class="who ask">${esc(c.sub)}</div>` : `<div class="who">${mk(c.lead.mark)}${esc(c.lead.name)}</div><div class="q">${esc(c.sub)}</div>`}
+  ${moveLong(c) ? `<div class="dl">${moveLong(c)}</div>` : ""}${added(c) ? `<div>${added(c)}</div>` : ""}</div></a>`).join("");
+
+$("#currents").innerHTML = A.currents.map(c => `<a class="cur" data-k="${esc(c.subject)}" href="${esc(c.url)}" target="_blank" rel="noopener">
+  <div style="position:relative">${staff(c, { k: "c" })}<span class="delta">${moveShort(c)}</span></div>
+  <div class="ctx"><span class="lead">${mk(c.lead.mark)} ${esc(c.lead.name)}</span><span class="mq">${esc(c.title)}</span><span class="lbl11 sj">${esc(c.subjectLabel)}</span>${added(c) ? `<span>${added(c)}</span>` : ""}</div></a>`).join("");
+
+// A card: the gauge on the left names nothing; the field on the right lists the contenders.
+const onBoard = new Set(A.board.map(b => b.url));
+function card(c, wide) {
+  const field = c.outcomes.slice(0, wide ? 4 : 3).map(o => `<li><span class="nm">${mk(o.mark)}<span>${esc(o.name)}</span></span><b class="pc">${o.prob}%</b><span class="bar"><i style="--w:${o.prob}"></i></span></li>`).join("");
+  const also = c.also.length ? `<span>also: ${c.also.map(a => `${esc(a.source)} ${a.prob}%`).join(" · ")}</span>` : "";
+  const src = A.sources.find(s => s.name === c.source);
+  return `<a class="tk${wide ? " wide" : ""}" data-k="${esc(c.subject)}" href="${esc(c.url)}" target="_blank" rel="noopener">${staff(c, { k: "t" })}
+  <div class="bd"><h4>${c.star ? `<span class="star" aria-label="Must-have">★</span>` : ""}${esc(c.title)}${c.followed ? `<span class="fol">Following</span>` : ""}</h4>
+  <ul class="field">${field}</ul>${moveLong(c) ? `<div>${moveLong(c)}</div>` : ""}
+  <div class="meta">${added(c)}<span class="ex">${mk(src?.mark)}${esc(c.source)}</span>${c.today ? `<span>${usd(c.today)} today</span>` : ""}${also}</div></div></a>`;
+}
+const istDay = iso => new Date(iso).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", weekday: "short", day: "numeric", month: "short" });
+function match(m) {
+  const [a, x, b] = m.outcomes.length === 3 ? [m.outcomes[0], m.outcomes.find(o => o.name === "Draw"), m.outcomes.find((o, i) => i && o.name !== "Draw")] : [m.outcomes[0], null, m.outcomes[1]];
+  const [home, away] = m.title.split(/ v /);
+  const side = n => m.outcomes.find(o => o.name === n) || m.outcomes.find(o => n.includes(o.name) || o.name.includes(n));
+  const H = side(home) || a, W = side(away) || b;
+  return `<div class="mt" data-k="football"><div class="when lbl11"><span>${esc(istDay(m.kickoff))} · ${esc(m.kickoffIST)} IST</span>${m.followed ? `<span>Following</span>` : ""}</div>
+  <div class="sides"><span class="side">${mk(H.mark)}<span>${esc(home.replace(/ (CF|FC)$/, "").replace(/^FC /, ""))}</span></span><span class="v">v</span><span class="side r"><span>${esc(away.replace(/ (CF|FC)$/, "").replace(/^FC /, ""))}</span>${mk(W.mark)}</span></div>
+  <div class="split" role="img" aria-label="${esc(H.name)} ${H.prob}%, draw ${x ? x.prob : 0}%, ${esc(W.name)} ${W.prob}%"><span class="a" style="flex:${H.prob}">${H.prob}%</span>${x ? `<span class="x" style="flex:${x.prob}">${x.prob}</span>` : ""}<span class="b" style="flex:${W.prob}">${W.prob}%</span></div></div>`;
+}
+function subject(id, k, markKey) {
+  const t = A.topics[id], items = t.items.filter(c => !onBoard.has(c.url)).slice(0, 4);
+  const [first, ...rest] = items;
+  const next = (t.next || []).filter(m => !A.board.some(b => b.title === m.title)).slice(0, 3);
+  return `<div class="subj" data-k="${k}"><h3 class="lbl11">${mk(A.marks[markKey])}${esc(t.label)} <em>· ${items.length} market${items.length === 1 ? "" : "s"}</em></h3>
+  <div class="cards" style="--n:${Math.max(1, rest.length)}">${first ? card(first, true) : ""}${rest.map(c => card(c)).join("")}</div>
+  ${next.length ? `<h3 class="lbl11" style="margin:22px 0 12px;color:var(--ink2)">Coming up</h3><div class="matches">${next.map(match).join("")}</div>` : ""}</div>`;
+}
+$("#sport").innerHTML = subject("football", "football", "uefa") + subject("f1", "f1", "f1") + subject("tennis", "tennis", "atp");
+$("#aside").insertAdjacentHTML("afterbegin", mk(A.marks.claude));
+</script>
+</body>
+</html>
