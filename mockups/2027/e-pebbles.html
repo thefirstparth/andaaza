@@ -203,8 +203,9 @@ footer .clm .mk { width: 14px; height: 14px; }
 
 /* ---------- tablet ---------- */
 @media (max-width: 1100px) {
-  .board { flex-wrap: wrap; align-items: flex-end; }
-  .stone { flex: 1 1 calc(25% - 26px); }
+  header.top { grid-template-columns: minmax(0, 1fr); }
+  .reading { justify-self: start; }
+  .board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: end; row-gap: 28px; }
 }
 /* ---------- phone: installed app ---------- */
 @media (max-width: 600px) {
