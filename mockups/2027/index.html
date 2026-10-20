@@ -84,6 +84,20 @@ figcaption{margin-top:8px;font-size:12.5px;color:var(--ink2)}
 .phone{border-radius:40px;border:9px solid var(--ink);background:var(--ink);overflow:hidden;box-shadow:0 18px 40px -24px oklch(.3 .05 265 / .45)}
 .phone .scroll{height:600px;border-radius:31px;background:var(--surface)}
 
+/* Round 2 */
+.r2{padding-block:8px 36px}
+.big{margin:4px 0 8px;font:italic 400 clamp(40px,4.6vw,64px)/1 var(--display)}
+.intro,.note{margin:0 0 18px;color:var(--ink2);max-width:72ch}
+.note{margin:12px 0 0;font-size:13.5px}
+table.dens{min-width:760px}
+table.dens td.v{font:700 17px/1.2 var(--fig);font-variation-settings:"wdth" 85;white-space:nowrap}
+table.dens tr.ref td{color:var(--ink2);background:var(--bg)}
+.r1h{border-top:1px solid var(--line);padding-block:40px 0}
+.shots.three{grid-template-columns:minmax(0,1fr) 250px 250px}
+.screen{border-radius:36px;border:8px solid var(--ink);background:var(--ink);overflow:hidden;box-shadow:0 18px 40px -24px oklch(.3 .05 265 / .45)}
+.screen img{display:block;width:100%;height:auto;border-radius:28px}
+.three .phone .scroll{height:auto;aspect-ratio:402/874}
+.dens-chip{display:inline-block;margin-top:8px;padding:6px 10px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:13.5px}
 /* Comparison and the app */
 .part{border-top:1px solid var(--line);padding-block:44px 52px}
 .part h2{margin:0 0 6px;font:italic 400 clamp(36px,3.6vw,52px)/1 var(--display)}
@@ -114,6 +128,7 @@ footer{border-top:1px solid var(--line);padding-block:28px calc(36px + env(safe-
   .grid{grid-template-columns:minmax(0,1fr)}
   .about{position:static}
 }
+@media (max-width:1100px){.shots.three{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.shots.three .lap{grid-column:1/-1}}
 @media (max-width:760px){
   .top{grid-template-columns:minmax(0,1fr)}
   .index{grid-template-columns:minmax(0,1fr)}
@@ -131,19 +146,42 @@ footer{border-top:1px solid var(--line);padding-block:28px calc(36px + env(safe-
   <div>
     <div class="lbl">Design review · 21 Oct 2026</div>
     <h1>Andaaza 2027 <span class="dev" lang="hi">अंदाज़ा</span></h1>
-    <p class="lede">Eight ways the next Andaaza could look. <b>Five are new directions</b> and <b>three grow today's design</b>.
-      Every one is a working page built on the same real reading (21 Oct 2026, 04:00 IST), with the same rules for what
-      shows. Each has one light, in-between theme and its own phone layout, drawn as the installed app.</p>
+    <p class="lede"><b>Round 2</b> answers your note: you liked Andaaza Next and the idea of Glass, but on the phone too
+      little shows per scroll. Five denser variants of Andaaza Next come first, measured on an iPhone 17. Round 1's eight
+      directions are below. Every page runs on the same real reading (21 Oct 2026, 04:00 IST).</p>
   </div>
   <div class="how">
     <div class="lbl">How to answer</div>
-    <p>Reply by letter, the way you like: <code>F base</code> <code>B charts</code> <code>A no</code>. Mixing is expected:
-      a base from one, a part from another.</p>
+    <p>Reply by letter, the way you like: <code>J base</code> <code>L pages</code> <code>M in the sheet</code>. Mixing is
+      expected: a base from one, a part from another.</p>
     <p>Each shot scrolls. <b>Open the page</b> runs the real thing; on your phone it shows the phone layout.</p>
-    <p>Checked in Chromium at 1440 and 390 px. Not yet on an iPhone.</p>
+    <p>Checked in Chromium at 1440 px, and at 402 × 874 (iPhone 17) and 412 × 915 (Nothing Phone (3)) for round 2. Not yet on a real phone.</p>
   </div>
 </header>
 
+<section class="r2" aria-labelledby="r2h">
+  <div class="wrap">
+    <div class="lbl">Round 2 · 21 Oct 2026</div>
+    <h2 id="r2h" class="big">More on one screen</h2>
+    <p class="intro">Measured on an iPhone 17 as an installed app: 402 × 874, of which about 778 px is usable once the
+      status bar and home bar are taken out. "First screen" counts markets fully readable before any scrolling.</p>
+    <div class="tbl"><table class="dens">
+      <thead><tr><th></th><th>Version</th><th>First screen</th><th>Whole tide board seen</th><th>Page length</th><th>How it gets there</th></tr></thead>
+      <tbody id="densrows"></tbody>
+    </table></div>
+    <p class="note">Round-2 pages also carry Where the money is (10 more markets, 31 in all), so they hold half again as much as F and G did. The live site holds several times more again.</p>
+    <div class="pick">
+      <h3>My recommendation</h3>
+      <p><b>J's gauges on L's pages.</b> J keeps the look you like (today's gauges, just small) and puts the whole board on
+        the first screen; L fixes the navigation, so each section is one swipe away and fits its screen. Dress them with
+        <b>K's glass bars</b> (top bar and tab bar only, never behind text), use <b>I's rows</b> for long lists like Where the
+        money is, and let a tap open <b>M's full field</b> in a sheet.</p>
+    </div>
+  </div>
+</section>
+<main id="dirs2"></main>
+
+<div class="wrap r1h"><div class="lbl">Round 1 · 21 Oct 2026</div><h2 class="big">Eight directions</h2></div>
 <nav class="wrap index" aria-label="The eight directions">
   <div>
     <h2 class="lbl">Five new directions</h2>
@@ -326,6 +364,69 @@ document.getElementById("dirs").innerHTML = D.map((d, i) => `
       <figure>
         <div class="phone"><div class="scroll" tabindex="0" aria-label="${d.name} on a phone, scrollable"><img src="shots/${d.slug}-phone.webp" alt="${d.name} on a phone, as the installed app" loading="${i < 2 ? "eager" : "lazy"}" width="390"></div></div>
         <figcaption>Phone, 390 px, as the installed app.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>`).join("");
+
+const D2 = [
+  { k: "i", slug: "i-tide-rows", phone: "i-tide-rows-phone", name: "Tide Rows",
+    one: "Every market is a slim row whose background is the water, filling left to right to its chance.",
+    how: "Rows of about 56 px; the big number sits at the water's edge; yesterday is a notch. Tap a row and it opens to the next three contenders. The board is in full colour, the lists below in pale water, so the page quietens as it goes.",
+    first: "All 7 board rows, plus Currents starting", fs: 8, board: "First screen", len: "3.5 screens", ages: 4, trade: "Questions are cut to one line on the phone (the rest is a tap away)." },
+  { k: "j", slug: "j-tide-grid", phone: "j-tide-grid-phone", name: "Tide Grid",
+    one: "Today's gauges, small: four to a row on the phone, the closest to what you have.",
+    how: "The board is a 4 × 2 grid; its eighth cell is the day's biggest move. Currents and Where the money is are three to a row. Tap a gauge for a sheet with the whole question and every contender.",
+    first: "All 7 board gauges and 3 Currents", fs: 10, board: "First screen", len: "4.5 screens", ages: 4, trade: "Moves use a short form (“▲ 71 · 30d”), with a key line under the board." },
+  { k: "k", slug: "k-glass-clear", phone: "k-glass-clear-phone", name: "Glass, clear",
+    one: "Andaaza Glass with the readability fixed: a calm ground, and glass only where things float.",
+    how: "Glass on the top bar, the floating tab bar and the details sheet, so the colourful gauges show through as they scroll under. Content sits on solid cards; the lehariya is a faint band behind the opening line. Numbers never straddle the waterline.",
+    first: "6 of the 7 board gauges", fs: 6, board: "1.2 screens", len: "4.3 screens", ages: 3, trade: "Fewest per screen of the five; blur still to be tried on older phones." },
+  { k: "l", slug: "l-pages", phone: "l-pages-phone", name: "Pages",
+    one: "Each section is its own page you swipe to, and each page fits its screen.",
+    how: "Board · Currents · Money · Sport · ★, with a strip at the top that follows the swipe (back works). The board is one tide chart of seven narrow gauges on a shared scale, with a one-line key under it. On a laptop it is all one screen.",
+    first: "Board 7 of 7 · Currents 6 of 6 · Money 10 of 10", fs: 7, board: "First screen", len: "One screen per page", ages: 4, trade: "Short tags on the chart (FOOT, CRIC); the full names are in the key." },
+  { k: "m", slug: "m-race-bars", phone: "m-race-bars-phone", name: "Race Bars",
+    one: "Your reference, made Andaaza: each market shows its whole field in one water channel.",
+    how: "The leader's share in full colour with a wave, the next ones in lighter tones, Others dry; crests, flags and logos inside the shares; moves beside each contender. Matches split home, draw, away.",
+    first: "6 markets, each with its whole field", fs: 6, board: "1.2 screens", len: "6.9 screens", ages: 4, trade: "Fewer markets per screen, but the most information in each." },
+];
+document.getElementById("densrows").innerHTML = [
+  ["", "Live site today", "2 of 7 gauges", "2 screens", "about 16 screens", "Big gauges, two to a row", true],
+  ["F", "Andaaza Next (round 1)", "2 (5 more sideways)", "1 screen + swiping", "4.7 screens", "A swipe row of big gauges", true],
+  ["G", "Andaaza Glass (round 1)", "1", "2 screens", "7 screens", "Big gauges, two to a row", true],
+  ...D2.map((d) => [d.k.toUpperCase(), d.name, d.first, d.board, d.len, d.how.split(".")[0] + ".", false]),
+].map(([k, n, a, b, c, h, ref]) => `<tr class="${ref ? "ref" : ""}"><td class="k">${k}</td><td>${ref ? n : `<a class="n" href="#${k.toLowerCase()}">${n}</a>`}</td><td>${a}</td><td class="num">${b}</td><td class="num">${c}</td><td>${h}</td></tr>`).join("");
+document.getElementById("dirs2").innerHTML = D2.map((d, i) => `
+<section class="dir${i % 2 ? "" : " alt"}" id="${d.k}" aria-labelledby="h-${d.k}">
+  <div class="wrap grid">
+    <div class="about">
+      <div class="letter" aria-hidden="true">${d.k.toUpperCase()}</div>
+      <div class="lbl kind">Round 2 · Andaaza Next, denser</div>
+      <h2 id="h-${d.k}">${d.name}</h2>
+      <p class="one">${d.one}</p>
+      <dl>
+        <div><dt>How it fits more</dt><dd>${d.how}</dd></div>
+        <div><dt>iPhone 17, first screen</dt><dd>${d.first}. Whole page: ${d.len}.</dd></div>
+        <div><dt>The trade-off</dt><dd>${d.trade}</dd></div>
+        <div><dt>Keeps</dt><dd>Andaaza Next's fonts, colours, water, masked numbers and tab bar.</dd></div>
+      </dl>
+      <div class="open"><a class="btn fill" href="${d.slug}.html">Open the page ${arrow}</a></div>
+    </div>
+    <div class="shots three">
+      <figure class="lap">
+        <div class="laptop"><div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="scroll" tabindex="0" aria-label="${d.name} on a laptop, scrollable"><img src="shots/${d.slug}-laptop.webp" alt="${d.name} at laptop width" loading="${i < 2 ? "eager" : "lazy"}" width="1440"></div>
+        </div>
+        <figcaption>Laptop, 1440 px. Scroll inside the frame.</figcaption>
+      </figure>
+      <figure>
+        <div class="screen"><img src="shots/${d.slug}-screen.webp" alt="Exactly what an iPhone 17 shows of ${d.name} before scrolling" width="402"></div>
+        <figcaption>iPhone 17, before any scrolling.</figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><div class="scroll" tabindex="0" aria-label="${d.name} on a phone, the whole page, scrollable"><img src="shots/${d.phone}.webp" alt="${d.name} on a phone, the whole page" loading="lazy" width="402"></div></div>
+        <figcaption>${d.k === "l" ? "The five pages, one under another." : "The whole page. Scroll inside."}</figcaption>
       </figure>
     </div>
   </div>

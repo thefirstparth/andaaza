@@ -35,7 +35,7 @@
   /* row sizes: the board's rows, the lists' rows, and the number column of each */
   --rb:62px;--rl:52px;--nb:74px;--nl:52px;
 }
-[data-k]{--a:oklch(var(--La) calc(var(--Ca) * var(--k,1)) var(--h));--ac:oklch(var(--Lc) calc(var(--Cc) * var(--k,1)) var(--h));--a2:oklch(.72 calc(.11 * var(--k,1)) var(--h));--tint:oklch(.87 calc(.075 * var(--k,1)) var(--h))}
+[data-k]{--a:oklch(var(--La) calc(var(--Ca) * var(--k,1)) var(--h));--ac:oklch(var(--Lc) calc(var(--Cc) * var(--k,1)) var(--h));--a2:oklch(.72 calc(.11 * var(--k,1)) var(--h));--tint:oklch(.87 calc(.075 * var(--k,1)) var(--h));--mid:oklch(.79 calc(.115 * var(--k,1)) var(--h));--deep:oklch(.36 calc(.12 * var(--k,1)) var(--h));--wetn:oklch(.25 calc(.09 * var(--k,1)) var(--h))}
 [data-k=f1]{--h:27}[data-k=tennis]{--h:50}[data-k=india]{--h:68;--k:.9}[data-k=money]{--h:88;--k:.72;--La:.46}[data-k=football]{--h:150}[data-k=cricket]{--h:180;--k:.85}
 [data-k=ai]{--h:222;--k:.95}[data-k=world]{--h:262;--k:.9}[data-k=nba]{--h:285}[data-k=film]{--h:308}[data-k=celebs]{--h:340}[data-k=ott]{--h:5}[data-k=other]{--h:240;--k:.2}
 *{box-sizing:border-box}
@@ -88,9 +88,9 @@ img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02
 :root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3000 48'%3E%3Cpath d='M0 0H2995C2998.5 8 2998.5 16 2995 24S2991.5 40 2995 48H0z'/%3E%3C/svg%3E");--wh:48px;--wt:7s;--amp:.6}
 [data-sea=calm]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3000 80'%3E%3Cpath d='M0 0H2995C2997 13 2997 27 2995 40S2993 67 2995 80H0z'/%3E%3C/svg%3E");--wh:80px;--wt:12s;--amp:.3}
 [data-sea=choppy]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3000 28'%3E%3Cpath d='M0 0H2994C2999.5 4.7 2999.5 9.3 2994 14S2988.5 23.3 2994 28H0z'/%3E%3C/svg%3E");--wh:28px;--wt:3.4s;--amp:1.2}
-.tank{position:relative;display:block;overflow:hidden;border-radius:14px;background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 16%,transparent);box-shadow:inset 0 1px 0 #fffc}
+.tank{position:relative;display:block;overflow:hidden;isolation:isolate;border-radius:14px;background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 16%,transparent);box-shadow:inset 0 1px 0 #fffc}
 .tank .l{position:relative;display:grid;grid-template-columns:var(--nc,var(--nb)) minmax(0,1fr) auto;align-items:center;column-gap:8px;height:var(--rh,var(--rb));padding:0 10px 0 12px;color:var(--ink)}
-.wbox{position:absolute;inset:0 auto 0 0;width:calc((var(--pv) + var(--bob)) * 1% + 6px);overflow:hidden;background:var(--a);
+.wbox{position:absolute;inset:0 auto 0 0;width:calc((var(--pv) + var(--bob)) * 1% + 6px);overflow:hidden;background:var(--mid);z-index:1;
   -webkit-mask:var(--wave) right 0 top 0/3000px var(--wh) repeat-y;mask:var(--wave) right 0 top 0/3000px var(--wh) repeat-y}
 /* a soft light band along the crest, so the water reads as a surface */
 .wbox::after{content:"";position:absolute;inset:0 0 0 auto;width:14px;background:linear-gradient(to left,#fff5,#fff0);pointer-events:none}
@@ -104,32 +104,32 @@ img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02
 /* the number, the two lines, the move */
 .n{font:750 32px/.9 var(--fig);font-variation-settings:"wdth" 75,"opsz" 96;letter-spacing:-.02em;color:var(--a);white-space:nowrap}
 .n small{font-size:.44em;margin-left:1px;letter-spacing:0;font-weight:700}
-.wbox .n{color:var(--on)}
+/* Only the big number is drawn twice: the subject's ink on the dry side, a deep tone under water. The name, label,
+   question and move are drawn once, above the water, in tones that read on both sides (no colour change mid-word). */
+.wbox .n{color:var(--wetn)}
+.tank>.l .m,.tank>.l .mv,.tank>.l>.was{position:relative;z-index:2}
+.tank>.l>.was{position:absolute}
+.wbox .m,.wbox .mv,.wbox .was{visibility:hidden}
 .m{display:grid;gap:2px;min-width:0}
 .who{display:flex;align-items:center;gap:6px;min-width:0;font:700 14.5px/1.2 var(--sans)}
 .who .mk{width:16px;height:16px}
 .who>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .who>.star,.who>.fol,.who>.nw{flex:none;overflow:visible}
-.q{font:500 12.5px/1.25 var(--sans);color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.q .lab{font:700 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--a)}
-.wbox .q,.wbox .q .lab{color:var(--on)}
-.wbox .q{opacity:.92}
+.q{font:500 12.5px/1.25 var(--sans);color:oklch(.32 .02 252);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q .lab{font:700 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--deep)}
 .mv{display:inline-flex;align-items:center;gap:3px;font:700 12.5px/1 var(--sans);padding:5px 8px;border-radius:999px;background:var(--surface);box-shadow:0 0 0 1px var(--line2);white-space:nowrap}
 .mv.up{color:var(--up)}.mv.dn{color:var(--down)}
 .mv i{font-style:normal;font-weight:600;color:var(--muted)}
 .nw{font:700 11px/1 var(--sans);letter-spacing:.06em;padding:3px 7px;border-radius:999px;background:var(--marigold);color:oklch(.22 .05 60)}
 .star{color:var(--marigold-ink)}
-.wbox .star{color:var(--on)}
 .fol{font:700 11px/1 var(--sans);letter-spacing:.06em;color:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:2px 6px;flex:none}
-.wbox .fol{color:var(--on);border-color:#fff8}
 /* yesterday's level: a dashed notch, top to bottom */
-.was{position:absolute;top:7px;bottom:7px;left:calc(var(--pp) * 1%);border-left:1.5px dashed currentColor;opacity:.5;color:var(--a)}
-.wbox .was{color:var(--on);opacity:.7}
+.was{position:absolute;top:7px;bottom:7px;left:calc(var(--pp) * 1%);border-left:1.5px dashed currentColor;opacity:.55;color:var(--deep)}
 
 /* the lists are quieter: pale water, ink text, so no white copy is needed */
 .lite .tank{background:var(--surface);border-color:var(--line2);border-radius:12px}
 .lite .wbox{background:var(--tint)}
-.lite .tank>.l{z-index:1}
+.lite .tank>.l{z-index:2}
 .lite .wbox::after{background:linear-gradient(to left,color-mix(in oklab,var(--a) 22%,transparent),transparent)}
 .lite .n{font-size:24px}
 .lite .tank .l{--nc:var(--nl);--rh:var(--rl)}
