@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andaaza · Race Bars</title>
+<meta name="theme-color" content="#e9edf3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&text=%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%81&display=swap">
+<script src="data.js"></script>
+<style>
+/* M · Race Bars. Andaaza Next's ground, type and hue wheel, with more of each market on screen: every market shows
+   its whole field. The leader's number stands on the left; on the right one water channel holds the field, the
+   leader's share in the subject's full tone with a moving surface, the others in lighter tones of the same hue, the
+   rest ("Others") left dry. Marks sit inside their share, a legend names the rest, a notch marks yesterday.
+   Layout: a compact masthead, then rows: one column on a phone, two on a laptop, the AI market wide on top. */
+:root{
+  color-scheme:light;
+  --bg:oklch(.948 .011 252);          /* haze, as in Andaaza Next */
+  --bg2:oklch(.928 .014 252);         /* a section band */
+  --surface:oklch(.985 .005 252);     /* the panels the rows sit on */
+  --ink:oklch(.22 .022 252);--ink2:oklch(.4 .02 252);--muted:oklch(.45 .018 252);
+  --line:oklch(.86 .012 252);--line2:oklch(.905 .01 252);
+  --sea:oklch(.42 .15 268);--marigold:oklch(.66 .16 62);--marigold-ink:oklch(.52 .14 58);
+  --up:oklch(.5 .14 150);--down:oklch(.52 .18 27);
+  --draw:oklch(.8 .012 252);
+  --La:.55;--Ca:.17;--Lc:.94;--Cc:.04;
+  --shadow:0 1px 1px oklch(.22 .02 252 / .05),0 14px 30px -20px oklch(.22 .02 252 / .35);
+  --gut:clamp(16px,3vw,64px);
+  --sans:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:"Instrument Serif","Iowan Old Style",Palatino,Georgia,serif;
+  --fig:"Bricolage Grotesque","Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+  --deva:"Tiro Devanagari Hindi","Noto Serif Devanagari","Kohinoor Devanagari",serif;
+}
+/* Each subject a tonal palette on one hue wheel: --a the leader's water and the number, --ai its ink for small text,
+   --a2..--a4 the rest of the field, --ac the dry channel. */
+[data-k]{--a:oklch(var(--La) calc(var(--Ca) * var(--k,1)) var(--h));--ai:oklch(calc(var(--La) - .1) calc(var(--Ca) * var(--k,1)) var(--h));
+  --a2:oklch(.7 calc(.12 * var(--k,1)) var(--h));--a3:oklch(.8 calc(.08 * var(--k,1)) var(--h));--a4:oklch(.87 calc(.055 * var(--k,1)) var(--h));
+  --ac:oklch(var(--Lc) calc(var(--Cc) * var(--k,1)) var(--h))}
+[data-k=f1]{--h:27}[data-k=tennis]{--h:50}[data-k=india]{--h:68;--k:.9}[data-k=money]{--h:88;--k:.72;--La:.5}[data-k=football]{--h:150}[data-k=cricket]{--h:180;--k:.85}
+[data-k=ai]{--h:222;--k:.95}[data-k=world]{--h:262;--k:.9}[data-k=nba]{--h:285}[data-k=film]{--h:308}[data-k=celebs]{--h:340}[data-k=ott]{--h:5}[data-k=other]{--h:240;--k:.2}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--sea);outline-offset:3px;border-radius:8px}
+.wrap{padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.mk{display:inline-flex;width:1.05em;height:1.05em;flex:none;vertical-align:-.16em}
+.mk svg{width:100%;height:100%}
+img.mk{object-fit:contain}
+img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02 252 / .12)}
+.lbl11{font:700 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.drop{width:.6em;height:.6em;flex:none;align-self:baseline;position:relative;top:-.04em}
+.drop .o{fill:none;stroke:var(--sea);stroke-width:3.2}
+.drop .w{fill:var(--sea)}
+.seal{font:400 .3em/1 var(--deva);font-style:normal;color:var(--marigold-ink);border:1.5px solid color-mix(in oklab,var(--marigold) 70%,transparent);border-radius:.32em;padding:.2em .32em .1em;align-self:center;position:relative;top:-.12em;background:color-mix(in oklab,var(--marigold) 8%,transparent)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--up);flex:none;display:inline-block}
+
+/* ---- masthead (laptop): Andaaza Next's, a size smaller so the rows start higher ---- */
+.mast{position:relative;isolation:isolate;padding-block:clamp(20px,3vw,38px) clamp(14px,1.8vw,22px)}
+.mast::before{content:"";position:absolute;inset:0;z-index:-1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='44' viewBox='0 0 120 44'%3E%3Cg fill='none' stroke-width='3' stroke-linecap='round'%3E%3Cpath stroke='%233b46a8' stroke-opacity='.10' d='M-10 8q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3Cpath stroke='%23d98a1a' stroke-opacity='.14' d='M-10 19q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3Cpath stroke='%233b46a8' stroke-opacity='.10' d='M-10 30q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3Cpath stroke='%236b74c8' stroke-opacity='.07' d='M-10 41q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3C/g%3E%3C/svg%3E") 0 0/120px 44px;-webkit-mask:radial-gradient(120% 140% at 30% 0,#000 30%,transparent 72%);mask:radial-gradient(120% 140% at 30% 0,#000 30%,transparent 72%)}
+.mrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px 32px;flex-wrap:wrap}
+.mast h1{margin:0;display:flex;align-items:baseline;gap:0 .14em;font:italic 400 clamp(52px,6.6vw,96px)/.84 var(--display);letter-spacing:-.02em}
+.hero{margin:12px 0 0;font:400 clamp(20px,2vw,28px)/1.15 var(--sans);letter-spacing:-.015em}
+.quiet{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;margin-top:10px;font:400 13.5px/1.4 var(--sans);color:var(--ink2)}
+.say{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;border:0;background:var(--sea);color:#fff}
+.say svg{width:15px;height:15px}
+.ipa{color:var(--muted)}
+.pos{font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ur{font:16px/1 "Noto Nastaliq Urdu","Noto Naskh Arabic","Geeza Pro",serif;color:var(--marigold-ink)}
+.def{color:var(--ink)}
+.reading{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;padding:8px 8px 8px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--line2);box-shadow:var(--shadow);font:500 12.5px/1.2 var(--sans);color:var(--ink2)}
+.reading .clock{font:700 22px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--ink)}
+.reading .clock small,.appbar .clk small{font:700 10px var(--sans);letter-spacing:.08em;margin-left:3px;color:var(--muted)}
+.reading b{color:var(--ink)}
+.srcs{display:flex;gap:4px;flex-wrap:wrap}
+.src{display:inline-flex;align-items:center;gap:5px;padding:5px 9px 5px 8px;border-radius:999px;background:var(--bg);font-weight:600}
+.src .mk{width:13px;height:13px;color:var(--ink2)}
+.src em{font-style:normal;font-weight:500;color:var(--muted)}
+
+/* ---- the panels and the race rows ---- */
+.panel{background:var(--surface);border:1px solid var(--line2);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:0}
+.rows > *{border-bottom:1px solid var(--line2)}
+.rows > :nth-child(odd of :not(.wide)){border-right:1px solid var(--line2)}
+.rr{--lw:132px;--big:54px;--chh:28px;display:grid;grid-template-columns:var(--lw) minmax(0,1fr);gap:0 18px;padding:18px 22px 18px 22px;min-width:0;transition:background .15s}
+.rr:hover{background:color-mix(in oklab,var(--ac) 45%,var(--surface))}
+.rr.wide{grid-column:1/-1;--lw:190px;--big:84px;--chh:36px;padding-block:24px 22px}
+.ld{min-width:0;display:flex;flex-direction:column}
+.rank{font:italic 400 22px/1 var(--display);color:var(--muted);margin-bottom:4px}
+.big{font:800 var(--big)/.86 var(--fig);font-variation-settings:"wdth" 75,"opsz" 96;color:var(--a);letter-spacing:-.01em}
+.big small{font-size:.42em;margin-left:2px;letter-spacing:0}
+.who{display:flex;align-items:flex-start;gap:6px;margin-top:8px;font:600 13.5px/1.25 var(--sans);color:var(--ink);overflow-wrap:anywhere}
+.who .mk{width:15px;height:15px;margin-top:1px}
+.who.q0{color:var(--muted);font-weight:500}
+.bd{min-width:0}
+.top{display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap;min-height:18px}
+.sj{display:inline-flex;align-items:center;gap:6px;color:var(--ai)}
+.sj .mk{width:13px;height:13px}
+.mv{margin-left:auto;font:700 12.5px/1.3 var(--sans);white-space:nowrap}
+.mv.up{color:var(--up)}.mv.dn{color:var(--down)}
+.mv .wasl{font-weight:500;color:var(--muted)}
+.mv.money{color:var(--ink)}
+.mv.cur{font-size:14.5px}
+.follow{font:600 11px/1 var(--sans);letter-spacing:.04em;padding:3px 7px;border-radius:999px;border:1px solid var(--line);color:var(--ink2)}
+.nw{font:700 11px/1 var(--sans);letter-spacing:.06em;padding:3px 7px;border-radius:999px;background:var(--marigold);color:oklch(.22 .05 60)}
+.q{margin:4px 0 0;font:600 15.5px/1.28 var(--sans);letter-spacing:-.005em;text-wrap:pretty}
+.rr.wide .q{font-size:20px}
+.star{color:var(--marigold-ink);margin-right:4px}
+
+/* The channel: one trough of water. Leader first in the subject's full tone, with a moving surface; the others in
+   lighter tones; what is left (Others) stays dry. A 2px gap of paper between shares. */
+.chw{position:relative;margin-top:10px}
+.ch{position:relative;display:flex;height:var(--chh);border-radius:999px;background:color-mix(in oklab,var(--ac) 80%,var(--line2));box-shadow:inset 0 1.5px 3px oklch(.2 .03 252 / .16),inset 0 0 0 1px oklch(.2 .03 252 / .05);overflow:hidden}
+.sg{--tone:var(--a4);flex:0 0 calc(var(--w) * 1%);display:flex;align-items:center;padding-left:7px;min-width:0;position:relative;background:var(--tone);box-shadow:inset -2px 0 0 var(--surface);color:var(--ink)}
+.sg::before{content:"";position:absolute;inset:0;background:linear-gradient(oklch(1 0 0 / .26),oklch(1 0 0 / 0) 55%);pointer-events:none}
+.sg.t1{--tone:var(--a);color:#fff}.sg.t2{--tone:var(--a2)}.sg.t3{--tone:var(--a3)}.sg.dr{--tone:var(--draw)}
+.sg .mk{position:relative;z-index:1;width:calc(var(--chh) * .56);height:calc(var(--chh) * .56);filter:drop-shadow(0 0 1px oklch(1 0 0 / .7))}
+.sg.t1 .mk{filter:none}
+.sg .pct{position:relative;z-index:1;margin-left:5px;font:800 calc(var(--chh) * .5)/1 var(--fig);font-variation-settings:"wdth" 75}
+/* The surface: the leader's share has a gentle wave along its top, slower when the market is calm. */
+.wv{-webkit-mask:var(--wave) 0 0/var(--ww) 100% repeat-x;mask:var(--wave) 0 0/var(--ww) 100% repeat-x}
+:root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 54 40' preserveAspectRatio='none'%3E%3Cpath d='M0 5C9 1.4 18 1.4 27 5S45 8.6 54 5V40H0z'/%3E%3C/svg%3E");--ww:54px;--wt:7s}
+[data-sea=calm]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 40' preserveAspectRatio='none'%3E%3Cpath d='M0 4C15 2 30 2 45 4S75 6 90 4V40H0z'/%3E%3C/svg%3E");--ww:90px;--wt:14s}
+[data-sea=choppy]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 40' preserveAspectRatio='none'%3E%3Cpath d='M0 6C5 0 10 0 15 6S25 12 30 6V40H0z'/%3E%3C/svg%3E");--ww:30px;--wt:3.5s}
+@keyframes tide{to{-webkit-mask-position:var(--ww) 0;mask-position:var(--ww) 0}}
+@keyframes rise{from{transform:scaleX(0)}}
+@media (prefers-reduced-motion:no-preference){
+  .wv{animation:tide var(--wt) linear infinite;animation-delay:calc(var(--ph,0) * -1s)}
+  .ch{transform-origin:0 50%;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+}
+/* "By …?" questions: one share filled to the leader, nearer dates as lighter dots on the trough. */
+.pip{position:absolute;top:50%;left:calc(var(--x) * 1%);width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--surface);border:2.5px solid var(--a2);z-index:2}
+/* Yesterday: a notch where the leader's water stood a day ago. */
+.notch{position:absolute;top:-4px;bottom:-4px;left:calc(var(--x) * 1%);width:2px;margin-left:-1px;border-radius:2px;background:var(--ink);opacity:.7;z-index:3}
+.lg{margin:8px 0 0;display:flex;flex-wrap:wrap;gap:3px 14px;font:500 12.5px/1.35 var(--sans);color:var(--ink2)}
+.lg > span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;min-width:0}
+.lg b{font-weight:700;color:var(--ink)}
+.lg .sw{width:9px;height:9px;border-radius:3px;background:var(--tone);flex:none;box-shadow:inset 0 0 0 1px oklch(.2 .02 252 / .1)}
+.lg .sw.t2{--tone:var(--a2)}.lg .sw.t3{--tone:var(--a3)}.lg .sw.t4{--tone:var(--a4)}.lg .sw.dr{--tone:var(--draw)}
+.lg .sw.dry{--tone:color-mix(in oklab,var(--ac) 80%,var(--line2))}
+.lg .sw.pipk{border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 2px var(--a2)}
+.lg .d{font:700 11px/1 var(--sans);padding:2px 5px;border-radius:999px}
+.lg .d.up{color:var(--up);background:color-mix(in oklab,var(--up) 10%,transparent)}.lg .d.dn{color:var(--down);background:color-mix(in oklab,var(--down) 10%,transparent)}
+.lg .mt{color:var(--muted);font-weight:500}
+.lg .mt .mk{width:12px;height:12px;color:var(--muted)}
+.lg .lead-mv.up{color:var(--up);font-weight:700}.lg .lead-mv.dn{color:var(--down);font-weight:700}
+
+/* ---- sections ---- */
+.boardsec{padding-block:4px clamp(22px,2.6vw,34px)}
+.band{padding-block:clamp(24px,3vw,40px);border-top:1px solid var(--line)}
+.band.tint{background:var(--bg2)}
+.sh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sh h2{margin:0;font:italic 400 clamp(34px,3.6vw,52px)/.95 var(--display);letter-spacing:-.015em}
+.sh .hs{font:400 clamp(17px,1.5vw,22px)/1 var(--deva);color:var(--marigold-ink);position:relative;top:-.2em}
+.desc{margin:6px 0 16px;font:400 13.5px/1.45 var(--sans);color:var(--muted);max-width:62ch}
+.subh{display:flex;align-items:center;gap:8px;margin:22px 0 10px;font:700 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ai)}
+.subh .mk{width:15px;height:15px}
+.subh small{font:500 12.5px/1 var(--sans);letter-spacing:0;text-transform:none;color:var(--muted)}
+.kick{font:700 11px/1.3 var(--sans);letter-spacing:.06em;color:var(--ink2);margin-left:auto;white-space:nowrap}
+
+footer{padding-block:26px calc(34px + env(safe-area-inset-bottom,0px));border-top:1.5px solid var(--ink);font:400 13.5px/1.5 var(--sans);color:var(--ink2);display:flex;justify-content:space-between;gap:10px 30px;flex-wrap:wrap}
+footer .aside{display:inline-flex;align-items:center;gap:8px}
+footer .aside .mk{width:15px;height:15px;color:var(--muted)}
+footer details{display:none;flex-basis:100%}
+footer summary{cursor:pointer;font-weight:600;color:var(--ink);min-height:44px;display:flex;align-items:center}
+.tabbar,.appbar,.ahero{display:none}
+
+@media (max-width:900px){
+  .rows{grid-template-columns:minmax(0,1fr)}
+  .rows > :nth-child(odd of :not(.wide)){border-right:0}
+  .rr.wide{--lw:150px;--big:66px;--chh:30px}
+}
+/* ---- phone: the installed app. A thin bar, one quiet line, then rows with the whole field. ---- */
+@media (max-width:600px){
+  :root{--gut:16px}
+  .mast{display:none}
+  .appbar{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:25;padding-block:7px;background:color-mix(in oklab,var(--surface) 94%,transparent);border-bottom:1px solid var(--line)}
+  @supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){.appbar{background:color-mix(in oklab,var(--surface) 72%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}}
+  .appbar .nm{display:flex;align-items:baseline;gap:7px;font:italic 400 28px/1 var(--display);letter-spacing:-.01em}
+  .appbar .nm .drop{width:19px;height:19px;top:.02em}
+  .appbar .nm .seal{font-size:12px;top:-.25em}
+  .appbar .clk{display:flex;align-items:center;gap:5px;font:700 17px/1 var(--fig);font-variation-settings:"wdth" 75;padding:7px 11px 7px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--line2)}
+  .appbar .clk .dots{display:inline-flex;gap:3px;margin-right:3px}
+  .appbar .clk .dot{width:6px;height:6px}
+  .ahero{display:flex;align-items:baseline;justify-content:space-between;gap:4px 12px;flex-wrap:wrap;padding-block:10px 10px}
+  .ahero p{margin:0;font:500 15px/1.25 var(--sans);letter-spacing:-.01em}
+  .ahero span{font:500 12.5px/1.3 var(--sans);color:var(--muted)}
+  .ahero b{color:var(--ink2)}
+  .boardsec{padding:0}
+  .boardsec.wrap{padding-left:0;padding-right:0}
+  .boardsec .panel{border-radius:0;border-left:0;border-right:0;box-shadow:none}
+  .panel{border-radius:20px}
+  .rr,.rr.wide{--lw:86px;--big:38px;--chh:22px;gap:0 12px;padding:11px 16px 12px}
+  .rr.wide .q{font-size:14.5px}
+  .q{font-size:14.5px;margin-top:2px}
+  .who{font-size:12.5px;margin-top:6px}
+  .who .mk{width:14px;height:14px}
+  .chw{margin-top:8px}
+  .lg{margin-top:6px;gap:2px 10px}
+  .rank{font-size:18px;margin-bottom:2px}
+  .mv .wasl{display:none}
+  .boardsec .lg .mt{display:none}
+  .band{padding-block:22px}
+  .sh h2{font-size:34px}
+  .desc{margin-bottom:12px}
+  footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  footer details{display:block}
+  footer .quiet{margin-top:4px}
+  .tabbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:20;padding:5px max(10px,env(safe-area-inset-left,0px)) calc(5px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-right,0px));background:color-mix(in oklab,var(--surface) 94%,transparent);border-top:1px solid var(--line)}
+  @supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){.tabbar{background:color-mix(in oklab,var(--surface) 72%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}}
+  .tabbar a{display:flex;flex-direction:column;align-items:center;gap:3px;min-height:50px;justify-content:center;border-radius:14px;font:600 11px/1 var(--sans);color:var(--ink2)}
+  .tabbar a svg{width:22px;height:22px}
+  .tabbar a[aria-current]{color:var(--sea)}
+  .tabbar a[aria-current] svg{background:color-mix(in oklab,var(--sea) 14%,transparent);border-radius:999px;padding:2px 14px;width:52px;box-sizing:content-box;height:22px}
+}
+</style>
+</head>
+<body>
+<div class="appbar wrap"><span class="nm"><svg class="drop" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dc2"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dc2)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="seal" lang="hi">अंदाज़ा</span></span><span class="clk" id="clk2"></span></div>
+<div class="ahero wrap" id="ahero"></div>
+<header class="mast wrap">
+  <div class="mrow">
+    <div>
+      <h1><svg class="drop" viewBox="0 0 64 64" role="img" aria-label="Andaaza: a drop of water, filled to its level"><defs><clipPath id="dc"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dc)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="seal" lang="hi">अंदाज़ा</span></h1>
+      <p class="hero">Watch the world change its mind.</p>
+      <div class="quiet" id="dict"><button class="say" type="button" aria-label="Hear how Andaaza is said"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><span class="ipa">/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur">اندازہ</span><span class="def">an estimate, a guess, a rough calculation.</span></div>
+    </div>
+    <div class="reading" id="reading"></div>
+  </div>
+</header>
+
+<main>
+  <section class="boardsec wrap" aria-label="The tide board"><div class="panel"><div class="rows" id="board"></div></div></section>
+  <section class="band" aria-labelledby="ch" id="currents"><div class="wrap">
+    <div class="sh"><h2 id="ch">Currents</h2><span class="hs" lang="hi">धारा</span></div>
+    <p class="desc">Where traders changed their minds most in a day, on prices they agree on.</p>
+    <div class="panel"><div class="rows" id="cur"></div></div>
+  </div></section>
+  <section class="band tint" aria-labelledby="wm"><div class="wrap">
+    <div class="sh"><h2 id="wm">Where the money is</h2></div>
+    <p class="desc">The ten busiest markets by money traded today.</p>
+    <div class="panel"><div class="rows" id="money"></div></div>
+  </div></section>
+  <section class="band" aria-labelledby="sp" id="subjects"><div class="wrap">
+    <div class="sh"><h2 id="sp">Sport</h2><span class="hs" lang="hi">खेल</span></div>
+    <p class="desc">Football, Formula 1 and tennis. Markets already on the board above are not repeated.</p>
+    <div id="sport"></div>
+  </div></section>
+</main>
+<footer class="wrap">
+  <details><summary>About the name</summary><div class="quiet" id="dict2"></div></details>
+  <span class="aside" id="aside">Ideas by Parth. Typing by Claude. Complaints to Parth.</span>
+  <span>Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</span>
+</footer>
+<nav class="tabbar" aria-label="Pages">
+  <a href="#" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3C10 6.5 5.5 11 5.5 15a6.5 6.5 0 0 0 13 0C18.5 11 14 6.5 12 3z"/></svg>Everything</a>
+  <a href="#favourites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>Favourites</a>
+  <a href="#currents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 9q4.5-4 9 0t9 0M3 15q4.5-4 9 0t9 0"/></svg>Currents</a>
+  <a href="#subjects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="3.5"/><rect x="4" y="13" width="7" height="7" rx="3.5"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Subjects</a>
+</nav>
+
+<script>
+const A = window.AZ;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mk = m => !m ? "" : m.t === "svg" ? `<span class="mk">${m.svg}</span>` : `<img class="mk${m.flag ? " flag" : ""}" src="${esc(m.src)}" alt="">`;
+const usd = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1).replace(/\.0$/, "")}M` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
+const pts = d => `${Math.abs(d)} pt${Math.abs(d) === 1 ? "" : "s"}`;
+const WIN = { day: "in a day", week: "this week", month: "in 30 days" };
+const arrow = d => (d > 0 ? "▲" : "▼");
+const sea = c => { const d = c.lead.was == null ? 0 : Math.abs(c.lead.prob - c.lead.was); return d >= 8 ? "choppy" : d < 2 ? "calm" : "normal"; };
+const phase = s => { let h = 0; for (const ch of String(s)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return (h % 97) / 9; };
+const norm = s => String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\b(fc|cf)\b/g, "").replace(/\s+/g, " ").trim();
+const istDay = iso => new Date(new Date(iso).getTime() + 5.5 * 3600e3).toISOString().slice(0, 10);
+const kickoff = (iso, hhmm) => {
+  const d = Math.round((new Date(istDay(iso)) - new Date(A.dateIST)) / 864e5);
+  const day = d === 0 ? "Today" : d === 1 ? "Tomorrow" : new Date(istDay(iso)).toLocaleDateString("en-GB", { weekday: "long", timeZone: "UTC" });
+  return `${day} ${hhmm} IST`;
+};
+
+// The field: how a market's chances share the trough.
+//  stack: one winner (chances add to about 100): shares side by side, the rest is "Others".
+//  cum:   "By …?" questions, where later dates include earlier ones: the leader's share, the other dates as dots.
+//  yes:   a yes/no question: filled to yes.
+//  match: home, draw, away in that order, as the title names them.
+function field(c, title) {
+  const o = c.outcomes;
+  if (c.yesno) return { kind: "yes", segs: [{ ...o[0], tone: "t1" }] };
+  const sum = o.reduce((a, x) => a + x.prob, 0);
+  if (sum > 105) return { kind: "cum", segs: o.map((x, i) => ({ ...x, tone: i ? "t2" : "t1" })) };
+  const sides = (title || "").split(/\s+(?:v|vs\.?)\s+/i);
+  if (sides.length === 2 && o.length <= 3) {
+    const find = s => o.find(x => norm(s).includes(norm(x.name)) || norm(x.name).includes(norm(s)));
+    const home = find(sides[0]), away = find(sides[1].split(" · ")[0]), draw = o.find(x => /^draw$/i.test(x.name));
+    if (home && away) {
+      const lead = [home, away, draw].filter(Boolean).sort((a, b) => b.prob - a.prob)[0];
+      const segs = [home, draw, away].filter(Boolean).map(x => ({ ...x, tone: x === lead ? "t1" : /^draw$/i.test(x.name) ? "dr" : "t2" }));
+      return { kind: "match", segs, lead };
+    }
+  }
+  const tones = ["t1", "t2", "t3", "t4"];
+  return { kind: "stack", segs: o.map((x, i) => ({ ...x, tone: tones[i] })), others: Math.max(0, Math.round(100 - sum)) };
+}
+
+function channel(c, f) {
+  const segs = f.kind === "cum" ? [f.segs[0]] : f.segs;
+  const lead = f.lead || f.segs[0];
+  const parts = segs.map(s => {
+    const wv = s === lead || (f.kind !== "match" && s.tone === "t1");
+    const inner = s.prob >= 9 ? (s.mark ? mk(s.mark) : "") + (s.prob >= 16 && f.kind === "match" && !s.mark ? `<span class="pct">${s.prob}%</span>` : "") : "";
+    return `<span class="sg ${s.tone}${wv ? " wv" : ""}" style="--w:${Math.max(.6, s.prob)}">${inner}</span>`;
+  }).join("");
+  const pips = f.kind === "cum" ? f.segs.slice(1).map(s => `<i class="pip" style="--x:${Math.max(2, Math.min(98, s.prob))}" title="${esc(s.name)} ${s.prob}%"></i>`).join("") : "";
+  const was = lead.was;
+  const notch = f.kind !== "match" && was != null && Math.abs(was - lead.prob) >= 1 ? `<i class="notch" style="--x:${Math.max(1, Math.min(99, was))}" title="A day ago: ${was}%"></i>` : "";
+  return `<div class="chw" data-sea="${sea(c)}" style="--ph:${phase(c.url).toFixed(2)}"><div class="ch" role="img" aria-label="${esc(f.segs.map(s => `${s.name} ${s.prob}%`).join(", "))}">${parts}${pips}</div>${notch}</div>`;
+}
+
+const chip = x => x.was != null && Math.abs(x.prob - x.was) >= 1 ? `<span class="d ${x.prob > x.was ? "up" : "dn"}">${arrow(x.prob - x.was)}${Math.abs(x.prob - x.was)}</span>` : "";
+function legend(c, f, opts = {}) {
+  const lead = f.lead || f.segs[0];
+  const items = [];
+  if (opts.leadMove) items.push(opts.leadMove);
+  if (f.kind === "stack" || f.kind === "match" || f.kind === "cum") {
+    for (const s of f.segs) if (s !== lead) items.push(`<span><i class="sw ${f.kind === "cum" ? "pipk" : s.tone}"></i>${esc(s.name)} <b>${s.prob}%</b>${chip(s)}</span>`);
+    if (f.kind === "stack" && f.others >= 1) items.push(`<span><i class="sw dry"></i>Others <b>${f.others}%</b></span>`);
+  }
+  if (f.kind === "yes" && !opts.leadMove) items.push(`<span>Traders give it <b>${lead.prob}%</b>.</span>`);
+  if (opts.meta) items.push(...opts.meta);
+  return items.length ? `<p class="lg">${items.join("")}</p>` : "";
+}
+const meta = (c, { today = true } = {}) => {
+  const m = [`<span class="mt">${esc(c.source)}</span>`];
+  if (today && c.today) m.push(`<span class="mt">${usd(c.today)} today</span>`);
+  for (const a of c.also || []) m.push(`<span class="mt">also: ${esc(a.source)} ${a.prob}%</span>`);
+  if (c.added) m.push(`<span class="mt">${esc(c.added.label)}</span>`);
+  return m;
+};
+const leadMove = c => c.was != null && Math.abs(c.move) >= 1 ? `<span class="mv ${c.move > 0 ? "up" : "dn"}">${arrow(c.move)} ${pts(c.move)}${c.window === "day" ? "" : " " + WIN[c.window]}<span class="wasl"> · was ${c.was}%</span></span>` : "";
+
+// One race row.
+function row(c, o = {}) {
+  const title = o.title || c.title;
+  const f = field(c, o.matchTitle || title);
+  const lead = f.lead || f.segs[0];
+  const who = f.kind === "yes" ? `<span class="who q0">chance</span>` : `<span class="who">${mk(lead.mark)}<span>${esc(o.leadName || lead.name)}</span></span>`;
+  const right = o.right ?? leadMove(c);
+  const tags = `${c.added?.isNew ? `<span class="nw">New</span>` : ""}${o.follow && c.followed ? `<span class="follow">Following</span>` : ""}`;
+  return `<a class="rr${o.wide ? " wide" : ""}" data-k="${esc(c.subject)}" href="${esc(c.url)}" target="_blank" rel="noopener">
+    <div class="ld">${o.rank ? `<span class="rank">${o.rank}</span>` : ""}<b class="big">${lead.prob}<small>%</small></b>${who}</div>
+    <div class="bd">
+      <div class="top"><span class="lbl11 sj">${mk(o.labelMark)}${esc(o.label || c.subjectLabel)}</span>${tags}${o.kick ? `<span class="kick">${esc(o.kick)}</span>` : right}</div>
+      <h3 class="q">${c.star ? `<span class="star" aria-label="Always shown">★</span>` : ""}${esc(title)}</h3>
+      ${channel(c, f)}
+      ${legend(c, f, { leadMove: o.legendMove, meta: o.meta })}
+    </div>
+  </a>`;
+}
+
+// ---- header ----
+const srcs = A.sources.map(s => `<span class="src" title="${esc(s.name)}, ${esc(s.kind)}: ${s.count} questions read"><i class="dot"></i>${mk(s.mark)}${esc(s.name)}${s.kind === "play money" ? ` <em>· play money</em>` : ""}</span>`).join("");
+$("#reading").innerHTML = `<span class="clock">${A.readIST}<small>IST</small></span><span>Markets read at <b>${A.readIST}</b> · next update <b>${A.nextIST}</b></span><span class="srcs">${srcs}</span>`;
+$("#clk2").innerHTML = `<span class="dots" aria-label="All three sources answered">${A.sources.map(s => `<i class="dot" title="${esc(s.name)}"></i>`).join("")}</span>${A.readIST}<small>IST</small>`;
+$("#ahero").innerHTML = `<p>Watch the world change its mind.</p><span>Read at <b>${A.readIST}</b> · next <b>${A.nextIST}</b></span>`;
+$("#dict2").innerHTML = $("#dict").innerHTML;
+
+// ---- the tide board: seven race rows, the AI market wide on a laptop ----
+const onBoard = new Set(A.board.map(c => c.url));
+$("#board").innerHTML = A.board.map((c, i) => row(c, {
+  title: c.sub,
+  matchTitle: c.match ? c.sub.split(" · ")[0] : null,
+  label: c.label, labelMark: c.labelMark, leadName: c.lead.name, wide: i === 0,
+  meta: meta(c),
+})).join("");
+
+// ---- Currents: the move leads ----
+$("#cur").innerHTML = A.currents.map(c => row(c, {
+  right: `<span class="mv cur ${c.move > 0 ? "up" : "dn"}">${arrow(c.move)} ${pts(c.move)}</span>`,
+  legendMove: `<span class="mt">was ${c.was}%</span>`, meta: meta(c),
+})).join("");
+
+// ---- Where the money is: ranked by money traded today ----
+$("#money").innerHTML = A.money.map((c, i) => row(c, {
+  rank: i + 1, right: `<span class="mv money">${usd(c.today)} today</span>`,
+  legendMove: c.was != null && Math.abs(c.move) >= 1 ? `<span class="lead-mv ${c.move > 0 ? "up" : "dn"}">${arrow(c.move)} ${pts(c.move)}${c.window === "day" ? "" : " " + WIN[c.window]}</span>` : "",
+  meta: [`<span class="mt">${esc(c.source)}</span>`],
+})).join("");
+
+// ---- Sport ----
+const sub = (id, markKey) => {
+  const t = A.topics[id];
+  const items = t.items.filter(c => !onBoard.has(c.url)).slice(0, id === "football" ? 4 : 6);
+  const head = (label, n) => `<div class="subh" data-k="${id}">${mk(A.marks[markKey])}${esc(label)}${n ? `<small>· ${n} market${n === 1 ? "" : "s"}</small>` : ""}</div>`;
+  let html = items.length ? head(t.label, items.length) + `<div class="panel"><div class="rows">${items.map(c => row(c, { meta: meta(c), follow: true })).join("")}</div></div>` : "";
+  const matches = (t.next || []).filter(m => !A.board.some(b => b.match && b.title === m.title)).slice(0, 3);
+  if (matches.length) {
+    html += `<div class="subh" data-k="${id}">Coming up<small>· matches this week</small></div><div class="panel"><div class="rows">${matches.map(m => {
+      const lead = [...m.outcomes].sort((a, b) => b.prob - a.prob)[0];
+      const c = { title: m.title, url: "#", subject: id, subjectLabel: m.comp || t.label, outcomes: m.outcomes.map(x => ({ ...x, was: null })), lead: { ...lead, was: null }, followed: m.followed, source: "Polymarket" };
+      return row(c, { kick: kickoff(m.kickoff, m.kickoffIST), follow: true });
+    }).join("")}</div></div>`;
+  }
+  return html;
+};
+$("#sport").innerHTML = sub("football", "uefa") + sub("f1", "f1") + sub("tennis", "atp");
+$("#aside").insertAdjacentHTML("afterbegin", mk(A.marks.claude));
+</script>
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andaaza · Pages</title>
+<meta name="theme-color" content="#f3f5f9">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&text=%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%81&display=swap">
+<script src="data.js"></script>
+<style>
+/* L · Pages. Andaaza Next's look, organised as pages instead of one long scroll. On a phone each section is a page
+   you swipe to (Board · Currents · Money · Sport · ★), and each page fits its screen: the board is one tide chart,
+   seven narrow gauges on a shared 0–100 scale, with a legend under it. On a laptop the same sections sit on one
+   screen: the chart across the top, then Currents, Where the money is and Coming up in three columns. */
+:root{
+  color-scheme:light;
+  --bg:oklch(.955 .01 252);           /* haze, a touch lighter than Next: pages need calm */
+  --bg2:oklch(.93 .013 252);
+  --surface:oklch(.988 .004 252);
+  --ink:oklch(.22 .022 252);--ink2:oklch(.4 .02 252);--muted:oklch(.45 .018 252);
+  --line:oklch(.87 .012 252);--line2:oklch(.91 .01 252);
+  --sea:oklch(.42 .15 268);--marigold:oklch(.66 .16 62);--marigold-ink:oklch(.5 .14 58);
+  --up:oklch(.5 .14 150);--down:oklch(.52 .18 27);
+  --La:.55;--Ca:.17;--Lc:.94;--Cc:.045;--on:#fff;
+  --shadow:0 1px 1px oklch(.22 .02 252 / .05),0 12px 26px -20px oklch(.22 .02 252 / .32);
+  --gut:clamp(16px,3vw,64px);
+  --sans:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:"Instrument Serif","Iowan Old Style",Palatino,Georgia,serif;
+  --fig:"Bricolage Grotesque","Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+  --deva:"Tiro Devanagari Hindi","Noto Serif Devanagari","Kohinoor Devanagari",serif;
+}
+[data-k]{--a:oklch(var(--La) calc(var(--Ca) * var(--k,1)) var(--h));--ac:oklch(var(--Lc) calc(var(--Cc) * var(--k,1)) var(--h));--a2:oklch(.7 calc(.12 * var(--k,1)) var(--h))}
+[data-k=f1]{--h:27}[data-k=tennis]{--h:50}[data-k=india]{--h:68;--k:.9}[data-k=money]{--h:88;--k:.72;--La:.5}[data-k=football]{--h:150}[data-k=cricket]{--h:180;--k:.85}
+[data-k=ai]{--h:222;--k:.95}[data-k=world]{--h:262;--k:.9}[data-k=nba]{--h:285}[data-k=film]{--h:308}[data-k=celebs]{--h:340}[data-k=ott]{--h:5}[data-k=other]{--h:240;--k:.2}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--sea);outline-offset:2px;border-radius:8px}
+.wrap{padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.mk{display:inline-flex;width:1.05em;height:1.05em;flex:none;vertical-align:-.16em}
+.mk svg{width:100%;height:100%}
+img.mk{object-fit:contain}
+img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02 252 / .12)}
+.lbl11{font:700 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.d{font:700 12.5px/1.3 var(--sans);white-space:nowrap}.d.up{color:var(--up)}.d.dn{color:var(--down)}
+.star{color:var(--marigold-ink);margin-right:3px}
+.nw{font:700 11px/1 var(--sans);letter-spacing:.06em;padding:3px 6px;border-radius:999px;background:var(--marigold);color:oklch(.22 .05 60);vertical-align:1px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--up);flex:none;display:inline-block}
+.drop .o{fill:none;stroke:var(--sea);stroke-width:3.4}.drop .w{fill:var(--sea)}
+.seal{font:400 .3em/1 var(--deva);font-style:normal;color:var(--marigold-ink);border:1.5px solid color-mix(in oklab,var(--marigold) 70%,transparent);border-radius:.32em;padding:.2em .32em .1em;background:color-mix(in oklab,var(--marigold) 8%,transparent)}
+.ur{font:15px/1 "Noto Nastaliq Urdu","Noto Naskh Arabic","Geeza Pro",serif;color:var(--marigold-ink)}
+
+/* ---- the water (as in Next): the dry layer in the subject's colour, a full-height white copy inside the water,
+   masked by a wave. Percentages only. ---- */
+@property --bob{syntax:"<number>";inherits:true;initial-value:0}
+.staff{position:relative;border-radius:14px;background:var(--ac);overflow:hidden;border:1px solid color-mix(in oklab,var(--a) 20%,transparent);box-shadow:inset 0 1px 0 #fffb}
+.l{position:absolute;inset:0;color:var(--a)}
+.wbox{position:absolute;left:0;right:0;bottom:0;height:calc((var(--pv) + var(--bob)) * 1% + 4px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/var(--ww) 3000px repeat-x;mask:var(--wave) 0 0/var(--ww) 3000px repeat-x}
+.wbox::before{content:"";position:absolute;inset:0 0 auto;height:12px;background:linear-gradient(#fff5 0 30%,#fff0);z-index:1}
+.wbox>.l.wfull{top:auto;bottom:0;height:calc((100% - 4px) * 100 / (var(--pv) + var(--bob)));color:var(--on)}
+:root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 3000'%3E%3Cpath d='M0 4C8 1 16 1 24 4S40 7 48 4V3000H0z'/%3E%3C/svg%3E");--ww:48px;--wt:9s;--amp:1}
+[data-sea=calm]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 3000'%3E%3Cpath d='M0 4C13 2.2 27 2.2 40 4S67 5.8 80 4V3000H0z'/%3E%3C/svg%3E");--ww:80px;--wt:16s;--amp:.5}
+[data-sea=choppy]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 3000'%3E%3Cpath d='M0 4C5 0 10 0 15 4S25 8 30 4V3000H0z'/%3E%3C/svg%3E");--ww:30px;--wt:4.5s;--amp:2}
+@keyframes tide{to{-webkit-mask-position:var(--ww) 0;mask-position:var(--ww) 0}}
+@keyframes breathe{0%,100%{--bob:calc(var(--amp) * -1)}50%{--bob:var(--amp)}}
+@keyframes flow{to{-webkit-mask-position:0 0,100% 24px;mask-position:0 0,100% 24px}}
+@media (prefers-reduced-motion:no-preference){
+  .wbox{animation:tide var(--wt) linear infinite;animation-delay:calc(var(--ph,0) * -1s)}
+  [data-sea]{animation:breathe calc(var(--wt) * .7) ease-in-out infinite;animation-delay:calc(var(--ph,0) * -.7s)}
+  .fill{animation:flow 6s linear infinite}
+}
+.big{position:absolute;left:0;right:0;font:750 24px/.8 var(--fig);font-variation-settings:"wdth" 75,"opsz" 96;letter-spacing:-.02em;text-align:center}
+.big small{font-size:.42em;margin-left:1px;letter-spacing:0;font-weight:700}
+.was{position:absolute;left:0;right:0;bottom:calc(var(--pp) * 1%);border-top:1.5px dashed currentColor;opacity:.6}
+
+/* ---- a row whose ground is water, filled left to right to the leader's chance, with a wavy edge ---- */
+.row{position:relative;isolation:isolate;display:grid;align-items:center;min-width:0;border-radius:14px;background:var(--surface);border:1px solid var(--line2);overflow:hidden}
+.fill{position:absolute;inset:0 auto 0 0;z-index:-1;width:calc(var(--p) * 1%);background:var(--ac);
+  -webkit-mask:linear-gradient(#000,#000) 0 0/calc(100% - 5px) 100% no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 24'%3E%3Cpath d='M0 0h1C6 6 6 18 1 24H0z'/%3E%3C/svg%3E") 100% 0/6px 24px repeat-y;
+  mask:linear-gradient(#000,#000) 0 0/calc(100% - 5px) 100% no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 24'%3E%3Cpath d='M0 0h1C6 6 6 18 1 24H0z'/%3E%3C/svg%3E") 100% 0/6px 24px repeat-y}
+.ttl{display:block;font:700 13.5px/1.25 var(--sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sub2{display:flex;align-items:center;gap:6px;min-width:0;font:500 12.5px/1.3 var(--sans);color:var(--ink2);white-space:nowrap}
+.sub2 .nm{overflow:hidden;text-overflow:ellipsis}
+.sub2 .mk{width:14px;height:14px}
+.pc{font:750 17px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--a);letter-spacing:-.01em}
+.pc small{font-size:.62em;font-weight:700}
+
+/* ---- the tide chart: seven gauges on one 0–100 scale ---- */
+.chart{position:relative;display:grid;grid-template-columns:22px repeat(7,minmax(0,1fr));column-gap:6px}
+.chart .tag{grid-row:1;display:flex;align-items:center;justify-content:center;gap:4px;min-width:0;padding-bottom:6px;color:var(--a);white-space:nowrap}
+.chart .tag .full{display:none}
+.chart .tag .mk{width:12px;height:12px}
+.chart .col{grid-row:2;min-width:0;display:block}
+.chart .col .staff{height:var(--ch,212px);border-radius:12px}
+.chart .col .big{bottom:9px}
+.chart .col:hover .staff{border-color:var(--a)}
+.chart .axis{grid-row:2;grid-column:1;position:relative}
+.chart .axis span{position:absolute;right:2px;transform:translateY(50%);font:700 11px/1 var(--sans);color:var(--muted)}
+.chart .gl{position:absolute;left:28px;right:0;border-top:1px dashed oklch(.22 .02 252 / .2);pointer-events:none;z-index:2}
+.legend{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:5px}
+.legend a{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:8px;min-height:36px;padding:3px 10px 3px 4px;border-radius:11px;background:var(--surface);border:1px solid var(--line2)}
+.legend .ab{display:grid;place-items:center;height:26px;border-radius:8px;background:var(--ac);color:var(--a);font:700 11px/1 var(--sans);letter-spacing:.06em}
+.legend .who{display:flex;align-items:baseline;gap:6px;min-width:0;white-space:nowrap}
+.legend .who b{display:inline-flex;align-items:center;gap:5px;font:700 14px/1.2 var(--sans);flex:none;max-width:62%;overflow:hidden;text-overflow:ellipsis}
+.legend .who b .mk{width:15px;height:15px}
+.legend .who span{font:500 12.5px/1.2 var(--sans);color:var(--ink2);overflow:hidden;text-overflow:ellipsis;min-width:0}
+.legend .who.ask b{max-width:100%;font-size:13.5px}
+.legend .r{display:flex;align-items:center;gap:6px}
+
+/* ---- Currents ---- */
+.cur{grid-template-columns:50px minmax(0,1fr) auto;gap:12px;padding:6px 12px 6px 6px;min-height:78px}
+.cur .staff{height:64px;border-radius:12px}
+.cur .staff .big{top:auto;bottom:8px;font-size:21px}
+.cur .tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.cur .q{font:500 12.5px/1.3 var(--sans);color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cur .sj{color:var(--a)}
+.cur .mv{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.cur .mv .dd{font:750 26px/.9 var(--fig);font-variation-settings:"wdth" 75;letter-spacing:-.02em}
+.cur .mv .dd small{font:700 11px var(--sans);letter-spacing:.02em;margin-left:2px}
+.cur .mv .ft{font:500 12.5px/1 var(--sans);color:var(--muted);white-space:nowrap}
+
+/* ---- Where the money is, Favourites: rows over water ---- */
+.mrow{grid-template-columns:26px minmax(0,1fr) auto;gap:10px;padding:5px 12px 5px 8px;min-height:48px}
+.mrow .rk{font:italic 400 24px/1 var(--display);color:var(--ink2);text-align:center}
+.mrow .tx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.mrow .rt{display:flex;flex-direction:column;align-items:flex-end;gap:3px;font:500 12.5px/1.1 var(--sans);color:var(--ink2);white-space:nowrap}
+.mrow .rt b{font:750 15px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--ink)}
+.fav{grid-template-columns:minmax(0,1fr) auto}
+
+/* ---- Sport ---- */
+.sj3{display:flex;align-items:center;gap:7px;margin:16px 0 8px;color:var(--a)}
+.sj3 .mk{width:14px;height:14px}
+.tk{grid-template-columns:56px minmax(0,1fr);gap:12px;padding:8px 12px 8px 8px}
+.tk .staff{height:76px;border-radius:12px}
+.tk .staff .big{top:auto;bottom:8px;font-size:22px}
+.tk h4{margin:0 0 4px;font:700 13.5px/1.25 var(--sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tk .fl{display:flex;flex-wrap:wrap;gap:3px 12px;font:500 12.5px/1.3 var(--sans);color:var(--ink2)}
+.tk .fl span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.tk .fl .mk{width:13px;height:13px}
+.tk .fl b{font:750 14px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--ink)}
+.tk .fl span:first-child b{color:var(--a)}
+.tk .meta{display:flex;flex-wrap:wrap;gap:2px 10px;margin-top:4px;font:500 12.5px/1.3 var(--sans);color:var(--muted)}
+.fol{font:700 11px/1 var(--sans);letter-spacing:.06em;color:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:2px 6px;margin-left:5px;vertical-align:1px}
+.mt{display:grid;gap:7px;padding:10px 12px;border-radius:14px;background:var(--surface);border:1px solid var(--line2);min-width:0}
+.mt .when{display:flex;justify-content:space-between;gap:8px;color:var(--muted)}
+.mt .sides{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;font:700 13.5px/1.2 var(--sans)}
+.mt .side{display:flex;align-items:center;gap:6px;min-width:0}
+.mt .side span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mt .side.r{justify-content:flex-end;text-align:right}
+.mt .side .mk{width:20px;height:20px}
+.mt .v{font:500 12.5px var(--sans);color:var(--muted)}
+.split{display:flex;height:22px;border-radius:999px;overflow:hidden;gap:2px;font:700 12.5px/22px var(--fig);font-variation-settings:"wdth" 75;color:#fff}
+.split span{padding:0 8px;min-width:0;white-space:nowrap;overflow:hidden}
+.split .a{background:var(--a)}.split .x{background:var(--line);color:var(--ink2);text-align:center}.split .b{background:var(--a2);text-align:right;color:oklch(.2 .03 150)}
+.stack{display:grid;gap:5px}
+
+/* ---- page headings ---- */
+.ph{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0}
+.ph h2{margin:0;font:italic 400 30px/1 var(--display);letter-spacing:-.01em}
+.ph .hs{font:400 17px/1 var(--deva);color:var(--marigold-ink)}
+.pd{margin:3px 0 10px;font:400 12.5px/1.35 var(--sans);color:var(--muted)}
+.cap{margin:0 0 10px;font:400 13.5px/1.3 var(--sans);color:var(--ink2)}
+.cap b{font-weight:600;color:var(--ink)}
+
+/* ---- laptop: one screen. A compact masthead, the chart across, three columns, Sport below ---- */
+.appbar,.strip,.dots{display:none}
+.mast{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:end;gap:10px 36px;padding-block:20px 14px}
+.mast h1{margin:0;display:flex;align-items:baseline;gap:0 .14em;font:italic 400 clamp(46px,4.6vw,66px)/.84 var(--display);letter-spacing:-.02em}
+.mast h1 .drop{width:.6em;height:.6em;align-self:baseline;position:relative;top:-.02em}
+.mast h1 .seal{align-self:center;position:relative;top:-.1em}
+.mast .hero{margin:0 0 2px;text-wrap:balance;font:400 clamp(18px,1.6vw,23px)/1.15 var(--sans);letter-spacing:-.01em}
+.dict{display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px;margin-top:6px;font:400 12.5px/1.3 var(--sans);color:var(--ink2)}
+.say{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;border:0;background:var(--sea);color:#fff}
+.say svg{width:14px;height:14px}
+.pos{font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.reading{display:flex;align-items:center;gap:6px 12px;flex-wrap:wrap;justify-content:flex-end;padding:7px 8px 7px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line2);box-shadow:var(--shadow);font:500 12.5px/1.2 var(--sans);color:var(--ink2)}
+.reading .clock{font:700 21px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--ink)}
+.reading .clock small{font:700 11px var(--sans);letter-spacing:.08em;margin-left:3px;color:var(--muted)}
+.reading b{color:var(--ink)}
+.src{display:inline-flex;align-items:center;gap:5px;padding:5px 9px 5px 8px;border-radius:999px;background:var(--bg);font-weight:600}
+.src .mk{width:13px;height:13px;color:var(--ink2)}
+.pager{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,.85fr);gap:18px clamp(18px,2vw,30px);padding-bottom:28px}
+.page{min-width:0}
+#p-board{grid-column:1/-1;border-top:1.5px solid var(--ink);padding-top:14px}
+#p-board .cap{display:none}
+#p-currents{grid-column:1;grid-row:2}
+#p-money{grid-column:2;grid-row:2}
+#p-sport{display:contents}
+#p-sport .coming{grid-column:3;grid-row:2;min-width:0}
+#p-sport .cards{grid-column:1/-1;grid-row:3;border-top:1px solid var(--line);padding-top:6px}
+#p-sport .cards > .ph{margin-top:10px}
+#p-sport .cards .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 18px}
+#p-sport .coming .ph{display:flex}
+#p-fav{display:none}
+/* laptop: the chart is bigger and each column's legend sits under it, like the board's shared rows */
+@media (min-width:601px){
+  .chart{--ch:clamp(150px,12vw,200px);column-gap:clamp(10px,1.2vw,18px);grid-template-columns:26px repeat(7,minmax(0,1fr))}
+  .chart .tag{justify-content:flex-start;padding-bottom:8px}
+  .chart .tag .full{display:inline}.chart .tag .short{display:none}
+  .chart .col .big{bottom:12px;font-size:clamp(34px,3.2vw,48px);text-align:left;left:12px}
+  .legend{grid-template-columns:26px repeat(7,minmax(0,1fr));column-gap:clamp(10px,1.2vw,18px);margin-top:10px}
+  .legend::before{content:""}
+  .legend li{min-width:0}
+  .legend a{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:0;background:none;border:0;min-height:0}
+  .legend .ab{display:none}
+  .legend .who{flex-direction:column;align-items:flex-start;gap:2px;white-space:normal}
+  .legend .who b{max-width:100%;font-size:15px}
+  .legend .who span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .legend .who.ask b{font-size:14px;line-height:1.25}
+  .ph h2{font-size:32px}
+  .cur{min-height:58px;grid-template-columns:40px minmax(0,1fr) auto;padding:5px 12px 5px 6px;gap:10px}
+  .cur .staff{height:48px;border-radius:10px}
+  .cur .staff .big{font-size:17px;bottom:6px}
+  .cur .q{-webkit-line-clamp:1}
+  .cur .mv .dd{font-size:22px}
+  .stack{gap:5px}
+  .mrow{min-height:36px;padding:4px 12px 4px 6px;grid-template-columns:24px minmax(0,1fr) auto}
+  .mrow .tx{flex-direction:row;align-items:center;gap:10px}
+  .mrow .tx .ttl{flex:1 1 auto;min-width:0}
+  .mrow .tx .sub2{flex:0 1 auto;max-width:45%}
+  .mrow .rk{font-size:20px}
+  .mrow .rt{flex-direction:row;align-items:center;gap:10px}
+  .mt{padding:8px 12px;gap:6px}
+}
+@media (min-width:601px) and (max-width:1100px){
+  .pager{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  #p-sport .coming{grid-column:1/-1;grid-row:3}
+  #p-sport .cards{grid-row:4}
+  #p-sport .cards .grid3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .chart{grid-template-columns:22px repeat(7,minmax(0,1fr))}
+  .chart .tag .full{display:none}.chart .tag .short{display:inline}
+  .mast{grid-template-columns:minmax(0,1fr) auto}.mast .mid{grid-column:1/-1;grid-row:2}
+}
+footer{padding-block:20px calc(28px + env(safe-area-inset-bottom,0px));border-top:1.5px solid var(--ink);font:400 13.5px/1.5 var(--sans);color:var(--ink2);display:flex;justify-content:space-between;gap:8px 30px;flex-wrap:wrap}
+footer .aside{display:inline-flex;align-items:center;gap:8px}
+footer .aside .mk{width:15px;height:15px;color:var(--muted)}
+
+/* ---- phone: the installed app. A bar, a page strip, pages you swipe to, page dots for the thumb ---- */
+@media (max-width:600px){
+  html,body{height:100%}
+  body{display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
+  .mast,footer{display:none}
+  .appbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:none;padding-block:8px 4px;background:var(--bg)}
+  .appbar .nm{display:flex;align-items:baseline;gap:6px;font:italic 400 27px/1 var(--display);letter-spacing:-.01em}
+  .appbar .nm .drop{width:18px;height:18px;position:relative;top:.02em}
+  .appbar .nm .seal{font-size:11.5px;position:relative;top:-.3em}
+  .appbar .rd{display:flex;align-items:center;gap:6px;min-height:36px;padding:0 6px 0 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line2);font:700 16px/1 var(--fig);font-variation-settings:"wdth" 75}
+  .appbar .rd small{font:700 10px var(--sans);letter-spacing:.08em;color:var(--muted)}
+  .appbar .rd .i{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--bg);color:var(--ink2)}
+  .appbar .rd .i svg{width:15px;height:15px}
+  .appbar .ds{display:flex;gap:3px}
+  .appbar .ds .dot{width:6px;height:6px}
+  .strip{display:flex;position:relative;flex:none;gap:2px;margin:4px 0 0;padding:4px;border-radius:999px;background:var(--bg2);overflow-x:auto;scrollbar-width:none;margin-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+  .strip::-webkit-scrollbar{display:none}
+  .strip button{position:relative;z-index:1;flex:1 0 auto;min-height:36px;padding:0 13px;border:0;border-radius:999px;background:none;font:600 13.5px/1 var(--sans);color:var(--ink2);white-space:nowrap}
+  .strip button[aria-selected=true]{color:var(--ink)}
+  .strip .pill{position:absolute;z-index:0;top:4px;bottom:4px;left:0;width:0;border-radius:999px;background:var(--surface);box-shadow:var(--shadow)}
+  .pager{display:flex;flex:1 1 auto;min-height:0;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;gap:0;padding:0;overscroll-behavior-x:contain}
+  .pager::-webkit-scrollbar{display:none}
+  .page{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;overflow-y:auto;overscroll-behavior-y:contain;padding-block:12px 16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  #p-board,#p-currents,#p-money,#p-fav{grid-column:auto;grid-row:auto;border-top:0;padding-top:12px}
+  #p-board .cap{display:block}
+  #p-sport{display:block}
+  #p-sport .coming,#p-sport .cards{grid-column:auto;grid-row:auto;border-top:0;padding-top:0}
+  #p-sport .cards .grid3{display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+  #p-sport .coming{margin-bottom:4px}
+  #p-fav{display:block}
+  .chart .tag .full{display:none}.chart .tag .short{display:inline}
+  .dots{display:flex;justify-content:center;align-items:center;gap:7px;flex:none;padding:6px 0 calc(8px + env(safe-area-inset-bottom,0px));background:var(--bg)}
+  .dots i{width:6px;height:6px;border-radius:50%;background:var(--line);transition:width .2s,background .2s}
+  .dots i.on{width:18px;border-radius:3px;background:var(--sea)}
+}
+/* short phones: a slightly shorter chart so the board still fits one screen */
+@media (max-width:600px) and (max-height:760px){.chart{--ch:170px}.legend a{min-height:32px}}
+@media (max-width:600px) and (min-height:900px){.chart{--ch:240px}.legend a{min-height:40px}}
+
+dialog{border:0;border-radius:24px;padding:0;width:min(560px,calc(100% - 32px));background:var(--surface);color:var(--ink);box-shadow:0 30px 60px -30px oklch(.2 .03 252 / .5)}
+dialog::backdrop{background:oklch(.22 .02 252 / .35)}
+.sheet{display:grid;gap:12px;padding:22px 20px}
+.sheet h3{margin:0;font:italic 400 34px/1 var(--display)}
+.sheet p{margin:0;font-size:13.5px;line-height:1.5;color:var(--ink2)}
+.sheet .hero2{font:400 20px/1.2 var(--sans);color:var(--ink)}
+.sheet .srcl{display:grid;gap:6px;margin:0;padding:0;list-style:none;font:500 13.5px/1.3 var(--sans)}
+.sheet .srcl li{display:flex;align-items:center;gap:8px}
+.sheet .srcl .mk{width:14px;height:14px}
+.sheet .srcl em{font-style:normal;color:var(--muted);margin-left:auto}
+.sheet button.x{justify-self:end;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);font:600 13.5px var(--sans)}
+</style>
+</head>
+<body>
+<!-- phone: the app bar -->
+<div class="appbar wrap">
+  <span class="nm"><svg class="drop" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dc2"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dc2)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="seal" lang="hi">अंदाज़ा</span></span>
+  <button class="rd" type="button" id="aboutbtn" aria-label="About Andaaza and this reading"><span class="ds" id="ds"></span><span id="clk"></span><small>IST</small><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg></span></button>
+</div>
+<div class="strip" role="tablist" aria-label="Pages" id="strip"><span class="pill" id="pill" aria-hidden="true"></span></div>
+
+<!-- laptop: the masthead -->
+<header class="mast wrap">
+  <h1><svg class="drop" viewBox="0 0 64 64" role="img" aria-label="Andaaza: a drop of water, filled to its level"><defs><clipPath id="dc"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dc)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="seal" lang="hi">अंदाज़ा</span></h1>
+  <div class="mid">
+    <p class="hero">Watch the world change its mind.</p>
+    <div class="dict"><button class="say" type="button" aria-label="Hear how Andaaza is said"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><span>/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur">اندازہ</span><span>an estimate, a guess, a rough calculation.</span></div>
+  </div>
+  <div class="reading" id="reading"></div>
+</header>
+
+<main class="pager wrap" id="pager">
+  <section class="page" id="p-board" role="tabpanel" aria-labelledby="t-board" data-hash="board">
+    <p class="cap"><b>Watch the world change its mind.</b> The seven questions moving most now, on one scale.</p>
+    <div class="chart" id="chart"></div>
+    <ol class="legend" id="legend"></ol>
+  </section>
+  <section class="page" id="p-currents" role="tabpanel" aria-labelledby="t-currents" data-hash="currents">
+    <div class="ph"><h2>Currents</h2><span class="hs" lang="hi">धारा</span></div>
+    <p class="pd">Biggest moves in a day, on prices traders agree on.</p>
+    <div class="stack" id="currents"></div>
+  </section>
+  <section class="page" id="p-money" role="tabpanel" aria-labelledby="t-money" data-hash="money">
+    <div class="ph"><h2>Where the money is</h2></div>
+    <p class="pd">The ten busiest questions by money traded today.</p>
+    <div class="stack" id="money"></div>
+  </section>
+  <section class="page" id="p-sport" role="tabpanel" aria-labelledby="t-sport" data-hash="sport">
+    <div class="coming">
+      <div class="ph"><h2>Coming up</h2></div>
+      <p class="pd">Matches in the next seven days.</p>
+      <div class="stack" id="coming"></div>
+    </div>
+    <div class="cards">
+      <div class="ph"><h2>Sport</h2><span class="hs" lang="hi">खेल</span></div>
+      <div id="sport"></div>
+    </div>
+  </section>
+  <section class="page" id="p-fav" role="tabpanel" aria-labelledby="t-fav" data-hash="favourites">
+    <div class="ph"><h2>Favourites</h2></div>
+    <p class="pd">Every ★ must-have, and every market about a side Parth follows.</p>
+    <div class="stack" id="fav"></div>
+  </section>
+</main>
+<div class="dots" id="dots" aria-hidden="true"></div>
+<footer class="wrap">
+  <span class="aside" id="aside">Ideas by Parth. Typing by Claude. Complaints to Parth.</span>
+  <span>Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</span>
+</footer>
+
+<dialog id="about" aria-labelledby="ab-h">
+  <div class="sheet">
+    <h3 id="ab-h">Andaaza <span class="seal" lang="hi" style="font-size:15px">अंदाज़ा</span></h3>
+    <p>/ən·daː·zaː/ · <span class="pos">noun · Hindi, Urdu</span> · <span class="ur" lang="ur">اندازہ</span> · an estimate, a guess, a rough calculation.</p>
+    <p class="hero2">Watch the world change its mind.</p>
+    <p id="ab-read"></p>
+    <ul class="srcl" id="ab-src"></ul>
+    <p>Each gauge is filled to the chance the markets give; the dashed mark is where it stood a day ago. Swipe sideways for the next page.</p>
+    <p>Ideas by Parth. Typing by Claude. Complaints to Parth. Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</p>
+    <form method="dialog"><button class="x" type="submit">Close</button></form>
+  </div>
+</dialog>
+
+<script>
+const A = window.AZ;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mk = m => !m ? "" : m.t === "svg" ? `<span class="mk">${m.svg}</span>` : `<img class="mk${m.flag ? " flag" : ""}" src="${esc(m.src)}" alt="">`;
+const usd = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1).replace(/\.0$/, "")}M` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
+const pts = d => `${Math.abs(d)} pt${Math.abs(d) === 1 ? "" : "s"}`;
+const WIN = { day: "in a day", week: "this week", month: "in 30 days" };
+const moved = c => c.was != null && Math.abs(c.move) >= 1;
+const moveShort = c => moved(c) ? `<span class="d ${c.move > 0 ? "up" : "dn"}">${c.move > 0 ? "▲" : "▼"} ${pts(c.move)}${c.window === "day" ? "" : " " + WIN[c.window]}</span>` : "";
+const sea = c => { const d = c.lead.was == null ? 0 : Math.abs(c.lead.prob - c.lead.was); return d >= 8 ? "choppy" : d < 2 ? "calm" : "normal"; };
+const phase = s => { let h = 0; for (const ch of String(s)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return (h % 97) / 9; };
+const lvl = p => Math.max(3, Math.min(100, p));
+const ext = `target="_blank" rel="noopener"`;
+const nw = c => c.added?.isNew ? ` <span class="nw">New</span>` : "";
+// The leader as people say it: the question itself for yes/no markets.
+const leader = c => c.yesno ? `${esc(c.lead.prob)}% yes` : `${mk(c.lead.mark)}<span class="nm">${esc(c.lead.name)}</span>`;
+
+// One gauge, as in Next: the number drawn twice, colour above the waterline and white below it.
+function staff(c, k = "") {
+  const p = c.lead.prob, day = c.lead.was;
+  const marks = day != null && Math.abs(p - day) >= 3 ? `<i class="was" style="--pp:${day}"></i>` : "";
+  const inner = `<b class="big">${Math.round(p)}<small>%</small></b>${marks}`;
+  return `<div class="staff" data-sea="${sea(c)}" style="--pv:${lvl(p)};--ph:${phase(c.url + k).toFixed(2)}"><div class="l">${inner}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${inner}</div></div></div>`;
+}
+
+// ---- reading ----
+const srcDots = A.sources.map(s => `<i class="dot" title="${esc(s.name)}: answering"></i>`).join("");
+$("#ds").innerHTML = srcDots; $("#clk").textContent = A.readIST;
+$("#reading").innerHTML = `<span class="clock">${A.readIST}<small>IST</small></span><span>next update <b>${A.nextIST}</b></span>${A.sources.map(s => `<span class="src" title="${esc(s.name)}, ${esc(s.kind)}"><i class="dot"></i>${mk(s.mark)}${esc(s.name)}</span>`).join("")}`;
+$("#ab-read").innerHTML = `Markets read at <b>${A.readIST} IST</b>; next update <b>${A.nextIST}</b>.`;
+$("#ab-src").innerHTML = A.sources.map(s => `<li><i class="dot"></i>${mk(s.mark)}${esc(s.name)}<em>${s.kind === "play money" ? "play money · " : ""}${s.count} questions</em></li>`).join("");
+
+// ---- the board: one tide chart and its legend ----
+const SHORT = { "Best AI model": "AI", "Football": "FOOT", "Champions League": "UCL", "Formula 1": "F1", "Cricket": "CRIC", "World": "WORLD", "Money & markets": "MONEY" };
+const B = A.board;
+const axis = `<div class="axis" aria-hidden="true">${[25, 50, 75].map(v => `<span style="bottom:${v}%">${v}</span>`).join("")}</div>`;
+$("#chart").innerHTML = `<span class="tag" aria-hidden="true"></span>` + B.map(c => `<span class="tag lbl11" data-k="${esc(c.subject)}" aria-hidden="true">${c.labelMark ? mk(c.labelMark) : ""}<span class="short">${SHORT[c.label] || esc(c.label)}</span><span class="full">${esc(c.label)}</span></span>`).join("")
+  + axis + B.map((c, i) => `<a class="col" data-k="${esc(c.subject)}" href="${esc(c.url)}" ${ext} aria-label="${esc(c.label)}: ${esc(c.yesno ? c.sub : c.lead.name)} ${c.lead.prob}%">${staff(c, "b" + i)}</a>`).join("");
+// guide lines across the whole chart at 25, 50, 75, placed once the columns have their height
+function guides() {
+  const ch = $("#chart"), col = ch.querySelector(".col .staff"); if (!col) return;
+  ch.querySelectorAll(".gl").forEach(e => e.remove());
+  const top = col.offsetTop, h = col.offsetHeight;
+  for (const v of [25, 50, 75]) { const g = document.createElement("i"); g.className = "gl"; g.style.top = (top + h * (1 - v / 100)) + "px"; ch.appendChild(g); }
+}
+$("#legend").innerHTML = B.map(c => `<li data-k="${esc(c.subject)}"><a href="${esc(c.url)}" ${ext}><span class="ab" aria-hidden="true">${SHORT[c.label] || ""}</span>
+  <span class="who${c.yesno ? " ask" : ""}">${c.yesno ? `<b>${esc(c.sub)}</b>` : `<b>${mk(c.lead.mark)}${esc(c.lead.name)}</b><span>${esc(c.sub)}</span>`}</span>
+  <span class="r">${moveShort(c) || `<span class="d" style="color:var(--muted)">steady</span>`}</span></a></li>`).join("");
+
+// ---- Currents ----
+$("#currents").innerHTML = A.currents.map((c, i) => `<a class="row cur" data-k="${esc(c.subject)}" href="${esc(c.url)}" ${ext}>${staff(c, "c" + i)}
+  <span class="tx"><span class="ttl">${c.yesno ? esc(c.title) : `${mk(c.lead.mark)} ${esc(c.lead.name)}`}${nw(c)}</span>${c.yesno ? "" : `<span class="q">${esc(c.title)}</span>`}<span class="lbl11 sj">${esc(c.subjectLabel)}</span></span>
+  <span class="mv"><span class="dd d ${c.move > 0 ? "up" : "dn"}">${c.move > 0 ? "▲" : "▼"}${Math.abs(c.move)}<small>pts</small></span><span class="ft">${c.was}% → ${c.lead.prob}%</span></span></a>`).join("");
+
+// ---- Where the money is, Favourites: rows over water ----
+const mrow = (c, rank) => `<a class="row mrow${rank ? "" : " fav"}" data-k="${esc(c.subject)}" href="${esc(c.url)}" ${ext} style="--p:${c.lead.prob}"><span class="fill" aria-hidden="true"></span>
+  ${rank ? `<span class="rk">${rank}</span>` : ""}<span class="tx"><span class="ttl">${c.star ? `<span class="star" aria-label="Must-have">★</span>` : ""}${esc(c.title)}${nw(c)}</span>
+  <span class="sub2">${c.yesno ? "" : leader(c)} <b class="pc">${c.lead.prob}<small>%</small></b>${c.yesno ? `<span>chance of yes</span>` : ""} ${moveShort(c)}</span></span>
+  <span class="rt"><b>${c.today ? usd(c.today) : ""}</b><span>${c.today ? "today" : esc(c.source)}</span></span></a>`;
+$("#money").innerHTML = A.money.map((c, i) => mrow(c, i + 1)).join("");
+const seen = new Set(), favs = [];
+for (const c of [...B, ...Object.values(A.topics).flatMap(t => t.items)]) if ((c.star || c.followed) && !seen.has(c.url)) { seen.add(c.url); favs.push(c); }
+$("#fav").innerHTML = favs.map(c => mrow(c, 0)).join("");
+
+// ---- Sport: compact cards and matches ----
+const onBoard = new Set(B.map(b => b.url));
+const istDay = iso => new Date(iso).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", weekday: "short", day: "numeric", month: "short" });
+const card = (c, i) => `<a class="row tk" data-k="${esc(c.subject)}" href="${esc(c.url)}" ${ext}>${staff(c, "t" + i)}<span style="min-width:0">
+  <h4>${c.star ? `<span class="star" aria-label="Must-have">★</span>` : ""}${esc(c.title)}${c.followed ? `<span class="fol">Following</span>` : ""}</h4>
+  <span class="fl">${c.outcomes.slice(0, 3).map(o => `<span>${mk(o.mark)}${esc(o.name)} <b>${o.prob}%</b></span>`).join("")}</span>
+  <span class="meta">${moveShort(c)}<span>${esc(c.source)}</span>${c.today ? `<span>${usd(c.today)} today</span>` : ""}${c.also.length ? `<span>also: ${c.also.map(a => `${esc(a.source)} ${a.prob}%`).join(", ")}</span>` : ""}${c.added ? `<span>${esc(c.added.label)}</span>` : ""}</span></span></a>`;
+const sj = (id, key) => {
+  const t = A.topics[id], items = t.items.filter(c => !onBoard.has(c.url)).slice(0, 4);
+  return `<h3 class="sj3 lbl11" data-k="${id}">${mk(A.marks[key])}${esc(t.label)}</h3><div class="grid3">${items.map(card).join("")}</div>`;
+};
+$("#sport").innerHTML = sj("football", "uefa") + sj("f1", "f1") + sj("tennis", "atp");
+const short = n => n.replace(/ (CF|FC)$/, "").replace(/^FC /, "");
+function match(m) {
+  const [home, away] = m.title.split(/ v /);
+  const side = n => m.outcomes.find(o => o.name === n) || m.outcomes.find(o => n.includes(o.name) || o.name.includes(n));
+  const H = side(home) || m.outcomes[0], W = side(away) || m.outcomes[m.outcomes.length - 1], X = m.outcomes.find(o => o.name === "Draw");
+  return `<div class="mt" data-k="football"><div class="when lbl11"><span>${esc(istDay(m.kickoff))} · ${esc(m.kickoffIST)} IST</span>${m.followed ? `<span>Following</span>` : ""}</div>
+  <div class="sides"><span class="side">${mk(H.mark)}<span>${esc(short(home))}</span></span><span class="v">v</span><span class="side r"><span>${esc(short(away))}</span>${mk(W.mark)}</span></div>
+  <div class="split" role="img" aria-label="${esc(H.name)} ${H.prob}%, draw ${X ? X.prob : 0}%, ${esc(W.name)} ${W.prob}%"><span class="a" style="flex:${H.prob}">${H.prob}%</span>${X ? `<span class="x" style="flex:${X.prob}">${X.prob}</span>` : ""}<span class="b" style="flex:${W.prob}">${W.prob}%</span></div></div>`;
+}
+$("#coming").innerHTML = A.topics.football.next.filter(m => !B.some(b => b.title === m.title)).slice(0, 3).map(match).join("");
+$("#aside").insertAdjacentHTML("afterbegin", mk(A.marks.claude));
+
+// ---- pages: a strip of tabs that follows the swipe; the address follows the page, so back works ----
+const pages = [...document.querySelectorAll(".page")];
+const NAMES = { board: "Board", currents: "Currents", money: "Money", sport: "Sport", favourites: "★" };
+const strip = $("#strip"), pill = $("#pill"), pager = $("#pager");
+strip.insertAdjacentHTML("beforeend", pages.map((p, i) => `<button type="button" role="tab" id="t-${p.dataset.hash === "favourites" ? "fav" : p.dataset.hash}" aria-controls="${p.id}" aria-selected="${i ? "false" : "true"}" tabindex="${i ? -1 : 0}">${NAMES[p.dataset.hash]}${p.dataset.hash === "favourites" ? `<span class="vh"> Favourites</span>` : ""}</button>`).join(""));
+$("#dots").innerHTML = pages.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("");
+const tabs = [...strip.querySelectorAll("[role=tab]")], dots = [...$("#dots").children];
+const phone = matchMedia("(max-width:600px)");
+let cur = 0;
+function movePill(x) {
+  const i = Math.max(0, Math.min(tabs.length - 1, Math.floor(x))), f = x - i, a = tabs[i], b = tabs[Math.min(tabs.length - 1, i + 1)];
+  pill.style.left = (a.offsetLeft + (b.offsetLeft - a.offsetLeft) * f) + "px";
+  pill.style.width = (a.offsetWidth + (b.offsetWidth - a.offsetWidth) * f) + "px";
+}
+function select(i, push) {
+  if (i === cur && !push) return;
+  cur = i;
+  tabs.forEach((t, j) => { t.setAttribute("aria-selected", j === i ? "true" : "false"); t.tabIndex = j === i ? 0 : -1; });
+  dots.forEach((d, j) => d.classList.toggle("on", j === i));
+  tabs[i].scrollIntoView({ block: "nearest", inline: "nearest" });
+  const h = "#" + pages[i].dataset.hash;
+  if (location.hash !== h) { try { push ? history.pushState(null, "", h) : history.replaceState(null, "", h); } catch {} }
+}
+const go = (i, smooth) => { pager.scrollTo({ left: i * pager.clientWidth, behavior: smooth && !matchMedia("(prefers-reduced-motion:reduce)").matches ? "smooth" : "auto" }); };
+tabs.forEach((t, i) => {
+  t.addEventListener("click", () => { if (i !== cur) { select(i, true); go(i, true); } });
+  t.addEventListener("keydown", e => {
+    const n = e.key === "ArrowRight" ? i + 1 : e.key === "ArrowLeft" ? i - 1 : e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : null;
+    if (n == null) return; e.preventDefault(); const j = (n + tabs.length) % tabs.length; tabs[j].focus(); tabs[j].click();
+  });
+});
+let settle;
+pager.addEventListener("scroll", () => {
+  if (!phone.matches) return;
+  const x = pager.scrollLeft / pager.clientWidth; movePill(x);
+  clearTimeout(settle); settle = setTimeout(() => { const i = Math.round(pager.scrollLeft / pager.clientWidth); if (i !== cur) select(i, true); }, 120);
+}, { passive: true });
+const fromHash = () => { const i = pages.findIndex(p => "#" + p.dataset.hash === location.hash); return i < 0 ? 0 : i; };
+addEventListener("popstate", () => { const i = fromHash(); select(i, false); if (phone.matches) go(i, false); });
+function layout() { guides(); if (phone.matches) { go(cur, false); movePill(cur); } }
+addEventListener("resize", layout);
+document.fonts?.ready.then(layout);
+cur = -1; select(fromHash(), false); layout();
+requestAnimationFrame(layout);
+
+// ---- About: the dictionary line, the reading and the sources, one tap away on the phone ----
+const about = $("#about");
+$("#aboutbtn").addEventListener("click", () => { if (about.showModal) about.showModal(); else about.setAttribute("open", ""); });
+</script>
+</body>
+</html>

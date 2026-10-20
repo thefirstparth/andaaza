@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andaaza · Tide Rows</title>
+<meta name="theme-color" content="#e9edf3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&text=%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%81&display=swap">
+<script src="data.js"></script>
+<style>
+/* I · Tide Rows. Andaaza Next, laid on its side so a phone screen holds the whole board. Every market is one slim
+   row whose background is the water: it fills left to right to the chance, its edge is a moving wave, yesterday is a
+   dashed notch. On the board the water is the subject's full ink and everything under it turns white (the masked
+   number, as on today's gauges); in the lists below it is a pale tint, so the page gets quieter as it goes down.
+   Layout: compact masthead; board beside Currents; Where the money is in two columns; Sport in two columns. */
+:root{
+  color-scheme:light;
+  --bg:oklch(.948 .011 252);          /* haze: between paper and slate */
+  --bg2:oklch(.925 .014 252);         /* a section band */
+  --surface:oklch(.985 .005 252);     /* rows sit a step lighter than the ground */
+  --ink:oklch(.22 .022 252);--ink2:oklch(.4 .02 252);--muted:oklch(.45 .018 252);
+  --line:oklch(.86 .012 252);--line2:oklch(.9 .01 252);
+  --sea:oklch(.42 .15 268);--marigold:oklch(.66 .16 62);--marigold-ink:oklch(.52 .14 58);
+  --up:oklch(.5 .14 150);--down:oklch(.52 .18 27);
+  --La:.5;--Ca:.17;--Lc:.94;--Cc:.045;--on:#fff;
+  --shadow:0 1px 1px oklch(.22 .02 252 / .05),0 10px 24px -18px oklch(.22 .02 252 / .3);
+  --gut:clamp(16px,3vw,64px);
+  --sans:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:"Instrument Serif","Iowan Old Style",Palatino,Georgia,serif;
+  --fig:"Bricolage Grotesque","Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+  --deva:"Tiro Devanagari Hindi","Noto Serif Devanagari","Kohinoor Devanagari",serif;
+  /* row sizes: the board's rows, the lists' rows, and the number column of each */
+  --rb:62px;--rl:52px;--nb:74px;--nl:52px;
+}
+[data-k]{--a:oklch(var(--La) calc(var(--Ca) * var(--k,1)) var(--h));--ac:oklch(var(--Lc) calc(var(--Cc) * var(--k,1)) var(--h));--a2:oklch(.72 calc(.11 * var(--k,1)) var(--h));--tint:oklch(.87 calc(.075 * var(--k,1)) var(--h))}
+[data-k=f1]{--h:27}[data-k=tennis]{--h:50}[data-k=india]{--h:68;--k:.9}[data-k=money]{--h:88;--k:.72;--La:.46}[data-k=football]{--h:150}[data-k=cricket]{--h:180;--k:.85}
+[data-k=ai]{--h:222;--k:.95}[data-k=world]{--h:262;--k:.9}[data-k=nba]{--h:285}[data-k=film]{--h:308}[data-k=celebs]{--h:340}[data-k=ott]{--h:5}[data-k=other]{--h:240;--k:.2}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--sea);outline-offset:3px;border-radius:8px}
+.wrap{padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.mk{display:inline-flex;width:1.05em;height:1.05em;flex:none;vertical-align:-.16em}
+.mk svg{width:100%;height:100%}
+img.mk{object-fit:contain}
+img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02 252 / .12)}
+.lbl11{font:700 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--up);flex:none;display:inline-block}
+
+/* ---- masthead (laptop): the name, the word, the reading, all smaller than today ---- */
+.mast{position:relative;isolation:isolate;padding-block:clamp(18px,2.6vw,34px) clamp(14px,1.8vw,22px)}
+.mast::before{content:"";position:absolute;inset:0;z-index:-1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='44' viewBox='0 0 120 44'%3E%3Cg fill='none' stroke-width='3' stroke-linecap='round'%3E%3Cpath stroke='%233b46a8' stroke-opacity='.10' d='M-10 8q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3Cpath stroke='%23d98a1a' stroke-opacity='.13' d='M-10 30q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3C/g%3E%3C/svg%3E") 0 0/120px 44px;-webkit-mask:linear-gradient(to bottom,#000,transparent 92%);mask:linear-gradient(to bottom,#000,transparent 92%)}
+.mrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px 32px;flex-wrap:wrap}
+.mast h1{margin:0;display:flex;align-items:baseline;gap:0 .14em;font:italic 400 clamp(52px,6.4vw,92px)/.84 var(--display);letter-spacing:-.02em}
+.drop{width:.6em;height:.6em;flex:none;align-self:baseline;position:relative;top:-.04em}
+.drop .o{fill:none;stroke:var(--sea);stroke-width:3.2}
+.drop .w{fill:var(--sea)}
+.seal{font:400 .3em/1 var(--deva);font-style:normal;color:var(--marigold-ink);border:1.5px solid color-mix(in oklab,var(--marigold) 70%,transparent);border-radius:.32em;padding:.2em .32em .1em;align-self:center;position:relative;top:-.12em;background:color-mix(in oklab,var(--marigold) 8%,transparent)}
+.mside{display:grid;justify-items:end;gap:10px}
+.hero{margin:0;font:400 clamp(20px,1.9vw,28px)/1.15 var(--sans);letter-spacing:-.015em;text-wrap:balance}
+.sub{display:flex;align-items:center;justify-content:space-between;gap:10px 28px;flex-wrap:wrap;margin-top:clamp(12px,1.4vw,18px)}
+.quiet{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;margin-top:8px;font:400 13.5px/1.4 var(--sans);color:var(--ink2)}
+.say{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;border:0;background:var(--sea);color:#fff;flex:none}
+.say svg{width:15px;height:15px}
+.ipa{color:var(--muted)}
+.pos{font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ur{font:16px/1 "Noto Nastaliq Urdu","Noto Naskh Arabic","Geeza Pro",serif;color:var(--marigold-ink)}
+.def{color:var(--ink)}
+.reading{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;padding:7px 8px 7px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--line2);box-shadow:var(--shadow);font:500 12.5px/1.2 var(--sans);color:var(--ink2)}
+.reading .clock{font:700 22px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--ink);letter-spacing:-.01em}
+.reading .clock small{font:700 11px var(--sans);letter-spacing:.08em;margin-left:3px;color:var(--muted)}
+.reading b{color:var(--ink)}
+.srcs{display:flex;gap:4px;flex-wrap:wrap}
+.src{display:inline-flex;align-items:center;gap:5px;padding:5px 9px 5px 8px;border-radius:999px;background:var(--bg);font-weight:600}
+.src .mk{width:13px;height:13px;color:var(--ink2)}
+.src em{font-style:normal;font-weight:500;color:var(--muted)}
+
+/* ---- a tide row: the water fills left to right. The dry layer holds the text in ink and the number in the subject's
+   ink; the water is a box from the left edge to the level, its right edge cut by a wave (a mask that drifts down the
+   edge), holding a full-width copy of the row in white. So every letter is ink on the dry side and white under water.
+   Percentages only. ---- */
+@property --bob{syntax:"<number>";inherits:true;initial-value:0}
+:root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3000 48'%3E%3Cpath d='M0 0H2995C2998.5 8 2998.5 16 2995 24S2991.5 40 2995 48H0z'/%3E%3C/svg%3E");--wh:48px;--wt:7s;--amp:.6}
+[data-sea=calm]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3000 80'%3E%3Cpath d='M0 0H2995C2997 13 2997 27 2995 40S2993 67 2995 80H0z'/%3E%3C/svg%3E");--wh:80px;--wt:12s;--amp:.3}
+[data-sea=choppy]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3000 28'%3E%3Cpath d='M0 0H2994C2999.5 4.7 2999.5 9.3 2994 14S2988.5 23.3 2994 28H0z'/%3E%3C/svg%3E");--wh:28px;--wt:3.4s;--amp:1.2}
+.tank{position:relative;display:block;overflow:hidden;border-radius:14px;background:var(--ac);border:1px solid color-mix(in oklab,var(--a) 16%,transparent);box-shadow:inset 0 1px 0 #fffc}
+.tank .l{position:relative;display:grid;grid-template-columns:var(--nc,var(--nb)) minmax(0,1fr) auto;align-items:center;column-gap:8px;height:var(--rh,var(--rb));padding:0 10px 0 12px;color:var(--ink)}
+.wbox{position:absolute;inset:0 auto 0 0;width:calc((var(--pv) + var(--bob)) * 1% + 6px);overflow:hidden;background:var(--a);
+  -webkit-mask:var(--wave) right 0 top 0/3000px var(--wh) repeat-y;mask:var(--wave) right 0 top 0/3000px var(--wh) repeat-y}
+/* a soft light band along the crest, so the water reads as a surface */
+.wbox::after{content:"";position:absolute;inset:0 0 0 auto;width:14px;background:linear-gradient(to left,#fff5,#fff0);pointer-events:none}
+.wbox>.l{position:absolute;top:0;left:0;bottom:0;width:calc((100% - 6px) * 100 / (var(--pv) + var(--bob)));color:var(--on)}
+@keyframes tide{to{-webkit-mask-position:right 0 top var(--wh);mask-position:right 0 top var(--wh)}}
+@keyframes breathe{0%,100%{--bob:calc(var(--amp) * -1)}50%{--bob:var(--amp)}}
+@media (prefers-reduced-motion:no-preference){
+  .wbox{animation:tide var(--wt) linear infinite;animation-delay:calc(var(--ph,0) * -1s)}
+  [data-sea]{animation:breathe calc(var(--wt) * 1.3) ease-in-out infinite;animation-delay:calc(var(--ph,0) * -.7s)}
+}
+/* the number, the two lines, the move */
+.n{font:750 32px/.9 var(--fig);font-variation-settings:"wdth" 75,"opsz" 96;letter-spacing:-.02em;color:var(--a);white-space:nowrap}
+.n small{font-size:.44em;margin-left:1px;letter-spacing:0;font-weight:700}
+.wbox .n{color:var(--on)}
+.m{display:grid;gap:2px;min-width:0}
+.who{display:flex;align-items:center;gap:6px;min-width:0;font:700 14.5px/1.2 var(--sans)}
+.who .mk{width:16px;height:16px}
+.who>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.who>.star,.who>.fol,.who>.nw{flex:none;overflow:visible}
+.q{font:500 12.5px/1.25 var(--sans);color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q .lab{font:700 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--a)}
+.wbox .q,.wbox .q .lab{color:var(--on)}
+.wbox .q{opacity:.92}
+.mv{display:inline-flex;align-items:center;gap:3px;font:700 12.5px/1 var(--sans);padding:5px 8px;border-radius:999px;background:var(--surface);box-shadow:0 0 0 1px var(--line2);white-space:nowrap}
+.mv.up{color:var(--up)}.mv.dn{color:var(--down)}
+.mv i{font-style:normal;font-weight:600;color:var(--muted)}
+.nw{font:700 11px/1 var(--sans);letter-spacing:.06em;padding:3px 7px;border-radius:999px;background:var(--marigold);color:oklch(.22 .05 60)}
+.star{color:var(--marigold-ink)}
+.wbox .star{color:var(--on)}
+.fol{font:700 11px/1 var(--sans);letter-spacing:.06em;color:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:2px 6px;flex:none}
+.wbox .fol{color:var(--on);border-color:#fff8}
+/* yesterday's level: a dashed notch, top to bottom */
+.was{position:absolute;top:7px;bottom:7px;left:calc(var(--pp) * 1%);border-left:1.5px dashed currentColor;opacity:.5;color:var(--a)}
+.wbox .was{color:var(--on);opacity:.7}
+
+/* the lists are quieter: pale water, ink text, so no white copy is needed */
+.lite .tank{background:var(--surface);border-color:var(--line2);border-radius:12px}
+.lite .wbox{background:var(--tint)}
+.lite .tank>.l{z-index:1}
+.lite .wbox::after{background:linear-gradient(to left,color-mix(in oklab,var(--a) 22%,transparent),transparent)}
+.lite .n{font-size:24px}
+.lite .tank .l{--nc:var(--nl);--rh:var(--rl)}
+
+/* a row is a button: tap it to open the field in place */
+.row{display:grid;gap:4px;min-width:0}
+.row>button{display:block;width:100%;padding:0;border:0;background:none;text-align:left;border-radius:14px}
+.row>button:hover .tank{border-color:color-mix(in oklab,var(--a) 45%,transparent)}
+.row[data-open] .tank{border-color:var(--a)}
+.more{display:grid;gap:5px;padding:4px 4px 8px calc(var(--nb) + 6px)}
+.lite .more{padding-left:calc(var(--nl) + 6px)}
+.more[hidden]{display:none}
+.o{position:relative;height:24px;border-radius:7px;background:var(--surface);box-shadow:0 0 0 1px var(--line2);overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 9px;font:500 12.5px/1 var(--sans)}
+.o::before{content:"";position:absolute;inset:0 auto 0 0;width:calc(var(--w) * 1%);background:color-mix(in oklab,var(--a2) 55%,var(--surface))}
+.o>*{position:relative}
+.o span{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.o .mk{width:14px;height:14px}
+.o b{font:700 14.5px/1 var(--fig);font-variation-settings:"wdth" 75}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:3px 10px;font:500 12.5px/1.35 var(--sans);color:var(--muted);padding-top:2px}
+.meta a{color:var(--sea);font-weight:600}
+.meta .ex{display:inline-flex;align-items:center;gap:5px;color:var(--ink2)}
+.meta .ex .mk{width:13px;height:13px}
+
+/* ---- the page: board beside Currents, the money in two columns, Sport in two ---- */
+.top{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px clamp(24px,3vw,48px);padding-block:clamp(14px,1.6vw,22px) clamp(24px,2.6vw,36px);border-top:1.5px solid var(--ink)}
+.board,.list{display:grid;gap:6px;align-content:start;min-width:0}
+.band{padding-block:clamp(22px,2.6vw,34px);border-top:1px solid var(--line)}
+.band.tint{background:var(--bg2)}
+.sh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sh h2{margin:0;font:italic 400 clamp(32px,3vw,44px)/1 var(--display);letter-spacing:-.015em}
+.sh .hs{font:400 clamp(16px,1.3vw,20px)/1 var(--deva);color:var(--marigold-ink);position:relative;top:-.15em}
+.desc{margin:4px 0 12px;font:400 12.5px/1.4 var(--sans);color:var(--muted);max-width:62ch}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px clamp(16px,2vw,32px);align-items:start}
+.money .row{grid-template-columns:22px minmax(0,1fr);column-gap:8px;align-items:start}
+.money .row>.rk{font:italic 400 22px/var(--rl) var(--display);color:var(--ink2);text-align:right}
+.money .row>.more{grid-column:2}
+.money .amt{display:grid;justify-items:end;gap:1px;font:700 16px/1 var(--fig);font-variation-settings:"wdth" 75}
+.money .amt i{font:600 11px/1 var(--sans);font-style:normal;letter-spacing:.06em;color:var(--muted)}
+.subj{display:grid;gap:6px;align-content:start;min-width:0}
+.subj+.subj{margin-top:16px}
+.subj>h3{display:flex;align-items:center;gap:8px;margin:0 0 4px;color:var(--a)}
+.subj>h3 .mk{width:14px;height:14px}
+.subj>h3 em{font-style:normal;color:var(--muted);letter-spacing:.08em}
+.up3{margin:12px 0 4px;color:var(--ink2)}
+/* a match: both sides, the kickoff, and the three ways it can go as one split water bar */
+.mt{display:grid;gap:6px;padding:8px 10px 9px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line2)}
+.mt .sides{display:flex;align-items:center;gap:8px;font:700 14.5px/1.2 var(--sans);min-width:0}
+.mt .sides .mk{width:17px;height:17px}
+.mt .sides .v{font-weight:500;color:var(--muted)}
+.mt .sides .t{margin-left:auto;font:600 12.5px/1 var(--sans);color:var(--muted);white-space:nowrap}
+.mt .sides .tm{display:flex;align-items:center;gap:6px;min-width:0}
+.mt .sides .tm span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.split{display:flex;height:20px;border-radius:999px;overflow:hidden;gap:2px;font:700 12.5px/20px var(--fig);font-variation-settings:"wdth" 75}
+.split span{padding:0 8px;min-width:0;white-space:nowrap;overflow:hidden}
+.split .a{background:var(--a);color:#fff}.split .x{background:var(--line);color:var(--ink2);text-align:center}.split .b{background:var(--a2);text-align:right;color:oklch(.2 .03 150)}
+
+footer{padding-block:24px calc(32px + env(safe-area-inset-bottom,0px));border-top:1.5px solid var(--ink);font:400 13.5px/1.5 var(--sans);color:var(--ink2);display:flex;justify-content:space-between;gap:10px 30px;flex-wrap:wrap}
+footer .aside{display:inline-flex;align-items:center;gap:8px}
+footer .aside .mk{width:15px;height:15px;color:var(--muted)}
+.tabbar,.appbar,.about{display:none}
+
+/* ---- tablet: one column for the top, two for the lists ---- */
+@media (max-width:1100px){
+  .top{grid-template-columns:minmax(0,1fr)}
+}
+/* ---- phone: the installed app. A 48px bar, one quiet line, then the whole board on the first screen ---- */
+@media (max-width:600px){
+  :root{--rb:56px;--rl:50px;--nb:62px;--nl:48px}
+  body{padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+  .appbar{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:25;height:48px;background:color-mix(in oklab,var(--surface) 94%,transparent);border-bottom:1px solid var(--line)}
+  @supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){.appbar{background:color-mix(in oklab,var(--surface) 72%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}}
+  .appbar .nm{display:flex;align-items:baseline;gap:6px;font:italic 400 27px/1 var(--display);letter-spacing:-.01em}
+  .appbar .nm .drop{width:18px;height:18px;top:.02em}
+  .appbar .nm .seal{font-size:11.5px;top:-.25em}
+  .appbar .clk{display:flex;align-items:center;gap:5px;font:700 16px/1 var(--fig);font-variation-settings:"wdth" 75;padding:6px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line2)}
+  .appbar .clk small{font:700 10px var(--sans);letter-spacing:.08em;color:var(--muted)}
+  .appbar .clk .dots{display:flex;gap:3px;margin-right:3px}
+  .appbar .clk .dot{width:6px;height:6px}
+  .mast{display:none}
+  .about{display:block;padding-block:8px 8px}
+  .about summary{display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;cursor:pointer;font:400 15px/1.25 var(--sans);letter-spacing:-.01em;min-height:30px}
+  .about summary::-webkit-details-marker{display:none}
+  .about summary .i{flex:none;display:inline-flex;align-items:center;gap:4px;font:600 12.5px/1 var(--sans);color:var(--muted)}
+  .about summary .i svg{width:14px;height:14px;transition:transform .2s}
+  .about[open] summary .i svg{transform:rotate(180deg)}
+  .about .quiet{margin:4px 0 6px}
+  .about .rd{font:500 12.5px/1.4 var(--sans);color:var(--muted)}
+  .about .rd b{color:var(--ink2)}
+  .top{padding-block:4px 18px;border-top:0;gap:18px}
+  .top>.curr{display:none}
+  .sh h2{font-size:30px}
+  .desc{margin:2px 0 10px}
+  .cols{grid-template-columns:minmax(0,1fr)}
+  .n{font-size:29px}
+  .lite .n{font-size:22px}
+  .mv{padding:4px 7px}
+  .tabbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:20;padding:4px max(10px,env(safe-area-inset-left,0px)) calc(4px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-right,0px));background:color-mix(in oklab,var(--surface) 94%,transparent);border-top:1px solid var(--line)}
+  @supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){.tabbar{background:color-mix(in oklab,var(--surface) 72%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}}
+  .tabbar a{display:flex;flex-direction:column;align-items:center;gap:3px;min-height:52px;justify-content:center;border-radius:14px;font:600 11px/1 var(--sans);color:var(--ink2)}
+  .tabbar a svg{width:22px;height:22px}
+  .tabbar a[aria-current]{color:var(--sea)}
+  .tabbar a[aria-current] svg{background:color-mix(in oklab,var(--sea) 14%,transparent);border-radius:999px;padding:2px 14px;width:52px;box-sizing:content-box;height:22px}
+}
+/* On the phone Currents leaves the top and takes its own band (its band is hidden on wider screens). */
+.currband{display:none}
+@media (max-width:600px){.currband{display:block}}
+</style>
+</head>
+<body>
+<div class="appbar wrap"><span class="nm"><svg class="drop" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dc2"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dc2)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="seal" lang="hi">अंदाज़ा</span></span><span class="clk" id="clk2"></span></div>
+<details class="about wrap">
+  <summary><span>Watch the world change its mind.</span><span class="i">About<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+  <div class="quiet"><button class="say" type="button" aria-label="Hear how Andaaza is said"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><span class="ipa">/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur">اندازہ</span><span class="def">an estimate, a guess, a rough calculation.</span></div>
+  <div class="rd" id="rd"></div>
+</details>
+<header class="mast wrap">
+  <div class="mrow">
+    <h1><svg class="drop" viewBox="0 0 64 64" role="img" aria-label="Andaaza: a drop of water, filled to its level"><defs><clipPath id="dc"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dc)"><path class="w" d="M-32 35q8-5 16 0t16 0 16 0 16 0 16 0 16 0 16 0V64H-32z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="seal" lang="hi">अंदाज़ा</span></h1>
+    <div class="reading" id="reading"></div>
+  </div>
+  <div class="sub">
+    <p class="hero">Watch the world change its mind.</p>
+    <div class="quiet" style="margin-top:0"><button class="say" type="button" aria-label="Hear how Andaaza is said"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><span class="ipa">/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur">اندازہ</span><span class="def">an estimate, a guess, a rough calculation.</span></div>
+  </div>
+</header>
+
+<main>
+  <section class="wrap top" aria-label="The tide board and Currents">
+    <div class="board" id="board" aria-label="The tide board"></div>
+    <div class="curr">
+      <div class="sh"><h2 id="ch">Currents</h2><span class="hs" lang="hi">धारा</span></div>
+      <p class="desc">The biggest moves in a day, on prices traders agree on. Tap a row for the field.</p>
+      <div class="list lite" id="currents"></div>
+    </div>
+  </section>
+  <section class="band currband" aria-labelledby="ch2"><div class="wrap">
+    <div class="sh"><h2 id="ch2">Currents</h2><span class="hs" lang="hi">धारा</span></div>
+    <p class="desc">The biggest moves in a day, on prices traders agree on.</p>
+    <div class="list lite" id="currents2"></div>
+  </div></section>
+  <section class="band tint" aria-labelledby="wm"><div class="wrap">
+    <div class="sh"><h2 id="wm">Where the money is</h2><span class="hs" lang="hi">पैसा</span></div>
+    <p class="desc">The ten busiest questions by money traded today.</p>
+    <div class="cols money lite" id="money"></div>
+  </div></section>
+  <section class="band" aria-labelledby="sp"><div class="wrap">
+    <div class="sh"><h2 id="sp">Sport</h2><span class="hs" lang="hi">खेल</span></div>
+    <p class="desc">Football, Formula 1 and tennis. Markets already on the board are not repeated.</p>
+    <div class="cols lite" id="sport"></div>
+  </div></section>
+</main>
+<footer class="wrap">
+  <span class="aside" id="aside">Ideas by Parth. Typing by Claude. Complaints to Parth.</span>
+  <span>Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</span>
+</footer>
+<nav class="tabbar" aria-label="Pages">
+  <a href="#" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3C10 6.5 5.5 11 5.5 15a6.5 6.5 0 0 0 13 0C18.5 11 14 6.5 12 3z"/></svg>Everything</a>
+  <a href="#favourites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>Favourites</a>
+  <a href="#currents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 9q4.5-4 9 0t9 0M3 15q4.5-4 9 0t9 0"/></svg>Currents</a>
+  <a href="#subjects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="3.5"/><rect x="4" y="13" width="7" height="7" rx="3.5"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Subjects</a>
+</nav>
+
+<script>
+const A = window.AZ;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mk = m => !m ? "" : m.t === "svg" ? `<span class="mk">${m.svg}</span>` : `<img class="mk${m.flag ? " flag" : ""}" src="${esc(m.src)}" alt="">`;
+const usd = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1).replace(/\.0$/, "")}M` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
+const pts = d => `${Math.abs(d)} pt${Math.abs(d) === 1 ? "" : "s"}`;
+const WIN = { day: "", week: "7d", month: "30d" };
+const WINL = { day: "in a day", week: "this week", month: "in 30 days" };
+// The move, short: "▲ 71 pts · 30d" (the window only when it is not a day).
+const mv = c => c.was != null && Math.abs(c.move) >= 1 ? `<span class="mv ${c.move > 0 ? "up" : "dn"}" title="${c.move > 0 ? "Up" : "Down"} ${pts(c.move)} ${WINL[c.window]}, was ${c.was}%">${c.move > 0 ? "▲" : "▼"} ${pts(c.move)}${WIN[c.window] ? ` <i>· ${WIN[c.window]}</i>` : ""}</span>` : "";
+// The sea state: how far the leader moved in a day. Calm under 2 points, choppy from 8.
+const sea = c => { const d = c.lead.was == null ? 0 : Math.abs(c.lead.prob - c.lead.was); return d >= 8 ? "choppy" : d < 2 ? "calm" : "normal"; };
+const phase = s => { let h = 0; for (const ch of String(s)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return (h % 97) / 9; };
+const lvl = p => Math.max(3, Math.min(100, p));
+const srcOf = name => A.sources.find(s => s.name === name);
+let uid = 0;
+
+// One tide row. `inner` is the row's content; on the board it is drawn twice (ink, then white inside the water).
+function tank(c, inner, lite) {
+  const p = c.lead.prob, day = c.lead.was;
+  const was = day != null && Math.abs(p - day) >= 2 ? `<i class="was" style="--pp:${day}"></i>` : "";
+  const dry = `<span class="l">${was}${inner}</span>`;
+  const wet = lite ? "" : `<span class="l">${was}${inner}</span>`;
+  return `<span class="tank" data-sea="${sea(c)}" style="--pv:${lvl(p)};--ph:${phase(c.url).toFixed(2)}">${dry}<span class="wbox" aria-hidden="true">${wet}</span></span>`;
+}
+const num = c => `<b class="n">${Math.round(c.lead.prob)}<small>%</small></b>`;
+// What opens under a row: the next contenders as thin water, then where the price comes from.
+function more(c, id) {
+  const field = c.yesno ? "" : c.outcomes.slice(1, 4).map(o => `<span class="o" style="--w:${o.prob}"><span>${mk(o.mark)}${esc(o.name)}</span><b>${o.prob}%</b></span>`).join("");
+  const src = srcOf(c.source);
+  const also = c.also.length ? `<span>also: ${c.also.map(a => `${esc(a.source)} ${a.prob}%`).join(" · ")}</span>` : "";
+  const move = c.was != null && Math.abs(c.move) >= 1 ? `<span>${c.move > 0 ? "Up" : "Down"} ${pts(c.move)} ${WINL[c.window]}; was ${c.was}%</span>` : "";
+  return `<div class="more" id="${id}" hidden>${field}<div class="meta"><span class="ex">${mk(src?.mark)}${esc(c.source)}</span>${c.today ? `<span>${usd(c.today)} today</span>` : ""}${also}${move}${c.added ? `<span>${c.added.isNew ? `<span class="nw">New</span> ` : ""}${esc(c.added.label)}</span>` : ""}<a href="${esc(c.url)}" target="_blank" rel="noopener">Open on ${esc(c.source)} ↗</a></div></div>`;
+}
+function row(c, inner, lite, lead = "") {
+  const id = `m${++uid}`;
+  return `<div class="row" data-k="${esc(c.subject)}">${lead}<button type="button" aria-expanded="false" aria-controls="${id}">${tank(c, inner, lite)}</button>${more(c, id)}</div>`;
+}
+const newTag = c => c.added?.isNew ? ` <span class="nw">New</span>` : "";
+
+// The board: the label names the market; yes/no questions lead with the question.
+$("#board").innerHTML = A.board.map(c => row(c, `${num(c)}<span class="m">${c.yesno
+  ? `<span class="who"><span>${esc(c.sub)}</span></span><span class="q"><span class="lab">${esc(c.label)}</span> · Traders give it ${c.lead.prob}%</span>`
+  : `<span class="who">${mk(c.lead.mark)}<span>${esc(c.lead.name)}</span></span><span class="q"><span class="lab">${esc(c.label)}</span> · ${esc(c.sub)}</span>`}</span>${mv(c)}`)).join("");
+
+const cur = c => row(c, `${num(c)}<span class="m"><span class="who">${c.yesno ? `<span>${esc(c.title)}</span>` : `${mk(c.lead.mark)}<span>${esc(c.lead.name)}</span>`}${newTag(c)}</span><span class="q"><span class="lab">${esc(c.subjectLabel)}</span>${c.yesno ? "" : ` · ${esc(c.title)}`}</span></span>${mv(c)}`, true);
+$("#currents").innerHTML = A.currents.map(cur).join("");
+$("#currents2").innerHTML = A.currents.map(cur).join("");
+
+$("#money").innerHTML = A.money.map((c, i) => row(c, `${num(c)}<span class="m"><span class="who"><span>${esc(c.title)}</span></span><span class="q">${mk(c.lead.mark)} ${esc(c.lead.name)} · <span class="lab">${esc(c.subjectLabel)}</span></span></span><span class="amt">${usd(c.today)}<i>today</i></span>`, true, `<span class="rk">${i + 1}</span>`)).join("");
+
+const onBoard = new Set(A.board.map(b => b.url));
+const istDay = iso => new Date(iso).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", weekday: "short" });
+const short = n => n.replace(/ (CF|FC)$/, "").replace(/^FC /, "");
+function match(m) {
+  const [home, away] = m.title.split(/ v /);
+  const side = n => m.outcomes.find(o => o.name === n) || m.outcomes.find(o => n.includes(o.name) || o.name.includes(n));
+  const H = side(home) || m.outcomes[0], W = side(away) || m.outcomes[m.outcomes.length - 1], X = m.outcomes.find(o => o.name === "Draw");
+  return `<div class="mt" data-k="football"><div class="sides"><span class="tm">${mk(H.mark)}<span>${esc(short(home))}</span></span><span class="v">v</span><span class="tm">${mk(W.mark)}<span>${esc(short(away))}</span></span><span class="t">${esc(istDay(m.kickoff))} ${esc(m.kickoffIST)}</span></div>
+  <div class="split" role="img" aria-label="${esc(H.name)} ${H.prob}%, draw ${X ? X.prob : 0}%, ${esc(W.name)} ${W.prob}%"><span class="a" style="flex:${H.prob}">${H.prob}%</span>${X ? `<span class="x" style="flex:${X.prob}">${X.prob}</span>` : ""}<span class="b" style="flex:${W.prob}">${W.prob}%</span></div></div>`;
+}
+const sport = c => row(c, `${num(c)}<span class="m"><span class="who">${c.star ? `<span class="star" aria-label="Must-have">★</span>` : ""}<span>${esc(c.title)}</span>${c.followed ? `<span class="fol">Following</span>` : ""}</span><span class="q">${mk(c.lead.mark)} ${esc(c.lead.name)} · ${esc(c.source)}${c.today ? ` · ${usd(c.today)} today` : ""}</span></span>${mv(c)}`, true);
+function subject(id, k, markKey, n) {
+  const t = A.topics[id], items = t.items.filter(c => !onBoard.has(c.url)).slice(0, n);
+  const next = (t.next || []).filter(m => !A.board.some(b => b.title === m.title)).slice(0, 3);
+  return `<div class="subj" data-k="${k}"><h3 class="lbl11">${mk(A.marks[markKey])}${esc(t.label)} <em>· ${items.length} market${items.length === 1 ? "" : "s"}</em></h3>${items.map(sport).join("")}
+  ${next.length ? `<h3 class="lbl11 up3">Coming up</h3>${next.map(match).join("")}` : ""}</div>`;
+}
+$("#sport").innerHTML = `<div>${subject("football", "football", "uefa", 4)}</div><div>${subject("f1", "f1", "f1", 4)}${subject("tennis", "tennis", "atp", 4)}</div>`;
+
+// The reading: on a laptop a pill; on the phone the clock and three dots in the bar, the rest under "About".
+$("#reading").innerHTML = `<span class="clock">${A.readIST}<small>IST</small></span><span>Markets read at <b>${A.readIST}</b> · next update <b>${A.nextIST}</b></span><span class="srcs">${A.sources.map(s => `<span class="src" title="${esc(s.name)}, ${esc(s.kind)}: ${s.count} questions read"><i class="dot"></i>${mk(s.mark)}${esc(s.name)}${s.kind === "play money" ? ` <em>play</em>` : ""}</span>`).join("")}</span>`;
+$("#clk2").innerHTML = `<span class="dots" title="${A.sources.map(s => s.name).join(", ")}: all answering">${A.sources.map(() => `<i class="dot"></i>`).join("")}</span>${A.readIST}<small>IST</small>`;
+$("#rd").innerHTML = `Markets read at <b>${A.readIST}</b> · next update <b>${A.nextIST}</b> · ${A.sources.map(s => `${esc(s.name)}${s.kind === "play money" ? " (play money)" : ""}`).join(", ")}`;
+$("#aside").insertAdjacentHTML("afterbegin", mk(A.marks.claude));
+
+// Tap a row: its field opens in place.
+document.addEventListener("click", e => {
+  const b = e.target.closest(".row>button"); if (!b) return;
+  const open = b.getAttribute("aria-expanded") !== "true";
+  b.setAttribute("aria-expanded", String(open));
+  document.getElementById(b.getAttribute("aria-controls")).hidden = !open;
+  b.parentElement.toggleAttribute("data-open", open);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andaaza · Glass, clear</title>
+<meta name="theme-color" content="#eceff5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&text=%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%81&display=swap">
+<script src="data.js"></script>
+<style>
+/* K · Glass, clear. Andaaza Next's ground, gauges and type, with glass only where it earns its place: the controls
+   that float over scrolling content (top bar, tab bar, the detail sheet). Content always sits on solid white cards.
+   The lehariya is a faint band behind the opening line only, gone within 200 px.
+   Layout: a 48 px glass bar, one quiet line, the board as short gauges (two-up on a phone), then compact rows
+   (56 px, a small gauge on the left) for Currents, Where the money is and Sport. Tap anything: a glass sheet. */
+:root{
+  color-scheme:light;
+  --bg:oklch(.948 .011 252);--bg2:oklch(.93 .013 252);
+  --surface:oklch(.993 .003 252);
+  --ink:oklch(.22 .022 252);--ink2:oklch(.4 .02 252);--muted:oklch(.46 .018 252);
+  --line:oklch(.87 .012 252);--line2:oklch(.915 .009 252);
+  --sea:oklch(.42 .15 268);--marigold:oklch(.66 .16 62);--marigold-ink:oklch(.5 .13 58);
+  --up:oklch(.5 .14 150);--down:oklch(.52 .18 27);
+  --La:.55;--Ca:.17;--Lc:.94;--Cc:.04;--on:#fff;
+  --lift:0 1px 1px oklch(.22 .02 252 / .05),0 10px 24px -18px oklch(.22 .02 252 / .32);
+  /* glass: a bright tint thick enough for text, blur and saturation for the colour passing under, a light rim */
+  --glass:oklch(.985 .004 252 / .84);--glass-solid:oklch(.975 .006 252);
+  --rim:inset 0 1px 0 #fffffff2,inset 0 0 0 1px #ffffff8c,inset 0 -1px 0 oklch(.5 .03 252 / .10),0 10px 28px -14px oklch(.25 .04 252 / .38);
+  --gut:clamp(16px,3vw,64px);
+  --sans:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:"Instrument Serif","Iowan Old Style",Palatino,Georgia,serif;
+  --fig:"Bricolage Grotesque","Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+  --deva:"Tiro Devanagari Hindi","Noto Serif Devanagari","Kohinoor Devanagari",serif;
+}
+[data-k]{--a:oklch(var(--La) calc(var(--Ca) * var(--k,1)) var(--h));--ac:oklch(var(--Lc) calc(var(--Cc) * var(--k,1)) var(--h))}
+[data-k=f1]{--h:27}[data-k=tennis]{--h:50}[data-k=india]{--h:68;--k:.9}[data-k=money]{--h:88;--k:.72;--La:.5}[data-k=football]{--h:150}[data-k=cricket]{--h:180;--k:.85}
+[data-k=ai]{--h:222;--k:.95}[data-k=world]{--h:262;--k:.9}[data-k=nba]{--h:285}[data-k=film]{--h:308}[data-k=celebs]{--h:340}[data-k=ott]{--h:5}[data-k=other]{--h:240;--k:.2}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--glass-solid)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+:focus-visible{outline:2px solid var(--sea);outline-offset:3px;border-radius:10px}
+.wrap{padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.mk{display:inline-flex;width:1.05em;height:1.05em;flex:none;vertical-align:-.16em}
+.mk svg{width:100%;height:100%}
+img.mk{object-fit:contain}
+img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02 252 / .12)}
+.lbl{font:700 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+
+/* ---- glass: only on floating controls; solid where the browser can't blur ---- */
+.glass{background:var(--glass-solid);box-shadow:var(--rim)}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .glass{background:var(--glass);-webkit-backdrop-filter:blur(26px) saturate(1.8);backdrop-filter:blur(26px) saturate(1.8)}
+}
+
+/* ---- the top bar: name, filters (laptop), the reading pill ---- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin:8px max(10px,env(safe-area-inset-left,0px)) 0;border-radius:22px;
+  display:flex;align-items:center;gap:10px;height:48px;padding:0 6px 0 14px}
+.brand{display:flex;align-items:baseline;gap:6px;font:italic 400 25px/1 var(--display);letter-spacing:-.01em;white-space:nowrap}
+.brand .drop{width:.62em;height:.62em;align-self:center;position:relative;top:-.02em}
+.drop .o{fill:none;stroke:var(--sea);stroke-width:3.4}.drop .w{fill:var(--sea)}
+.seal{font:400 13px/1 var(--deva);font-style:normal;color:var(--marigold-ink);border:1.3px solid color-mix(in oklab,var(--marigold) 75%,transparent);border-radius:6px;padding:3px 5px 1px;align-self:center}
+.chips{display:flex;gap:2px;margin-left:14px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;padding:7px 12px;border-radius:999px;font:600 13.5px/1 var(--sans);color:var(--ink2)}
+.chips a.on{background:var(--ink);color:var(--surface)}
+.chips a:hover:not(.on){background:oklch(.2 .02 252 / .06)}
+.pill{margin-left:auto;display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;border-radius:999px;background:var(--surface);box-shadow:0 0 0 1px var(--line2);font:500 12.5px/1 var(--sans);color:var(--ink2);white-space:nowrap}
+.pill .clk{font:750 19px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--ink);letter-spacing:-.01em}
+.pill .clk small{font:700 10px var(--sans);letter-spacing:.08em;color:var(--muted);margin-left:2px}
+.pill .nx b{color:var(--ink)}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--up)}
+.pill .srcn{display:inline-flex;gap:8px}
+.pill .srcn span{display:inline-flex;align-items:center;gap:4px}
+.pill .srcn .mk{width:12px;height:12px}
+
+/* ---- one quiet opening line; the lehariya lives only here and fades out ---- */
+.open{position:relative;isolation:isolate;padding-block:18px 14px;display:flex;align-items:baseline;justify-content:space-between;gap:6px 24px;flex-wrap:wrap}
+.open::before{content:"";position:absolute;inset:-64px 0 auto;height:220px;z-index:-1;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='44' viewBox='0 0 120 44'%3E%3Cg fill='none' stroke-width='3' stroke-linecap='round'%3E%3Cpath stroke='%233b46a8' stroke-opacity='.07' d='M-10 8q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3Cpath stroke='%23d98a1a' stroke-opacity='.09' d='M-10 19q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3Cpath stroke='%233b46a8' stroke-opacity='.07' d='M-10 30q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3Cpath stroke='%236b74c8' stroke-opacity='.05' d='M-10 41q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0'/%3E%3C/g%3E%3C/svg%3E") 0 0/120px 44px;
+  -webkit-mask:linear-gradient(#000 0 30%,transparent 100%);mask:linear-gradient(#000 0 30%,transparent 100%)}
+.hero{margin:0;font:400 clamp(17px,1.9vw,26px)/1.2 var(--sans);letter-spacing:-.012em}
+.dict{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;font:400 13.5px/1.4 var(--sans);color:var(--ink2)}
+.say{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--sea);color:#fff}
+.say svg{width:14px;height:14px}
+.ur{font:15px/1 "Noto Nastaliq Urdu","Noto Naskh Arabic","Geeza Pro",serif;color:var(--marigold-ink)}
+.pos{font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.about{display:none;font:600 13.5px/1 var(--sans);color:var(--sea);text-decoration:underline;text-underline-offset:3px}
+
+/* ---- the water (Andaaza Next's): a box from the floor to the level, masked by one wave; inside it a white copy of
+   the dry layer, so a number is subject colour above the line and white below it. Percentages only. ---- */
+@property --bob{syntax:"<number>";inherits:true;initial-value:0}
+.staff{position:relative;overflow:hidden;background:var(--ac);border-radius:20px;border:1px solid color-mix(in oklab,var(--a) 20%,transparent);
+  box-shadow:inset 0 1px 0 #fffb,inset 0 -14px 24px -20px color-mix(in oklab,var(--a) 60%,transparent)}
+.l{position:absolute;inset:0;color:var(--a)}
+.wbox{position:absolute;left:0;right:0;bottom:0;height:calc((var(--pv) + var(--bob)) * 1% + 5px);overflow:hidden;background:var(--a);color:var(--on);-webkit-mask:var(--wave) 0 0/var(--ww) 3000px repeat-x;mask:var(--wave) 0 0/var(--ww) 3000px repeat-x}
+.wbox::before{content:"";position:absolute;inset:0 0 auto;height:12px;background:linear-gradient(#fff5 0 30%,#fff0);pointer-events:none;z-index:1}
+.wbox>.l.wfull{top:auto;bottom:0;height:calc((100% - 5px) * 100 / (var(--pv) + var(--bob)));color:var(--on)}
+:root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 3000'%3E%3Cpath d='M0 5C12 1 24 1 36 5S60 9 72 5V3000H0z'/%3E%3C/svg%3E");--ww:72px;--wt:11s;--amp:1}
+[data-sea=calm]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 3000'%3E%3Cpath d='M0 5C20 2.6 40 2.6 60 5S100 7.4 120 5V3000H0z'/%3E%3C/svg%3E");--ww:120px;--wt:18s;--amp:.5}
+[data-sea=choppy]{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 3000'%3E%3Cpath d='M0 5C7.3 -.4 14.7 -.4 22 5S36.7 10.4 44 5V3000H0z'/%3E%3C/svg%3E");--ww:44px;--wt:5s;--amp:2}
+@keyframes tide{to{-webkit-mask-position:var(--ww) 0;mask-position:var(--ww) 0}}
+@keyframes breathe{0%,100%{--bob:calc(var(--amp) * -1)}50%{--bob:var(--amp)}}
+@media (prefers-reduced-motion:no-preference){
+  .wbox{animation:tide var(--wt) linear infinite;animation-delay:calc(var(--ph,0) * -1s)}
+  [data-sea]{animation:breathe calc(var(--wt) * .7) ease-in-out infinite;animation-delay:calc(var(--ph,0) * -.7s)}
+}
+.big{position:absolute;left:12px;bottom:10px;font:750 44px/.8 var(--fig);font-variation-settings:"wdth" 75,"opsz" 96;letter-spacing:-.025em}
+.big small{font-size:.4em;margin-left:2px;letter-spacing:0;font-weight:700}
+/* A low level would cut the number in two at the waterline: it floats just above the water instead, whole. */
+.big.up{bottom:calc((var(--pv) + var(--bob)) * 1% + 12px)}
+.l::after{content:"";position:absolute;right:0;top:0;bottom:0;width:9px;background:repeating-linear-gradient(to top,currentColor 0 1px,transparent 1px 10%);opacity:.35;-webkit-mask:linear-gradient(to left,#000 0 4px,transparent 4px);mask:linear-gradient(to left,#000 0 4px,transparent 4px)}
+.was{position:absolute;left:0;right:0;bottom:calc(var(--pp) * 1%);border-top:1.5px dashed currentColor;opacity:.6}
+.wl{position:absolute;right:14px;bottom:calc(var(--pp) * 1%);transform:translateY(-3px);font:700 11px/1 var(--sans);white-space:nowrap}
+.wl.dn{transform:translateY(calc(100% + 4px))}
+/* the small gauge on a row: the number centred */
+.mini{width:46px;height:46px;border-radius:13px;flex:none}
+.mini .l::after{display:none}
+.mini .big{left:0;right:0;bottom:3px;text-align:center;font-size:20px;letter-spacing:-.02em}
+.mini .big.up{bottom:auto;top:4px}
+.mini .big small{font-size:.5em;margin-left:1px}
+
+/* ---- the tide board: seven short gauges ---- */
+.board{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:18px clamp(10px,1.2vw,18px);padding-block:4px 26px}
+.post{display:flex;flex-direction:column;gap:7px;min-width:0;border-radius:22px}
+.post .lab{display:flex;align-items:center;gap:6px;min-width:0;color:var(--a);height:15px}
+.post .lab .mk{width:14px;height:14px}
+.post .lab span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.post .staff{height:150px;transition:transform .2s,border-color .2s}
+.post:hover .staff{transform:translateY(-2px);border-color:var(--a)}
+.who{display:flex;align-items:center;gap:6px;font:700 15px/1.2 var(--sans);min-width:0}
+.who>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who .mk{width:16px;height:16px}
+.who.ask{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:14.5px;line-height:1.25}
+.q{font:500 12.5px/1.3 var(--sans);color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d{font:700 12.5px/1.3 var(--sans);white-space:nowrap}
+.d.up{color:var(--up)}.d.dn{color:var(--down)}
+.nw{display:inline-block;font:700 11px/1 var(--sans);letter-spacing:.06em;padding:3px 6px;border-radius:999px;background:var(--marigold);color:oklch(.22 .05 60);vertical-align:1px}
+
+/* ---- sections: a title and one grey line, then solid cards of rows ---- */
+.sec{padding-block:10px 24px}
+.sh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sh h2{margin:0;font:italic 400 clamp(30px,3.2vw,44px)/1 var(--display);letter-spacing:-.012em}
+.sh .hs{font:400 17px/1 var(--deva);color:var(--marigold-ink);position:relative;top:-.15em}
+.sh p{margin:0;flex-basis:100%;font:400 13.5px/1.4 var(--sans);color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px clamp(16px,2vw,28px);align-items:start}
+.col{min-width:0}
+.span2{grid-column:span 2}
+.halves{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px clamp(16px,2vw,28px)}
+.col>h3{margin:0 0 8px;display:flex;align-items:center;gap:7px;color:var(--a,var(--ink2))}
+.col>h3 .mk{width:14px;height:14px}
+.list{list-style:none;margin:0;padding:0 0 0 0;background:var(--surface);border-radius:20px;box-shadow:var(--lift);overflow:hidden}
+.list li+li .row{border-top:1px solid var(--line2)}
+.row{display:flex;align-items:center;gap:11px;width:100%;min-height:58px;padding:6px 12px 6px 6px;transition:background .15s}
+.row:hover{background:oklch(.2 .02 252 / .035)}
+.row .rk{width:16px;flex:none;text-align:right;font:italic 400 17px/1 var(--display);color:var(--muted);margin-left:4px}
+.row .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.row .t{font:600 14.5px/1.25 var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .s{font:500 12.5px/1.3 var(--sans);color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:5px}
+.row .s .mk{width:13px;height:13px}
+.row .s .sj{color:var(--a);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .r{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:2px;text-align:right}
+.row .r .ft{font:600 12.5px/1.2 var(--sans);color:var(--muted);white-space:nowrap}
+.row .r .ft b{color:var(--ink);font:750 15px/1 var(--fig);font-variation-settings:"wdth" 75}
+.star{color:var(--marigold-ink);margin-right:3px}
+/* matches: kick-off, sides, a three-way split */
+.mt{display:block;padding:9px 14px 10px}
+.mt .top{display:flex;justify-content:space-between;font:600 12.5px/1.2 var(--sans);color:var(--muted)}
+.mt .sides{display:flex;justify-content:space-between;gap:8px;margin-top:4px;font:600 14.5px/1.25 var(--sans)}
+.mt .sides span{display:inline-flex;align-items:center;gap:6px;min-width:0}
+.mt .sides .mk{width:15px;height:15px}
+.split{display:flex;gap:2px;height:20px;margin-top:6px;border-radius:7px;overflow:hidden;font:750 12.5px/20px var(--fig);font-variation-settings:"wdth" 80}
+.split span{min-width:0;padding:0 6px;white-space:nowrap;overflow:hidden}
+.split .a{background:var(--a);color:#fff}
+.split .x{background:var(--line);color:var(--ink2);text-align:center;padding:0}
+.split .b{background:color-mix(in oklab,var(--a) 22%,var(--surface));color:var(--ink);text-align:right}
+
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 28px;padding-block:22px calc(30px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);font:400 13.5px/1.5 var(--sans);color:var(--muted)}
+footer .aside{display:inline-flex;align-items:center;gap:6px}
+footer .aside .mk{width:14px;height:14px}
+
+/* ---- the floating tab bar (phone) ---- */
+.tabs{display:none}
+/* ---- the sheet: a market in full ---- */
+dialog.sheet{border:0;padding:0;color:var(--ink);width:min(520px,calc(100% - 24px));max-height:min(80vh,640px);border-radius:28px;overflow:auto}
+dialog.sheet::backdrop{background:oklch(.25 .03 252 / .22)}
+.sheet .in{padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px}
+.sheet .grab{width:38px;height:5px;border-radius:3px;background:oklch(.3 .02 252 / .25);margin:0 auto}
+.sheet .hd{display:flex;gap:14px;align-items:flex-start}
+.sheet .hd .staff{width:84px;height:96px;flex:none;border-radius:18px}
+.sheet .hd .big{font-size:34px;left:9px;bottom:9px}
+.sheet h3{margin:0;font:700 17px/1.25 var(--sans);text-wrap:balance}
+.sheet .sj{color:var(--a);margin-bottom:4px}
+.field{list-style:none;margin:0;padding:12px;display:grid;gap:9px;background:var(--surface);border-radius:18px}
+.field li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;font:600 14.5px/1.2 var(--sans)}
+.field li span{display:flex;align-items:center;gap:7px;min-width:0}
+.field li b{font:750 17px/1 var(--fig);font-variation-settings:"wdth" 75}
+.field .bar{grid-column:1/-1;height:6px;border-radius:3px;background:var(--line2);overflow:hidden}
+.field .bar i{display:block;height:100%;width:calc(var(--w) * 1%);background:var(--a);border-radius:3px}
+.field .bar i.o{background:color-mix(in oklab,var(--a) 45%,var(--surface))}
+.sheet .meta{display:flex;flex-wrap:wrap;gap:4px 14px;font:500 12.5px/1.4 var(--sans);color:var(--ink2)}
+.sheet .acts{display:flex;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 18px;border-radius:999px;font:600 14.5px/1 var(--sans);background:var(--ink);color:var(--surface)}
+.btn.q2{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+
+/* ---- tablet ---- */
+@media (max-width:1100px){
+  .board{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .post:nth-child(5){grid-column:span 1}
+  .cols{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .span2{grid-column:1/-1}
+}
+/* ---- phone: the installed app ---- */
+@media (max-width:600px){
+  .bar{margin:6px max(8px,env(safe-area-inset-left,0px)) 0;padding:0 5px 0 12px;height:46px;border-radius:20px}
+  .chips{display:none}
+  .brand{font-size:23px}
+  .pill{height:34px;padding:0 10px;gap:7px}
+  .pill .nx,.pill .srcn{display:none}
+  .open{padding-block:12px 10px}
+  .hero{font-size:17px}
+  .dict{display:none}
+  .about{display:inline}
+  .board{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 12px;padding-bottom:18px}
+  .post:last-child{grid-column:1/-1}
+  .post .staff{height:112px;border-radius:18px}
+  .big{font-size:40px}
+  .who{font-size:14.5px}
+  .cols{grid-template-columns:minmax(0,1fr);gap:18px}
+  .span2{grid-column:auto}
+  .halves{grid-template-columns:minmax(0,1fr);gap:0}
+  .halves .list:first-child{border-radius:20px 20px 0 0}.halves .list:last-child{border-radius:0 0 20px 20px;border-top:1px solid var(--line2)}
+  .sh h2{font-size:30px}
+  .sec{padding-bottom:16px}
+  /* on a phone a row's title may take two lines, and the right column wraps rather than squeezing the title */
+  .row .t{white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-height:1.22}
+  .row .r{max-width:104px}
+  .row .r .d{white-space:normal}
+  .row{gap:10px;padding-right:10px}
+  footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .tabs{display:flex;position:fixed;z-index:25;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));
+    height:60px;border-radius:30px;padding:5px;gap:2px}
+  .tabs a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:25px;font:600 11px/1 var(--sans);color:var(--ink2)}
+  .tabs a svg{width:21px;height:21px}
+  .tabs a.on{background:var(--ink);color:var(--surface)}
+  dialog.sheet{width:100%;max-width:none;margin:auto 0 0;border-radius:28px 28px 0 0;max-height:86vh}
+  .sheet .in{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+}
+body.fav [data-item]:not([data-fav]){display:none}
+</style>
+</head>
+<body>
+<header class="bar glass" id="top">
+  <a class="brand" href="#top" aria-label="Andaaza, top"><svg class="drop" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="dc"><path d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></clipPath></defs><g clip-path="url(#dc)"><path class="w" d="M0 35q8-5 16 0t16 0 16 0 16 0V64H0z"/></g><path class="o" d="M32 6C27 14 14 27 14 40a18 18 0 0 0 36 0C50 27 37 14 32 6z"/></svg>Andaaza<span class="seal" lang="hi">अंदाज़ा</span></a>
+  <nav class="chips" aria-label="Sections">
+    <a class="on" href="#top" data-tab="all">Everything</a><a href="#top" data-tab="fav">★ Favourites</a><a href="#currents">Currents</a><a href="#money">Where the money is</a><a href="#sport">Sport</a>
+  </nav>
+  <button class="pill" id="pill" type="button" aria-label="Reading and sources"></button>
+</header>
+
+<div class="open wrap">
+  <p class="hero">Watch the world change its mind.</p>
+  <div class="dict" id="dict"></div>
+  <button class="about" type="button" id="aboutBtn">What is Andaaza?</button>
+</div>
+
+<main>
+  <section class="wrap" aria-label="Tide board"><div class="board" id="board"></div></section>
+  <section class="sec wrap" aria-labelledby="h-c">
+    <div class="cols">
+      <div class="col" id="currents"><div class="sh"><h2 id="h-c">Currents</h2><span class="hs" lang="hi">धारा</span><p>Moves of 4 points or more in a day, where traders agree on the price.</p></div><ul class="list" id="curList"></ul></div>
+      <div class="col span2" id="money"><div class="sh"><h2>Where the money is</h2><p>The ten busiest markets by money traded today.</p></div><div class="halves" id="moneyCols"></div></div>
+    </div>
+  </section>
+  <section class="sec wrap" id="sport" aria-labelledby="h-s">
+    <div class="sh"><h2 id="h-s">Sport</h2><span class="hs" lang="hi">खेल</span><p>Football, Formula 1 and tennis. Markets already on the board above are not repeated.</p></div>
+    <div class="cols" id="sportCols"></div>
+  </section>
+</main>
+<footer class="wrap">
+  <span class="aside" id="aside">Ideas by Parth. Typing by Claude. Complaints to Parth.</span>
+  <span>Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</span>
+</footer>
+
+<nav class="tabs glass" aria-label="App">
+  <a class="on" href="#top" data-tab="all"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18h16M4 13c3-3 5 2 8-1s5 2 8-1"/><path d="M4 8c3-3 5 2 8-1s5 2 8-1"/></svg>Everything</a>
+  <a href="#top" data-tab="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>Favourites</a>
+  <a href="#currents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Currents</a>
+  <a href="#sport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Subjects</a>
+</nav>
+
+<dialog class="sheet glass" id="sheet" aria-labelledby="sheetTitle"><div class="in" id="sheetIn"></div></dialog>
+
+<script>
+const A = window.AZ;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mk = m => !m ? "" : m.t === "svg" ? `<span class="mk">${m.svg}</span>` : `<img class="mk${m.flag ? " flag" : ""}" src="${esc(m.src)}" alt="">`;
+const usd = v => v >= 1e6 ? `$${(v / 1e6).toFixed(1).replace(/\.0$/, "")}M` : v >= 1e3 ? `$${Math.round(v / 1e3)}k` : `$${v}`;
+const pts = d => `${Math.abs(d)} pt${Math.abs(d) === 1 ? "" : "s"}`;
+const WIN = { day: "in a day", week: "this week", month: "in 30 days" };
+const hasMove = c => c.was != null && Math.abs(c.move) >= 1;
+const moveLong = c => hasMove(c) ? `<span class="d ${c.move > 0 ? "up" : "dn"}">${c.move > 0 ? "▲" : "▼"} ${pts(c.move)} ${WIN[c.window]} · was ${c.was}%</span>` : "";
+const moveShort = c => hasMove(c) ? `<span class="d ${c.move > 0 ? "up" : "dn"}">${c.move > 0 ? "▲" : "▼"} ${pts(c.move)}${c.window === "day" ? "" : " " + WIN[c.window]}</span>` : "";
+const sea = c => { const d = c.lead.was == null ? 0 : Math.abs(c.lead.prob - c.lead.was); return d >= 8 ? "choppy" : d < 2 ? "calm" : "normal"; };
+const phase = s => { let h = 0; for (const ch of String(s)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return (h % 97) / 9; };
+const lvl = p => Math.max(3, Math.min(100, p));
+const nw = c => c.added?.isNew ? `<span class="nw">New</span>` : "";
+const fav = c => c.star || c.followed ? " data-fav" : "";
+
+// Every market on the page is kept here, so a tap can open it in the sheet.
+const ALL = [];
+const reg = c => (ALL.push(c), ALL.length - 1);
+
+function staff(c, o = {}) {
+  const p = c.lead.prob, day = c.lead.was, marks = [];
+  if (!o.mini && day != null && Math.abs(p - day) >= 3) marks.push(`<i class="was" style="--pp:${day}"></i>${o.label && day >= 40 ? `<span class="wl${day > 70 ? " dn" : ""}" style="--pp:${day}">was ${day}%</span>` : ""}`);
+  // Where the number goes: whole under the water, or whole above it, never cut by the waterline.
+  const up = o.mini ? p < 45 : p < 40;
+  const inner = `<b class="big${up ? " up" : ""}">${Math.round(p)}<small>%</small></b>${marks.join("")}`;
+  return `<div class="staff${o.mini ? " mini" : ""}" data-sea="${sea(c)}" style="--pv:${lvl(p)};--ph:${phase(c.url + (o.k || "")).toFixed(2)}"><div class="l">${inner}</div><div class="wbox" aria-hidden="true"><div class="l wfull">${inner}</div></div></div>`;
+}
+
+// ---- the reading ----
+const srcList = A.sources.map(s => `<span>${mk(s.mark)}${esc(s.name)}</span>`).join("");
+$("#pill").innerHTML = `<span class="clk">${A.readIST}<small>IST</small></span><span class="nx">next update <b>${A.nextIST}</b></span><span class="dots" aria-hidden="true">${A.sources.map(() => "<i></i>").join("")}</span><span class="srcn">${srcList}</span>`;
+const dictHTML = `<button class="say" type="button" aria-label="Say Andaaza"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm11.5 3a4 4 0 0 0-2.5-3.7v7.4a4 4 0 0 0 2.5-3.7m-2.5-7.8v2.1a7 7 0 0 1 0 11.4v2.1a9 9 0 0 0 0-15.6"/></svg></button><span>/ən·daː·zaː/</span><span class="pos">noun · Hindi, Urdu</span><span class="ur" lang="ur">اندازہ</span><span>an estimate, a guess, a rough calculation.</span>`;
+$("#dict").innerHTML = dictHTML;
+
+// ---- the tide board ----
+$("#board").innerHTML = A.board.map(c => `<button class="post" type="button" data-k="${esc(c.subject)}" data-i="${reg(c)}" data-item${fav(c)} aria-label="${esc(c.label)}: ${esc(c.yesno ? c.sub : c.lead.name)} ${c.lead.prob}%">
+  <span class="lab lbl">${mk(c.labelMark)}<span>${esc(c.label)}</span></span>
+  ${staff(c, { label: true })}
+  ${c.yesno ? `<span class="who ask">${esc(c.sub)}</span>` : `<span class="who">${mk(c.lead.mark)}<span>${esc(c.lead.name)}</span></span><span class="q">${esc(c.sub)}</span>`}
+  ${moveLong(c) || nw(c) ? `<span>${moveLong(c)} ${nw(c)}</span>` : ""}</button>`).join("");
+
+// ---- a row: small gauge, what it is, the move ----
+function row(c, o = {}) {
+  const who = c.yesno ? "Chance of yes" : `${mk(c.lead.mark)}<span>${esc(c.lead.name)}</span>`;
+  const right = o.money ? `<span class="ft"><b>${usd(c.today)}</b> today</span>${moveShort(c)}`
+    : o.cur ? `${moveShort(c)}<span class="ft">${c.was}% → <b>${c.lead.prob}%</b></span>`
+    : `${moveShort(c)}${c.today ? `<span class="ft">${usd(c.today)} today</span>` : ""}`;
+  return `<li data-item${fav(c)}><button class="row" type="button" data-k="${esc(c.subject)}" data-i="${reg(c)}">
+    ${o.rank ? `<span class="rk">${o.rank}</span>` : ""}${staff(c, { mini: true, k: o.k })}
+    <span class="tx"><span class="t">${c.star ? `<span class="star" aria-label="Must-have">★</span>` : ""}${esc(c.title)}</span>
+    <span class="s">${who}${o.subj ? `<span>·</span><span class="sj">${esc(c.subjectLabel)}</span>` : ""}${nw(c) ? ` ${nw(c)}` : ""}</span></span>
+    <span class="r">${right}</span></button></li>`;
+}
+$("#curList").innerHTML = A.currents.map(c => row(c, { cur: true, subj: true, k: "c" })).join("");
+const M = A.money.slice(0, 10);
+$("#moneyCols").innerHTML = [M.slice(0, 5), M.slice(5)].map((half, j) => `<ul class="list">${half.map((c, i) => row(c, { money: true, subj: true, rank: j * 5 + i + 1, k: "m" })).join("")}</ul>`).join("");
+
+// ---- Sport ----
+const onBoard = new Set(A.board.map(b => b.url));
+const istDay = iso => new Date(iso).toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata", weekday: "short", day: "numeric", month: "short" });
+const short = n => n.replace(/ (CF|FC)$/, "").replace(/^FC /, "");
+function match(m) {
+  const [home, away] = m.title.split(/ v /);
+  const side = n => m.outcomes.find(o => o.name === n) || m.outcomes.find(o => n.includes(o.name) || o.name.includes(n));
+  const H = side(home) || m.outcomes[0], W = side(away) || m.outcomes.find(o => o !== H && o.name !== "Draw"), X = m.outcomes.find(o => o.name === "Draw");
+  return `<li data-item${m.followed ? " data-fav" : ""}><div class="mt" data-k="football"><div class="top"><span>${esc(istDay(m.kickoff))} · ${esc(m.kickoffIST)} IST</span>${m.followed ? `<span>Following</span>` : ""}</div>
+    <div class="sides"><span>${mk(H.mark)}${esc(short(home))}</span><span>${esc(short(away))}${mk(W.mark)}</span></div>
+    <div class="split" role="img" aria-label="${esc(short(home))} ${H.prob}%, draw ${X ? X.prob : 0}%, ${esc(short(away))} ${W.prob}%"><span class="a" style="flex:${H.prob}">${H.prob}%</span>${X ? `<span class="x" style="flex:${X.prob}">${X.prob}</span>` : ""}<span class="b" style="flex:${W.prob}">${W.prob}%</span></div></div></li>`;
+}
+function subject(id, k, markKey, withNext) {
+  const t = A.topics[id], items = t.items.filter(c => !onBoard.has(c.url)).slice(0, 4);
+  const next = withNext ? (t.next || []).filter(m => !A.board.some(b => b.title === m.title)).slice(0, 3) : [];
+  return `<div class="col" data-k="${k}"><h3 class="lbl">${mk(A.marks[markKey])}${esc(t.label)}</h3><ul class="list">${items.map(c => row(c, { k: "s" })).join("")}</ul>
+    ${next.length ? `<h3 class="lbl" style="margin:14px 0 8px;color:var(--ink2)">Coming up</h3><ul class="list">${next.map(match).join("")}</ul>` : ""}</div>`;
+}
+$("#sportCols").innerHTML = subject("football", "football", "uefa", true) + subject("f1", "f1", "f1") + subject("tennis", "tennis", "atp");
+$("#aside").insertAdjacentHTML("afterbegin", mk(A.marks.claude));
+
+// ---- the sheet ----
+const sheet = $("#sheet"), sin = $("#sheetIn");
+function open(html) { sin.innerHTML = `<div class="grab" aria-hidden="true"></div>${html}`; if (sheet.showModal) sheet.showModal(); else sheet.setAttribute("open", ""); }
+function close() { if (sheet.close) sheet.close(); else sheet.removeAttribute("open"); }
+sheet.addEventListener("click", e => { if (e.target === sheet || e.target.closest("[data-close]")) close(); });
+function market(c) {
+  const src = A.sources.find(s => s.name === c.source);
+  const field = c.outcomes.map((o, i) => `<li><span>${mk(o.mark)}${esc(c.yesno ? "Yes" : o.name)}</span><b>${o.prob}%</b><span class="bar"><i class="${i ? "o" : ""}" style="--w:${o.prob}"></i></span></li>`).join("");
+  return `<div class="hd" data-k="${esc(c.subject)}">${staff(c, { k: "x" })}<div><div class="lbl sj">${esc(c.label || c.subjectLabel)}</div><h3 id="sheetTitle">${c.star ? `<span class="star">★</span>` : ""}${esc(c.yesno && c.sub ? c.sub : c.title)}</h3><div style="margin-top:6px">${moveLong(c)}</div></div></div>
+  <ul class="field" data-k="${esc(c.subject)}">${field}</ul>
+  <div class="meta"><span>${mk(src?.mark)} ${esc(c.source)}</span>${c.today ? `<span>${usd(c.today)} traded today</span>` : ""}${c.also.length ? `<span>also: ${c.also.map(a => `${esc(a.source)} ${a.prob}%`).join(" · ")}</span>` : ""}${c.added ? `<span>${nw(c)} ${esc(c.added.label)}</span>` : ""}</div>
+  <div class="acts"><a class="btn" href="${esc(c.url)}" target="_blank" rel="noopener">Open on ${esc(c.source)}</a><button class="btn q2" type="button" data-close>Close</button></div>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-i]"); if (b) return open(market(ALL[+b.dataset.i]));
+  if (e.target.closest("#pill") || e.target.closest("#aboutBtn")) return open(`<h3 id="sheetTitle" style="font:italic 400 34px/1 var(--display)">Andaaza <span class="seal" lang="hi" style="font-size:15px">अंदाज़ा</span></h3>
+    <div class="dict" style="display:flex">${dictHTML}</div>
+    <p style="margin:0;font-size:14.5px;color:var(--ink2)">Markets read at <b style="color:var(--ink)">${A.readIST} IST</b> · next update <b style="color:var(--ink)">${A.nextIST}</b></p>
+    <ul class="field">${A.sources.map(s => `<li><span>${mk(s.mark)}${esc(s.name)}${s.kind === "play money" ? ` <em style="font-style:normal;color:var(--muted);font-weight:500">· play money</em>` : ""}</span><b>${s.count}</b></li>`).join("")}</ul>
+    <div class="acts"><button class="btn q2" type="button" data-close>Close</button></div>`);
+  const t = e.target.closest("[data-tab]");
+  if (t) { const f = t.dataset.tab === "fav"; document.body.classList.toggle("fav", f);
+    document.querySelectorAll("[data-tab]").forEach(x => x.classList.toggle("on", x.dataset.tab === t.dataset.tab)); }
+});
+</script>
+</body>
+</html>
