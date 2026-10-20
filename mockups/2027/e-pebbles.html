@@ -106,7 +106,10 @@ header.top { padding-block: 28px 8px; display: grid; grid-template-columns: minm
   animation: drift var(--wt, 7s) linear infinite; animation-delay: var(--phase, 0s); }
 .pb .was { position: absolute; left: 10%; right: 10%; bottom: calc(var(--was) * 1%); border-top: 2px dashed color-mix(in oklab, var(--c) 70%, var(--ink)); opacity: .55; }
 .pb .figs { position: absolute; inset: 0; pointer-events: none; }
-.pb .figs .n { position: absolute; inset: 0; display: grid; place-items: center; font: 800 var(--fs, 64px)/1 var(--display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; color: color-mix(in oklab, var(--c) 78%, var(--ink)); }
+.pb .figs .n { position: absolute; inset: 0; display: grid; place-items: center; font: 800 var(--fs, 64px)/1 var(--display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; color: color-mix(in oklab, var(--c) 78%, var(--ink));
+  text-shadow: 0 0 2px color-mix(in oklab, var(--c) 14%, var(--surface)), 0 0 6px color-mix(in oklab, var(--c) 14%, var(--surface)); }
+.pb .figs .n:not(.wet) { clip-path: inset(0 0 max(0px, calc(var(--lv) * 1% + var(--bob) - var(--crest, 11px) / 2)) 0); transition: --lv 1.6s var(--spring); }
+.pb .figs .n.wet { text-shadow: none; }
 .pb .figs .n > span { display: block; }
 .pb .figs .n small { font-size: .42em; font-weight: 700; margin-left: .04em; letter-spacing: 0; }
 .pb .figs .n.wet { color: white; clip-path: inset(calc(100% - var(--lv) * 1% - var(--bob) - var(--crest, 11px) / 4) 0 0 0); transition: --lv 1.6s var(--spring); }
@@ -221,13 +224,13 @@ footer .clm .mk { width: 14px; height: 14px; }
   .clock { font-size: 40px; }
   .actions .pill-btn span { display: none; }
   .actions .pill-btn { width: 44px; padding: 0; justify-content: center; }
-  .board { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; align-items: stretch; padding-block: 18px 12px;
+  .board { display: flex; flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; align-items: stretch; padding-block: 18px 12px;
     margin-left: calc(-1 * max(var(--gut), env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(var(--gut), env(safe-area-inset-right, 0px)));
     padding-left: max(var(--gut), env(safe-area-inset-left, 0px)); padding-right: max(var(--gut), env(safe-area-inset-right, 0px));
     scroll-padding-left: max(var(--gut), env(safe-area-inset-left, 0px)); scrollbar-width: none; }
   .board::-webkit-scrollbar { display: none; }
-  .stone { flex: 0 0 74vw; scroll-snap-align: start; background: var(--surface); padding: 16px; border-radius: 36px; }
-  .stone .pb { --fs: 76px !important; }
+  .stone { flex: 0 0 min(76vw, 320px); width: min(76vw, 320px); scroll-snap-align: start; align-self: stretch; background: var(--surface); padding: 16px; border-radius: 36px; }
+  .stone .pb { --fs: 72px !important; width: 86%; justify-self: center; }
   .dots { display: flex !important; }
   .cur { grid-template-columns: 60px minmax(0, 1fr); border-radius: 30px; padding: 10px 14px 12px 10px; }
   .cur .big { grid-column: 2; justify-self: start; font-size: 20px; padding: 6px 12px; }

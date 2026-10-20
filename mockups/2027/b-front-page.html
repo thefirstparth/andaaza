@@ -128,8 +128,11 @@ section { padding-block: 34px 10px; }
 .ann { position: absolute; white-space: nowrap; font: 500 var(--t-detail)/1.2 var(--sans); color: var(--ink-2); background: color-mix(in srgb, var(--paper) 82%, transparent); padding: 2px 4px; border-radius: 3px; }
 .ann b { font-weight: 800; color: var(--ink); font-size: 1.15em; }
 .lead .ann { font-size: var(--t-small); }
-.xax { display: flex; justify-content: space-between; margin-top: 8px; padding-right: calc(var(--gw) + 12px); font: 500 var(--t-label)/1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
-.xax.one { justify-content: flex-end; }
+.xax { position: relative; height: 14px; margin: 8px calc(var(--gw) + 12px) 0 0; font: 500 var(--t-label)/1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.xax span { position: absolute; top: 0; white-space: nowrap; transform: translateX(-50%); }
+.xax span.first { transform: none; }
+.xax span.last { transform: translateX(-100%); }
+.ann { z-index: 2; }
 .chart { --gw: 22px; }
 .lead .chart { --gw: 44px; }
 .now-col { position: relative; width: var(--gw); height: var(--h); border-radius: 6px 6px 3px 3px; background: var(--sheet); box-shadow: inset 0 0 0 1px var(--rule); overflow: hidden; flex: none; }
@@ -336,12 +339,15 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
   function sentence(t) { return /[?.!]$/.test(t) ? t : t + '.'; }
   function sea(c) { var n = Math.abs(c.was == null ? 0 : (c.hist.day != null ? c.lead.prob - c.hist.day : c.move)); return n < 2 ? '9s' : n >= 8 ? '2.6s' : '5s'; }
 
+  // Time is to scale: x is placed by days ago on a straight axis from the oldest point to now.
+  var DAYS = { month: 30, week: 7, day: 1 };
   function chart(c, big) {
     var H = c.hist || {}, now = c.lead.prob;
-    var pts = [['30 days ago', H.month, 'a month ago'], ['7 days ago', H.week, 'a week ago'], ['Yesterday', H.day, 'yesterday']]
+    var pts = [['30 days ago', H.month, 'a month ago', 30], ['7 days ago', H.week, 'a week ago', 7], ['Yesterday', H.day, 'yesterday', 1]]
       .filter(function (p) { return p[1] != null; });
-    pts.push(['Now', now, 'now']);
-    var n = pts.length, xs = pts.map(function (_, i) { return n === 1 ? 100 : (i / (n - 1)) * 100; });
+    pts.push(['Now', now, 'now', 0]);
+    var n = pts.length, D = pts[0][3] || 1;
+    var xs = pts.map(function (p) { return n === 1 ? 100 : (1 - p[3] / D) * 100; });
     var grid = [0, 50, 100].map(function (g) {
       return '<div class="gl' + (g === 0 ? ' base' : '') + '" style="top:' + (100 - g) + '%">' + (g ? '<span>' + g + '%</span>' : '') + '</div>';
     }).join('');
@@ -359,21 +365,70 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
     var dots = pts.map(function (p, i) {
       return '<span class="pt' + (i === n - 1 ? ' now' : '') + '" style="left:' + xs[i] + '%;top:' + (100 - p[1]) + '%"><i></i></span>';
     }).join('');
-    // Annotate the start and the end, placed above the line unless it is near the top.
-    function ann(p, x, end) {
-      var y = 100 - p[1], above = p[1] < 80;
-      var pos = 'top:calc(' + y + '% ' + (above ? '- 30px' : '+ 10px') + ');' + (end ? 'right:calc(' + (100 - x) + '% - 2px)' : 'left:calc(' + x + '% - 2px)');
+    // Annotate the start and the end on the side away from the line next to them; the layout pass below
+    // then checks them against each other, the gridline labels and the frame.
+    function ann(i, end) {
+      var p = pts[i], other = pts[end ? i - 1 : i + 1];
+      var below = other ? other[1] > p[1] : p[1] >= 80;
+      var y = 100 - p[1];
+      var pos = 'top:calc(' + y + '% ' + (below ? '+ 9px' : '- 29px') + ');' + (end ? 'right:calc(' + (100 - xs[i]) + '% - 2px)' : 'left:calc(' + xs[i] + '% - 2px)');
       var txt = end ? '<b>' + p[1] + '%</b> now' : '<b>' + p[1] + '%</b> ' + p[2];
-      return '<span class="ann" style="' + pos + '">' + txt + '</span>';
+      return '<span class="ann" data-y="' + y + '" data-side="' + (below ? 'b' : 'a') + '" style="' + pos + '">' + txt + '</span>';
     }
     var anns = n === 1
-      ? '<span class="ann" style="top:calc(' + (100 - now) + '% ' + (now < 80 ? '- 30px' : '+ 10px') + ');right:0"><b>' + now + '%</b> now · no earlier price</span>'
-      : ann(pts[0], xs[0], false) + ann(pts[n - 1], xs[n - 1], true);
+      ? '<span class="ann" data-y="' + (100 - now) + '" data-side="' + (now < 80 ? 'a' : 'b') + '" style="top:calc(' + (100 - now) + '% ' + (now < 80 ? '- 29px' : '+ 9px') + ');right:0"><b>' + now + '%</b> now · no earlier price</span>'
+      : ann(0, false) + ann(n - 1, true);
     var tick = H.day != null ? '<span class="tick" style="bottom:' + H.day + '%" title="Yesterday ' + H.day + '%"></span>' : '';
     var col = '<div class="now-col" style="--p:' + now + '%;--sea:' + sea(c) + '" role="img" aria-label="Now ' + now + '%"><div class="w"></div>' + tick + '</div>';
-    var xlab = n === 1 ? '<div class="xax one"><span>Now</span></div>'
-      : '<div class="xax">' + pts.map(function (p) { return '<span>' + p[0] + '</span>'; }).join('') + '</div>';
+    var xlab = '<div class="xax">' + pts.map(function (p, i) {
+      var k = i === n - 1 ? 'last' : i === 0 && n > 1 ? 'first' : 'mid';
+      return '<span class="' + k + '" data-k="' + p[3] + '" style="left:' + xs[i] + '%">' + p[0] + '</span>';
+    }).join('') + '</div>';
     return '<figure class="chart"><div class="plotrow"><div class="plot">' + grid + svg + dots + anns + '</div>' + col + '</div>' + xlab + '</figure>';
+  }
+  function hit(a, b, pad) { return a.left < b.right + pad && b.left < a.right + pad && a.top < b.bottom + pad && b.top < a.bottom + pad; }
+  function vis(el) { return el.style.visibility !== 'hidden'; }
+  // Layout pass, measured in pixels at the real width: no label may overlap another label or leave the plot.
+  function declutter() {
+    Array.prototype.forEach.call(document.querySelectorAll('.chart'), function (fig) {
+      var plot = fig.querySelector('.plot'), pr = plot.getBoundingClientRect();
+      var anns = Array.prototype.slice.call(fig.querySelectorAll('.ann'));
+      anns.forEach(function (a) { a.style.visibility = ''; });
+      // An annotation pushed out of the plot flips to the other side of its point.
+      anns.forEach(function (a) {
+        var r = a.getBoundingClientRect();
+        if (r.top < pr.top - 2 || r.bottom > pr.bottom + 2) {
+          var y = a.getAttribute('data-y'), b = a.getAttribute('data-side') === 'b';
+          a.style.top = 'calc(' + y + '% ' + (b ? '- 29px' : '+ 9px') + ')';
+        }
+      });
+      // Two annotations that meet: the start one moves to the other side of its point.
+      if (anns.length === 2 && hit(anns[0].getBoundingClientRect(), anns[1].getBoundingClientRect(), 4)) {
+        var a0 = anns[0], y0 = a0.getAttribute('data-y'), b0 = a0.getAttribute('data-side') === 'b';
+        a0.style.top = 'calc(' + y0 + '% ' + (b0 ? '- 29px' : '+ 9px') + ')';
+      }
+      // Gridline labels give way to annotations within 14px.
+      Array.prototype.forEach.call(fig.querySelectorAll('.gl span'), function (g) {
+        g.style.visibility = '';
+        var gr = g.getBoundingClientRect();
+        if (anns.some(function (a) { return hit(gr, a.getBoundingClientRect(), 14); })) g.style.visibility = 'hidden';
+      });
+      // Axis labels: first and last always; a middle one only with room. Yesterday next to now merges into one label.
+      var labs = Array.prototype.slice.call(fig.querySelectorAll('.xax span'));
+      labs.forEach(function (l) { l.style.visibility = ''; if (l.className === 'last') l.textContent = 'Now'; });
+      var last = labs[labs.length - 1];
+      for (var pass = 0; pass < 2; pass++) {
+        labs.forEach(function (l, i) {
+          if (l.className !== 'mid' || !vis(l)) return;
+          var r = l.getBoundingClientRect();
+          var clash = labs.some(function (o, j) { return j !== i && vis(o) && hit(r, o.getBoundingClientRect(), 6); });
+          if (clash) {
+            l.style.visibility = 'hidden';
+            if (l.getAttribute('data-k') === '1' && labs.indexOf(l) === labs.length - 2) last.textContent = 'Yesterday · now';
+          }
+        });
+      }
+    });
   }
   function eyebrow(c, label) {
     return '<div class="eyebrow label"><span class="sw" style="--c:' + (SUBJ[c.subject] || SUBJ.other) + '"></span>' +
@@ -480,6 +535,10 @@ footer .aside .mark { color: var(--ink-3); width: 13px; height: 13px; }
   document.getElementById('foot').innerHTML =
     '<span class="aside">Ideas by Parth. Typing by Claude ' + mark(A.marks.claude) + '. Complaints to Parth.</span>' +
     '<span>Prices from Polymarket, Kalshi and Manifold. Andaaza reads them; it takes no bets.</span>';
+
+  declutter();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(declutter);
+  var rz; window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(declutter, 120); });
 
   document.getElementById('say').addEventListener('click', function () {
     try { var u = new SpeechSynthesisUtterance('अंदाज़ा'); u.lang = 'hi-IN'; speechSynthesis.speak(u); } catch (e) {}

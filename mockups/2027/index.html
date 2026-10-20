@@ -1,0 +1,340 @@
+<title>Andaaza 2027 Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&display=swap">
+<style>
+/* A review board for eight directions: one quiet frame so each mockup's own look carries the page.
+   Each direction is a row: what it is on the left, the laptop and the phone (scrollable shots) on the right. */
+:root{
+  color-scheme:light;
+  --bg:oklch(.967 .008 265);        /* haze: the in-between ground Parth prefers */
+  --surface:oklch(.992 .003 265);   /* frames and cards */
+  --ink:oklch(.22 .03 262);
+  --ink2:oklch(.43 .02 260);
+  --line:oklch(.885 .012 262);
+  --neel:oklch(.42 .15 268);        /* the brand: links, letters */
+  --mari:oklch(.53 .13 62);         /* marigold, dark enough for text */
+  --mari-bg:oklch(.93 .05 75);
+  --display:"Instrument Serif",Georgia,serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --fig:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;
+  --gut:clamp(16px,3vw,56px);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--neel)}
+a:focus-visible,button:focus-visible{outline:2.5px solid var(--neel);outline-offset:3px;border-radius:6px}
+.wrap{padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance}
+.lbl{font:600 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+
+/* Masthead */
+.top{padding-block:44px 28px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px 56px;align-items:end}
+.top h1{margin:6px 0 0;font:italic 400 clamp(48px,7.4vw,104px)/.9 var(--display);letter-spacing:-.015em}
+.top h1 .dev{font:400 .3em/1 "Tiro Devanagari Hindi",serif;font-style:normal;color:var(--mari);border:1.5px solid currentColor;border-radius:.3em;padding:.1em .35em;vertical-align:.9em;margin-left:.2em;white-space:nowrap}
+.lede{margin:16px 0 0;font-size:18px;line-height:1.5;color:var(--ink2);max-width:60ch}
+.lede b{color:var(--ink);font-weight:600}
+.how{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px 22px;display:grid;gap:10px}
+.how p{margin:0;font-size:14.5px;line-height:1.5;color:var(--ink2)}
+.how p b{color:var(--ink)}
+.how code{font:600 13.5px/1 var(--fig);font-variation-settings:"wdth" 85;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 6px;color:var(--ink)}
+
+/* Index of the eight */
+.index{padding-block:10px 34px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 40px}
+.index h2{margin:0 0 10px}
+.index ol{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.index a{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:baseline;text-decoration:none;color:var(--ink);padding:8px 10px;border-radius:12px}
+.index a:hover{background:var(--surface)}
+.index .k{font:800 22px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--neel)}
+.index .n{font-weight:600}
+.index .s{color:var(--ink2);font-size:14.5px}
+
+/* One direction */
+.dir{border-top:1px solid var(--line);padding-block:44px 52px;scroll-margin-top:12px}
+.dir.alt{background:oklch(.952 .01 265)}
+.grid{display:grid;grid-template-columns:minmax(280px,.62fr) minmax(0,1.7fr);gap:28px 48px;align-items:start}
+.about{min-width:0;position:sticky;top:20px}
+.letter{font:800 64px/.8 var(--fig);font-variation-settings:"wdth" 75;color:var(--neel)}
+.kind{margin-top:14px}
+.about h2{margin:6px 0 8px;font:italic 400 clamp(36px,3.6vw,52px)/1 var(--display)}
+.about .one{margin:0 0 18px;font-size:17px;line-height:1.45;color:var(--ink)}
+.about dl{margin:0;display:grid;gap:12px}
+.about dt{font:600 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.about dd{margin:3px 0 0;font-size:14.5px;line-height:1.5;color:var(--ink)}
+.meter{display:flex;gap:16px;flex-wrap:wrap;margin:18px 0 0;padding:12px 0 0;border-top:1px solid var(--line)}
+.meter div{display:grid;gap:4px}
+.dots{display:flex;gap:3px}
+.dots i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--neel)}
+.dots i.on{background:var(--neel)}
+.open{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;font:600 14.5px/1 var(--sans);text-decoration:none;border:1.5px solid var(--neel);color:var(--neel);background:transparent}
+.btn.fill{background:var(--neel);color:#fff}
+.btn svg{width:16px;height:16px}
+
+.shots{min-width:0;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
+figure{margin:0;min-width:0}
+figcaption{margin-top:8px;font-size:12.5px;color:var(--ink2)}
+.laptop{border-radius:14px;border:1px solid var(--line);background:var(--surface);box-shadow:0 1px 0 oklch(1 0 0) inset,0 18px 40px -24px oklch(.3 .05 265 / .35);overflow:hidden}
+.laptop .bar{height:26px;display:flex;align-items:center;gap:6px;padding:0 12px;border-bottom:1px solid var(--line)}
+.laptop .bar i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.scroll{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.laptop .scroll{height:min(620px,62vw)}
+.scroll img{display:block;width:100%;height:auto}
+.phone{border-radius:40px;border:9px solid var(--ink);background:var(--ink);overflow:hidden;box-shadow:0 18px 40px -24px oklch(.3 .05 265 / .45)}
+.phone .scroll{height:600px;border-radius:31px;background:var(--surface)}
+
+/* Comparison and the app */
+.part{border-top:1px solid var(--line);padding-block:44px 52px}
+.part h2{margin:0 0 6px;font:italic 400 clamp(36px,3.6vw,52px)/1 var(--display)}
+.part > .wrap > p{margin:0 0 22px;color:var(--ink2);max-width:70ch}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:820px;font-size:14.5px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 11px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.k{font:800 20px/1 var(--fig);font-variation-settings:"wdth" 75;color:var(--neel);width:44px}
+td .n{font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+.pick{margin-top:22px;background:var(--mari-bg);border-radius:20px;padding:20px 22px;max-width:80ch}
+.pick h3{margin:0 0 6px;font:600 14.5px/1.3 var(--sans)}
+.pick p{margin:0;font-size:15px}
+.app{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 40px}
+.app ul{margin:0;padding-left:1.1em;display:grid;gap:8px}
+.app li{font-size:15px}
+.app h3{margin:0 0 8px;font:600 14.5px/1.3 var(--sans)}
+.icon{display:flex;gap:16px;align-items:center;margin-bottom:16px}
+.icon img{width:72px;height:72px;border-radius:17px;box-shadow:0 8px 20px -10px oklch(.3 .1 268 / .6)}
+.icon p{margin:0;font-size:14.5px;color:var(--ink2)}
+.sources{margin:0;padding-left:1.1em;columns:2;column-gap:40px;font-size:13.5px;color:var(--ink2)}
+.sources li{break-inside:avoid;margin-bottom:6px}
+footer{border-top:1px solid var(--line);padding-block:28px calc(36px + env(safe-area-inset-bottom,0px));font-size:13.5px;color:var(--ink2)}
+
+@media (max-width:1100px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .about{position:static}
+}
+@media (max-width:760px){
+  .top{grid-template-columns:minmax(0,1fr)}
+  .index{grid-template-columns:minmax(0,1fr)}
+  .shots{grid-template-columns:minmax(0,1fr)}
+  .laptop .scroll{height:420px}
+  .phone{width:min(300px,100%);justify-self:center}
+  .phone .scroll{height:560px}
+  .app{grid-template-columns:minmax(0,1fr)}
+  .sources{columns:1}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&text=%E0%A4%85%E0%A4%82%E0%A4%A6%E0%A4%BE%E0%A4%9C%E0%A4%BC&display=swap">
+
+<header class="wrap top">
+  <div>
+    <div class="lbl">Design review · 21 Oct 2026</div>
+    <h1>Andaaza 2027 <span class="dev" lang="hi">अंदाज़ा</span></h1>
+    <p class="lede">Eight ways the next Andaaza could look. <b>Five are new directions</b> and <b>three grow today's design</b>.
+      Every one is a working page built on the same real reading (21 Oct 2026, 04:00 IST), with the same rules for what
+      shows. Each has one light, in-between theme and its own phone layout, drawn as the installed app.</p>
+  </div>
+  <div class="how">
+    <div class="lbl">How to answer</div>
+    <p>Reply by letter, the way you like: <code>F base</code> <code>B charts</code> <code>A no</code>. Mixing is expected:
+      a base from one, a part from another.</p>
+    <p>Each shot scrolls. <b>Open the page</b> runs the real thing; on your phone it shows the phone layout.</p>
+    <p>Checked in Chromium at 1440 and 390 px. Not yet on an iPhone.</p>
+  </div>
+</header>
+
+<nav class="wrap index" aria-label="The eight directions">
+  <div>
+    <h2 class="lbl">Five new directions</h2>
+    <ol>
+      <li><a href="#a"><span class="k">A</span><span><span class="n">Matka</span> <span class="s">· Indian craft. Water held in clay pots.</span></span></a></li>
+      <li><a href="#b"><span class="k">B</span><span><span class="n">Front Page</span> <span class="s">· Every market a story, with its chart.</span></span></a></li>
+      <li><a href="#c"><span class="k">C</span><span><span class="n">Forecast</span> <span class="s">· The wildcard. Read it like the weather.</span></span></a></li>
+      <li><a href="#d"><span class="k">D</span><span><span class="n">Instrument</span> <span class="s">· Graduated cylinders, exact and calm.</span></span></a></li>
+      <li><a href="#e"><span class="k">E</span><span><span class="n">Pebbles</span> <span class="s">· Soft shapes, springy water.</span></span></a></li>
+    </ol>
+  </div>
+  <div>
+    <h2 class="lbl">Three that grow today's Andaaza</h2>
+    <ol>
+      <li><a href="#f"><span class="k">F</span><span><span class="n">Andaaza Next</span> <span class="s">· Today's design, refined.</span></span></a></li>
+      <li><a href="#g"><span class="k">G</span><span><span class="n">Andaaza Glass</span> <span class="s">· A legible Liquid Glass.</span></span></a></li>
+      <li><a href="#h"><span class="k">H</span><span><span class="n">Andaaza Lehar</span> <span class="s">· Neel and marigold lead.</span></span></a></li>
+    </ol>
+  </div>
+</nav>
+
+<main id="dirs"></main>
+
+<section class="part" aria-labelledby="cmp">
+  <div class="wrap">
+    <h2 id="cmp">Side by side</h2>
+    <p>Dots run from one (little) to five (a lot). "Ages well" is my read of how dated it may look by 2029.</p>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>Direction</th><th>Distance from today</th><th>Clear on a first visit</th><th>Ages well</th><th>Work to build</th><th>Biggest trade-off</th></tr></thead>
+      <tbody id="cmprows"></tbody>
+    </table></div>
+    <div class="pick">
+      <h3>My recommendation</h3>
+      <p id="pick"><b>F as the base</b>: it keeps every choice you've already approved and adds nothing that needs care.
+        On top of it I'd borrow two parts: <b>B's history charts</b> on cards (a month, a week, a day, to scale), which make
+        "watch the world change its mind" literal, and <b>C's "79% chance…" sentence</b> as the plain line a first-time
+        visitor reads first. If you'd rather make one bold move, <b>D</b> ages best and is the lightest new direction to build.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" aria-labelledby="app">
+  <div class="wrap">
+    <h2 id="app">On a phone, as an app</h2>
+    <p>Yes, it installs, and that part is already built on the branch for the current site, separate from these mockups.</p>
+    <div class="app">
+      <div>
+        <div class="icon"><img src="icon-512.png" alt="Andaaza's app icon: the gauge drop, white on neel"><p>The home-screen icon: the page's own gauge drop, white on neel.</p></div>
+        <h3>What it adds</h3>
+        <ul>
+          <li>A web app manifest and icons, so phones offer "Add to Home Screen" (iPhone) or "Install app" (Android). It opens full screen, like an app.</li>
+          <li>A small offline helper. The installed app opens without a connection and shows the last reading that phone kept.</li>
+          <li>The status bar takes the colour of the chosen look.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Why it stays care-free</h3>
+        <ul>
+          <li>The page always comes from the network first, so a new version is never held back. Readings are never stored by it.</li>
+          <li>Deleting one file (<code>public/sw.js</code>) removes the offline part; browsers drop it on their next check.</li>
+          <li>No push alerts. They would need a scheduled job and stored subscriptions, which breaks the first rule.</li>
+          <li>Checked in Chromium: installable, and it reopens offline with all seven gauges. Still to try on a real iPhone.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="part" aria-labelledby="refs" id="refsec">
+  <div class="wrap">
+    <h2 id="refs">What the research drew on</h2>
+    <p>The design ideas each direction borrows, and where they come from.</p>
+    <ol class="sources" id="sources"></ol>
+  </div>
+</section>
+
+<footer class="wrap">Mockups only: the live site is unchanged. Every number comes from one frozen reading of the live page. Source on the branch, in <code>mockups/2027/</code>.</footer>
+
+<script>
+const D = [
+  { k: "a", slug: "a-matka", kind: "New direction", name: "Matka",
+    one: "Dabu indigo block print on kora cotton. Each gauge is a clay pot holding indigo water.",
+    changes: "Gauges become matkas with a printed band on the shoulder, a different motif for each subject. Block-printed borders divide the sections; Currents is a bahi-khata ledger; section names lead in Devanagari.",
+    borrows: "The 2026 turn to craft and hand-made texture against AI-smooth design; Indian textile printing (dabu, ajrakh borders); skeuomorphic depth used once, on the clay.",
+    keeps: "Neel water, the अंदाज़ा seal (here a rough stamp), the board's seven and their labels.",
+    trade: "The level follows the pot's height, not its volume, and the narrow neck makes high chances all look nearly full.",
+    type: "Eczar (Rosetta, designed in India) and Mukta (Ek Type).",
+    dist: 5, clear: 3, ages: 4, work: 3 },
+  { k: "b", slug: "b-front-page", kind: "New direction", name: "Front Page",
+    one: "Explanatory data journalism. Every market is a story with a headline written from the numbers by plain rules.",
+    changes: "The water becomes the area under the leader's line across a month, a week, a day and now. Headlines like “Google surges to 79%” come from fixed rules (no AI). Currents is a slope list; matches sit in a side panel.",
+    borrows: "Annotated charts in the manner of Reuters Graphics, the FT and Our World in Data; sentence-led stories from The Pudding; news-app section tabs on the phone.",
+    keeps: "The board's seven, the moves, the seal, the cool neutral ground.",
+    trade: "Markets with little history draw flat charts, and the templated headlines read better for names than for outcomes like “No change”.",
+    type: "Schibsted Grotesk (made for a news publisher) and Newsreader.",
+    dist: 4, clear: 5, ages: 5, work: 4 },
+  { k: "c", slug: "c-forecast", kind: "New direction · the wildcard", name: "Forecast",
+    one: "Everyone already reads “70% chance of rain”. Andaaza becomes the world's forecast.",
+    changes: "It opens with today's outlook as a sentence and a raindrop. The board becomes an hourly-forecast strip; Currents are low-to-high bars like a ten-day forecast; matches read as the days ahead.",
+    borrows: "The forecast patterns of Apple and Google Weather; very large light numerals; type built for low vision.",
+    keeps: "Water (now rain), the board's seven, the moves, the section names.",
+    trade: "One rain colour for all water: subject colours shrink to labels. The outlook sentence needs a rule per kind of question.",
+    type: "Atkinson Hyperlegible Next and Mono (Braille Institute, 2025).",
+    dist: 5, clear: 5, ages: 4, work: 3 },
+  { k: "d", slug: "d-instrument", kind: "New direction", name: "Instrument",
+    one: "A calibration bench on engineering paper. Each gauge is a graduated cylinder with a meniscus.",
+    changes: "Readouts like an instrument, with the traders' spread shown (how far apart buyers and sellers are). Specimen tags for labels, a readings log for Currents, a kick-off table for matches. Ink and one marigold signal, no subject colours.",
+    borrows: "Calm technology and Swiss, Dieter Rams restraint; the return of mono labels; data-dense tables done quietly.",
+    keeps: "Water levels, the was-mark (as a hollow pointer), the board's seven.",
+    trade: "The coolest of the eight, and on a phone five of seven cylinders wait off to the side.",
+    type: "Geist and Geist Mono.",
+    dist: 4, clear: 4, ages: 5, work: 2 },
+  { k: "e", slug: "e-pebbles", kind: "New direction", name: "Pebbles",
+    one: "Each subject gets its own soft shape, filled with springy water.",
+    changes: "A scalloped cookie for AI, a circle for football, a pill for F1, a squircle for World. Board pebbles are sized by money traded today and morph when touched; water rises on a spring.",
+    borrows: "Google's Material 3 Expressive (2025): its shape library, shape morphing and spring motion; chunky pill buttons for the thumb.",
+    keeps: "Subject colours at full strength, the masked white number, the seal (as a marigold badge).",
+    trade: "The most playful, so it may read less serious; the morph runs on a little script and still needs a Safari check.",
+    type: "Gabarito and Onest.",
+    dist: 4, clear: 4, ages: 2, work: 4 },
+  { k: "f", slug: "f-next", kind: "Grows today's Andaaza", name: "Andaaza Next",
+    one: "Today's design, refined for 2027. The closest to what you have.",
+    changes: "A slightly deeper haze ground; gauges with glass depth and finer ticks; small 30-day and 7-day tide marks on the scale; a calmer, smaller header with the reading as one pill; Currents as a ribbon of small gauges; the phone board as a swipe row with a bottom tab bar.",
+    borrows: "Subgrid alignment, OKLCH tonal colour, light glass kept to the phone's bars.",
+    keeps: "Everything approved so far: fonts, colours, masked numbers, board order and labels.",
+    trade: "The tide marks appear only where the exchange gives history (three of seven today).",
+    type: "Instrument Serif, Instrument Sans, Bricolage Grotesque (as now).",
+    dist: 1, clear: 4, ages: 3, work: 1 },
+  { k: "g", slug: "g-glass", kind: "Grows today's Andaaza", name: "Andaaza Glass",
+    one: "Today's design with a legible take on Apple's Liquid Glass.",
+    changes: "The lehariya ground steps forward and glass floats over it: the reading panel, a capsule top bar with filters, and a floating tab bar on the phone. Gauges are glass tubes with the lehariya blurred through them.",
+    borrows: "Liquid Glass (iOS 26): light along the rims, blur and saturation, floating controls. It answers the main complaint about it: text always sits on a tinted backing.",
+    keeps: "Fonts, subject colours, masked numbers, the dashed was-mark, the board.",
+    trade: "Glass costs effort on old phones (untested), and a busier ground asks more of the eye.",
+    type: "Instrument Serif, Instrument Sans, Bricolage Grotesque.",
+    dist: 2, clear: 4, ages: 3, work: 2 },
+  { k: "h", slug: "h-lehar", kind: "Grows today's Andaaza", name: "Andaaza Lehar",
+    one: "Brand first. Neel and marigold lead, and the lehariya's waves become the water itself.",
+    changes: "Striped, slowly drifting water in every gauge; a large tie-dyed अंदाज़ा as the header's picture; bandhani dot rows between sections. On a phone the board becomes horizontal dyed bands.",
+    borrows: "Brand-led systems that carry one motif everywhere; Indian textiles (lehariya, bandhani) as structure, not ornament.",
+    keeps: "The board, fonts, masked numbers, subject colours (as water tints and small tags).",
+    trade: "Striped water is busy at full strength and may want to be calmer.",
+    type: "Instrument Serif, Instrument Sans, Bricolage Grotesque, Tiro Devanagari Hindi.",
+    dist: 2, clear: 4, ages: 4, work: 2 },
+];
+
+const dots = (n) => `<span class="dots" aria-label="${n} of 5">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</span>`;
+const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>';
+
+document.getElementById("dirs").innerHTML = D.map((d, i) => `
+<section class="dir${i % 2 ? " alt" : ""}" id="${d.k}" aria-labelledby="h-${d.k}">
+  <div class="wrap grid">
+    <div class="about">
+      <div class="letter" aria-hidden="true">${d.k.toUpperCase()}</div>
+      <div class="lbl kind">${d.kind}</div>
+      <h2 id="h-${d.k}">${d.name}</h2>
+      <p class="one">${d.one}</p>
+      <dl>
+        <div><dt>What changes</dt><dd>${d.changes}</dd></div>
+        <div><dt>Borrows from</dt><dd>${d.borrows}</dd></div>
+        <div><dt>Keeps from today</dt><dd>${d.keeps}</dd></div>
+        <div><dt>The trade-off</dt><dd>${d.trade}</dd></div>
+        <div><dt>Type</dt><dd>${d.type}</dd></div>
+      </dl>
+      <div class="meter">
+        <div><span class="lbl">Distance from today</span>${dots(d.dist)}</div>
+        <div><span class="lbl">Work to build</span>${dots(d.work)}</div>
+      </div>
+      <div class="open">
+        <a class="btn fill" href="${d.slug}.html">Open the page ${arrow}</a>
+      </div>
+    </div>
+    <div class="shots">
+      <figure>
+        <div class="laptop"><div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="scroll" tabindex="0" aria-label="${d.name} on a laptop, scrollable"><img src="shots/${d.slug}-laptop.webp" alt="${d.name} at laptop width: header, tide board, Currents and Sport" loading="${i < 2 ? "eager" : "lazy"}" width="1440"></div>
+        </div>
+        <figcaption>Laptop, 1440 px. Scroll inside the frame.</figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><div class="scroll" tabindex="0" aria-label="${d.name} on a phone, scrollable"><img src="shots/${d.slug}-phone.webp" alt="${d.name} on a phone, as the installed app" loading="${i < 2 ? "eager" : "lazy"}" width="390"></div></div>
+        <figcaption>Phone, 390 px, as the installed app.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>`).join("");
+
+const S = [];
+const src = document.getElementById("sources");
+src.innerHTML = S.map(([t, u, w]) => `<li><a href="${u}">${t}</a>${w ? `: ${w}` : ""}</li>`).join("");
+document.getElementById("refsec").hidden = !S.length;
+
+document.getElementById("cmprows").innerHTML = D.map((d) => `<tr><td class="k">${d.k.toUpperCase()}</td><td><a class="n" href="#${d.k}">${d.name}</a></td><td>${dots(d.dist)}</td><td>${dots(d.clear)}</td><td>${dots(d.ages)}</td><td>${dots(d.work)}</td><td>${d.trade}</td></tr>`).join("");
+</script>
