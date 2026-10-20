@@ -86,17 +86,19 @@ img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02
 .rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:0}
 .rows > *{border-bottom:1px solid var(--line2)}
 .rows > :nth-child(odd of :not(.wide)){border-right:1px solid var(--line2)}
-.rr{--lw:132px;--big:54px;--chh:28px;display:grid;grid-template-columns:var(--lw) minmax(0,1fr);gap:0 18px;padding:18px 22px 18px 22px;min-width:0;transition:background .15s}
+.rr{--lw:132px;--big:54px;--chh:28px;display:grid;grid-template-columns:var(--lw) minmax(0,1fr);grid-template-areas:"ld bd" "ld lg";gap:0 18px;padding:18px 22px 18px 22px;min-width:0;transition:background .15s}
 .rr:hover{background:color-mix(in oklab,var(--ac) 45%,var(--surface))}
 .rr.wide{grid-column:1/-1;--lw:190px;--big:84px;--chh:36px;padding-block:24px 22px}
-.ld{min-width:0;display:flex;flex-direction:column}
+.ld{grid-area:ld;min-width:0;display:flex;flex-direction:column}
 .rank{font:italic 400 22px/1 var(--display);color:var(--muted);margin-bottom:4px}
 .big{font:800 var(--big)/.86 var(--fig);font-variation-settings:"wdth" 75,"opsz" 96;color:var(--a);letter-spacing:-.01em}
 .big small{font-size:.42em;margin-left:2px;letter-spacing:0}
-.who{display:flex;align-items:flex-start;gap:6px;margin-top:8px;font:600 13.5px/1.25 var(--sans);color:var(--ink);overflow-wrap:anywhere}
+.who{display:flex;align-items:flex-start;flex-wrap:wrap;gap:4px 6px;margin-top:8px;font:600 13.5px/1.25 var(--sans);color:var(--ink);overflow-wrap:break-word;hyphens:auto}
+.who .d{font:700 11px/1 var(--sans);padding:2px 5px;border-radius:999px;align-self:center}
+.who .d.up{color:var(--up);background:color-mix(in oklab,var(--up) 10%,transparent)}.who .d.dn{color:var(--down);background:color-mix(in oklab,var(--down) 10%,transparent)}
 .who .mk{width:15px;height:15px;margin-top:1px}
 .who.q0{color:var(--muted);font-weight:500}
-.bd{min-width:0}
+.bd{grid-area:bd;min-width:0}
 .top{display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap;min-height:18px}
 .sj{display:inline-flex;align-items:center;gap:6px;color:var(--ai)}
 .sj .mk{width:13px;height:13px}
@@ -136,7 +138,7 @@ img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02
 .pip{position:absolute;top:50%;left:calc(var(--x) * 1%);width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--surface);border:2.5px solid var(--a2);z-index:2}
 /* Yesterday: a notch where the leader's water stood a day ago. */
 .notch{position:absolute;top:-4px;bottom:-4px;left:calc(var(--x) * 1%);width:2px;margin-left:-1px;border-radius:2px;background:var(--ink);opacity:.7;z-index:3}
-.lg{margin:8px 0 0;display:flex;flex-wrap:wrap;gap:3px 14px;font:500 12.5px/1.35 var(--sans);color:var(--ink2)}
+.lg{grid-area:lg;min-width:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:3px 14px;font:500 12.5px/1.35 var(--sans);color:var(--ink2)}
 .lg > span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;min-width:0}
 .lg b{font-weight:700;color:var(--ink)}
 .lg .sw{width:9px;height:9px;border-radius:3px;background:var(--tone);flex:none;box-shadow:inset 0 0 0 1px oklch(.2 .02 252 / .1)}
@@ -146,6 +148,7 @@ img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02
 .lg .d{font:700 11px/1 var(--sans);padding:2px 5px;border-radius:999px}
 .lg .d.up{color:var(--up);background:color-mix(in oklab,var(--up) 10%,transparent)}.lg .d.dn{color:var(--down);background:color-mix(in oklab,var(--down) 10%,transparent)}
 .lg .mt{color:var(--muted);font-weight:500}
+.lg .ph{display:none}
 .lg .mt .mk{width:12px;height:12px;color:var(--muted)}
 .lg .lead-mv.up{color:var(--up);font-weight:700}.lg .lead-mv.dn{color:var(--down);font-weight:700}
 
@@ -186,7 +189,7 @@ footer summary{cursor:pointer;font-weight:600;color:var(--ink);min-height:44px;d
   .appbar .clk{display:flex;align-items:center;gap:5px;font:700 17px/1 var(--fig);font-variation-settings:"wdth" 75;padding:7px 11px 7px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--line2)}
   .appbar .clk .dots{display:inline-flex;gap:3px;margin-right:3px}
   .appbar .clk .dot{width:6px;height:6px}
-  .ahero{display:flex;align-items:baseline;justify-content:space-between;gap:4px 12px;flex-wrap:wrap;padding-block:10px 10px}
+  .ahero{display:flex;align-items:baseline;justify-content:space-between;gap:4px 12px;flex-wrap:wrap;padding-block:9px}
   .ahero p{margin:0;font:500 15px/1.25 var(--sans);letter-spacing:-.01em}
   .ahero span{font:500 12.5px/1.3 var(--sans);color:var(--muted)}
   .ahero b{color:var(--ink2)}
@@ -203,7 +206,9 @@ footer summary{cursor:pointer;font-weight:600;color:var(--ink);min-height:44px;d
   .lg{margin-top:6px;gap:2px 10px}
   .rank{font-size:18px;margin-bottom:2px}
   .mv .wasl{display:none}
-  .boardsec .lg .mt{display:none}
+  .rr{grid-template-areas:"ld bd" "lg lg"}
+  .lg .mt:not(.keep),.lg .x3,.lg .lp{display:none}
+  .lg .ph{display:inline-flex}
   .band{padding-block:22px}
   .sh h2{font-size:34px}
   .desc{margin-bottom:12px}
@@ -326,10 +331,16 @@ function legend(c, f, opts = {}) {
   const items = [];
   if (opts.leadMove) items.push(opts.leadMove);
   if (f.kind === "stack" || f.kind === "match" || f.kind === "cum") {
-    for (const s of f.segs) if (s !== lead) items.push(`<span><i class="sw ${f.kind === "cum" ? "pipk" : s.tone}"></i>${esc(s.name)} <b>${s.prob}%</b>${chip(s)}</span>`);
-    if (f.kind === "stack" && f.others >= 1) items.push(`<span><i class="sw dry"></i>Others <b>${f.others}%</b></span>`);
+    const rest = f.segs.filter(s => s.name !== lead.name && s.prob >= 1);
+    rest.forEach((s, i) => items.push(`<span class="${i >= 2 ? "x3" : ""}"><i class="sw ${f.kind === "cum" ? "pipk" : s.tone}"></i>${esc(s.name)} <b>${s.prob}%</b>${chip(s)}</span>`));
+    if (f.kind === "stack") {
+      // On a phone only the next two are named; the third and later join Others there.
+      const folded = f.others + rest.slice(2).reduce((a, s) => a + s.prob, 0);
+      if (f.others >= 1) items.push(`<span class="lp"><i class="sw dry"></i>Others <b>${f.others}%</b></span>`);
+      if (folded >= 1) items.push(`<span class="ph"><i class="sw dry"></i>Others <b>${folded}%</b></span>`);
+    }
   }
-  if (f.kind === "yes" && !opts.leadMove) items.push(`<span>Traders give it <b>${lead.prob}%</b>.</span>`);
+  if (f.kind === "yes" && !opts.leadMove) items.push(`<span>Traders give it <b>${lead.prob}%</b></span>`);
   if (opts.meta) items.push(...opts.meta);
   return items.length ? `<p class="lg">${items.join("")}</p>` : "";
 }
@@ -347,7 +358,7 @@ function row(c, o = {}) {
   const title = o.title || c.title;
   const f = field(c, o.matchTitle || title);
   const lead = f.lead || f.segs[0];
-  const who = f.kind === "yes" ? `<span class="who q0">chance</span>` : `<span class="who">${mk(lead.mark)}<span>${esc(o.leadName || lead.name)}</span></span>`;
+  const who = f.kind === "yes" ? `<span class="who q0">chance</span>` : `<span class="who">${mk(lead.mark)}<span>${esc(o.leadName || lead.name)}</span>${o.kick ? chip(lead) : ""}</span>`;
   const right = o.right ?? leadMove(c);
   const tags = `${c.added?.isNew ? `<span class="nw">New</span>` : ""}${o.follow && c.followed ? `<span class="follow">Following</span>` : ""}`;
   return `<a class="rr${o.wide ? " wide" : ""}" data-k="${esc(c.subject)}" href="${esc(c.url)}" target="_blank" rel="noopener">
@@ -356,8 +367,8 @@ function row(c, o = {}) {
       <div class="top"><span class="lbl11 sj">${mk(o.labelMark)}${esc(o.label || c.subjectLabel)}</span>${tags}${o.kick ? `<span class="kick">${esc(o.kick)}</span>` : right}</div>
       <h3 class="q">${c.star ? `<span class="star" aria-label="Always shown">★</span>` : ""}${esc(title)}</h3>
       ${channel(c, f)}
-      ${legend(c, f, { leadMove: o.legendMove, meta: o.meta })}
     </div>
+    ${legend(c, f, { leadMove: o.legendMove, meta: o.meta })}
   </a>`;
 }
 
@@ -365,14 +376,14 @@ function row(c, o = {}) {
 const srcs = A.sources.map(s => `<span class="src" title="${esc(s.name)}, ${esc(s.kind)}: ${s.count} questions read"><i class="dot"></i>${mk(s.mark)}${esc(s.name)}${s.kind === "play money" ? ` <em>· play money</em>` : ""}</span>`).join("");
 $("#reading").innerHTML = `<span class="clock">${A.readIST}<small>IST</small></span><span>Markets read at <b>${A.readIST}</b> · next update <b>${A.nextIST}</b></span><span class="srcs">${srcs}</span>`;
 $("#clk2").innerHTML = `<span class="dots" aria-label="All three sources answered">${A.sources.map(s => `<i class="dot" title="${esc(s.name)}"></i>`).join("")}</span>${A.readIST}<small>IST</small>`;
-$("#ahero").innerHTML = `<p>Watch the world change its mind.</p><span>Read at <b>${A.readIST}</b> · next <b>${A.nextIST}</b></span>`;
+$("#ahero").innerHTML = `<p>Watch the world change its mind.</p><span>next update <b>${A.nextIST}</b></span>`;
 $("#dict2").innerHTML = $("#dict").innerHTML;
 
 // ---- the tide board: seven race rows, the AI market wide on a laptop ----
 const onBoard = new Set(A.board.map(c => c.url));
 $("#board").innerHTML = A.board.map((c, i) => row(c, {
-  title: c.sub,
-  matchTitle: c.match ? c.sub.split(" · ")[0] : null,
+  title: c.match ? c.sub.split(" · ")[0] : c.sub,
+  kick: c.match ? c.sub.split(" · ").slice(1).join(" · ") : null,
   label: c.label, labelMark: c.labelMark, leadName: c.lead.name, wide: i === 0,
   meta: meta(c),
 })).join("");
@@ -380,7 +391,7 @@ $("#board").innerHTML = A.board.map((c, i) => row(c, {
 // ---- Currents: the move leads ----
 $("#cur").innerHTML = A.currents.map(c => row(c, {
   right: `<span class="mv cur ${c.move > 0 ? "up" : "dn"}">${arrow(c.move)} ${pts(c.move)}</span>`,
-  legendMove: `<span class="mt">was ${c.was}%</span>`, meta: meta(c),
+  legendMove: `<span class="mt keep">was ${c.was}%</span>`, meta: meta(c),
 })).join("");
 
 // ---- Where the money is: ranked by money traded today ----

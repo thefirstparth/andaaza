@@ -453,7 +453,7 @@ function marketSheet({ c, label }) {
     ["Move", moveLong(c) || "Little changed in a day"],
     ["Traded", [c.today ? `${usd(c.today)} today` : "", c.lifetime ? `${usd(c.lifetime)} in all` : ""].filter(Boolean).join(" · ")],
     ["Exchange", `${esc(c.source)}${c.also.length ? ` · also ${c.also.map(a => `${esc(a.source)} ${a.prob}%`).join(", ")}` : ""}`],
-    ["On Andaaza", c.added ? esc(c.added.label) : "Before 28 Sep (date unknown)"],
+    ["On Andaaza", c.added ? esc(c.added.label) : ""],
   ].filter(r => r[1]);
   return `<div class="sh-top"><span class="lbl11">${esc(label)}</span>${closeBtn}</div>
   <h3 id="sheet-t">${c.star ? `<span class="star" aria-label="Must-have">★</span>` : ""}${esc(c.yesno && c.sub ? c.sub : c.title)}</h3>
