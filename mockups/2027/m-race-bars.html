@@ -88,6 +88,7 @@ img.mk.flag{border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px oklch(.2 .02
 .rows > :nth-child(odd of :not(.wide)){border-right:1px solid var(--line2)}
 .rr{--lw:132px;--big:54px;--chh:28px;display:grid;grid-template-columns:var(--lw) minmax(0,1fr);grid-template-areas:"ld bd" "ld lg";gap:0 18px;padding:18px 22px 18px 22px;min-width:0;transition:background .15s}
 .rr:hover{background:color-mix(in oklab,var(--ac) 45%,var(--surface))}
+.rr.solo{grid-column:1/-1;border-right:0!important}
 .rr.wide{grid-column:1/-1;--lw:190px;--big:84px;--chh:36px;padding-block:24px 22px}
 .ld{grid-area:ld;min-width:0;display:flex;flex-direction:column}
 .rank{font:italic 400 22px/1 var(--display);color:var(--muted);margin-bottom:4px}
@@ -419,6 +420,8 @@ const sub = (id, markKey) => {
 };
 $("#sport").innerHTML = sub("football", "uefa") + sub("f1", "f1") + sub("tennis", "atp");
 $("#aside").insertAdjacentHTML("afterbegin", mk(A.marks.claude));
+// A row left alone in a two-column list is drawn across both, so no column stands empty.
+for (const r of document.querySelectorAll(".rows")) { const k = [...r.children].filter(x => !x.classList.contains("wide")); if (k.length % 2) k.at(-1).classList.add("solo"); }
 </script>
 </body>
 </html>
